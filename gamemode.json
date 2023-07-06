@@ -1,43 +1,26 @@
-{
-  "Name" "<size=30><color=#ebdcff>k</color><color=#e2deff>n</color><color=#d9e0ff>i</color><color=#d0e2ff>f</color><color=#c7e4ff>e</color></size><size=30><color=#ffabf4>M</color><color=#eca0f6>o</color><color=#d995f8>d</color><color=#c68afa>e</color></size>": ,
-  "Description": "режим knife. Чья команда соберет больше очков, та и победит!",
-  "StartClientVersion": 334,
-  "MapFilter": {
-    "IsBlank": false,
-    "HasParcourEnd": false
-  },
-  "MapLists": [
+  'Name': '<size=30><color=#ebdcff>k</color><color=#e2deff>n</color><color=#d9e0ff>i</color><color=#d0e2ff>f</color><color=#c7e4ff>e</color></size><size=30><color=#ffabf4>M</color><color=#eca0f6>o</color><color=#d995f8>d</color><color=#c68afa>e</color></size>',
+  'Description': 'режим knife. Чья команда соберет больше очков, та и победит!',
+  'StartClientVersion': 334,
+  'MapLists': [
     {
-      "MapListId": 324,
-      "Name": "Официальные карты"
-    },
-    {
-      "MapListId": 581
+      'MapListId': 324,
+      'Name': 'Официальные карты'
     }
   ],
-  "Parameters": {
-    "Bool": [
+  'Parameters': {
+    'Bool': [
       {
-        "Name": "MapRotation",
-        "DisplayName": "GmParams/MapRotation",
-        "Default": true
+        'Name': 'LoosenBlocks',
+        'DisplayName': 'GmParams/LoosenBlocks'
       },
       {
-        "Name": "OnlyKnives",
-        "DisplayName": "GmParams/OnlyKnives"
+        'Name': 'IsExplosive',
+        'DisplayName': 'бесконечные гранаты',
       },
       {
-        "Name": "PartialDesruction",
-        "DisplayName": "GmParams/PartialDesruction"
+        'Name': 'MapRotation',
+        'DisplayName': 'GmParams/MapRotation'
       },
-      {
-        "Name": "LoosenBlocks",
-        "DisplayName": "GmParams/LoosenBlocks"
-      },
-      {
-        "Name": "FriendlyFire",
-        "DisplayName": "GmParams/FriendlyFire"
-      }
     ]
   }
 }
