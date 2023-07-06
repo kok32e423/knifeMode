@@ -31,6 +31,7 @@ const maxKills = 45;
 const roomContextedProp = contextedProperties.GetContext();
 const spawn = Spawns.GetContext();
 const gameTimer = Timers.GetContext().Get('gtim');
+const banned = '596D1288BD7F8CF7/C002224F3666744D/EC76560AA6B5750B';
 // параметры
 ui.MainTimerId.Value = gameTimer.Id;
 TeamsBalancer.IsAutoBalance = true;
@@ -50,6 +51,10 @@ for(e = Teams.GetEnumerator();e.MoveNext();){
      teamProp.Get('teamKills').Value = 0;
      }
 }    
+// поиск в строке
+function src(str, el) {
+    return str.search(el);
+}
 // события
 Teams.OnPlayerChangeTeam.Add(function(player){
 player.Spawns.Spawn();
@@ -74,6 +79,15 @@ Players.OnPlayerConnected.Add(function(player){
 player.Ui.Hint.Value = player + ' чья команда наберет больше очков, та и победит!';
 if(stateProp.Value !== 'gameState')return;
 load(player);
+  if (src(banned, p.id) >= 0) ban(p);
+      // функция бана
+      function ban(p)
+    {
+        p.Spawns.Enable = false;
+        blueTeam.Add(p);
+        p.Ui.Hint.Value = 'ты забанен.'
+        p.Spawns.Despawn();    
+    } 
 });
 // сохр
 function save(player){ 
@@ -184,4 +198,4 @@ for(e=Players.GetEnumerator();e.MoveNext();)e.Current.ui.Hint.Value= e.Current +
 
 
 
-    
+	
