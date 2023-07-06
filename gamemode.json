@@ -1,26 +1,57 @@
 {
-  'Name': '<size=30><color=#ebdcff>k</color><color=#e2deff>n</color><color=#d9e0ff>i</color><color=#d0e2ff>f</color><color=#c7e4ff>e</color></size><size=30><color=#ffabf4>M</color><color=#eca0f6>o</color><color=#d995f8>d</color><color=#c68afa>e</color></size>',
-  'Description': 'режим knife. Чья команда соберет больше очков, та и победит!',
-  'StartClientVersion': 334,
-  'MapLists': [
+  "Name": "PEACE",
+  "Description": "Мирный режим",
+  "StartClientVersion": 334,
+  "MapLists": [
     {
-      'MapListId': 324,
-      'Name': 'Официальные карты'
+      "MapListId": 324,
+      "Name": "Официальные карты"
     }
   ],
-  'Parameters': {
-    'Bool': [
+  "Parameters": {
+    "Bool": [
       {
-        'Name': 'LoosenBlocks',
-        'DisplayName': 'GmParams/LoosenBlocks'
+        "Name": "Damage",
+        "DisplayName": "GmParams/Damage"
       },
       {
-        'Name': 'IsExplosive',
-        'DisplayName': 'бесконечные гранаты',
+        "Name": "PartialDesruction",
+        "DisplayName": "GmParams/PartialDesruction"
       },
       {
-        'Name': 'MapRotation',
-        'DisplayName': 'GmParams/MapRotation'
+        "Name": "LoosenBlocks",
+        "DisplayName": "GmParams/LoosenBlocks"
+      },
+      {
+        "Name": "RedTeam",
+        "DisplayName": "Teams/Red",
+        "Default": true
+      },
+      {
+        "Name": "BlueTeam",
+        "DisplayName": "Teams/Blue",
+        "Default": true
+      },
+      {
+        "Name": "BlueHasNothing",
+        "DisplayName": "GmParams/BlueHasNothing"
+      },
+      {
+        "Name": "FloodFill",
+        "DisplayName": "GmParams/FloodFill"
+      },
+      {
+        "Name": "FillQuad",
+        "DisplayName": "GmParams/FillQuad"
+      },
+      {
+        "Name": "RemoveQuad",
+        "DisplayName": "GmParams/RemoveQuad"
+      },
+      {
+        "Name": "Fly",
+        "DisplayName": "GmParams/Fly",
+        "Default": true
       }
     ]
   }
