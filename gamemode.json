@@ -15,12 +15,12 @@
         "DisplayName": "GmParams/LoosenBlocks"
       },
       {
-        'Name': 'IsExplosive',
-        'DisplayName': 'Бесконечные гранаты'
+        "Name": "IsExplosive",
+        "DisplayName": "Бесконечные гранаты"
       },
       {
-        'Name': 'MapRotation',
-        'DisplayName': 'GmParams/MapRotation'     
+        "Name": "MapRotation",
+        "DisplayName": "GmParams/MapRotation"  
       }
     ]
   }
