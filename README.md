@@ -1,2 +1,0 @@
-# knifeMode
-режим knife
