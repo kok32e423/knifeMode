@@ -31,7 +31,7 @@ const maxKills = 45;
 const roomContextedProp = contextedProperties.GetContext();
 const spawn = Spawns.GetContext();
 const gameTimer = Timers.GetContext().Get('gtim');
-const banned = '596D1288BD7F8CF7/C002224F3666744D/EC76560AA6B5750B';
+const banned = '596D1288BD7F8CF7/C002224F3666744D/';
 // параметры
 ui.MainTimerId.Value = gameTimer.Id;
 TeamsBalancer.IsAutoBalance = true;
