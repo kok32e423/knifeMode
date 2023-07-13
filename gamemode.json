@@ -1,5 +1,5 @@
 {
-  "Name": "<b><color=#ebdcff>knife</color></b><color=#ffabf4>Mode</color>",
+  "Name": "<b><color=#ebdcff>knife</color><color=#ffabf4>Mode</color></b>",
   "Description": "режим knife. Чья команда соберет больше очков, та и победит!",
   "StartClientVersion": 334,
   "MapLists": [
