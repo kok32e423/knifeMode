@@ -35,6 +35,7 @@ const gameTimer = Timers.GetContext().Get('gtim');
 const waitingTimer = Timers.GetContext().Get('wtim');
 const roundWinTeamIdProp = prop.Get("rWinTeam");
 // параметры
+BreackGraph.Damage = false; 
 ui.MainTimerId.Value = gameTimer.Id;
 TeamsBalancer.IsAutoBalance = true;
 prop.GameModeName.Value = "GameModes/Knife";
