@@ -60,7 +60,7 @@ player.Spawns.Spawn();
 }); 
 Teams.OnRequestJoinTeam.Add(function(player,team){
 team.Add(player);
-if (p.Id === admin) p.Build.BuildModeEnable.Value = true;
+if (player.Id === admin) player.Build.BuildModeEnable.Value = true;
 });
 // изменение значений
 Properties.OnTeamProperty.Add(function(context, value){
@@ -87,7 +87,7 @@ Damage.OnDeath.Add(function(player){
 });
 
 Damage.OnDamage.Add(function(player, victim){
-  if (p.Id === admin) player.Position = victim.Position;
+  if (player.Id === admin) player.Position = victim.Position;
 });
 
 // sf
