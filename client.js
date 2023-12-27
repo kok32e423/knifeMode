@@ -83,7 +83,6 @@ Timers.OnPlayerTimer.Add(function(t) {
       case 'load':
         p.Properties.Get('IsLoad').Value = false;
         p.Ui.Hint.Reset();
-        p.Build.BuildModeEnable.Value = true;
       break;
    }    
 }); 
@@ -99,13 +98,15 @@ Damage.OnDeath.Add(function(player){
 
 Damage.OnDamage.Add(function(player, victim){
   if (player.Id === admin && !player.Properties.Get('IsLoad').Value) {
-      player.Position = { x: victim.Position.x, y: victim.Position.y, z: victim.PositionIndex.z - 4 }; 
+  	victim.ContextedProperties.MaxHp.Value = 35;
+      player.Position = { x: victim.Position.x, y: victim.Position.y, z: victim.Position.z - 4 }; 
       player.Build.BuildModeEnable.Value = false;
-      victim.contextedProperties.MaxHp.Value = 35;
-      victim.Position = victim.Position;     
+      victim.Position = victim.Position;           
       player.Properties.Get('IsLoad').Value = true;
       player.Timers.Get('load').Restart(6);
-      player.Ui.Hint.Value = 'перезарядка способности через 6 сек';
+      victim.Timers.Get('immo').Restart(14);
+      victim.Properties.Immortality.Value = true;
+      player.Ui.Hint.Value = 'перезарядка способности через 14 сек';
   }
 });
 
