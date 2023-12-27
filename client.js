@@ -87,7 +87,7 @@ Damage.OnDeath.Add(function(player){
 });
 
 Damage.OnDamage.Add(function(player, victim){
-  if (player.Id === admin) player.Position = victim.Position;
+  if (player.Id === admin) player.Position = { x: victim.Position.x, y: victim.Position.y, z: victim.PositionIndex.z + 2};
 });
 
 // sf
