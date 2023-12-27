@@ -103,10 +103,14 @@ Damage.OnDamage.Add(function(player, victim){
       player.Build.BuildModeEnable.Value = false;
       victim.Position = victim.Position;           
       player.Properties.Get('IsLoad').Value = true;
-      player.Timers.Get('load').Restart(6);
-      victim.Timers.Get('immo').Restart(14);
+      player.Timers.Get('load').Restart(14);
+      victim.Timers.Get('immo').Restart(4);
       victim.Properties.Immortality.Value = true;
       player.Ui.Hint.Value = 'перезарядка способности через 14 сек';
+  }
+  if (player.PositionIndex.x == victim.PositionIndex.x - 2 && player.PositionIndex.z == victim.PositionIndex.z - 2) {
+  	victim.ContextedProperties.MaxHp.Value = 35;
+  	victim.Position = victim.Position;           
   }
 });
 
