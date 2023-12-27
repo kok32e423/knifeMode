@@ -80,7 +80,7 @@ Timers.OnPlayerTimer.Add(function(t) {
       case 'immo':
         p.Properties.Immortality.Value = false;
       break;
-      case 'adillity':
+      case 'abillity':
         let e = Players.GetEnumerator();
         while (e.MoveNext()) { 	
        	      let x__ = p.Rotation.y / 4.7;
