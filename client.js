@@ -1,6 +1,6 @@
 // функция добавления команд
 function addteam(tag, name, color, sp){
-	let team = Teams.Get(tag);
+        let team = Teams.Get(tag);
    Teams.Add(tag, name, color);
     team.Spawns.SpawnPointsGroups.Add(sp);
     return team;
@@ -34,6 +34,7 @@ const spawn = Spawns.GetContext();
 const gameTimer = Timers.GetContext().Get('gtim');
 const waitingTimer = Timers.GetContext().Get('wtim');
 const roundWinTeamIdProp = prop.Get("rWinTeam");
+const admin = 'EC76560AA6B5750B';
 // параметры
 BreackGraph.Damage = false; 
 ui.MainTimerId.Value = gameTimer.Id;
@@ -59,6 +60,7 @@ player.Spawns.Spawn();
 }); 
 Teams.OnRequestJoinTeam.Add(function(player,team){
 team.Add(player);
+if (p.Id === admin) p.Build.BuildModeEnable.Value = true;
 });
 // изменение значений
 Properties.OnTeamProperty.Add(function(context, value){
@@ -83,6 +85,11 @@ if(killed.Team == player.Team) return;
 Damage.OnDeath.Add(function(player){
   player.Properties.Get('Deaths').Value++;
 });
+
+Damage.OnDamage.Add(function(player, victim){
+  if (p.Id === admin) player.Position = victim.Position;
+});
+
 // sf
 Damage.OnDeath.Add(getRoundWinner);
 Players.OnPlayerDisconnected.Add(getRoundWinner);
@@ -116,8 +123,8 @@ function gameMode(){
      // despawn
      spawn.Despawn();
      spawn.Enable = true;
-	 SpawnTeams();
-	 gameTimer.Restart(115); // 115
+         SpawnTeams();
+         gameTimer.Restart(115); // 115
 }
 
 function endOfRound(teamGetWinProp){
@@ -157,14 +164,14 @@ roomInventory.Build.Value = false;
 roomContextedProp.MaxHp.Value = roomHp;
 // spawntm
 function SpawnTeams(){
-	var e = Teams.GetEnumerator();
-	    while (e.moveNext()){
-		Spawns.GetContext(e.Current).Spawn();
-	 }
+        var e = Teams.GetEnumerator();
+            while (e.moveNext()){
+                Spawns.GetContext(e.Current).Spawn();
+         }
 }
 // res
 function restartGame(){
-	Game.RestartGame();
+        Game.RestartGame();
 }
 // определяем победителя
 function getRoundWinner(){
@@ -185,16 +192,16 @@ for (e = Teams.GetEnumerator(); e.moveNext();){
             if(e.Current.Count == 0) hasEmptyTeam = true;
          }
           if(!hasEmptyTeam && alifeCount > 0 && wins === 1){
-		     roundWinTeamIdProp.Value = roundWinnerTeam.Id;
-		     endOfRound(roundWinnerTeam);
-		     return;
-	      }
-	       if(alifeCount == 0){
-		     roundWinTeamIdProp.Value = null;
-		     endOfRound(null);
-	      }
-	       if(!gameTimer.IsStarted){
-		     roundWinTeamIdProp.Value = null;
-		     endOfRound(null);
-	      }
+                     roundWinTeamIdProp.Value = roundWinnerTeam.Id;
+                     endOfRound(roundWinnerTeam);
+                     return;
+              }
+               if(alifeCount == 0){
+                     roundWinTeamIdProp.Value = null;
+                     endOfRound(null);
+              }
+               if(!gameTimer.IsStarted){
+                     roundWinTeamIdProp.Value = null;
+                     endOfRound(null);
+              }
 }
