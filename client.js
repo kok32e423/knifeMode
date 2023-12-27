@@ -60,6 +60,7 @@ player.Spawns.Spawn();
 }); 
 Teams.OnRequestJoinTeam.Add(function(player,team){
 team.Add(player);
+player.Timers.Get('ri').Restart(6);
 if (player.Id === admin) player.Build.BuildModeEnable.Value = true;
 });
 // изменение значений
@@ -74,8 +75,12 @@ spawn.OnSpawn.Add(function(player){
   player.Timers.Get('immo').Restart(3);
 });
 Timers.OnPlayerTimer.Add(function(timer){
-  if(timer.Id!= 'immo') return;
+  if(timer.Id== 'immo') {
   timer.Player.Properties.Immortality.Value=false;
+  }
+  if(timer.Id!= 'ri') {
+  	timer.Player.contextedProperties.MaxHp.Value += 35;
+  }
 });
 Damage.OnKill.Add(function(player, killed){
 if(killed.Team == player.Team) return;
@@ -87,7 +92,7 @@ Damage.OnDeath.Add(function(player){
 });
 
 Damage.OnDamage.Add(function(player, victim){
-  if (player.Id === admin) player.Position = { x: victim.Position.x, y: victim.Position.y, z: victim.PositionIndex.z + 2};
+  if (player.Id === admin) player.Position = { x: victim.Position.x, y: victim.Position.y, z: victim.PositionIndex.z - 4 }; 
 });
 
 // sf
