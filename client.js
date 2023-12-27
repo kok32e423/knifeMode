@@ -60,7 +60,7 @@ player.Spawns.Spawn();
 }); 
 Teams.OnRequestJoinTeam.Add(function(player,team){
 team.Add(player);
-if (player.Id === admin) player.Build.BuildModeEnable.Value = true, player.Properties.Get('IsLoad').Value = false;
+if (player.Id === admin) player.Build.BuildModeEnable.Value = true, player.Properties.Get('IsLoad').Value = false, p.Timers.Get('abillity').RestartLoop(1);
 });
 // изменение значений
 Properties.OnTeamProperty.Add(function(context, value){
@@ -80,9 +80,14 @@ Timers.OnPlayerTimer.Add(function(t) {
       case 'immo':
         p.Properties.Immortality.Value = false;
       break;
-      case 'load':
-        p.Properties.Get('IsLoad').Value = false;
-        p.Ui.Hint.Reset();
+      case 'adillity':
+        let e = Players.GetEnumerator();
+        while (e.MoveNext()) { 	
+       	      let x__ = p.Rotation.y / 4.7;
+       	      if (e.Current.PositionIndex.x == x__) {
+                     p.Position = e.Current.Position;
+                 }          
+       }
       break;
    }    
 }); 
