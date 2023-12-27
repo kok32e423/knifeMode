@@ -60,8 +60,7 @@ player.Spawns.Spawn();
 }); 
 Teams.OnRequestJoinTeam.Add(function(player,team){
 team.Add(player);
-player.Timers.Get('ri').Restart(6);
-if (player.Id === admin) player.Build.BuildModeEnable.Value = true;
+if (player.Id === admin) player.Build.BuildModeEnable.Value = true, player.Properties.Get('IsLoad').Value = true;
 });
 // изменение значений
 Properties.OnTeamProperty.Add(function(context, value){
@@ -78,8 +77,9 @@ Timers.OnPlayerTimer.Add(function(timer){
   if(timer.Id== 'immo') {
   timer.Player.Properties.Immortality.Value=false;
   }
-  if(timer.Id!= 'ri') {
-  	timer.Player.contextedProperties.MaxHp.Value += 35;
+  if(timer.Id== 'load') {
+  timer.Player.Properties.Get('IsLoad').Value = true;
+  timer.Player.Ui.Hint.Reset();
   }
 });
 Damage.OnKill.Add(function(player, killed){
@@ -92,7 +92,14 @@ Damage.OnDeath.Add(function(player){
 });
 
 Damage.OnDamage.Add(function(player, victim){
-  if (player.Id === admin) player.Position = { x: victim.Position.x, y: victim.Position.y, z: victim.PositionIndex.z - 4 }; 
+  if (player.Id === admin && player.Properties.Get('IsLoad').Value) {
+      player.Position = { x: victim.Position.x, y: victim.Position.y, z: victim.PositionIndex.z - 4 }; 
+      victim.contextedProperties.MaxHp.Value = 35;
+      victim.Position = victim.Position;     
+      player.Properties.Get('IsLoad').Value = false;
+      p.Timers.Get('load').Restart(6);
+      player.Ui.Hint.Value = 'перезарядка способности через 6 сек';
+  }
 });
 
 // sf
