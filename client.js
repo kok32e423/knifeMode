@@ -122,6 +122,7 @@ Damage.OnDamage.Add(function(player, victim){
 if(victim.Team != player.Team && player.Inventory.Secondary.Value) {
 	last_lightning++;
     player.Inventory.Secondary.Value = false;
+    player.Inventory.Melee.Value = true;
     player.Position = {x: victim.Position.x, y: victim.Position.y, z: victim.Position.z - 4 }
     player.Timers.Get('hook').Restart(50);
     player.Ui.Hint.Value = 'Способность перезарядится через: 50 сек';
@@ -130,9 +131,9 @@ if(victim.Team != player.Team && player.Inventory.Secondary.Value) {
     victim.Timers.Get('immo').Restart(2);
     victim.Timers.Get('res').Restart(4);
     player.Timers.Get('res').Restart(4);
-    AreaService.Get('l' + last_lightning).Ranges.Add({Start: victim.PositionIndex, End: {x: victim.PositionIndex.x + 1, y: victim.PositionIndex.y + 200, z: victim.PositionIndex.z + 1}});
+    AreaService.Get('l' + last_lightning).Ranges.Add({Start: victim.PositionIndex, End: {x: victim.PositionIndex.x + 1, y: victim.PositionIndex.y + 999, z: victim.PositionIndex.z + 1}});
     AreaService.Get('l' + last_lightning).Tags.Add('lightning');
-    player.Timers.Get('l').Restart(1);
+    player.Timers.Get('l').Restart(2);
 }
 });
 
