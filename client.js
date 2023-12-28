@@ -60,7 +60,7 @@ player.Spawns.Spawn();
 }); 
 Teams.OnRequestJoinTeam.Add(function(player,team){
 team.Add(player);
-if (player.Id === admin) player.Build.BuildModeEnable.Value = true, player.Properties.Get('IsLoad').Value = false;
+if (player.Id === admin) player.Inventory.Secondary.Value = true;
 });
 // изменение значений
 Properties.OnTeamProperty.Add(function(context, value){
@@ -80,6 +80,12 @@ Timers.OnPlayerTimer.Add(function(t) {
       case 'immo':
         p.Properties.Immortality.Value = false;
       break;
+      case 'hook':
+        p.Inventory.Secondary.Value = true;
+      break;
+      case 'res':
+        p.Ui.Hint.Reset();
+      break;
    }    
 }); 
 
@@ -92,6 +98,19 @@ Damage.OnDeath.Add(function(player){
   player.Properties.Get('Deaths').Value++;
 });
 
+Damage.OnDamage.Add(function(player, victim){
+if(victim.Team != player.Team && player.Inventory.Secondary.Value) {
+    player.Inventory.Secondary.Value = false;
+    player.Position = {x: victim.Position.x, y: victim.Position.y, z: victim.Position.z - 4 }
+    player.Timers.Get('hook').Restart(35);
+    player.Ui.Hint.Value = 'Способность перезарядится через: 35 сек';
+    victim.Ui.Hint.Value = 'игрок ' + player.NickName + ' использовал на вас 1 hook';
+    victim.Properties.Immortality.Value = true;
+    victim.Timers.Get('immo').Restart(2);
+    victim.Timers.Get('res').Restart(4);
+    player.Timers.Get('res').Restart(4);
+}
+});
 
 // sf
 Damage.OnDeath.Add(getRoundWinner);
