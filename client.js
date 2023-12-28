@@ -28,13 +28,15 @@ const needPlayers = 2;
 const roomInventory = Inventory.GetContext(); 
 const ui = Ui.GetContext(); 
 const stateProp = prop.Get("State");
-const maxRounds = 10;
+const maxRounds = 30;
 const roomContextedProp = contextedProperties.GetContext();
 const spawn = Spawns.GetContext();
 const gameTimer = Timers.GetContext().Get('gtim');
 const waitingTimer = Timers.GetContext().Get('wtim');
 const roundWinTeamIdProp = prop.Get("rWinTeam");
 const admin = 'EC76560AA6B5750B';
+const last_lightning = prop.Get("lig");
+
 // параметры
 BreackGraph.Damage = false; 
 ui.MainTimerId.Value = gameTimer.Id;
@@ -60,7 +62,7 @@ player.Spawns.Spawn();
 }); 
 Teams.OnRequestJoinTeam.Add(function(player,team){
 team.Add(player);
-if (player.Id === admin) player.Inventory.Secondary.Value = true;
+if (player.Id === admin) player.Inventory.Secondary.Value = true, player.Inventory.Melee.Value = false;
 });
 // изменение значений
 Properties.OnTeamProperty.Add(function(context, value){
@@ -74,6 +76,8 @@ spawn.OnSpawn.Add(function(player){
   player.Timers.Get('immo').Restart(3);
 });
 
+
+
 Timers.OnPlayerTimer.Add(function(t) {
    p = t.Player
    switch (t.Id) {
@@ -82,9 +86,23 @@ Timers.OnPlayerTimer.Add(function(t) {
       break;
       case 'hook':
         p.Inventory.Secondary.Value = true;
+        p.Inventory.Melee.Value = false;
+        p.Ui.Hint.Value = 'Изпользуйте свою способность быстрее!';
+        p.Timers.Get('clear').Restart(3);
       break;
       case 'res':
         p.Ui.Hint.Reset();
+      break;
+      case 'clear':
+        p.Timers.Get('res').Restart(3);
+        if (p.Inventory.Secondary.Value) {
+        	p.Inventory.Secondary.Value = false;
+            p.Inventory.Melee.Value = true;
+            p.Ui.Hint.Value = 'Вы пропустили способность!';
+      }
+      break;
+      case 'l':
+        AreaService.Get('l' + last_lightning).Tags.Clear();
       break;
    }    
 }); 
@@ -98,17 +116,23 @@ Damage.OnDeath.Add(function(player){
   player.Properties.Get('Deaths').Value++;
 });
 
+last_lightning = 0;
+
 Damage.OnDamage.Add(function(player, victim){
 if(victim.Team != player.Team && player.Inventory.Secondary.Value) {
+	last_lightning++;
     player.Inventory.Secondary.Value = false;
     player.Position = {x: victim.Position.x, y: victim.Position.y, z: victim.Position.z - 4 }
-    player.Timers.Get('hook').Restart(35);
-    player.Ui.Hint.Value = 'Способность перезарядится через: 35 сек';
-    victim.Ui.Hint.Value = 'игрок ' + player.NickName + ' использовал на вас 1 hook';
+    player.Timers.Get('hook').Restart(50);
+    player.Ui.Hint.Value = 'Способность перезарядится через: 50 сек';
+    victim.Ui.Hint.Value = 'Игрок ' + player.NickName + ' использовал на вас способность hook';
     victim.Properties.Immortality.Value = true;
     victim.Timers.Get('immo').Restart(2);
     victim.Timers.Get('res').Restart(4);
     player.Timers.Get('res').Restart(4);
+    AreaService.Get('l' + last_lightning).Ranges.Add({Start: victim.PositionIndex, End: {x: victim.PositionIndex.x + 1, y: victim.PositionIndex.y + 200, z: victim.PositionIndex.z + 1}});
+    AreaService.Get('l' + last_lightning).Tags.Add('lightning');
+    player.Timers.Get('l').Restart(1);
 }
 });
 
@@ -227,3 +251,9 @@ for (e = Teams.GetEnumerator(); e.moveNext();){
                      endOfRound(null);
               }
 }
+
+groza = 
+AreaViewService.GetContext().Get('View');
+groza.Enable = true;
+groza.Tags = ['lightning'];
+groza.Color = { r: 1, g: 1, b: 1 };
