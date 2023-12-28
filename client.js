@@ -88,18 +88,10 @@ Timers.OnPlayerTimer.Add(function(t) {
         p.Inventory.Secondary.Value = true;
         p.Inventory.Melee.Value = false;
         p.Ui.Hint.Value = 'Изпользуйте свою способность быстрее!';
-        p.Timers.Get('clear').Restart(3);
+        p.Timers.Get('res').Restart(3);
       break;
       case 'res':
         p.Ui.Hint.Reset();
-      break;
-      case 'clear':
-        p.Timers.Get('res').Restart(3);
-        if (p.Inventory.Secondary.Value) {
-        	p.Inventory.Secondary.Value = false;
-            p.Inventory.Melee.Value = true;
-            p.Ui.Hint.Value = 'Вы пропустили способность!';
-      }
       break;
       case 'l':
         AreaService.Get('l' + last_lightning).Tags.Clear();
@@ -133,7 +125,7 @@ if(victim.Team != player.Team && player.Inventory.Secondary.Value) {
     player.Timers.Get('res').Restart(4);
     AreaService.Get('l' + last_lightning).Ranges.Add({Start: victim.PositionIndex, End: {x: victim.PositionIndex.x + 1, y: victim.PositionIndex.y + 999, z: victim.PositionIndex.z + 1}});
     AreaService.Get('l' + last_lightning).Tags.Add('lightning');
-    player.Timers.Get('l').Restart(2);
+    player.Timers.Get('l').Restart(3);
 }
 });
 
