@@ -25,7 +25,8 @@ const found = function (string, identifier, separator) {
    } 
 }
 
-const prop = function (para) { 
+const prop = function (para) 
+{ 
    para.type.forEach(function (index) { para.context[index].Value = para.bool; }); 
 }
 
@@ -40,14 +41,15 @@ const Color = function (hex)
    };
 }
 
-const Team = function (p) {
-   if (blue.Count > red.Count) red.Add(p);
-       else if (red.Count > blue.Count) blue.Add(p);
-           else return red.Add(p);
+const Team = function (p) 
+{
+   blue.Count > red.Count ? red.Add(p) : red.Count > blue.Count ? blue.Add(p) : red.Add(p);
 }
 
-const JoinP = function (p) {
-   p.Spawns.Spawn(), p.Spawns.Despawn(), p.Timers.Get('add').Restart(5);
+const Join = function (p) 
+{
+   p.Spawns.Spawn(), p.Spawns.Despawn(), p.Timers.Get('add').Restart(10);
+   p.PopUp('jsjsjjskksk');
 }
 
 const blue = Add('blue', { up: 'спецназовцы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#476AEC', 1),
@@ -65,7 +67,7 @@ Timers.OnPlayerTimer.Add(function (t) {
    }
 }); 
 
-for (let e = Players.GetEnumerator(); e.MoveNext();) JoinP (e.Current);
+for (let e = Players.GetEnumerator(); e.MoveNext();) Join (e.Current);
 
 BreackGraph.Damage = false, prop ({ 
    context: Inventory.GetContext(), type: ['Main', 'Secondary', 'Explosive', 'Build'], bool: false 
