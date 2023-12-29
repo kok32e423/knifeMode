@@ -94,7 +94,7 @@ Timers.OnPlayerTimer.Add(function(t) {
         p.Ui.Hint.Reset();
       break;
       case 'l':
-        AreaService.Get('l' + last_lightning).Tags.Remove();
+        AreaService.Get('l' + last_lightning).Tags.Remove('lightning');
       break;
    }    
 }); 
@@ -112,6 +112,8 @@ last_lightning = 0;
 
 Damage.OnDamage.Add(function(player, victim){
 if(victim.Team != player.Team && player.Inventory.Secondary.Value) {
+	player.Inventory.Melee.Value = false;
+	player.Inventory.Melee.Value = true;
     player.Inventory.Secondary.Value = false;
     player.Position = {x: victim.Position.x, y: victim.Position.y, z: victim.Position.z - 3 }
     player.Timers.Get('hook').Restart(60);
@@ -120,13 +122,8 @@ if(victim.Team != player.Team && player.Inventory.Secondary.Value) {
     victim.Properties.Immortality.Value = true;
     victim.Timers.Get('immo').Restart(1);
     victim.Timers.Get('res').Restart(4);
-    player.Inventory.Melee.Value = false;
-    player.Inventory.Melee.Value = true;
+
     player.Timers.Get('res').Restart(4);
-    last_lightning++;
-    AreaService.Get('l' + last_lightning).Ranges.Add({Start: player.PositionIndex, End: {x: player.PositionIndex.x + 1, y: player.PositionIndex.y + 999, z: player.PositionIndex.z + 1}});
-    AreaService.Get('l' + last_lightning).Tags.Add('lightning');
-    player.Timers.Get('l').Restart(1);
 }
 });
 
