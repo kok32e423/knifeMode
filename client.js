@@ -87,14 +87,16 @@ Timers.OnPlayerTimer.Add(function(t) {
       case 'hook':
         p.Inventory.Secondary.Value = true;
         p.Inventory.Melee.Value = false;
-        p.Ui.Hint.Value = 'Изпользуйте свою способность быстрее!';
+        p.Ui.Hint.Value = 'Ваша Способность доступна!!';
         p.Timers.Get('res').Restart(3);
       break;
       case 'res':
         p.Ui.Hint.Reset();
       break;
       case 'l':
-        AreaService.Get('l' + last_lightning).Tags.Clear();
+        AreaService.Get('l' + last_lightning).Tags.Remove();
+        
+        last_lightning++;
       break;
    }    
 }); 
@@ -112,20 +114,20 @@ last_lightning = 0;
 
 Damage.OnDamage.Add(function(player, victim){
 if(victim.Team != player.Team && player.Inventory.Secondary.Value) {
-	last_lightning++;
     player.Inventory.Secondary.Value = false;
+    player.Inventory.Melee.Value = false;
     player.Inventory.Melee.Value = true;
     player.Position = {x: victim.Position.x, y: victim.Position.y, z: victim.Position.z - 4 }
-    player.Timers.Get('hook').Restart(50);
-    player.Ui.Hint.Value = 'Способность перезарядится через: 50 сек';
+    player.Timers.Get('hook').Restart(60);
+    player.Ui.Hint.Value = 'Способность перезарядится через: 60 сек';
     victim.Ui.Hint.Value = 'Игрок ' + player.NickName + ' использовал на вас способность hook';
     victim.Properties.Immortality.Value = true;
-    victim.Timers.Get('immo').Restart(2);
+    victim.Timers.Get('immo').Restart(1);
     victim.Timers.Get('res').Restart(4);
     player.Timers.Get('res').Restart(4);
-    AreaService.Get('l' + last_lightning).Ranges.Add({Start: victim.PositionIndex, End: {x: victim.PositionIndex.x + 1, y: victim.PositionIndex.y + 999, z: victim.PositionIndex.z + 1}});
+    AreaService.Get('l' + last_lightning).Ranges.Add({Start: player.PositionIndex, End: {x: player.PositionIndex.x + 1, y: player.PositionIndex.y + 999, z: player.PositionIndex.z + 1}});
     AreaService.Get('l' + last_lightning).Tags.Add('lightning');
-    player.Timers.Get('l').Restart(3);
+    player.Timers.Get('l').Restart(1);
 }
 });
 
