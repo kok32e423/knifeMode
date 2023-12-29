@@ -40,12 +40,15 @@ const Prop = function (props) {
    props.type.forEach(function(index) { props.context[index].Value = props.bool; }); 
 }
 
-const blue = Add('blue', { up: 'спецназовцы ᵏⁿⁱᶠᵉ', down: '' }, '#476AEC', 1),
-red = Add('red', { up: 'террористы ᵏⁿⁱᶠᵉ', down: '' }, '#FE5757', 2);
+const blue = Add('blue', { up: 'спецназовцы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#476AEC', 1),
+red = Add('red', { up: 'террористы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#FE5757', 2);
 
 Teams.OnPlayerChangeTeam.Add(function (p) 
 {
    p.Spawns.Spawn();
 }); 
+
+let e = Players.GetEnumerator();
+     while (e.MoveNext()) e.Current.Spawns.Spawn(), e.Current.Spawns.Despawn();
 
 BreackGraph.Damage = false; 
