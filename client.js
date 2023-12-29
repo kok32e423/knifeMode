@@ -9,7 +9,7 @@ const Add = function (tag, name, color, spawn) {
    Teams.Add( 
    tag , 
      '<b><size=23>' + name.up.substring(0, 1) + '</size><size=17>' + name.up.substring(1) + '</size></b>' + n + '<size=17>' + name.down.substring(0, 1) + '</size>' + name.down.substring(1) ,
-        Color (color)
+        Hex (color)
    );
    team.Spawns.SpawnPointsGroups.Add(spawn);
    return team;
@@ -25,15 +25,23 @@ const found = function (string, identifier, separator) {
    } 
 }
 
-const Color = function (hex) {
+const Hex = function (hex) 
+{
    let hex = hex.replace ('#', ''), 
    max = 3;
   
-   if (hex.length == max) hex = hex.replace (/(.)/g, '$1$1'); r = parseInt (hex.substring(0, 2), 16), g = parseInt (hex.substring(2, 4), 16), b = parseInt (hex.substring(4, 6), 16);
-
-   return { r: r / 255, g: g / 255, b: b / 255 };
+   hex.length == max ? hex = hex.replace (/(.)/g, '$1$1') : null; 
+   return {
+      r : parseInt (hex.substring(0, 2), 16) / 255, g : parseInt (hex.substring(2, 4), 16) / 255, b : parseInt (hex.substring(4, 6), 16) / 255 
+   };
 }
 
-var two = Add('two', { up: 'красные', down: 'за короля!' }, '#336b42', 2);
+const blue = Add('blue', { up: 'синие', down: '' }, '#5151E1', 1),
+red = Add('red', { up: 'красные', down: '' }, '#FF5276', 2);
+
+Teams.OnPlayerChangeTeam.Add(function (p) 
+{
+   p.Spawns.Spawn();
+}); 
 
 BreackGraph.Damage = false; 
