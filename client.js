@@ -6,10 +6,10 @@ pidoras = 'C002224F3666744D|596D1288BD7F8CF7|C925816BE50844A9|9B94CBC25664BD6D|2
 
 const Add = function (tag, name, color, spawn) { 
    let team = Teams.Get(tag);
-   Teams.Add( 
+   Teams.Add ( 
    tag , 
      '<b><size=22>' + name.up.substring(0, 1) + '</size><size=17>' + name.up.substring(1) + '</size></b>' + n + '<size=17>' + name.down.substring(0, 1) + '</size>' + name.down.substring(1) ,
-        Hex (color)
+        Color (color)
    );
    team.Spawns.SpawnPointsGroups.Add(spawn);
    return team;
@@ -25,7 +25,7 @@ const found = function (string, identifier, separator) {
    } 
 }
 
-const Hex = function (hex) 
+const Color = function (hex) 
 {
    let hex = hex.replace ('#', ''), 
    max = 3;
@@ -36,25 +36,15 @@ const Hex = function (hex)
    };
 }
 
-const Add = function (p) {
+const Team = function (p) {
    if (blue.Count > red.Count) red.Add(p);
       else if (red.Count > blue.Count) blue.Add(p);
           else return red.Add(p);
 }
 
-const Join = function (p) {
-   p.Spawns.Spawn();
-   p.Spawns.Despawn();
-   p.Timers.Get('add').Restart(5);
+const CJoin = function (p) {
+   p.Spawns.Spawn(), p.Spawns.Despawn(), p.Timers.Get('add').Restart(5);
 }
-
-const Prop = function (para) { 
-   para.type.forEach(function (index) { para.context[index].Value = para.bool; }); 
-}
-
-Prop ({ 
-   context: Inventory.GetContext(), type: ['Main', 'Secondary', 'Melee', 'Explosive', 'Build'], bool: false 
-});
 
 const blue = Add('blue', { up: 'спецназовцы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#476AEC', 1),
 red = Add('red', { up: 'террористы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#FE5757', 2);
@@ -64,16 +54,22 @@ Teams.OnPlayerChangeTeam.Add(function (p)
    p.Spawns.Spawn();
 });
 
-Timers.OnPlayerTimer.Add(function(t) { 
-  p = t.Player;
-  switch (t.Id) {
-     case 'add' :
-        Add (p);
-     break;
-  }
+Timers.OnPlayerTimer.Add(function (t) { 
+   p = t.Player;
+   switch (t.Id) {
+      case 'add' :
+         Team (p);
+      break;
+   }
 }); 
 
-let e = Players.GetEnumerator();
-     //while (e.MoveNext()) Join(e.Current);
+for (const e = Players.GetEnumerator(); e.MoveNext();) CJoin (e.Current);
+
+const Prop = function (para) 
+{ 
+   para.type.forEach(function (index) { para.context[index].Value = para.bool; }); 
+}
+
+Prop ({ context: Inventory.GetContext(), type: ['Main', 'Secondary', 'Melee', 'Explosive', 'Build'], bool: false });
 
 BreackGraph.Damage = false; 
