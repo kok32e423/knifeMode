@@ -25,6 +25,10 @@ const found = function (string, identifier, separator) {
    } 
 }
 
+const prop = function (para) { 
+   para.type.forEach(function (index) { para.context[index].Value = para.bool; }); 
+}
+
 const Color = function (hex) 
 {
    let hex = hex.replace ('#', ''), 
@@ -42,7 +46,7 @@ const Team = function (p) {
           else return red.Add(p);
 }
 
-const CJoin = function (p) {
+const Join = function (p) {
    p.Spawns.Spawn(), p.Spawns.Despawn(), p.Timers.Get('add').Restart(5);
 }
 
@@ -63,13 +67,9 @@ Timers.OnPlayerTimer.Add(function (t) {
    }
 }); 
 
-for (let e = Players.GetEnumerator(); e.MoveNext();) CJoin (e.Current);
+for (const e = Players.GetEnumerator(); e.MoveNext();) Join (e.Current);
 
-const Prop = function (para) 
-{ 
-   para.type.forEach(function (index) { para.context[index].Value = para.bool; }); 
-}
+BreackGraph.Damage = false, prop ({ 
+   context: Inventory.GetContext(), type: ['Main', 'Secondary', 'Explosive', 'Build'], bool: false 
+});
 
-Prop ({ context: Inventory.GetContext(), type: ['Main', 'Secondary', 'Melee', 'Explosive', 'Build'], bool: false });
-
-BreackGraph.Damage = false; 
