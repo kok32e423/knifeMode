@@ -41,7 +41,7 @@ const Prop = function (props) {
 }
 
 const blue = Add('blue', { up: 'спецназовцы', down: '' }, '#5151E1', 1),
-red = Add('red', { up: 'террористы', down: '' }, '#ff8d5c', 2);
+red = Add('red', { up: 'террористы', down: '' }, '#ff5c5c', 2);
 
 Teams.OnPlayerChangeTeam.Add(function (p) 
 {
