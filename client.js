@@ -8,7 +8,7 @@ const Add = function (tag, name, color, spawn) {
    let team = Teams.Get(tag);
    Teams.Add( 
    tag , 
-     '<b><size=23>' + name.up.substring(0, 1) + '</size><size=17>' + name.up.substring(1) + '</size></b>' + n + '<size=17>' + name.down.substring(0, 1) + '</size>' + name.down.substring(1) ,
+     '<b><size=22>' + name.up.substring(0, 1) + '</size><size=17>' + name.up.substring(1) + '</size></b>' + n + '<size=17>' + name.down.substring(0, 1) + '</size>' + name.down.substring(1) ,
         Hex (color)
    );
    team.Spawns.SpawnPointsGroups.Add(spawn);
@@ -41,7 +41,7 @@ const Prop = function (props) {
 }
 
 const blue = Add('blue', { up: 'спецназовцы', down: '' }, '#5151E1', 1),
-red = Add('red', { up: 'террористы', down: '' }, '#FFA097', 2);
+red = Add('red', { up: 'террористы', down: '' }, '#fa5c4d', 2);
 
 Teams.OnPlayerChangeTeam.Add(function (p) 
 {
