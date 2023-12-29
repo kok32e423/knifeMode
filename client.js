@@ -113,7 +113,7 @@ last_lightning = 0;
 Damage.OnDamage.Add(function(player, victim){
 if(victim.Team != player.Team && player.Inventory.Secondary.Value) {
     player.Inventory.Secondary.Value = false;
-    player.Position = {x: victim.Position.x, y: victim.Position.y, z: victim.Position.z - 4 }
+    player.Position = {x: victim.Position.x, y: victim.Position.y, z: victim.Position.z - 3 }
     player.Timers.Get('hook').Restart(60);
     player.Ui.Hint.Value = 'Способность перезарядится через: 60 сек';
     victim.Ui.Hint.Value = 'Игрок ' + player.NickName + ' использовал на вас способность hook';
