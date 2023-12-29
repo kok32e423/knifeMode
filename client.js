@@ -63,7 +63,7 @@ Timers.OnPlayerTimer.Add(function (t) {
    }
 }); 
 
-for (const e = Players.GetEnumerator(); e.MoveNext();) CJoin (e.Current);
+for (let e = Players.GetEnumerator(); e.MoveNext();) CJoin (e.Current);
 
 const Prop = function (para) 
 { 
