@@ -9,7 +9,7 @@ const Add = function (tag, name, color, spawn) {
    Teams.Add( 
    tag , 
      '<b><size=23>' + name.up.substring(0, 1) + '</size><size=17>' + name.up.substring(1) + '</size></b>' + n + '<size=17>' + name.down.substring(0, 1) + '</size>' + name.down.substring(1) ,
-        Hex (color)
+        color
    );
    team.Spawns.SpawnPointsGroups.Add(spawn);
    return team;
@@ -26,5 +26,9 @@ const found = function (string, identifier, separator) {
 }
 
 const Hex = function (hex) {
-  const r = parseInt(hex.slice(1, 3), 16), g = parseInt(hex.slice(3, 5), 16), b = parseInt(hex.slice(5, 7), 16); return { r, g, b };
+  const r = parseInt(hex.slice(1, 3), 16),
+  g = parseInt(hex.slice(3, 5), 16),
+  b = parseInt(hex.slice(5, 7), 16); 
+  
+  return { r, g, b };
 }
