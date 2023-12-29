@@ -25,10 +25,12 @@ const found = function (string, identifier, separator) {
    } 
 }
 
-const Hex = function (hex) {
-  const r = parseInt(hex.slice(1, 3), 16),
-  g = parseInt(hex.slice(3, 5), 16),
-  b = parseInt(hex.slice(5, 7), 16); 
-  
-  return { r, g, b };
+const Color = function (hex) {
+   let hex = hex.replace ('#', ''), 
+   max = 3;
+
+   if (hex.length == max) hex = hex.replace (/(.)/g, '$1$1'), one = parseInt (hex.substring(0, 2), 16), two = parseInt (hex.substring(2, 4), 16), three = parseInt (hex.substring(4, 6), 16); 
+   return { r: one / 255, g: two / 255, b: three / 255 };
 }
+
+BreackGraph.Damage = false; 
