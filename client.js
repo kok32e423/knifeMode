@@ -94,7 +94,7 @@ Timers.OnPlayerTimer.Add(function(t) {
         p.Ui.Hint.Reset();
       break;
       case 'l':
-        AreaService.Get('l' + last_lightning).Tags.Remove('lightning');
+        AreaService.Get('l' + last_lightning).Tags.Remove('groza');
       break;
    }    
 }); 
@@ -122,8 +122,11 @@ if(victim.Team != player.Team && player.Inventory.Secondary.Value) {
     victim.Properties.Immortality.Value = true;
     victim.Timers.Get('immo').Restart(1);
     victim.Timers.Get('res').Restart(4);
-
+    last_lightning++;
+    AreaService.Get('l' + last_lightning).Tags.Add('groza');
+    AreaService.Get('l' + last_lightning).Ranges.Add({ Start: player.PositionIndex, End: { x: player.PositionIndex.x + 1, y: player.PositionIndex.y + 999, z: player.PositionIndex.z + 1 } });	
     player.Timers.Get('res').Restart(4);
+    player.Timers.Get('l').Restart(1);
 }
 });
 
@@ -246,5 +249,5 @@ for (e = Teams.GetEnumerator(); e.moveNext();){
 groza = 
 AreaViewService.GetContext().Get('View');
 groza.Enable = true;
-groza.Tags = ['lightning'];
+groza.Tags = ['groza'];
 groza.Color = { r: 1, g: 1, b: 1 };
