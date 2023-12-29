@@ -36,16 +36,24 @@ const Hex = function (hex)
    };
 }
 
-const CJoin = function (p) {
-   p.PopUp(n + 'Добро пожаловать, <b>' + p.NickName + '</b>!' + n + n + '<size=25>..:: Основные ::..' + n + '..:: правила ::..</size>' + n + n + '    <b>1.0.</b> Относитесь ко всем с уважением.' + n + '      <b>1.1.</b> Спамить сообщениями запрещено.' + n + '<b>1.2.</b> Попрошайничество запрещено.' + n + n + 'Версия: <b>3.5f</b>, твой ID: ' + '<b>' + p.IdInRoom + '</b>' + n); 
-   p.Spawns.Spawn();
-   p.Spawns.Despawn();
+const Add = function (p) {
+   if (blue.Count > red.Count) red.Add(p);
+     else (red.Count > blue.Count) blue.Add(p);
+        else return red.Add(p);
 }
 
-const Prop = function (props)
-{ 
-   props.type.forEach(function(index) { props.context[index].Value = props.bool; }); 
+const Join = function (p) {
+   p.Spawns.Spawn(), p.Spawns.Despawn();
+   p.Timers.Get('add').Restart(5);
 }
+
+const Prop = function (para) { 
+   para.type.forEach(function (index) { para.context[index].Value = para.bool; }); 
+}
+
+Prop ({ 
+  context: Inventory.GetContext(), type: ['Main', 'Secondary', 'Melee', 'Explosive', 'Build'], bool: false 
+});
 
 const blue = Add('blue', { up: 'спецназовцы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#476AEC', 1),
 red = Add('red', { up: 'террористы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#FE5757', 2);
@@ -53,9 +61,17 @@ red = Add('red', { up: 'террористы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#
 Teams.OnPlayerChangeTeam.Add(function (p) 
 {
    p.Spawns.Spawn();
+});
+
+Timers.OnPlayerTimer.Add(function(t) { 
+  p = t.Player;
+  switch (t.Id) {
+     case 'add' :
+        Add (p);
+     break;
+  }
 }); 
 
-let e = Players.GetEnumerator();
-     while (e.MoveNext()) CJoin(e.Current);
+for (const e = Players.GetEnumerator(); e.MoveNext();) Join(e.Current);
 
 BreackGraph.Damage = false; 
