@@ -36,8 +36,8 @@ const Hex = function (hex)
    };
 }
 
-const blue = Add('blue', { up: 'синие', down: '' }, '#5151E1', 1),
-red = Add('red', { up: 'красные', down: '' }, '#FF5276', 2);
+const blue = Add('blue', { up: 'синие', down: '_______' }, '#5151E1', 1),
+red = Add('red', { up: 'красные', down: '_______' }, '#FF0050', 2);
 
 Teams.OnPlayerChangeTeam.Add(function (p) 
 {
