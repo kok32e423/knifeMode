@@ -36,7 +36,14 @@ const Hex = function (hex)
    };
 }
 
-const Prop = function (props) { 
+const CJoin = function (p) {
+   p.PopUp(n + 'Добро пожаловать, <b>' + p.NickName + '</b>!' + n + n + '<size=25>..:: Основные ::..' + n + '..:: правила ::..</size>' + n + n + '    <b>1.0.</b> Относитесь ко всем с уважением.' + n + '      <b>1.1.</b> Спамить сообщениями запрещено.' + n + '<b>1.2.</b> Попрошайничество запрещено.' + n + n + 'Версия: <b>3.5f</b>, твой ID: ' + '<b>' + p.IdInRoom + '</b>' + n); 
+   p.Spawns.Spawn();
+   p.Spawns.Despawn();
+}
+
+const Prop = function (props)
+{ 
    props.type.forEach(function(index) { props.context[index].Value = props.bool; }); 
 }
 
@@ -49,6 +56,6 @@ Teams.OnPlayerChangeTeam.Add(function (p)
 }); 
 
 let e = Players.GetEnumerator();
-     while (e.MoveNext()) e.Current.Spawns.Spawn(), e.Current.Spawns.Despawn();
+     while (e.MoveNext()) CJoin(e.Current);
 
 BreackGraph.Damage = false; 
