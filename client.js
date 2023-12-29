@@ -74,6 +74,6 @@ Timers.OnPlayerTimer.Add(function(t) {
 }); 
 
 let e = Players.GetEnumerator();
-     while (e.MoveNext()) Join(e.Current);
+     //while (e.MoveNext()) Join(e.Current);
 
 BreackGraph.Damage = false; 
