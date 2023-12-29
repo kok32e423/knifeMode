@@ -38,12 +38,13 @@ const Hex = function (hex)
 
 const Add = function (p) {
    if (blue.Count > red.Count) red.Add(p);
-     else if (red.Count > blue.Count) blue.Add(p);
-        else return red.Add(p);
+      else if (red.Count > blue.Count) blue.Add(p);
+          else return red.Add(p);
 }
 
 const Join = function (p) {
-   p.Spawns.Spawn(), p.Spawns.Despawn();
+   p.Spawns.Spawn();
+   p.Spawns.Despawn();
    p.Timers.Get('add').Restart(5);
 }
 
@@ -52,7 +53,7 @@ const Prop = function (para) {
 }
 
 Prop ({ 
-  context: Inventory.GetContext(), type: ['Main', 'Secondary', 'Melee', 'Explosive', 'Build'], bool: false 
+   context: Inventory.GetContext(), type: ['Main', 'Secondary', 'Melee', 'Explosive', 'Build'], bool: false 
 });
 
 const blue = Add('blue', { up: 'спецназовцы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#476AEC', 1),
@@ -72,6 +73,7 @@ Timers.OnPlayerTimer.Add(function(t) {
   }
 }); 
 
-for ( e = Players.GetEnumerator(); e.MoveNext();) Join (e.Current);
+let e = Players.GetEnumerator();
+     while (e.MoveNext()) Join(e.Current);
 
 BreackGraph.Damage = false; 
