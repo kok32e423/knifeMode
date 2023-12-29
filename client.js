@@ -36,8 +36,12 @@ const Hex = function (hex)
    };
 }
 
-const blue = Add('blue', { up: 'синие', down: '_______' }, '#5151E1', 1),
-red = Add('red', { up: 'красные', down: '_______' }, '#FF0050', 2);
+const Prop = function (props) { 
+   props.type.forEach(function(index) { props.context[index].Value = props.bool; }); 
+}
+
+const blue = Add('blue', { up: 'синие', down: 'knife' }, '#6991FF', 1),
+red = Add('red', { up: 'красные', down: 'knife' }, '#FF6666', 2);
 
 Teams.OnPlayerChangeTeam.Add(function (p) 
 {
