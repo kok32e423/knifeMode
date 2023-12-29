@@ -33,4 +33,6 @@ const Hex = function (hex) {
    return { r: one / 255, g: two / 255, b: three / 255 };
 }
 
+var two = Add('two', { up: 'красные', down: 'за короля!' }, '#336b42', 2);
+
 BreackGraph.Damage = false; 
