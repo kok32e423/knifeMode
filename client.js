@@ -42,11 +42,11 @@ const Color = function (hex)
 
 const Team = function (p) {
    if (blue.Count > red.Count) red.Add(p);
-      else if (red.Count > blue.Count) blue.Add(p);
-          else return red.Add(p);
+       else if (red.Count > blue.Count) blue.Add(p);
+           else return red.Add(p);
 }
 
-const Join = function (p) {
+const JoinP = function (p) {
    p.Spawns.Spawn(), p.Spawns.Despawn(), p.Timers.Get('add').Restart(5);
 }
 
@@ -61,13 +61,11 @@ Teams.OnPlayerChangeTeam.Add(function (p)
 Timers.OnPlayerTimer.Add(function (t) { 
    p = t.Player;
    switch (t.Id) {
-      case 'add' :
-         Team (p);
-      break;
+       case 'add' : Team (p); break;
    }
 }); 
 
-for (const e = Players.GetEnumerator(); e.MoveNext();) Join (e.Current);
+for (let e = Players.GetEnumerator(); e.MoveNext();) JoinP (e.Current);
 
 BreackGraph.Damage = false, prop ({ 
    context: Inventory.GetContext(), type: ['Main', 'Secondary', 'Explosive', 'Build'], bool: false 
