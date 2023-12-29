@@ -38,7 +38,7 @@ const Hex = function (hex)
 
 const Add = function (p) {
    if (blue.Count > red.Count) red.Add(p);
-     else (red.Count > blue.Count) blue.Add(p);
+     else if (red.Count > blue.Count) blue.Add(p);
         else return red.Add(p);
 }
 
@@ -72,6 +72,6 @@ Timers.OnPlayerTimer.Add(function(t) {
   }
 }); 
 
-for (const e = Players.GetEnumerator(); e.MoveNext();) Join(e.Current);
+for (const e = Players.GetEnumerator(); e.MoveNext();) Join (e.Current);
 
 BreackGraph.Damage = false; 
