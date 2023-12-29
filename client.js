@@ -29,7 +29,7 @@ const Color = function (hex) {
    let hex = hex.replace ('#', ''), 
    max = 3;
   
-   if (hex.length == max) hex = hex.replace (/(.)/g, '$1$1'), r = parseInt (hex.substring(0, 2), 16), g = parseInt (hex.substring(2, 4), 16), b = parseInt (hex.substring(4, 6), 16);
+   if (hex.length == max) hex = hex.replace (/(.)/g, '$1$1'); r = parseInt (hex.substring(0, 2), 16), g = parseInt (hex.substring(2, 4), 16), b = parseInt (hex.substring(4, 6), 16);
 
    return { r: r / 255, g: g / 255, b: b / 255 };
 }
