@@ -9,7 +9,7 @@ const Add = function (tag, name, color, spawn) {
    Teams.Add( 
    tag , 
      '<b><size=23>' + name.up.substring(0, 1) + '</size><size=17>' + name.up.substring(1) + '</size></b>' + n + '<size=17>' + name.down.substring(0, 1) + '</size>' + name.down.substring(1) ,
-        Hex (color)
+        color
    );
    team.Spawns.SpawnPointsGroups.Add(spawn);
    return team;
@@ -33,6 +33,6 @@ const Hex = function (hex) {
    return { r: one / 255, g: two / 255, b: three / 255 };
 }
 
-var two = Add('two', { up: 'красные', down: 'за короля!' }, '#336b42', 2);
+var two = Add('two', { up: 'красные', down: 'за короля!' }, Hex ('#336b42'), 2);
 
 BreackGraph.Damage = false; 
