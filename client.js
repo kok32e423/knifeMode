@@ -40,7 +40,7 @@ const Prop = function (props) {
    props.type.forEach(function(index) { props.context[index].Value = props.bool; }); 
 }
 
-const blue = Add('blue', { up: 'спецназовцы', down: '' }, '#5151E1', 1),
+const blue = Add('blue', { up: 'спецназовцы', down: '' }, '#6991FF', 1),
 red = Add('red', { up: 'террористы', down: '' }, '#FE5757', 2);
 
 Teams.OnPlayerChangeTeam.Add(function (p) 
