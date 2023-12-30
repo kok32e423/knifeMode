@@ -51,7 +51,7 @@ const Rand = function (min, max) { return Math.floor(Math.random() * (max - min 
 
 LeaderBoard.PlayerLeaderBoardValues = [
   { Value: 'Kills', ShortDisplayName: 'ᵏ' },
-  { Value: 'Deaths', ShortDisplayName: 'ᴅ' },
+  { Value: 'Deaths', ShortDisplayName: 'ᵈ' },
 ];
 
 const blue = Add ('blue', { up: 'спецназовцы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#476AEC', 1),
