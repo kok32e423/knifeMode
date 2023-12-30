@@ -25,8 +25,11 @@ const found = function (string, identifier, separator) {
    }  
 }
 
-const Prop = function (para) { 
-   para.type.forEach(function (index) { para.context[index].Value = para.bool; }); 
+const s = Properties.GetContext().Get('state'), main = Timers.GetContext().Get('main');
+
+const Prop = function (par) 
+{ 
+   par.type.forEach(function (index) { par.context[index].Value = par.bool; }); 
 }
 
 const Color = function (hex) 
@@ -51,6 +54,16 @@ const Rand = function (min, max) {
    return Math.floor(Math.random() * (max - min + 1)) + min; 
 }
 
+const Update = function () 
+{
+   if (s.Value != 'game') return;
+   let blue = blue.GetAlivePlayersCount(),
+   red = red.GetAlivePlayersCount(); 
+   if ((red == 0 || s.Value == 'end') && blue > red) End();
+       else if ((blue == 0 || s.Value == 'end') && red > blue) End();
+           else return End();
+} 
+ 
 LeaderBoard.PlayerLeaderBoardValues = [
   { Value: 'Kills', ShortDisplayName: '<size=11.9><b>ᴋ</b></size>' },
   { Value: 'Deaths', ShortDisplayName: '<size=11.9><b>ᴅ</b></size>' },
@@ -59,18 +72,34 @@ LeaderBoard.PlayerLeaderBoardValues = [
 const blue = Add ('blue', { up: 'спецназовцы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#476AEC', 1),
 red = Add ('red', { up: 'террористы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#FE5757', 2);
 
-Teams.OnRequestJoinTeam.Add(function (p, t) {
+Teams.OnRequestJoinTeam.Add(function (p, t)
+{
    if (found (pidoras, p.Id, '|')) return;
    else t.Add(p);
 });  
 
-Teams.OnPlayerChangeTeam.Add(function (p) {
+Teams.OnPlayerChangeTeam.Add(function (p) 
+{
    if (found (pidoras, p.Id, '|')) return;
    else p.Spawns.Spawn();
+})
+
+Players.OnPlayerConnected.Add(function (p)
+{	
+   p.Spawns.Spawn(), p.Spawns.Despawn();
+   p.Timers. Get('add').Restart (11);
+}); 
+
+Spawns.OnSpawn.Add(function (p) 
+{
+   p.Properties.Immortality.Value = true, 
+   p.Timers. Get('immo').Restart (3);
 });
 
-Spawns.OnSpawn.Add(function (p) {
-   p.Properties.Immortality.Value = true, p.Timers.Get('immo').Restart(3);
+Damage.OnDeath.Add(function (p) 
+{
+   Update();
+   p.Properties.Get('Deaths').Value++;
 });
 
 Timers.OnPlayerTimer.Add(function (t) { 
@@ -87,7 +116,36 @@ Timers.OnPlayerTimer.Add(function (t) {
    }
 }); 
 
+const Main = function () {
+   switch (s.Value) {
+       case 'game' : 
+       End();
+       break;
+    case 'end': 
+       Game();
+       break;
+   }
+}
+
+main.OnTimer.Add(function () {
+   Main ();
+});
+
+const Game = function ()
+{
+   s.Value = 'game';
+   main.Restart(115); 
+}
+
+const End = function ()
+{
+   s.Value = 'end';
+   main.Restart(10); 
+}
+
 BreackGraph.Damage = false, Prop ({ 
    context: Inventory.GetContext(), type: ['Main', 'Secondary', 'Explosive', 'Build'], bool: false 
 });
+
+Game ();
 
