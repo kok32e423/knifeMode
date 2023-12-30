@@ -25,7 +25,7 @@ const found = function (string, identifier, separator) {
    }  
 }
 
-const s = Properties.GetContext().Get('state'), main = Timers.GetContext().Get('main');
+const s = Properties.GetContext().Get('state'), main = Timers.GetContext().Get('main'), ui = Ui.GetContext();
 
 const Prop = function (par) 
 { 
@@ -68,6 +68,8 @@ LeaderBoard.PlayerLeaderBoardValues = [
   { Value: 'Kills', ShortDisplayName: '<size=11.9><b>ᴋ</b></size>' },
   { Value: 'Deaths', ShortDisplayName: '<size=11.9><b>ᴅ</b></size>' },
 ];
+
+ui.MainTimerId.Value = main.Id;
 
 const blue = Add ('blue', { up: 'спецназовцы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#476AEC', 1),
 red = Add ('red', { up: 'террористы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#FE5757', 2);
