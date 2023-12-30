@@ -50,8 +50,8 @@ properties.forEach(function (index) {
 const Rand = function (min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
 
 LeaderBoard.PlayerLeaderBoardValues = [
-  { Value: 'Kills', ShortDisplayName: n + 'ᴋ' },
-  { Value: 'Deaths', ShortDisplayName: n + 'ᴅ' },
+  { Value: 'Kills', ShortDisplayName: '<size=15>ᴋ</size>' },
+  { Value: 'Deaths', ShortDisplayName: '<size=15>ᴅ</size>' },
 ];
 
 const blue = Add ('blue', { up: 'спецназовцы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#476AEC', 1),
@@ -66,8 +66,7 @@ Teams.OnPlayerChangeTeam.Add(function (p) {
 });
 
 Spawns.OnSpawn.Add(function (p) {
-   p.Properties.Immortality.Value = true;
-   p.Timers.Get('immo').Restart(3);
+   p.Properties.Immortality.Value = true, p.Timers.Get('immo').Restart(3);
 });
 
 Timers.OnPlayerTimer.Add(function (t) { 
