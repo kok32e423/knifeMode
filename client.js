@@ -52,8 +52,8 @@ const Rand = function (min, max) {
 }
 
 LeaderBoard.PlayerLeaderBoardValues = [
-  { Value: 'Kills', ShortDisplayName: '<size=4>ᴋ</size>' },
-  { Value: 'Deaths', ShortDisplayName: '<size=4>ᴅ</size>' },
+  { Value: 'Kills', ShortDisplayName: '<size=10>ᴋ</size>' },
+  { Value: 'Deaths', ShortDisplayName: '<size=10>ᴅ</size>' },
 ];
 
 const blue = Add ('blue', { up: 'спецназовцы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#476AEC', 1),
