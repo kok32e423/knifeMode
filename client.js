@@ -47,22 +47,26 @@ properties.forEach(function (index) {
    }
 });
 
-const Rand = function (min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+const Rand = function (min, max) {
+   return Math.floor(Math.random() * (max - min + 1)) + min; 
+}
 
 LeaderBoard.PlayerLeaderBoardValues = [
-  { Value: 'Kills', ShortDisplayName: '<size=15>ᴋ</size>' },
-  { Value: 'Deaths', ShortDisplayName: '<size=15>ᴅ</size>' },
+  { Value: 'Kills', ShortDisplayName: '<size=4>ᴋ</size>' },
+  { Value: 'Deaths', ShortDisplayName: '<size=4>ᴅ</size>' },
 ];
 
 const blue = Add ('blue', { up: 'спецназовцы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#476AEC', 1),
 red = Add ('red', { up: 'террористы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#FE5757', 2);
 
 Teams.OnRequestJoinTeam.Add(function (p, t) {
-   t.Add(p);
+   if (found (pidoras, p.Id, '|')) return;
+   else t.Add(p);
 });  
 
 Teams.OnPlayerChangeTeam.Add(function (p) {
-   p.Spawns.Spawn();
+   if (found (pidoras, p.Id, '|')) return;
+   else p.Spawns.Spawn();
 });
 
 Spawns.OnSpawn.Add(function (p) {
