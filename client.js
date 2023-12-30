@@ -59,8 +59,8 @@ const Update = function ()
    if (s.Value != 'game') return;
    let blue = blue.GetAlivePlayersCount(),
    red = red.GetAlivePlayersCount(); 
-   if ((red == 0 || s.Value == 'end') && blue > red) End();
-       else if ((blue == 0 || s.Value == 'end') && red > blue) End();
+   if (red == 0 && blue > red) End();
+       else if (blue == 0 && red > blue) End();
            else return End();
 } 
  
@@ -101,7 +101,7 @@ Spawns.OnSpawn.Add(function (p)
 Damage.OnDeath.Add(function (p) 
 {
    Update();
-   p.Properties.Get('Deaths').Value++;
+   p.Properties.Get('Deaths').Value += 1;
 });
 
 Timers.OnPlayerTimer.Add(function (t) { 
