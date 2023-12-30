@@ -50,8 +50,8 @@ properties.forEach(function (index) {
 const Rand = function (min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
 
 LeaderBoard.PlayerLeaderBoardValues = [
-  { Value: 'Kills', ShortDisplayName: 'ᵏ' },
-  { Value: 'Deaths', ShortDisplayName: 'ᵈ' },
+  { Value: 'Kills', ShortDisplayName: n + 'ᴋ' },
+  { Value: 'Deaths', ShortDisplayName: n + 'ᴅ' },
 ];
 
 const blue = Add ('blue', { up: 'спецназовцы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#476AEC', 1),
@@ -79,7 +79,7 @@ Timers.OnPlayerTimer.Add(function (t) {
        case 'add' :
        if (blue.Count > red.Count) red.Add(p); 
            else if (red.Count > blue.Count) blue.Add(p);
-                else red.Add(p);
+                else return red.Add(p);
        break;     
    }
 }); 
