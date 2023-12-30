@@ -22,11 +22,10 @@ const found = function (string, identifier, separator) {
            return true;
               break; 
       }
-   } 
+   }  
 }
 
-const prop = function (para) 
-{ 
+const Prop = function (para) { 
    para.type.forEach(function (index) { para.context[index].Value = para.bool; }); 
 }
 
@@ -41,35 +40,51 @@ const Color = function (hex)
    };
 }
 
-const Team = function (p) 
-{
-   blue.Count > red.Count ? red.Add(p) : red.Count > blue.Count ? blue.Add(p) : red.Add(p);
-}
+properties.forEach(function (index) { 
+   let e = Teams.GetEnumerator();
+   while (e.MoveNext()) {
+       e.Current.Properties.Get(index[0]).Value = index[1];
+   }
+});
 
-const Join = function (p) 
-{
-   p.Spawns.Spawn(), p.Spawns.Despawn(), p.Timers.Get('add').Restart(10);
-   p.PopUp('jsjsjjskksk');
-}
+const Rand = function (min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
 
-const blue = Add('blue', { up: 'спецназовцы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#476AEC', 1),
-red = Add('red', { up: 'террористы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#FE5757', 2);
+LeaderBoard.PlayerLeaderBoardValues = [
+  { Value: 'Kills', ShortDisplayName: 'ᵏ' },
+  { Value: 'Deaths', ShortDisplayName: 'ᴅ' },
+];
 
-Teams.OnPlayerChangeTeam.Add(function (p) 
-{
+const blue = Add ('blue', { up: 'спецназовцы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#476AEC', 1),
+red = Add ('red', { up: 'террористы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#FE5757', 2);
+
+Teams.OnRequestJoinTeam.Add(function (p, t) {
+   t.Add(p);
+});  
+
+Teams.OnPlayerChangeTeam.Add(function (p) {
    p.Spawns.Spawn();
+});
+
+Spawns.OnSpawn.Add(function (p) {
+   p.Properties.Immortality.Value = true;
+   p.Timers.Get('immo').Restart(3);
 });
 
 Timers.OnPlayerTimer.Add(function (t) { 
    p = t.Player;
    switch (t.Id) {
-       case 'add' : Team (p); break;
+   	case 'immo' :
+       p.Properties.Immortality.Value = false; 
+       break;
+       case 'add' :
+       if (blue.Count > red.Count) red.Add(p); 
+           else if (red.Count > blue.Count) blue.Add(p);
+                else red.Add(p);
+       break;     
    }
 }); 
 
-for (let e = Players.GetEnumerator(); e.MoveNext();) Join (e.Current);
-
-BreackGraph.Damage = false, prop ({ 
+BreackGraph.Damage = false, Prop ({ 
    context: Inventory.GetContext(), type: ['Main', 'Secondary', 'Explosive', 'Build'], bool: false 
 });
 
