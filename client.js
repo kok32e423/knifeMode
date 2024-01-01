@@ -56,11 +56,10 @@ const Rand = function (min, max) {
 
 const Update = function () 
 {
-   let blue = blue.GetAlivePlayersCount(),
-   red = red.GetAlivePlayersCount(); 
-   
-   if (blue > red) End();
-       else if (red > blue) End();
+   let one = blue.GetAlivePlayersCount(),
+   two = red.GetAlivePlayersCount(); 
+   if (two == 0 && one > two) End();
+       else if (one == 0 && two > one) End();
            else End();
 } 
  
