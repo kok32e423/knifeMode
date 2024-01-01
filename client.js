@@ -56,12 +56,12 @@ const Rand = function (min, max) {
 
 const Update = function () 
 {
-   if (s.Value != 'game') return;
    let blue = blue.GetAlivePlayersCount(),
    red = red.GetAlivePlayersCount(); 
-   if (red == 0 && blue > red) End();
-       else if (blue == 0 && red > blue) End();
-           else return End();
+   
+   if (blue > red) End();
+       else if (red > blue) End();
+           else End();
 } 
  
 LeaderBoard.PlayerLeaderBoardValues = [
