@@ -99,16 +99,17 @@ Spawns.OnSpawn.Add(function (p)
 
 Damage.OnDeath.Add(function (p) 
 {
-   Update();
-   p.Properties.Get('Deaths').Value += 1;
+   Update(), p.Properties.Get('Deaths').Value += 1;
 });
 
-Damage.OnKill.Add(function (p, k) 
+Damage.OnKill.Add(function (p, vic) 
 {
-   if (k.Team == p.Team) return;
+   if (vic.Team == p.Team) return;
    Update();
-   p.Properties.Get('Kills').Value += 1, k.Ui.Hint.Value = p.NickName + ' убил вас с растояния ' + (p.PositionIndex.x - k.PositionIndex.x + p.PositionIndex.y - k.PositionIndex.y + p.PositionIndex.z - k.PositionIndex.z) + ' блоков';
-});
+   pos = p.PositionIndex.x - vic.PositionIndex.x + p.PositionIndex.y - vic.PositionIndex.y + p.PositionIndex.z - vic.PositionIndex.z;
+   if (pos != 0) vic.Ui.Hint.Value = p.NickName + ' убил вас с расстояния ' + Math.abs (pos) + ' блоков!';
+   p.Properties.Get('Kills').Value += 1;   
+}); 
 
 Timers.OnPlayerTimer.Add(function (t) { 
    p = t.Player;
