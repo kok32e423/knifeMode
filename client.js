@@ -58,10 +58,10 @@ const Update = function ()
 {
    if (s.Value != 'game') return;
    let one = blue.GetAlivePlayersCount(),
-   two = red.GetAlivePlayersCount(); 
-   if ((two == 0 || s.Value == 'end') && one > two) End();
-       else if ((one == 0 || s.Value == 'end') && two > one) End();
-           else End(), Ui.GetContext().Hint.Value = 'dtaw';
+   two = red.GetAlivePlayersCount();   
+   if (two == 0 && one > two) End(one);
+       else if (one == 0 && two > one) End(two);
+           else End(null);
 } 
  
 LeaderBoard.PlayerLeaderBoardValues = [
@@ -112,8 +112,8 @@ Timers.OnPlayerTimer.Add(function (t) {
        break;
        case 'add' :
        if (blue.Count > red.Count) red.Add(p); 
-           else if (red.Count > blue.Count) blue.Add(p);
-                else return red.Add(p);
+         else if (red.Count > blue.Count) blue.Add(p);
+            else return red.Add(p);
        break;     
    }
 }); 
@@ -139,9 +139,14 @@ const Game = function ()
    main.Restart(115); 
 }
 
-const End = function ()
+const End = function (team)
 {
    s.Value = 'end';
+   if (team != null) 
+   {
+       let e = Players.GetEnumerator();
+       while (e.MoveNext()) if (e.Current.Team == team) e.Current.Properties.Get('Scores').Value += 1;
+   }
    main.Restart(10); 
 }
 
