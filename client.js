@@ -59,9 +59,9 @@ const Update = function ()
    if (s.Value != 'game') return;
    let one = blue.GetAlivePlayersCount(),
    two = red.GetAlivePlayersCount();   
-   if (two == 0 && one > two) End(one);
-       else if (one == 0 && two > one) End(two);
-           else End(null);
+   if (two == 0 && one > two) End(blue);
+   else if (one == 0 && two > one) End(red);
+   else End(null);
 } 
  
 LeaderBoard.PlayerLeaderBoardValues = [
@@ -88,20 +88,28 @@ Teams.OnPlayerChangeTeam.Add(function (p)
 
 Players.OnPlayerConnected.Add(function (p)
 {	
-   p.Spawns.Spawn(), p.Spawns.Despawn();
+   p.Spawns.Spawn();
+   p.Spawns.Despawn();
    p.Timers.Get('add').Restart(16);
 }); 
 
 Spawns.OnSpawn.Add(function (p) 
 {
-   p.Properties.Immortality.Value = true, 
-   p.Timers.Get('immo').Restart(3);
+   p.Properties.Immortality.Value = true, p.Timers.Get('immo').Restart(3);
 });
 
 Damage.OnDeath.Add(function (p) 
 {
    Update();
    p.Properties.Get('Deaths').Value += 1;
+});
+
+Damage.OnKill.Add(function (p, vic) 
+{
+   if (vic.Team == p.Team) return;
+   Update();
+   p.Properties.Get('Kills').Value += 1;
+   vic.Ui.Hint.Value = 'вас убили на расстоянии ' + (p.PositionIndex - vic.PositionIndex) + ' блоков';
 });
 
 Timers.OnPlayerTimer.Add(function (t) { 
@@ -121,10 +129,10 @@ Timers.OnPlayerTimer.Add(function (t) {
 const Main = function () {
    switch (s.Value) {
        case 'game' : 
-       End();
+       End (null);
        break;
     case 'end': 
-       Game();
+       Game ();
        break;
    }
 }
@@ -136,7 +144,7 @@ main.OnTimer.Add(function () {
 const Game = function ()
 {
    s.Value = 'game';
-   main.Restart(115); 
+   main.Restart (115); 
 }
 
 const End = function (team)
@@ -147,7 +155,7 @@ const End = function (team)
        let e = Players.GetEnumerator();
        while (e.MoveNext()) if (e.Current.Team == team) e.Current.Properties.Get('Scores').Value += 1;
    }
-   main.Restart(10); 
+   main.Restart (10); 
 }
 
 BreackGraph.Damage = false, Prop ({ 
