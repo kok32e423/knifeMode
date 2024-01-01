@@ -62,7 +62,7 @@ const Update = function ()
    if (two == 0 && one > two) End(blue);
    else if (one == 0 && two > one) End(red);
    else End(null);
-} 
+}  
  
 LeaderBoard.PlayerLeaderBoardValues = [
   { Value: 'Kills', ShortDisplayName: '<size=11.9><b>ᴋ</b></size>' },
@@ -101,14 +101,14 @@ Spawns.OnSpawn.Add(function (p)
 
 Damage.OnDeath.Add(function (p) 
 {
-   Update ();
+   Update();
    p.Properties.Get('Deaths').Value += 1;
 });
 
 Damage.OnKill.Add(function (p, k) 
 {
    if (k.Team == p.Team) return;
-   Update ();
+   Update();
    p.Properties.Get('Kills').Value += 1, k.Ui.Hint.Value = p.NickName + 'убил вас с растояния ' + (p.PositionIndex.x - vic.PositionIndex.x + p.PositionIndex.y - vic.PositionIndex.y + p.PositionIndex.z - vic.PositionIndex.z) + ' блоков';
 });
 
