@@ -56,11 +56,12 @@ const Rand = function (min, max) {
 
 const Update = function () 
 {
+   if (s.Value != 'game') return;
    let one = blue.GetAlivePlayersCount(),
    two = red.GetAlivePlayersCount(); 
-   if (two == 0 && one > two) End();
-       else if (one == 0 && two > one) End();
-           else End();
+   if ((two == 0 || s.Value == 'end') && one > two) End();
+       else if ((one == 0 || s.Value == 'end') && two > one) End();
+           else End(), Ui.GetContext().Hint.Value = 'dtaw';
 } 
  
 LeaderBoard.PlayerLeaderBoardValues = [
@@ -88,13 +89,13 @@ Teams.OnPlayerChangeTeam.Add(function (p)
 Players.OnPlayerConnected.Add(function (p)
 {	
    p.Spawns.Spawn(), p.Spawns.Despawn();
-   p.Timers. Get('add').Restart (11);
+   p.Timers.Get('add').Restart(16);
 }); 
 
 Spawns.OnSpawn.Add(function (p) 
 {
    p.Properties.Immortality.Value = true, 
-   p.Timers. Get('immo').Restart (3);
+   p.Timers.Get('immo').Restart(3);
 });
 
 Damage.OnDeath.Add(function (p) 
