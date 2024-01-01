@@ -96,20 +96,20 @@ Players.OnPlayerConnected.Add(function (p)
 Spawns.OnSpawn.Add(function (p) 
 {
    p.Properties.Immortality.Value = true, p.Timers.Get('immo').Restart(3);
+   p.Ui.Hint.Reset();
 });
 
 Damage.OnDeath.Add(function (p) 
 {
-   Update();
+   Update ();
    p.Properties.Get('Deaths').Value += 1;
 });
 
-Damage.OnKill.Add(function (p, vic) 
+Damage.OnKill.Add(function (p, k) 
 {
-   if (vic.Team == p.Team) return;
-   Update();
-   p.Properties.Get('Kills').Value += 1;
-   vic.Ui.Hint.Value = 'вас убили на расстоянии ' + (p.PositionIndex - vic.PositionIndex) + ' блоков';
+   if (k.Team == p.Team) return;
+   Update ();
+   p.Properties.Get('Kills').Value += 1, k.Ui.Hint.Value = p.NickName + 'убил вас с растояния ' + (p.PositionIndex.x - vic.PositionIndex.x + p.PositionIndex.y - vic.PositionIndex.y + p.PositionIndex.z - vic.PositionIndex.z) + ' блоков';
 });
 
 Timers.OnPlayerTimer.Add(function (t) { 
