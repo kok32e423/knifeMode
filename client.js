@@ -61,8 +61,8 @@ const Update = function ()
    two = red.GetAlivePlayersCount();   
    if (two == 0 && one > two) End(blue);
    else if (one == 0 && two > one) End(red);
-   else End(null);
-}  
+   else return End(null);
+}   
  
 LeaderBoard.PlayerLeaderBoardValues = [
   { Value: 'Kills', ShortDisplayName: '<size=11.9><b>ᴋ</b></size>' },
@@ -88,9 +88,7 @@ Teams.OnPlayerChangeTeam.Add(function (p)
 
 Players.OnPlayerConnected.Add(function (p)
 {	
-   p.Spawns.Spawn();
-   p.Spawns.Despawn();
-   p.Timers.Get('add').Restart(16);
+   //
 }); 
 
 Spawns.OnSpawn.Add(function (p) 
@@ -109,7 +107,7 @@ Damage.OnKill.Add(function (p, k)
 {
    if (k.Team == p.Team) return;
    Update();
-   p.Properties.Get('Kills').Value += 1, k.Ui.Hint.Value = p.NickName + 'убил вас с растояния ' + (p.PositionIndex.x - vic.PositionIndex.x + p.PositionIndex.y - vic.PositionIndex.y + p.PositionIndex.z - vic.PositionIndex.z) + ' блоков';
+   p.Properties.Get('Kills').Value += 1, k.Ui.Hint.Value = p.NickName + ' убил вас с растояния ' + (p.PositionIndex.x - k.PositionIndex.x + p.PositionIndex.y - k.PositionIndex.y + p.PositionIndex.z - k.PositionIndex.z) + ' блоков';
 });
 
 Timers.OnPlayerTimer.Add(function (t) { 
