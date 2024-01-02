@@ -106,7 +106,8 @@ Players.OnPlayerConnected.Add(function (p)
 Spawns.OnSpawn.Add(function (p) 
 {
    p.Properties.Immortality.Value = true;
-   p.Timers.Get('immo').Restart (3), p.Ui.Hint.Reset (), p.TeamProp1.Value = { Team: p.Team.Id, Prop: '' };
+   p.Timers.Get('immo').Restart (3), p.Ui.Hint.Reset ();
+   p.TeamProp1.Value = { Team: p.Team.Id, Prop: 0 };
 });
 
 Damage.OnDeath.Add(function (p) 
