@@ -92,10 +92,10 @@ Teams.OnRequestJoinTeam.Add(function (p, t)
    t.Add(p);
 });  
 
-Teams.OnPlayerChangeTeam.Add(function (p, t) 
+Teams.OnPlayerChangeTeam.Add(function (p) 
 {
    if (s.Value == 'end' || found (pidoras, p.Id, '|')) return;
-   p.Spawns.Spawn(), p.TeamProp1.Value = { Team: t.Id, Prop: 'wins' }
+   p.Spawns.Spawn(), p.TeamProp1.Value = { Team: 'blue', Prop: 'wins' }
    Update (p);
 })
 
