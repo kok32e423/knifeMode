@@ -59,7 +59,7 @@ const Update = function (p)
 {
    if (s.Value != 'game') return;
    let count = GetAlivePlayersCount();
-        if (p.Team.count == 0 && p.Team.count > Another(p.Team).GetAlivePlayersCount()) return End (e.Current);
+        if (p.Team.count == 0 && Another(p.Team).GetAlivePlayersCount() > p.Team.count) return End (Another(p.Team));
             else if (p.Team.count == 0 && Another(p.Team).GetAlivePlayersCount() == 0) return End (null);
 }
 
