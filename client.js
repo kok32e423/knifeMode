@@ -89,13 +89,13 @@ red = Add ('red', { up: 'террористы ᵏⁿⁱᶠᵉᵉ', down: '' }, '
 Teams.OnRequestJoinTeam.Add(function (p, t)
 {
    if (s.Value == 'end' || found (pidoras, p.Id, '|')) return;
-   t.Add(p);
+   t.Add (p);
 });  
 
 Teams.OnPlayerChangeTeam.Add(function (p) 
 {
    if (s.Value == 'end' || found (pidoras, p.Id, '|')) return;
-   p.Spawns.Spawn();
+   p.Spawns.Spawn ();
    Update (p);
 })
 
