@@ -58,8 +58,8 @@ const Rand = function (min, max) {
 const Update = function (p) 
 {
    if (s.Value != 'game') return;
-       if (p.Team.GetAlivePlayersCount() == 0 && Another(p.Team).GetAlivePlayersCount() > p.Team.GetAlivePlayersCount()) End (Another(p.Team));
-           else if (p.Team.GetAlivePlayersCount() == 0 && Another(p.Team).GetAlivePlayersCount() == 0) End (null);
+   if (p.Team.GetAlivePlayersCount() == 0 && Another(p.Team).GetAlivePlayersCount() > p.Team.GetAlivePlayersCount()) return End (Another(p.Team));
+   if (p.Team.GetAlivePlayersCount() == 0 && Another(p.Team).GetAlivePlayersCount() == 0) return End (null);
 }
 
 const Another = function (p)
@@ -92,10 +92,11 @@ Teams.OnRequestJoinTeam.Add(function (p, t)
    t.Add(p);
 });  
 
-Teams.OnPlayerChangeTeam.Add(function (p) 
+Teams.OnPlayerChangeTeam.Add(function (p, t) 
 {
    if (s.Value == 'end' || found (pidoras, p.Id, '|')) return;
-   p.Spawns.Spawn();
+   p.Spawns.Spawn(), p.TeamProp1.Value = { Team: t.Id, Prop: 'wins' }
+   Update (p);
 })
 
 Players.OnPlayerConnected.Add(function (p)
@@ -107,7 +108,6 @@ Spawns.OnSpawn.Add(function (p)
 {
    p.Properties.Immortality.Value = true;
    p.Timers.Get('immo').Restart (3), p.Ui.Hint.Reset ();
-   p.TeamProp1.Value = { Team: p.Team.Id, Prop: 'wins' };
 });
 
 Damage.OnDeath.Add(function (p) 
