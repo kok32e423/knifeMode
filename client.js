@@ -168,7 +168,7 @@ const End = function (team)
    s.Value = 'end';
    if (team != null) 
   {
-  	 team.Properties.Get('wins').Value += 1;
+  	 //team.Properties.Get('wins').Value += 1;
        let e = Players.GetEnumerator ();
        while (e.MoveNext ()) if (e.Current.Team == team) e.Current.Properties.Get('Scores').Value += 1;
    }
