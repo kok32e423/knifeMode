@@ -90,6 +90,7 @@ Teams.OnRequestJoinTeam.Add(function (p, t)
 {
    if (s.Value == 'end' || found (pidoras, p.Id, '|')) return;
    t.Add (p);
+   p.Ui.TeamProp2.Value = { Team: t.Id, Prop: 'info' };
 });  
 
 Teams.OnPlayerChangeTeam.Add(function (p) 
@@ -98,6 +99,12 @@ Teams.OnPlayerChangeTeam.Add(function (p)
    p.Spawns.Spawn ();
    Update (p);
 })
+
+Properties.OnPlayerProperty.Add(function (c) 
+{
+   let p = c.Player;
+   p.Team.Properties.Get('info').Value = 'победы ' + p.Team.Properties.Get('wins').Value;
+});
 
 Players.OnPlayerConnected.Add(function (p)
 {	
@@ -108,13 +115,11 @@ Spawns.OnSpawn.Add(function (p)
 {
    p.Properties.Immortality.Value = true;
    p.Timers.Get('immo').Restart (3), p.Ui.Hint.Reset ();
-   p.Ui.TeamProp2.Value = { Team: p.Team.Id, Prop: 'wins' };
 });
 
 Damage.OnDeath.Add(function (p) 
 {
    Update (p), p.Properties.Get('Deaths').Value += 1;
-   p.Ui.Hint.Value = n + 'ожидайте новый раунд.';
 });
 
 Damage.OnKill.Add(function (p, vic) 
