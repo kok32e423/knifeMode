@@ -90,13 +90,12 @@ Teams.OnPlayerChangeTeam.Add(function (p)
 {
    if (s.Value == 'end' || found (pidoras, p.Id, '|')) return;
    p.Spawns.Spawn ();
-   Update (p);
 })
 
 Properties.OnPlayerProperty.Add(function (c) 
 {
    let p = c.Player;
-   p.Team.Properties.Get('info').Value = 'победы ' + p.Team.Properties.Get('wins').Value;
+   p.Team.Properties.Get('info').Value = 'ᶻᵛᵃⁿⁱᵉ ' + p.Team.Properties.Get('wins').Value;
 });
 
 Players.OnPlayerConnected.Add(function (p)
