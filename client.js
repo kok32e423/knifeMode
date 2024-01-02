@@ -180,4 +180,4 @@ BreackGraph.Damage = false, prop ({
 });
 
 Game ();
-ContextedProperties.GetContext ().MaxHp.Value = 35;
+//ContextedProperties.GetContext().MaxHp.Value = 35;
