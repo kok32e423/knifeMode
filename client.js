@@ -92,10 +92,14 @@ Teams.OnPlayerChangeTeam.Add(function (p)
    p.Spawns.Spawn ();
 })
 
-Properties.OnPlayerProperty.Add(function (c) 
+Properties.OnPlayerProperty.Add(function (c, v) 
 {
    let p = c.Player;
-   p.Team.Properties.Get('info').Value = 'ᶻᵛᵃⁿⁱᵉ ' + p.Team.Properties.Get('wins').Value;
+   switch (v. Name) {
+     case 'info' :
+       p.Team.Properties.Get('info').Value = 'звание: говноед\nwins: ' + p.Team.Properties.Get('wins').Value + ', kills: ' + p.Team.Properties.Get('kills').Value;
+       break;
+   }
 });
 
 Players.OnPlayerConnected.Add(function (p)
