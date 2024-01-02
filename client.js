@@ -104,7 +104,7 @@ Players.OnPlayerConnected.Add(function (p)
 Spawns.OnSpawn.Add(function (p) 
 {
    p.Properties.Immortality.Value = true;
-   p.Timers.Get('immo').Restart (3), p.Ui.Hint.Reset (); //p.TeamProp1.Value = { Team: p.Team.Id, Prop: '' };
+   p.Timers.Get('immo').Restart (3), p.Ui.Hint.Reset (), p.TeamProp1.Value = { Team: p.Team.Id, Prop: '' };
 });
 
 Damage.OnDeath.Add(function (p) 
@@ -168,7 +168,7 @@ const End = function (team)
    s.Value = 'end';
    if (team != null) 
   {
-  	 //team.Properties.Get('wins').Value += 1;
+  	 team.Properties.Get('wins').Value += 1;
        let e = Players.GetEnumerator ();
        while (e.MoveNext ()) if (e.Current.Team == team) e.Current.Properties.Get('Scores').Value += 1;
    }
