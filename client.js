@@ -55,15 +55,18 @@ const Rand = function (min, max) {
    return Math.floor(Math.random() * (max - min + 1)) + min; 
 }
 
-const Update = function () 
+const Update = function (p) 
 {
-   if (s.Value != 'game') return;
-   let e = Teams.GetEnumerator(),
-   count = e.Current.GetAlivePlayersCount();
-   while (e.MoveNext ()) {
-      if (count == 0 && count > count) return End (e.Current);
-          else if (count == 0) return End (null);
-   }
+   if (s.Value == 'game') return;
+   let count = GetAlivePlayersCount();
+        if (p.Team.count == 0 && p.Team.count > Another(p.Team).GetAlivePlayersCount()) return End (e.Current);
+            else if (p.Team.count == 0 && Another(p.Team).GetAlivePlayersCount() == 0) return End (null);
+}
+
+const Another = function (p)
+{
+   if (p.Team == blue) return red;
+   else return blue;
 }
 
 const Spawn = function () 
@@ -107,7 +110,7 @@ Spawns.OnSpawn.Add(function (p)
 
 Damage.OnDeath.Add(function (p) 
 {
-   Update (), p.Properties.Get('Deaths').Value += 1;
+   Update (p), p.Properties.Get('Deaths').Value += 1;
 });
 
 Damage.OnKill.Add(function (p, vic) 
@@ -120,7 +123,7 @@ Damage.OnKill.Add(function (p, vic)
 
 Players.OnPlayerDisconnected.Add(function (p) 
 {
-   Update ();
+   Update (p);
 }); 
 
 Timers.OnPlayerTimer.Add(function (t) { 
