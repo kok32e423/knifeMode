@@ -44,13 +44,6 @@ const Color = function (hex)
    };
 }
 
-properties.forEach(function (index) { 
-   let e = Teams.GetEnumerator();
-   while (e.MoveNext ()) {
-       e.Current.Properties.Get(index[0]).Value = index[1];
-   }
-});
-
 const Rand = function (min, max) {
    return Math.floor(Math.random() * (max - min + 1)) + min; 
 }
@@ -190,3 +183,10 @@ BreackGraph.Damage = false, prop ({
 });
 
 Game ();
+
+properties.forEach(function (index) { 
+   let e = Teams.GetEnumerator();
+   while (e.MoveNext ()) {
+       e.Current.Properties.Get(index[0]).Value = index[1];
+   }
+});
