@@ -57,7 +57,7 @@ const Rand = function (min, max) {
 
 const Update = function (p) 
 {
-   if (s.Value == 'game') return;
+   if (s.Value != 'game') return;
    let count = GetAlivePlayersCount();
         if (p.Team.count == 0 && p.Team.count > Another(p.Team).GetAlivePlayersCount()) return End (e.Current);
             else if (p.Team.count == 0 && Another(p.Team).GetAlivePlayersCount() == 0) return End (null);
