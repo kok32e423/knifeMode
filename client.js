@@ -46,7 +46,7 @@ const Color = function (hex)
 
 properties.forEach(function (index) { 
    let e = Teams.GetEnumerator();
-   while (e.MoveNext()) {
+   while (e.MoveNext ()) {
        e.Current.Properties.Get(index[0]).Value = index[1];
    }
 });
@@ -58,16 +58,18 @@ const Rand = function (min, max) {
 const Update = function () 
 {
    if (s.Value != 'game') return;
-   let one = blue.GetAlivePlayersCount (),
-   two = red.GetAlivePlayersCount ();      
-   if (two == 0 && one > two) End (blue);
-   else if (one == 0 && two > one) End (red);
-}   
+   let e = Teams.GetEnumerator(),
+   count = e.Current.GetAlivePlayersCount();
+   while (e.MoveNext ()) {
+      if (count == 0 && count > count) return End (e.Current);
+          else if (count == 0) return End (null);
+   }
+}
 
 const Spawn = function () 
 {
    let e = Teams.GetEnumerator ();
-   while (e.MoveNext()) e.Current.Spawns.Spawn();
+   while (e.MoveNext ()) e.Current.Spawns.Spawn();
 }
  
 LeaderBoard.PlayerLeaderBoardValues = [
@@ -76,20 +78,20 @@ LeaderBoard.PlayerLeaderBoardValues = [
 ];
 
 ui.MainTimerId.Value = main.Id;
-
+  
 const blue = Add ('blue', { up: 'спецназовцы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#476AEC', 1),
 red = Add ('red', { up: 'террористы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#FE5757', 2);
 
 Teams.OnRequestJoinTeam.Add(function (p, t)
 {
-   if (found (pidoras, p.Id, '|') || s.Value == 'end') return;
-   else t.Add(p);
+   if (s.Value == 'end' || found (pidoras, p.Id, '|')) return;
+   t.Add(p);
 });  
 
 Teams.OnPlayerChangeTeam.Add(function (p) 
 {
-   if (found (pidoras, p.Id, '|') || s.Value == 'end') return;
-   else p.Spawns.Spawn();
+   if (s.Value == 'end' || found (pidoras, p.Id, '|')) return;
+   p.Spawns.Spawn();
 })
 
 Players.OnPlayerConnected.Add(function (p)
@@ -111,11 +113,10 @@ Damage.OnDeath.Add(function (p)
 Damage.OnKill.Add(function (p, vic) 
 {
    if (vic.Team == p.Team) return;
-   Update ();
    pos = p.PositionIndex.x - vic.PositionIndex.x + p.PositionIndex.y - vic.PositionIndex.y + p.PositionIndex.z - vic.PositionIndex.z;
    if (pos != 0) vic.Ui.Hint.Value = p.NickName + ' убил вас с расстояния ' + Math.abs (pos) + ' блоков!';
-   p.Properties.Get('Kills').Value += 1;   
-}); 
+   p.Properties.Get('Kills').Value += 1;  
+});  
 
 Players.OnPlayerDisconnected.Add(function (p) 
 {
@@ -130,8 +131,8 @@ Timers.OnPlayerTimer.Add(function (t) {
        break;
        case 'add' :
        if (blue.Count > red.Count) red.Add(p); 
-         else if (red.Count > blue.Count) blue.Add(p);
-            else return red.Add(p);
+          else if (red.Count > blue.Count) blue.Add(p);
+             else return red.Add(p);
        break;     
    }
 }); 
@@ -157,7 +158,7 @@ const Game = function ()
    sp.Despawn ();
    Spawn ();
    main.Restart (115); 
-}
+} 
 
 const End = function (team)
 {
@@ -165,7 +166,7 @@ const End = function (team)
    if (team != null) 
   {
        let e = Players.GetEnumerator();
-       while (e.MoveNext()) if (e.Current.Team == team) e.Current.Properties.Get('Scores').Value += 1;
+       while (e.MoveNext ()) if (e.Current.Team == team) e.Current.Properties.Get('Scores').Value += 1;
    }
    main.Restart (10); 
 }
