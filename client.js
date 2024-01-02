@@ -103,8 +103,8 @@ Players.OnPlayerConnected.Add(function (p)
 
 Spawns.OnSpawn.Add(function (p) 
 {
-   p.Properties.Immortality.Value = true, p.Timers.Get('immo').Restart (3);
-   p.Ui.Hint.Reset ();
+   p.Properties.Immortality.Value = true;
+   p.Timers.Get('immo').Restart (3), p.Ui.Hint.Reset (), p.TeamProp1.Value = { Team: p.Team.Id, Prop: '' };
 });
 
 Damage.OnDeath.Add(function (p) 
@@ -118,6 +118,7 @@ Damage.OnKill.Add(function (p, vic)
    pos = p.PositionIndex.x - vic.PositionIndex.x + p.PositionIndex.y - vic.PositionIndex.y + p.PositionIndex.z - vic.PositionIndex.z;
    if (pos != 0) vic.Ui.Hint.Value = p.NickName + ' убил вас с расстояния ' + Math.abs (pos) + ' блоков!';
    p.Properties.Get('Kills').Value += 1;  
+   p.Team.Properties.Get('kills').Value += 1;  
 });  
 
 Players.OnPlayerDisconnected.Add(function (p) 
@@ -167,7 +168,8 @@ const End = function (team)
    s.Value = 'end';
    if (team != null) 
   {
-       let e = Players.GetEnumerator();
+  	 team.Properties.Get('wins').Value += 1;
+       let e = Players.GetEnumerator ();
        while (e.MoveNext ()) if (e.Current.Team == team) e.Current.Properties.Get('Scores').Value += 1;
    }
    main.Restart (10); 
