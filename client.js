@@ -28,7 +28,7 @@ const found = function (string, identifier, separator) {
 const s = Properties.GetContext().Get('state'), main = Timers.GetContext().Get('main'), ui = Ui.GetContext(), sp = Spawns.GetContext();
 sp.RespawnEnable = false;
 
-const Prop = function (par) 
+const prop = function (par) 
 { 
    par.type.forEach(function (index) { par.context[index].Value = par.bool; }); 
 }
@@ -175,7 +175,7 @@ const End = function (team)
    main.Restart (10); 
 }
 
-BreackGraph.Damage = false, Prop ({ 
+BreackGraph.Damage = false, prop ({ 
    context: Inventory.GetContext(), type: ['Main', 'Secondary', 'Explosive', 'Build'], bool: false 
 });
 
