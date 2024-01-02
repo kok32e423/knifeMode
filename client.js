@@ -73,6 +73,8 @@ const Spawn = function ()
    let e = Teams.GetEnumerator ();
    while (e.MoveNext ()) e.Current.Spawns.Spawn();
 }
+
+ContextedProperties.GetContext().MaxHp.Value = 35;
  
 LeaderBoard.PlayerLeaderBoardValues = [
   { Value: 'Kills', ShortDisplayName: '<size=11.9><b>ᴋ</b></size>' },
@@ -180,4 +182,3 @@ BreackGraph.Damage = false, prop ({
 });
 
 Game ();
-//ContextedProperties.GetContext().MaxHp.Value = 35;
