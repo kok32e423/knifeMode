@@ -95,7 +95,7 @@ Teams.OnPlayerChangeTeam.Add(function (p)
 Properties.OnPlayerProperty.Add(function (c, v) 
 {
    let p = c.Player;
-   p.Team.Properties.Get('info').Value = 'rank: поопо, wins: ' + p.Team.Properties.Get('wins').Value + ', kills: ' + p.Team.Properties.Get('kills').Value;
+   p.Team.Properties.Get('info').Value = 'звание: говноед, wins: ' + p.Team.Properties.Get('wins').Value + ', kills: ' + p.Team.Properties.Get('kills').Value;
 });
 
 Players.OnPlayerConnected.Add(function (p)
@@ -170,7 +170,7 @@ const End = function (team)
    s.Value = 'end';
    if (team != null) 
    {
-  	 tm.Properties.Get('wins').Value += 1;
+  	 team.Properties.Get('wins').Value += 1;
        let e = Players.GetEnumerator ();
        while (e.MoveNext ()) if (e.Current.Team == team) e.Current.Properties.Get('Scores').Value += 1;
    }
