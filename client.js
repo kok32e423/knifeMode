@@ -94,8 +94,8 @@ Teams.OnPlayerChangeTeam.Add(function (p)
 
 Properties.OnPlayerProperty.Add(function (c, v) 
 {
-   let p = c.Player;
-   p.Team.Properties.Get('info').Value = 'звание: говноед, wins: ' + p.Team.Properties.Get('wins').Value + ', kills: ' + p.Team.Properties.Get('kills').Value;
+   let p = c.Player; 
+   v.Name != 'info' ? p.Team.Properties.Get('info').Value = 'звание: говноед, wins: ' + p.Team.Properties.Get('wins').Value + ', kills: ' + p.Team.Properties.Get('kills').Value : '';
 });
 
 Players.OnPlayerConnected.Add(function (p)
@@ -129,8 +129,10 @@ Players.OnPlayerDisconnected.Add(function (p)
 }); 
 
 Timers.OnPlayerTimer.Add(function (t) { 
-   p = t.Player;
-   switch (t.Id) {
+   let p = t.Player,
+   id = t.Id;
+   
+   switch (id) {
    	case 'immo' :
        p.Properties.Immortality.Value = false; 
        break;
@@ -162,7 +164,8 @@ const Game = function ()
    s.Value = 'game';
    sp.Despawn ();
    Spawn ();
-   main.Restart (115); 
+   ui.Hint.Reset ();
+   main.Restart (11); 
 } 
 
 const End = function (team)
@@ -170,10 +173,11 @@ const End = function (team)
    s.Value = 'end';
    if (team != null) 
    {
-  	 team.Properties.Get('wins').Value += 1;
-       let e = Players.GetEnumerator ();
-       while (e.MoveNext ()) if (e.Current.Team == team) e.Current.Properties.Get('Scores').Value += 1;
+ 	 team.Properties.Get('wins').Value += 1;
+      let e = Players.GetEnumerator ();
+      while (e.MoveNext ()) if (e.Current.Team == team) e.Current.Properties.Get('Scores').Value += 1;
    }
+   else ui.Hint.Value = n + '..:: ничья! ::..';
    main.Restart (10); 
 }
 
