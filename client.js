@@ -101,7 +101,7 @@ Properties.OnPlayerProperty.Add(function (c, v)
    let p = c.Player, 
    nam = v.Name; 
    if (nam != 'info1') p.Team.Properties.Get('info1').Value = '<color=#FFFFFF>  Звание: ' + p.Properties.Get('rank').Value + '  ' + n + '' + n + '   level: ' + p.Properties.Get('level').Value + ', exp: ' + p.Properties.Get('experience').Value + ' <size=58.5>/ ' + p.Properties.Get('next').Value  + '</size></color>  '; // ------------------------
-   if (nam != 'experience' && p.Properties.Get('experience').Value>= p.Properties.Get('next').Value) p.Properties.Get('level').Value += 1, p.Properties.Get('next').Value += 25;
+   if (nam != 'experience' && p.Properties.Get('experience').Value> p.Properties.Get('next').Value) p.Properties.Get('level').Value += 1, p.Properties.Get('next').Value += 25;
 });
 
 Spawns.OnSpawn.Add(function (p) 
