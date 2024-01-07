@@ -85,10 +85,6 @@ red = Add ('red', { up: 'террористы ᵏⁿⁱᶠᵉᵉ', down: '' }, '
 Teams.OnRequestJoinTeam.Add(function (p, t)
 {
    if (found (pidoras, p.Id, '|')) return p.Ui.Hint.Value = 'ты забанен.';   
-   else 
-   p_props. forEach(function (name) {
-       if (p.Properties.Get(name).Value == null) p.Properties.Get(name).Value = name == 'exp' ? 0 : 1; 
-   }),
    t.Add (p); 
 });  
 
@@ -101,12 +97,14 @@ Teams.OnPlayerChangeTeam.Add(function (p)
 Properties.OnPlayerProperty.Add(function (c, v) 
 {
    let p = c.Player, 
-   nam = v.Name; if (nam != 'info1') p.Team.Properties.Get('info1').Value = '<color=#FFFFFF>  Звание: новичёк  ' + n + '' + n + '   level: ' + p.Properties.Get('level').Value + ', <color=#d9fff7>exp: ' + p.Properties.Get('experience').Value + ' <size=58.5>/ 25</size></color></color>  '; // ------------------------
+   nam = v.Name; if (nam != 'info1') p.Team.Properties.Get('info1').Value = '<color=#FFFFFF>  Звание: новичёк  ' + n + '' + n + '   level: ' + p.Properties.Get('level').Value + ', exp: ' + p.Properties.Get('exp').Value + ' <size=58.5>/ 25</size></color>  '; // ------------------------
 });
 
 Spawns.OnSpawn.Add(function (p) 
 {
    p.Properties.Immortality.Value = true;
+   if (p.Properties.Get('exp').Value == null) p.Properties.Get('exp').Value = 0; 
+   if (p.Properties.Get('level').Value == null) p.Properties.Get('level').Value = 1; 
    p.Timers.Get('immo').Restart (3), p.Ui.Hint.Reset (), p.Ui.TeamProp2.Value = { Team: p.Team.Id, Prop: 'info1' };
 });
 
