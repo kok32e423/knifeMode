@@ -26,7 +26,7 @@ const found = function (string, identifier, separator) {
 }
 
 const s = Properties.GetContext().Get('state'), main = Timers.GetContext().Get('main'), ui = Ui.GetContext(), sp = Spawns.GetContext(), p_props = [ 
-   ['next', 35],
+   ['next', 25],
    ['experience', 0],
    ['level', 1],
    ['rank', 'новичёк']
@@ -101,6 +101,7 @@ Properties.OnPlayerProperty.Add(function (c, v)
    let p = c.Player, 
    nam = v.Name; 
    if (nam != 'info1') p.Team.Properties.Get('info1').Value = '<color=#FFFFFF>  Звание: ' + p.Properties.Get('rank').Value + '  ' + n + '' + n + '   level: ' + p.Properties.Get('level').Value + ', exp: ' + p.Properties.Get('experience').Value + ' <size=58.5>/ ' + p.Properties.Get('next').Value  + '</size></color>  '; // ------------------------
+   if (nam != 'experience' && p.Properties.Get('experience').Value>= p.Properties.Get('next').Value) p.Properties.Get('level').Value += 1, p.Properties.Get('next').Value += 25;
 });
 
 Spawns.OnSpawn.Add(function (p) 
@@ -109,7 +110,7 @@ Spawns.OnSpawn.Add(function (p)
    p.Timers.Get('immo').Restart(3);
    p.Ui.Hint.Reset();
    p.Ui.TeamProp2.Value = { Team: p.Team.Id, Prop: 'info1' };
-   p_props.forEach(function (cur) { p.Properties.Get(cur[0]).Value = cur[1] });
+   p_props.forEach(function (cur) { if (p.Properties.Get(cur[0]).Value == null) p.Properties.Get(cur[0]).Value = cur[1] });
 });
 
 Damage.OnDeath.Add(function (p) 
@@ -123,6 +124,7 @@ Damage.OnKill.Add(function (p, vic)
    pos = p.PositionIndex.x - vic.PositionIndex.x + p.PositionIndex.y - vic.PositionIndex.y + p.PositionIndex.z - vic.PositionIndex.z;
    if (pos != 0) vic.Ui.Hint.Value = p.NickName + ' убил вас с расстояния ' + Math.abs (pos) + ' блоков!';
    p.Properties.Get('Kills').Value += 1;  
+   p.Properties.Get('experience').Value += Rand(1, 4);  
    p.Team.Properties.Get('kills').Value += 1;  
 });  
 
