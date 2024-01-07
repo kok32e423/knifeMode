@@ -109,7 +109,7 @@ Spawns.OnSpawn.Add(function (p)
    p.Timers.Get('immo').Restart(3);
    p.Ui.Hint.Reset();
    p.Ui.TeamProp2.Value = { Team: p.Team.Id, Prop: 'info1' };
-   p_props.forEach(function (cur) { if (p.Properties.Get(cur[0]).Value == null) p.Properties.Get(cur[0]).Value = cur[1] });
+   P_PROPS.forEach(function (cur) { if (p.Properties.Get(cur[0]).Value == null) p.Properties.Get(cur[0]).Value = cur[1] });
 });
 
 Damage.OnDeath.Add(function (p) 
