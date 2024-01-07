@@ -1,5 +1,5 @@
 TeamsBalancer.IsAutoBalance = true;
-const n = '\n', properties = [
+const n = '\n', PROPERTIES = [
    ['wins', 0], ['looses', 0]
 ], 
 pidoras = 'C002224F3666744D|596D1288BD7F8CF7|C925816BE50844A9|9B94CBC25664BD6D|2F665AF97FA6F0EF|E24BE3448F7DF371|CBCE0678C099C56E';
@@ -25,7 +25,7 @@ const found = function (string, identifier, separator) {
    }  
 }
 
-const s = Properties.GetContext().Get('state'), main = Timers.GetContext().Get('main'), ui = Ui.GetContext(), sp = Spawns.GetContext(), p_props = [ 
+const s = Properties.GetContext().Get('state'), main = Timers.GetContext().Get('main'), ui = Ui.GetContext(), sp = Spawns.GetContext(), P_PROPS = [ 
    ['next', 25],
    ['experience', 0],
    ['level', 1],
@@ -100,8 +100,7 @@ Properties.OnPlayerProperty.Add(function (c, v)
 {
    let p = c.Player, 
    nam = v.Name; 
-   if (nam != 'info1') p.Team.Properties.Get('info1').Value = '<color=#FFFFFF>  Звание: ' + p.Properties.Get('rank').Value + '  ' + n + '' + n + '   level: ' + p.Properties.Get('level').Value + ', exp: ' + p.Properties.Get('experience').Value + ' <size=58.5>/ ' + p.Properties.Get('next').Value  + '</size></color>  '; // ------------------------
-   if (nam != 'experience' && p.Properties.Get('experience').Value> p.Properties.Get('next').Value) p.Properties.Get('level').Value += 1, p.Properties.Get('next').Value += 25;
+   if (nam != 'info1') p.Properties.Get('info1' ).Value = '<color=#FFFFFF>  Звание: ' + p.Properties.Get('rank').Value + '  ' + n + '' + n + '   level: ' + p.Properties.Get('level').Value + ', exp: ' + p.Properties.Get('experience').Value + ' <size=58.5>/ ' + p.Properties.Get('next').Value  + '</size></color>  '; // ------------------------
 });
 
 Spawns.OnSpawn.Add(function (p) 
@@ -189,7 +188,7 @@ Game ();
 
 
 
-properties.forEach(function (index) { 
+PROPERTIES.forEach(function (index) { 
    let e = Teams.GetEnumerator();
    while (e.MoveNext ()) {
        e.Current.Properties.Get(index[0]).Value = index[1];
