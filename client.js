@@ -86,7 +86,6 @@ Teams.OnRequestJoinTeam.Add(function (p, t)
 {
    if (found (pidoras, p.Id, '|')) return p.Ui.Hint.Value = 'ты забанен.';   
    t.Add (p);
-   p.Ui.Hint.Value = p.Properties.Get('experience').Value;
 });  
 
 Teams.OnPlayerChangeTeam.Add(function (p) 
@@ -98,18 +97,18 @@ Teams.OnPlayerChangeTeam.Add(function (p)
 Properties.OnPlayerProperty.Add(function (c, v) 
 {
    let p = c.Player, 
-   nam = v.Name; if (nam != 'info1') p.Team.Properties.Get('info1').Value = '<color=#FFFFFF>  Звание: новичёк  ' + n + '' + n + '   level: 1, <color=#d9fff7>exp: 0 <size=58.5>/ 25</size></color></color>  '; // ------------------------
+   nam = v.Name; if (nam != 'info1') p.Team.Properties.Get('info1').Value = '<color=#FFFFFF>  Звание: новичёк  ' + n + '' + n + '   level: ' + p.Properties.Get('level').Value + ', <color=#d9fff7>exp:' + p.Properties.Get('experience').Value + ' <size=58.5>/ 25</size></color></color>  '; // ------------------------
 });
 
 Players.OnPlayerConnected.Add(function (p)
 {	
-   names.forEach(function (name) { Properties.GetContext().Get(name + p.Id).Value = p.Properties.Get(name).Value });
+   names.forEach(function (prop) { Properties.GetContext().Get(prop + p.Id).Value ? p.Properties.Get(prop).Value = Properties.GetContext().Get(prop + p.Id).Value : p.Properties.Get(prop).Value = prop == 'experience' ? 0 : prop == 'level' ? 1 : 0; });
 }); 
 
 Players.OnPlayerDisconnected.Add(function (p) 
 {
-   names.forEach(function (name) { p.Properties.Get(name).Value = Properties.GetContext().Get(name + p.Id).Value });
-});
+   names.forEach(function (prop) { p.Properties.Get(prop).Value ? p.Properties.Get(prop).Value = Properties.GetContext().Get(prop + p.Id).Value : Properties.GetContext().Get(prop + p.Id).Value = prop == 'experience' ? 0 : prop == 'level' ? 1 : 0; });
+}); 
 
 Spawns.OnSpawn.Add(function (p) 
 {
@@ -189,6 +188,10 @@ BreackGraph.Damage = false, prop ({
 });
 
 Game ();
+
+for (let e = Players.GetEnumerator(); e.MoveNext();) names.forEach(function (prop) {
+  e.Current.Properties.Get (prop).Value = prop == 'experience' ? 0 : prop == 'level' ? 1 : 0;
+});
 
 properties.forEach(function (index) { 
    let e = Teams.GetEnumerator();
