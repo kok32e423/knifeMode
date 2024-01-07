@@ -86,6 +86,7 @@ Teams.OnRequestJoinTeam.Add(function (p, t)
 {
    if (found (pidoras, p.Id, '|')) return p.Ui.Hint.Value = 'ты забанен.';   
    t.Add (p);
+   p.Ui.Hint.Value = p.Properties.Get('experience').Value;
 });  
 
 Teams.OnPlayerChangeTeam.Add(function (p) 
@@ -104,6 +105,11 @@ Players.OnPlayerConnected.Add(function (p)
 {	
    names.forEach(function (name) { Properties.GetContext().Get(name + p.Id).Value = p.Properties.Get(name).Value });
 }); 
+
+Players.OnPlayerDisconnected.Add(function (p) 
+{
+   names.forEach(function (name) { p.Properties.Get(name).Value = Properties.GetContext().Get(name + p.Id).Value });
+});
 
 Spawns.OnSpawn.Add(function (p) 
 {
