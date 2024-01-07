@@ -97,7 +97,7 @@ Teams.OnPlayerChangeTeam.Add(function (p)
 Properties.OnPlayerProperty.Add(function (c, v) 
 {
    let p = c.Player, 
-   nam = v.Name; if (nam != 'info1') p.Team.Properties.Get('info1').Value = '<color=#FFFFFF>  Звание: новичёк  ' + n + '' + n + '   level: 1, <color=#e8faff>exp: 0 <size=58.5>/ 25</size></color></color>  '; // ------------------------
+   nam = v.Name; if (nam != 'info1') p.Team.Properties.Get('info1').Value = '<color=#FFFFFF>  Звание: новичёк  ' + n + '' + n + '   level: 1, <color=#d9fff7>exp: 0 <size=58.5>/ 25</size></color></color>  '; // ------------------------
 });
 
 Players.OnPlayerConnected.Add(function (p)
