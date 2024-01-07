@@ -221,7 +221,9 @@ const End = function (team)
    main.Restart (10); 
 } 
 
-BreackGraph.Damage = false;
+BreackGraph.Damage = false, prop ({ 
+   context: Inventory.GetContext(), type: ['Main', 'Secondary', 'Explosive', 'Build'], bool: false 
+});
 Game ();
 
 properties.forEach(function (index) { 
