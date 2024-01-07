@@ -85,6 +85,8 @@ red = Add ('red', { up: 'террористы ᵏⁿⁱᶠᵉᵉ', down: '' }, '
 Teams.OnRequestJoinTeam.Add(function (p, t)
 {
    if (found (pidoras, p.Id, '|')) return p.Ui.Hint.Value = 'ты забанен.';   
+   if (p.Properties.Get('level').Value == null) p.Properties.Get('level').Value = 1; 
+   if (p.Properties.Get('experience').Value == null ) p.Properties.Get('experience').Value = 0; 
    t.Add (p);
 });  
 
@@ -92,8 +94,6 @@ Teams.OnPlayerChangeTeam.Add(function (p)
 {
    p.Spawns.Spawn ();
    if (s.Value == 'end') p.Spawns.Despawn ();
-   p.Properties.Get('level').Value = 1; 
-   p.Properties.Get('experience').Value = 0; 
 })
 
 Properties.OnPlayerProperty.Add(function (c, v) 
