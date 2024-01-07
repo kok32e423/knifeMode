@@ -91,14 +91,14 @@ Teams.OnRequestJoinTeam.Add(function (p, t)
 
 Teams.OnPlayerChangeTeam.Add(function (p) 
 {
+   if (s.Value == 'end') return;
    p.Spawns.Spawn ();
-   if (s.Value == 'end') p.Spawns.Despawn ();
 })
 
 Properties.OnPlayerProperty.Add(function (c, v) 
 {
    let p = c.Player, 
-   nam = v.Name; if (nam != 'info1') p.Team.Properties.Get('info1').Value = '<color=#FFFFFF>  Звание: новичёк  ' + n + '' + n + '   level: ' + p.Properties.Get('level').Value + ', exp: ' + p.Properties.Get('next').Value + ' <size=58.5>/ ' + p.Properties.Get('experience').Value  + '</size></color>  '; // ------------------------
+   nam = v.Name; if (nam != 'info1') p.Team.Properties.Get('info1').Value = '<color=#FFFFFF>  Звание: новичёк  ' + n + '' + n + '   level: ' + p.Properties.Get('level').Value + ', exp: ' + p.Properties.Get('experience').Value + ' <size=58.5>/ ' + p.Properties.Get('next').Value  + '</size></color>  '; // ------------------------
 });
 
 Spawns.OnSpawn.Add(function (p) 
@@ -160,7 +160,7 @@ const Game = function ()
    s.Value = 'game';
    sp.Despawn ();
    Spawn ();
-   main.Restart (5); 
+   main.Restart (115); 
 } 
 
 const End = function (team)
