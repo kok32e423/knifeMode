@@ -100,16 +100,6 @@ Properties.OnPlayerProperty.Add(function (c, v)
    nam = v.Name; if (nam != 'info1') p.Team.Properties.Get('info1').Value = '<color=#FFFFFF>  Звание: новичёк  ' + n + '' + n + '   level: ' + p.Properties.Get('level').Value + ', <color=#d9fff7>exp: ' + p.Properties.Get('experience').Value + ' <size=58.5>/ 25</size></color></color>  '; // ------------------------
 });
 
-Players.OnPlayerConnected.Add(function (p)
-{	
-   names.forEach(function (cur) { Properties.GetContext().Get(cur + p.Id).Value ? p.Properties.Get(cur).Value = Properties.GetContext().Get(cur + p.Id).Value : p.Properties.Get(cur).Value = cur == 'experience' ? 0 : cur == 'level' ? 1 : 0 });
-}); 
-
-Players.OnPlayerDisconnected.Add(function (p) 
-{
-   names.forEach(function (cur) { p.Properties.Get(cur).Value ? p.Properties.Get(cur).Value = Properties.GetContext().Get(cur + p.Id).Value : Properties.GetContext().Get(cur + p.Id).Value = cur == 'experience' ? 0 : cur == 'level' ? 1 : 0 });
-}); 
-
 Spawns.OnSpawn.Add(function (p) 
 {
    p.Properties.Immortality.Value = true;
