@@ -25,7 +25,7 @@ const found = function (string, identifier, separator) {
    }  
 }
 
-const s = Properties.GetContext().Get('state'), main = Timers.GetContext().Get('main'), ui = Ui.GetContext(), sp = Spawns.GetContext();
+const s = Properties.GetContext().Get('state'), main = Timers.GetContext().Get('main'), ui = Ui.GetContext(), sp = Spawns.GetContext(), draw = n + 'никто не победил.';
 sp.RespawnEnable = false;
 
 const prop = function (par) 
@@ -67,12 +67,6 @@ const Spawn = function ()
    while (e.MoveNext ()) e.Current.Spawns.Spawn();
 }
 
-const Frezee = function () 
-{
-   let e = Players.GetEnumerator ();
-   while (e.MoveNext ()) e.Current.Position = e.Current.Position;
-}
-
 contextedProperties.GetContext().MaxHp.Value = 35;
  
 LeaderBoard.PlayerLeaderBoardValues = [
@@ -99,8 +93,7 @@ Teams.OnPlayerChangeTeam.Add(function (p)
 
 Properties.OnPlayerProperty.Add(function (c, v) 
 {
-   let p = c.Player, 
-   name = v.Name;
+   let p = c.Player, name = v.Name;
    if (name != 'info1') p.Team.Properties.Get('info1').Value = '<color=#FFFFFF>  Звание: новичёк  ' + n + '' + n + '   level: 1, exp: 0 <size=58.5>/ 25</size></color>  '; // ------------------------
 });
 
@@ -163,19 +156,19 @@ main.OnTimer.Add(function () {
 const Game = function ()
 {
    s.Value = 'game';
-   ui.Hint.Reset ();
-   //for (let e = Teams.GetEnumerator(); e.MoveNext();) if (e.Current != null) e.Current.Ui.Hint.Reset (); 
-   sp.Despawn ();
-   Spawn ();
+   red.Ui.Hint.Reset (), blue.Ui.Hint.Reset (), ui.Hint.Reset ();
+   sp.Despawn (), Spawn ();
    main.Restart (5); 
 } 
 
 const End = function (team)
 {
-   s.Value = 'end';
-   ui.Hint.Value = '<b>end..</b>';
-   main.Restart (10); 
+   s.Value = 'end'; 
+   blue.Ui.Hint.Value = draw;
+   red.Hint.Value = draw;
+   ui.Hint.Value = '<b>конец раунда.</b>';
    if (team != null) team.Properties.Get('wins').Value += 1; for (let e = Players.GetEnumerator(); e.MoveNext();) if (e.Current.Team == team) e.Current.Properties.Get('Scores').Value += 1;
+   main.Restart (10); 
 } 
 
 BreackGraph.Damage = false, prop ({ 
