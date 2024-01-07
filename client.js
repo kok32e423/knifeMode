@@ -171,7 +171,7 @@ const Game = function ()
    sp.Despawn ();
    Spawn ();
    ui.Hint.Reset ();
-   main.Restart (115); 
+   main.Restart (5); 
 } 
 
 const End = function (team)
