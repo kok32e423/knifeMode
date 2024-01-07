@@ -85,11 +85,10 @@ Teams.OnRequestJoinTeam.Add(function (p, t)
    t.Add (p);
 });  
 
-Teams.OnPlayerChangeTeam.Add(function (p, t) 
+Teams.OnPlayerChangeTeam.Add(function (p) 
 {
    if (s.Value == 'end' || found (pidoras, p.Id, '|')) return;
    p.Spawns.Spawn ();
-   p.Ui.TeamProp2.Value = { Team: t.Id, Prop: 'info1' };
 })
 
 Properties.OnPlayerProperty.Add(function (c, v) 
@@ -107,7 +106,7 @@ Players.OnPlayerConnected.Add(function (p)
 Spawns.OnSpawn.Add(function (p) 
 {
    p.Properties.Immortality.Value = true;
-   p.Timers.Get('immo').Restart (3), p.Ui.Hint.Reset ();
+   p.Timers.Get('immo').Restart (3), p.Ui.Hint.Reset (), p.Ui.TeamProp2.Value = { Team: p.Team.Id, Prop: 'info1' };
 });
 
 Damage.OnDeath.Add(function (p) 
