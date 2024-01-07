@@ -83,7 +83,7 @@ Teams.OnRequestJoinTeam.Add(function (p, t)
 {
    if (s.Value == 'end' || found (pidoras, p.Id, '|')) return;
    t.Add (p);
-   p.Ui.TeamProp2.Value = { Team: t.Id, Prop: 'info' };
+   p.Ui.TeamProp2.Value = { Team: t.Id, Prop: 'info1' };
 });  
 
 Teams.OnPlayerChangeTeam.Add(function (p) 
@@ -96,7 +96,7 @@ Properties.OnPlayerProperty.Add(function (c, v)
 {
    let p = c.Player,
    nam = v.Name;
-   if (nam != 'info') p.Team.Properties.Get('info').Value = 'RANK : [] :' + n + 'победы : [' + p.Team.Properties.Get('wins').Value + '] : киллы : [' + p.Team.Properties.Get('kills').Value + '] :';
+   if (nam != 'info1') p.Team.Properties.Get('info1').Value = '..:: победы [' + p.Team.Properties.Get('wins').Value + '], киллы [' + p.Team.Properties.Get('kills').Value + '] ::..';
 });
 
 Players.OnPlayerConnected.Add(function (p)
