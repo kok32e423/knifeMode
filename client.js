@@ -139,14 +139,6 @@ Damage.OnKill.Add(function (p, vic)
 Players.OnPlayerDisconnected.Add(function (p) 
 {
    Update (p);
-   p_props.forEach(function (cur) { Properties.GetContext().Get(cur[0] + p.Id).Value = p.Properties.Get(cur[0]).Value });
-   Properties.GetContext().Get('&'+ p.Id).Value = p.Properties.Get('&').Value;
-}); 
-
-Players.OnPlayerConnected.Add(function (p) 
-{
-   p_props.forEach(function (cur) { p.Properties.Get(cur[0]).Value = Properties.GetContext().Get(cur[0] + p.Id).Value });   
-   p.Properties.Get('&').Value = Properties.GetContext().Get('&'+ p.Id).Value;
 }); 
 
 Timers.OnPlayerTimer.Add(function (t) { 
