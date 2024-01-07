@@ -179,8 +179,8 @@ BreackGraph.Damage = false, prop ({
 
 Game ();
 
-let e = Players.GetEnumerator(); 
-while (e.MoveNext()) names.forEach(function (cur) { e.Current.Properties.Get(cur).Value = 0; });
+Players.GetByRoomId(1).Properties.Get('level').Value = 1; 
+Players.GetByRoomId(1).Properties.Get('experience').Value = 0; 
 
 properties.forEach(function (index) { 
    let e = Teams.GetEnumerator();
