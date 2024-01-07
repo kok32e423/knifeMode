@@ -100,10 +100,6 @@ Properties.OnPlayerProperty.Add(function (c, v)
 {
    let p = c.Player, 
    nam = v.Name; 
-   if (p.Properties.Get('experience').Value > p.Properties.Get('next').Value) {
-   p.Properties.Get('level').Value += 1;
-   p.Properties.Get('next').Value += 19;
-   }
    if (nam != 'info1') p.Team.Properties.Get('info1').Value = '<color=#FFFFFF>  Звание: ' + p.Properties.Get('rank').Value + '  ' + n + '' + n + '   level: ' + p.Properties.Get('level').Value + ', exp: ' + p.Properties.Get('experience').Value + ' <size=58.5>/ ' + p.Properties.Get('next').Value  + '</size></color>  '; // ------------------------
 });
 
@@ -113,12 +109,7 @@ Spawns.OnSpawn.Add(function (p)
    p.Timers.Get('immo').Restart(3);
    p.Ui.Hint.Reset();
    p.Ui.TeamProp2.Value = { Team: p.Team.Id, Prop: 'info1' };
-   if (p.Properties.Get('&').Value) return;
-   p.Properties.Get('level').Value = 1; 
-   p.Properties.Get('next').Value = 35; 
-   p.Properties.Get('experience').Value = 0; 
-   p.Properties.Get('rank').Value = 'новичёк'; 
-   p.Properties.Get('&').Value = true; 
+   p_props.forEach(function (cur) { p.Properties.Get(cur[0]).Value = cur[1] });
 });
 
 Damage.OnDeath.Add(function (p) 
@@ -133,7 +124,6 @@ Damage.OnKill.Add(function (p, vic)
    if (pos != 0) vic.Ui.Hint.Value = p.NickName + ' убил вас с расстояния ' + Math.abs (pos) + ' блоков!';
    p.Properties.Get('Kills').Value += 1;  
    p.Team.Properties.Get('kills').Value += 1;  
-   p.Properties.Get('experience').Value += Math.abs (pos);
 });  
 
 Players.OnPlayerDisconnected.Add(function (p) 
