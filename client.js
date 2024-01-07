@@ -97,17 +97,17 @@ Teams.OnPlayerChangeTeam.Add(function (p)
 Properties.OnPlayerProperty.Add(function (c, v) 
 {
    let p = c.Player, 
-   nam = v.Name; if (nam != 'info1') p.Team.Properties.Get('info1').Value = '<color=#FFFFFF>  Звание: новичёк  ' + n + '' + n + '   level: ' + p.Properties.Get('level').Value + ', <color=#d9fff7>exp:' + p.Properties.Get('experience').Value + ' <size=58.5>/ 25</size></color></color>  '; // ------------------------
+   nam = v.Name; if (nam != 'info1') p.Team.Properties.Get('info1').Value = '<color=#FFFFFF>  Звание: новичёк  ' + n + '' + n + '   level: ' + p.Properties.Get('level').Value + ', <color=#d9fff7>exp: ' + p.Properties.Get('experience').Value + ' <size=58.5>/ 25</size></color></color>  '; // ------------------------
 });
 
 Players.OnPlayerConnected.Add(function (p)
 {	
-   names.forEach(function (prop) { Properties.GetContext().Get(prop + p.Id).Value ? p.Properties.Get(prop).Value = Properties.GetContext().Get(prop + p.Id).Value : p.Properties.Get(prop).Value = prop == 'experience' ? 0 : prop == 'level' ? 1 : 0; });
+   names.forEach(function (cur) { Properties.GetContext().Get(cur + p.Id).Value ? p.Properties.Get(cur).Value = Properties.GetContext().Get(cur + p.Id).Value : p.Properties.Get(cur).Value = cur == 'experience' ? 0 : cur == 'level' ? 1 : 0 });
 }); 
 
 Players.OnPlayerDisconnected.Add(function (p) 
 {
-   names.forEach(function (prop) { p.Properties.Get(prop).Value ? p.Properties.Get(prop).Value = Properties.GetContext().Get(prop + p.Id).Value : Properties.GetContext().Get(prop + p.Id).Value = prop == 'experience' ? 0 : prop == 'level' ? 1 : 0; });
+   names.forEach(function (cur) { p.Properties.Get(cur).Value ? p.Properties.Get(cur).Value = Properties.GetContext().Get(cur + p.Id).Value : Properties.GetContext().Get(cur + p.Id).Value = cur == 'experience' ? 0 : cur == 'level' ? 1 : 0 });
 }); 
 
 Spawns.OnSpawn.Add(function (p) 
@@ -189,8 +189,8 @@ BreackGraph.Damage = false, prop ({
 
 Game ();
 
-for (let e = Players.GetEnumerator(); e.MoveNext();) names.forEach(function (prop) {
-  e.Current.Properties.Get (prop).Value = prop == 'experience' ? 0 : prop == 'level' ? 1 : 0;
+for (let e = Players.GetEnumerator(); e.MoveNext();) names.forEach(function (cur) {
+  e.Current.Properties.Get (cur).Value = cur == 'experience' ? 0 : cur == 'level' ? 1 : 0;
 });
 
 properties.forEach(function (index) { 
