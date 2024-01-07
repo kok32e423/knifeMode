@@ -96,7 +96,7 @@ Properties.OnPlayerProperty.Add(function (c, v)
 {
    let p = c.Player,
    nam = v.Name;
-   if (nam != 'info1') p.Team.Properties.Get('info1').Value = ': Победы - ' + p.Team.Properties.Get('wins').Value + ', Киллы - ' + p.Team.Properties.Get('kills').Value + ' :';
+   if (nam != 'info1') p.Team.Properties.Get('info1').Value = '[' + p.Team.Properties.Get('wins').Value + '] - [' + p.Team.Properties.Get('kills').Value + ']';
 });
 
 Players.OnPlayerConnected.Add(function (p)
@@ -178,7 +178,7 @@ const End = function (team)
       let e = Players.GetEnumerator ();
       while (e.MoveNext ()) if (e.Current.Team == team) e.Current.Properties.Get('Scores').Value += 1;
    } 
-   else ui.Hint.Value = n + '..::  ничья!  ::..';
+   else ui.Hint.Value = n + 'ничья!';
    main.Restart (10); 
 } 
 
