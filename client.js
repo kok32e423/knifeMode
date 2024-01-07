@@ -163,6 +163,7 @@ const Main = function () {
        End (null);
        break;
     case 'end': 
+       ui.MainTimerId.Value = null;
        One ();
        break;
    }
@@ -175,7 +176,7 @@ main.OnTimer.Add(function () {
 const One = function ()
 {
    s.Value = 'one';   
-   ui.Hint.Value = n + '3', ui.MainTimerId.Value = null;
+   ui.Hint.Value = n + '3';
    sp.Despawn ();
    Spawn ();
    main.Restart (1); 
