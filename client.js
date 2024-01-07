@@ -67,14 +67,18 @@ const Spawn = function ()
    while (e.MoveNext ()) e.Current.Spawns.Spawn();
 }
 
+const Frezee = function () 
+{
+   let e = Players.GetEnumerator ();
+   while (e.MoveNext ()) e.Current.Position = e.Current.Position;
+}
+
 contextedProperties.GetContext().MaxHp.Value = 35;
  
 LeaderBoard.PlayerLeaderBoardValues = [
   { Value: 'Kills', ShortDisplayName: '<size=11.9><b>ᴋ</b></size>' },
   { Value: 'Deaths', ShortDisplayName: '<size=11.9><b>ᴅ</b></size>' },
 ];
-
-ui.MainTimerId.Value = main.Id;
   
 const blue = Add ('blue', { up: 'спецназовцы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#476AEC', 1),
 red = Add ('red', { up: 'террористы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#FE5757', 2);
@@ -95,7 +99,7 @@ Properties.OnPlayerProperty.Add(function (c, v)
 {
    let p = c.Player, 
    name = v.Name;
-   if (name != 'info1') p.Team.Properties.Get('info1').Value = '<color=#FFFFFF>  Звание: новичёк  ' + n + '' + n + '   level: 1, exp: 0 <size=58.5>/ 25</size></color>  ';//------------------------
+   if (name != 'info1') p.Team.Properties.Get('info1').Value = '<color=#FFFFFF>  Звание: новичёк  ' + n + '' + n + '   level: 1, exp: 0 <size=58.5>/ 25</size></color>  '; // ------------------------
 });
 
 Players.OnPlayerConnected.Add(function (p)
@@ -146,7 +150,16 @@ Timers.OnPlayerTimer.Add(function (t) {
 
 const Main = function () {
    switch (s.Value) {
-       case 'game' : 
+     case 'one' : 
+       Two ();
+       break;
+     case 'two' : 
+       Three ();
+       break;
+     case 'three' : 
+       Game ();
+       break;
+     case 'game' : 
        End (null);
        break;
     case 'end': 
@@ -159,12 +172,35 @@ main.OnTimer.Add(function () {
    Main (); 
 });
 
+const One = function ()
+{
+   s.Value = 'one';   
+   ui.Hint.Value = n + '3', ui.MainTimerId.Value = null;
+   sp.Despawn ();
+   Spawn ();
+   main.Restart (1); 
+} 
+
+const Two = function ()
+{
+   s.Value = 'two'; 
+   ui.Hint.Value = n + '2';
+   Frezee ();
+   main.Restart (1); 
+} 
+
+const Three = function ()
+{
+   s.Value = 'three';   
+   ui.Hint.Value = n + '1';
+   Frezee ();
+   main.Restart (1); 
+} 
+
 const Game = function ()
 {
    s.Value = 'game';
-   sp.Despawn ();
-   Spawn ();
-   ui.Hint.Reset ();
+   ui.MainTimerId.Value = main.Id, ui.Hint.Reset ();
    main.Restart (115); 
 } 
 
