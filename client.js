@@ -25,8 +25,8 @@ const found = function (string, identifier, separator) {
    }  
 }
 
-const s = Properties.GetContext().Get('state'), main = Timers.GetContext().Get('main'), ui = Ui.GetContext(), sp = Spawns.GetContext(), names = [ 
-  'experience',
+const s = Properties.GetContext().Get('state'), main = Timers.GetContext().Get('main'), ui = Ui.GetContext(), sp = Spawns.GetContext(), p_props = [ 
+  'exp',
   'level'
 ];
 sp.RespawnEnable = false;
@@ -85,9 +85,11 @@ red = Add ('red', { up: 'террористы ᵏⁿⁱᶠᵉᵉ', down: '' }, '
 Teams.OnRequestJoinTeam.Add(function (p, t)
 {
    if (found (pidoras, p.Id, '|')) return p.Ui.Hint.Value = 'ты забанен.';   
-   if (p.Properties.Get('level').Value == null) p.Properties.Get('level').Value = 1; 
-   if (p.Properties.Get('experience').Value == null ) p.Properties.Get('experience').Value = 0; 
-   t.Add (p);
+   else 
+   p_props. forEach(function (name) {
+       if (p.Properties.Get(name).Value == null) p.Properties.Get(name).Value = name == 'exp' ? 0 : 1; 
+   }),
+   t.Add (p); 
 });  
 
 Teams.OnPlayerChangeTeam.Add(function (p) 
