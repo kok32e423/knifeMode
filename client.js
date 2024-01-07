@@ -95,8 +95,8 @@ Teams.OnPlayerChangeTeam.Add(function (p)
 Properties.OnPlayerProperty.Add(function (c, v) 
 {
    let p = c.Player,
-   n = v.Name;
-   if (n != 'info') p.Team.Properties.Get('info').Value = '- RANK : [] :' + n + '- победы : [' + p.Team.Properties.Get('wins').Value + '] : | киллы : [' + p.Team.Properties.Get('kills').Value + ']';
+   nam = v.Name;
+   if (nam != 'info') p.Team.Properties.Get('info').Value = 'RANK : [] :' + n + 'победы : [' + p.Team.Properties.Get('wins').Value + '] : киллы : [' + p.Team.Properties.Get('kills').Value + '] :';
 });
 
 Players.OnPlayerConnected.Add(function (p)
