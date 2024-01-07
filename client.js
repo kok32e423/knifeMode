@@ -185,6 +185,7 @@ const End = function (team)
    if (e.Current != null) e.Current.Ui.Hint.Value = n + 'никто не победил.';
    else return;
    }
+   }
    else return;
 } 
 
