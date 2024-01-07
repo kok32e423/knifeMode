@@ -79,6 +79,8 @@ LeaderBoard.PlayerLeaderBoardValues = [
   { Value: 'Kills', ShortDisplayName: '<size=11.9><b>ᴋ</b></size>' },
   { Value: 'Deaths', ShortDisplayName: '<size=11.9><b>ᴅ</b></size>' },
 ];
+
+ui.MainTimerId.Value = main.Id;  
   
 const blue = Add ('blue', { up: 'спецназовцы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#476AEC', 1),
 red = Add ('red', { up: 'террористы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#FE5757', 2);
@@ -150,22 +152,11 @@ Timers.OnPlayerTimer.Add(function (t) {
 
 const Main = function () {
    switch (s.Value) {
-       case 'one' : 
-       Two ();
-       break;
-       case 'two' : 
-       Three ();
-       break;
-       case 'three' : 
-       ui.MainTimerId.Value = main.Id;
-       Game ();
-       break;
        case 'game' : 
        End (null);
        break;
-       case 'end': 
-       ui.MainTimerId.Value = null;
-       One ();
+       case 'end':        
+       Game ();
        break;
    }
 }
@@ -174,36 +165,11 @@ main.OnTimer.Add(function () {
    Main (); 
 });
 
-const One = function ()
-{
-   s.Value = 'one';   
-   ui.Hint.Value = n + '3', Spawn ();
-   prop ({ 
-      context: Inventory.GetContext(), type: ['Main', 'Secondary', 'Melee', 'Explosive', 'Build'], bool: false 
-   });
-   main.Restart (1); 
-} 
-
-const Two = function ()
-{
-   s.Value = 'two'; 
-   ui.Hint.Value = n + '2', Spawn ();
-   main.Restart (1); 
-} 
-
-const Three = function ()
-{
-   s.Value = 'three';   
-   ui.Hint.Value = n + '1', Spawn ();
-   main.Restart (1); 
-} 
-
 const Game = function ()
 {
    s.Value = 'game';
-   prop ({ 
-      context: Inventory.GetContext(), type: ['Melee'], bool: true 
-   });
+   sp.Despawn ();
+   Spawn ();
    ui.Hint.Reset ();
    main.Restart (115); 
 } 
@@ -211,18 +177,13 @@ const Game = function ()
 const End = function (team)
 {
    s.Value = 'end';
-   if (team != null) 
-   {
- 	 team.Properties.Get('wins').Value += 1;
-      let e = Players.GetEnumerator ();
-      while (e.MoveNext ()) if (e.Current.Team == team) e.Current.Properties.Get('Scores').Value += 1;
-   } 
-   else ui.Hint.Value = n + 'никто не победил!';
-   main.Restart (10); 
+   if (team != null) team.Properties.Get('wins').Value += 1, for (let e = Players.GetEnumerator(); e.MoveNext();) if (e.Current.Team == team) e.Current.Properties.Get('Scores').Value += 1;
+       else for (let e = Teams.GetEnumerator(); e.MoveNext();)  e.Current.Ui.Hint.Value = n + 'никто не победил!';
+       main.Restart (10); 
 } 
 
 BreackGraph.Damage = false, prop ({ 
-   context: Inventory.GetContext(), type: ['Main', 'Secondary', 'Explosive', 'Build'], bool: false 
+  context: Inventory.GetContext(), type: ['Main', 'Secondary', 'Explosive', 'Build'], bool: false 
 });
 Game ();
 
