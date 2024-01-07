@@ -26,9 +26,9 @@ const found = function (string, identifier, separator) {
 }
 
 const s = Properties.GetContext().Get('state'), main = Timers.GetContext().Get('main'), ui = Ui.GetContext(), sp = Spawns.GetContext(), p_props = [ 
-   ['next', 35]
-   ['experience', 0]
-   ['level', 1]
+   ['next', 35],
+   ['experience', 0],
+   ['level', 1],
    ['rank', 'новичёк']
 ];
 sp.RespawnEnable = false;
