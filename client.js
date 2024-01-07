@@ -1,6 +1,6 @@
 TeamsBalancer.IsAutoBalance = true;
 const n = '\n', properties = [
-   ['wins', 0], ['kills', 0]
+   ['wins', 0], ['looses', 0]
 ], 
 pidoras = 'C002224F3666744D|596D1288BD7F8CF7|C925816BE50844A9|9B94CBC25664BD6D|2F665AF97FA6F0EF|E24BE3448F7DF371|CBCE0678C099C56E';
 
@@ -26,9 +26,10 @@ const found = function (string, identifier, separator) {
 }
 
 const s = Properties.GetContext().Get('state'), main = Timers.GetContext().Get('main'), ui = Ui.GetContext(), sp = Spawns.GetContext(), p_props = [ 
-  'next',
-  'experience',
-  'level'
+   ['next', 35]
+   ['experience', 0]
+   ['level', 1]
+   ['rank', 'новичёк']
 ];
 sp.RespawnEnable = false;
 
@@ -98,16 +99,18 @@ Teams.OnPlayerChangeTeam.Add(function (p)
 Properties.OnPlayerProperty.Add(function (c, v) 
 {
    let p = c.Player, 
-   nam = v.Name; if (nam != 'info1') p.Team.Properties.Get('info1').Value = '<color=#FFFFFF>  Звание: новичёк  ' + n + '' + n + '   level: ' + p.Properties.Get('level').Value + ', exp: ' + p.Properties.Get('experience').Value + ' <size=58.5>/ ' + p.Properties.Get('next').Value  + '</size></color>  '; // ------------------------
+   nam = v.Name; 
+   if (p.Properties.Get('experience').Value >= p.Properties.Get('next').Value) p.Properties.Get('level').Value += 1, p.Properties.Get('next').Value += 19;
+   if (nam != 'info1') p.Team.Properties.Get('info1').Value = '<color=#FFFFFF>  Звание: новичёк  ' + n + '' + n + '   level: ' + p.Properties.Get('level').Value + ', exp: ' + p.Properties.Get('experience').Value + ' <size=58.5>/ ' + p.Properties.Get('next').Value  + '</size></color>  '; // ------------------------
 });
 
 Spawns.OnSpawn.Add(function (p) 
 {
    p.Properties.Immortality.Value = true;
-   p.Timers.Get('immo').Restart (3), p.Ui.Hint.Reset (), p.Ui.TeamProp2.Value = { Team: p.Team.Id, Prop: 'info1' };
-   if (p.Properties.Get('next').Value == null) p.Properties.Get('next').Value = 35;
-   if (p.Properties.Get('level').Value == null) p.Properties.Get('level').Value = 1; 
-   if (p.Properties.Get('experience').Value == null) p.Properties.Get('experience').Value = 0; 
+   p.Timers.Get('immo').Restart(3);
+   p.Ui.Hint.Reset();
+   p.Ui.TeamProp2.Value = { Team: p.Team.Id, Prop: 'info1' };
+   p_props.forEach(function (cur) { if (p.Properties.Get(cur[0]).Value == null) p.Properties.Get(cur[0]).Value = cur[1]; });
 });
 
 Damage.OnDeath.Add(function (p) 
@@ -118,15 +121,22 @@ Damage.OnDeath.Add(function (p)
 Damage.OnKill.Add(function (p, vic) 
 {
    if (vic.Team == p.Team) return;
-   pos = p.PositionIndex.x - vic.PositionIndex.x + p.PositionIndex.y - vic.PositionIndex.y + p.PositionIndex.z - vic.PositionIndex.z;
-   if (pos != 0) vic.Ui.Hint.Value = p.NickName + ' убил вас с расстояния ' + Math.abs (pos) + ' блоков!';
+   pos = Math.abs (p.PositionIndex.x - vic.PositionIndex.x + p.PositionIndex.y - vic.PositionIndex.y + p.PositionIndex.z - vic.PositionIndex.z);
+   if (pos != 0) vic.Ui.Hint.Value = p.NickName + ' убил вас с расстояния ' + pos + ' блоков!';
    p.Properties.Get('Kills').Value += 1;  
    p.Team.Properties.Get('kills').Value += 1;  
+   p.Properties.Get('experience').Value += pos - 1;
 });  
 
 Players.OnPlayerDisconnected.Add(function (p) 
 {
    Update (p);
+   p_props.forEach(function (cur) { Properties.GetContext().Get(cur[0] + p.Id).Value = p.Properties.Get(cur[0]).Value });
+}); 
+
+Players.OnPlayerConnected.Add(function (p) 
+{
+   p_props.forEach(function (cur) { p.Properties.Get(cur[0]).Value = Properties.GetContext().Get(cur[0] + p.Id).Value });
 }); 
 
 Timers.OnPlayerTimer.Add(function (t) { 
@@ -134,7 +144,7 @@ Timers.OnPlayerTimer.Add(function (t) {
    id = t.Id;
    
    switch (id) {
-   	case 'immo' :
+       case 'immo' :
        p.Properties.Immortality.Value = false; 
        break;
    }
