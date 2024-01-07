@@ -163,7 +163,7 @@ const Main = function () {
        End (null);
        break;
     case 'end': 
-       Game ();
+       One ();
        break;
    }
 }
