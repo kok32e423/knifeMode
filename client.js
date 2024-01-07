@@ -25,7 +25,10 @@ const found = function (string, identifier, separator) {
    }  
 }
 
-const s = Properties.GetContext().Get('state'), main = Timers.GetContext().Get('main'), ui = Ui.GetContext(), sp = Spawns.GetContext(), draw = n + 'никто не победил.';
+const s = Properties.GetContext().Get('state'), main = Timers.GetContext().Get('main'), ui = Ui.GetContext(), sp = Spawns.GetContext(), names = [ 
+  'experience',
+  'level'
+];
 sp.RespawnEnable = false;
 
 const prop = function (par) 
@@ -81,25 +84,25 @@ red = Add ('red', { up: 'террористы ᵏⁿⁱᶠᵉᵉ', down: '' }, '
 
 Teams.OnRequestJoinTeam.Add(function (p, t)
 {
-   if (s.Value == 'end' || found (pidoras, p.Id, '|')) return;
+   if (found (pidoras, p.Id, '|')) return p.Ui.Hint.Value = 'ты забанен.';   
    t.Add (p);
 });  
 
 Teams.OnPlayerChangeTeam.Add(function (p) 
 {
-   if (s.Value == 'end' || found (pidoras, p.Id, '|')) return;
    p.Spawns.Spawn ();
+   if (s.Value == 'end') p.Spawns.Despawn ();
 })
 
 Properties.OnPlayerProperty.Add(function (c, v) 
 {
-   let p = c.Player, name = v.Name;
-   if (name != 'info1') p.Team.Properties.Get('info1').Value = '<color=#FFFFFF>  Звание: новичёк  ' + n + '' + n + '   level: 1, exp: 0 <size=58.5>/ 25</size></color>  '; // ------------------------
+   let p = c.Player, 
+   nam = v.Name; if (nam != 'info1') p.Team.Properties.Get('info1').Value = '<color=#FFFFFF>  Звание: новичёк  ' + n + '' + n + '   level: 1, <color=#76f5b7>exp</color>: 0 <size=58.5>/ 25</size></color>  '; // ------------------------
 });
 
 Players.OnPlayerConnected.Add(function (p)
 {	
-   //
+   names.forEach(function (name) { Properties.GetContext().Get(name + p.Id).Value = p.Properties.Get(name).Value });
 }); 
 
 Spawns.OnSpawn.Add(function (p) 
