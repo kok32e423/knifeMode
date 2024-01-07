@@ -156,18 +156,22 @@ main.OnTimer.Add(function () {
 const Game = function ()
 {
    s.Value = 'game';
-   red.Ui.Hint.Reset (), blue.Ui.Hint.Reset (), ui.Hint.Reset ();
-   sp.Despawn (), Spawn ();
+   sp.Despawn ();
+   Spawn ();
    main.Restart (5); 
 } 
 
 const End = function (team)
 {
    s.Value = 'end'; 
-   blue.Ui.Hint.Value = draw;
-   red.Ui.Hint.Value = draw;
-   ui.Hint.Value = '<b>конец раунда.</b>';   
-   if (team != null) team.Properties.Get('wins').Value += 1; for (let e = Players.GetEnumerator(); e.MoveNext();) if (e.Current.Team == team) e.Current.Properties.Get('Scores').Value += 1;
+   if (team != null) 
+   {
+      team.Properties.Get('wins').Value += 1; 
+      let e = Players.GetEnumerator(); 
+      while (e.MoveNext()) {
+          e.Current.Team == team ? e.Current.Properties.Get('Scores').Value += 1 : null;
+      }
+   }
    main.Restart (10); 
 } 
 
