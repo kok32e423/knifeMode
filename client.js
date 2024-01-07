@@ -185,7 +185,7 @@ const Two = function ()
 {
    s.Value = 'two'; 
    ui.Hint.Value = n + '2';
-   Frezee ();
+   Spawn ();
    main.Restart (1); 
 } 
 
@@ -193,7 +193,7 @@ const Three = function ()
 {
    s.Value = 'three';   
    ui.Hint.Value = n + '1';
-   Frezee ();
+   Spawn ();
    main.Restart (1); 
 } 
 
