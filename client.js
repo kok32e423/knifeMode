@@ -83,13 +83,13 @@ Teams.OnRequestJoinTeam.Add(function (p, t)
 {
    if (s.Value == 'end' || found (pidoras, p.Id, '|')) return;
    t.Add (p);
-   p.Ui.TeamProp2.Value = { Team: t.Id, Prop: 'info1' };
 });  
 
-Teams.OnPlayerChangeTeam.Add(function (p) 
+Teams.OnPlayerChangeTeam.Add(function (p, t) 
 {
    if (s.Value == 'end' || found (pidoras, p.Id, '|')) return;
    p.Spawns.Spawn ();
+   p.Ui.TeamProp2.Value = { Team: t.Id, Prop: 'info1' };
 })
 
 Properties.OnPlayerProperty.Add(function (c, v) 
