@@ -96,7 +96,7 @@ Properties.OnPlayerProperty.Add(function (c, v)
 {
    let p = c.Player,
    n = v.Name;
-   if (n != 'info') p.Team.Properties.Get('info').Value = '- RANK : [] :' + n + '- победы : [' + p.Team.Properties.Get('wins').Value + '] : | киллы : [' + p.Team.Properties.Get('kills').Value + ']' : '';
+   if (n != 'info') p.Team.Properties.Get('info').Value = '- RANK : [] :' + n + '- победы : [' + p.Team.Properties.Get('wins').Value + '] : | киллы : [' + p.Team.Properties.Get('kills').Value + ']';
 });
 
 Players.OnPlayerConnected.Add(function (p)
@@ -121,8 +121,7 @@ Damage.OnKill.Add(function (p, vic)
    pos = p.PositionIndex.x - vic.PositionIndex.x + p.PositionIndex.y - vic.PositionIndex.y + p.PositionIndex.z - vic.PositionIndex.z;
    if (pos != 0) vic.Ui.Hint.Value = p.NickName + ' убил вас с расстояния ' + Math.abs (pos) + ' блоков!';
    p.Properties.Get('Kills').Value += 1;  
-   let team = p.Team;
-   team.Properties.Get('kills').Value += 1;  
+   p.Team.Properties.Get('kills').Value += 1;  
 });  
 
 Players.OnPlayerDisconnected.Add(function (p) 
