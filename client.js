@@ -150,19 +150,20 @@ Timers.OnPlayerTimer.Add(function (t) {
 
 const Main = function () {
    switch (s.Value) {
-     case 'one' : 
+       case 'one' : 
        Two ();
        break;
-     case 'two' : 
+       case 'two' : 
        Three ();
        break;
-     case 'three' : 
+       case 'three' : 
+       ui.MainTimerId.Value = main.Id;
        Game ();
        break;
-     case 'game' : 
+       case 'game' : 
        End (null);
        break;
-    case 'end': 
+       case 'end': 
        ui.MainTimerId.Value = null;
        One ();
        break;
@@ -176,32 +177,34 @@ main.OnTimer.Add(function () {
 const One = function ()
 {
    s.Value = 'one';   
-   ui.Hint.Value = n + '3';
-   sp.Despawn ();
-   Spawn ();
+   ui.Hint.Value = n + '3', Spawn ();
+   prop ({ 
+      context: Inventory.GetContext(), type: ['Main', 'Secondary', 'Melee', 'Explosive', 'Build'], bool: false 
+   });
    main.Restart (1); 
 } 
 
 const Two = function ()
 {
    s.Value = 'two'; 
-   ui.Hint.Value = n + '2';
-   Spawn ();
+   ui.Hint.Value = n + '2', Spawn ();
    main.Restart (1); 
 } 
 
 const Three = function ()
 {
    s.Value = 'three';   
-   ui.Hint.Value = n + '1';
-   Spawn ();
+   ui.Hint.Value = n + '1', Spawn ();
    main.Restart (1); 
 } 
 
 const Game = function ()
 {
    s.Value = 'game';
-   ui.MainTimerId.Value = main.Id, ui.Hint.Reset ();
+   prop ({ 
+      context: Inventory.GetContext(), type: ['Melee'], bool: true 
+   });
+   ui.Hint.Reset ();
    main.Restart (115); 
 } 
 
@@ -218,10 +221,7 @@ const End = function (team)
    main.Restart (10); 
 } 
 
-BreackGraph.Damage = false, prop ({ 
-   context: Inventory.GetContext(), type: ['Main', 'Secondary', 'Explosive', 'Build'], bool: false 
-});
-
+BreackGraph.Damage = false;
 Game ();
 
 properties.forEach(function (index) { 
