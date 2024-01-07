@@ -100,7 +100,7 @@ Properties.OnPlayerProperty.Add(function (c, v)
 {
    let p = c.Player, 
    nam = v.Name; 
-   if (v.Name == 'experience' && p.Properties.Get('experience').Value > p.Properties.Get('next').Value) {
+   if (p.Properties.Get('experience').Value > p.Properties.Get('next').Value) {
    p.Properties.Get('level').Value += 1;
    p.Properties.Get('next').Value += 19;
    }
@@ -129,11 +129,11 @@ Damage.OnDeath.Add(function (p)
 Damage.OnKill.Add(function (p, vic) 
 {
    if (vic.Team == p.Team) return;
-   pos = Math.abs (p.PositionIndex.x - vic.PositionIndex.x + p.PositionIndex.y - vic.PositionIndex.y + p.PositionIndex.z - vic.PositionIndex.z);
-   if (pos != 0) vic.Ui.Hint.Value = p.NickName + ' убил вас с расстояния ' + pos + ' блоков!';
+   pos = p.PositionIndex.x - vic.PositionIndex.x + p.PositionIndex.y - vic.PositionIndex.y + p.PositionIndex.z - vic.PositionIndex.z;
+   if (pos != 0) vic.Ui.Hint.Value = p.NickName + ' убил вас с расстояния ' + Math.abs (pos) + ' блоков!';
    p.Properties.Get('Kills').Value += 1;  
    p.Team.Properties.Get('kills').Value += 1;  
-   p.Properties.Get('experience').Value += pos - 1;
+   p.Properties.Get('experience').Value += Math.abs (pos);
 });  
 
 Players.OnPlayerDisconnected.Add(function (p) 
