@@ -26,7 +26,8 @@ const found = function (string, identifier, separator) {
 }
 
 const s = Properties.GetContext().Get('state'), main = Timers.GetContext().Get('main'), ui = Ui.GetContext(), sp = Spawns.GetContext(), p_props = [ 
-  'exp',
+  'next',
+  'experience',
   'level'
 ];
 sp.RespawnEnable = false;
@@ -97,15 +98,16 @@ Teams.OnPlayerChangeTeam.Add(function (p)
 Properties.OnPlayerProperty.Add(function (c, v) 
 {
    let p = c.Player, 
-   nam = v.Name; if (nam != 'info1') p.Team.Properties.Get('info1').Value = '<color=#FFFFFF>  Звание: новичёк  ' + n + '' + n + '   level: ' + p.Properties.Get('level').Value + ', exp: ' + p.Properties.Get('exp').Value + ' <size=58.5>/ 25</size></color>  '; // ------------------------
+   nam = v.Name; if (nam != 'info1') p.Team.Properties.Get('info1').Value = '<color=#FFFFFF>  Звание: новичёк  ' + n + '' + n + '   level: ' + p.Properties.Get('level').Value + ', exp: ' + p.Properties.Get('next').Value + ' <size=58.5>/ ' + p.Properties.Get('experience').Value  + '</size></color>  '; // ------------------------
 });
 
 Spawns.OnSpawn.Add(function (p) 
 {
    p.Properties.Immortality.Value = true;
-   if (p.Properties.Get('exp').Value == null) p.Properties.Get('exp').Value = 0; 
-   if (p.Properties.Get('level').Value == null) p.Properties.Get('level').Value = 1; 
    p.Timers.Get('immo').Restart (3), p.Ui.Hint.Reset (), p.Ui.TeamProp2.Value = { Team: p.Team.Id, Prop: 'info1' };
+   if (p.Properties.Get('next').Value == null) p.Properties.Get('next').Value = 35;
+   if (p.Properties.Get('level').Value == null) p.Properties.Get('level').Value = 1; 
+   if (p.Properties.Get('experience').Value == null) p.Properties.Get('experience').Value = 0; 
 });
 
 Damage.OnDeath.Add(function (p) 
