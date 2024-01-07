@@ -174,7 +174,7 @@ const End = function (team)
 {
    s.Value = 'end';
    if (team != null) team.Properties.Get('wins').Value += 1; for (let e = Players.GetEnumerator(); e.MoveNext();) if (e.Current.Team == team) e.Current.Properties.Get('Scores').Value += 1;
-       else for (let e = Teams.GetEnumerator(); e.MoveNext();) if (e.Current != null) e.Current.Ui.Hint.Value = n + 'никто не победил.';
+       
    ui.Hint.Value = '<b>end..</b>';
    main.Restart (10); 
 } 
