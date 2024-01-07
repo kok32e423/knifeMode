@@ -92,6 +92,8 @@ Teams.OnPlayerChangeTeam.Add(function (p)
 {
    p.Spawns.Spawn ();
    if (s.Value == 'end') p.Spawns.Despawn ();
+   p.Properties.Get('level').Value = 1; 
+   p.Properties.Get('experience').Value = 0; 
 })
 
 Properties.OnPlayerProperty.Add(function (c, v) 
@@ -179,8 +181,7 @@ BreackGraph.Damage = false, prop ({
 
 Game ();
 
-Players.GetByRoomId(1).Properties.Get('level').Value = 1; 
-Players.GetByRoomId(1).Properties.Get('experience').Value = 0; 
+
 
 properties.forEach(function (index) { 
    let e = Teams.GetEnumerator();
