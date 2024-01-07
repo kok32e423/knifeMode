@@ -95,7 +95,7 @@ Properties.OnPlayerProperty.Add(function (c, v)
 {
    let p = c.Player,
    nam = v.Name;
-   if (nam != 'info1') p.Team.Properties.Get('info1').Value = 'Звание: новичёк' + n + '````````````' + n + 'lvl: 0, exp: 0/25';//------------------------
+   if (nam != 'info1') p.Team.Properties.Get('info1').Value = 'Звание: новичёк' + n + '-' + n + 'lvl: 0, exp: 0/25';//------------------------
 });
 
 Players.OnPlayerConnected.Add(function (p)
