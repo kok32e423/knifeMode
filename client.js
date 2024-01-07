@@ -165,8 +165,8 @@ const End = function (team)
 {
    s.Value = 'end'; 
    blue.Ui.Hint.Value = draw;
-   red.Hint.Value = draw;
-   ui.Hint.Value = '<b>конец раунда.</b>';
+   red.Ui.Hint.Value = draw;
+   ui.Hint.Value = '<b>конец раунда.</b>';   
    if (team != null) team.Properties.Get('wins').Value += 1; for (let e = Players.GetEnumerator(); e.MoveNext();) if (e.Current.Team == team) e.Current.Properties.Get('Scores').Value += 1;
    main.Restart (10); 
 } 
