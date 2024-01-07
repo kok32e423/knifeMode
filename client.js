@@ -94,8 +94,8 @@ Teams.OnPlayerChangeTeam.Add(function (p)
 
 Properties.OnPlayerProperty.Add(function (c, v) 
 {
-   let p = c.Player; 
-   v.Name != 'info' ? p.Team.Properties.Get('info').Value = 'Rank: говноед, Wins: ' + p.Team.Properties.Get('wins').Value + ', Kills: ' + p.Team.Properties.Get('kills').Value : '';
+   let p = c.Player;  
+   v.Name != 'info' ? p.Team.Properties.Get('info').Value = 'зв: [] : победы : [ ' + p.Team.Properties.Get('wins').Value + ' ] : киллы : [ ' + p.Team.Properties.Get('kills').Value + ' ]' : '';
 });
 
 Players.OnPlayerConnected.Add(function (p)
@@ -120,7 +120,8 @@ Damage.OnKill.Add(function (p, vic)
    pos = p.PositionIndex.x - vic.PositionIndex.x + p.PositionIndex.y - vic.PositionIndex.y + p.PositionIndex.z - vic.PositionIndex.z;
    if (pos != 0) vic.Ui.Hint.Value = p.NickName + ' убил вас с расстояния ' + Math.abs (pos) + ' блоков!';
    p.Properties.Get('Kills').Value += 1;  
-   p.Team.Properties.Get('kills').Value += 1;  
+   let team = p.Team;
+   team.Properties.Get('kills').Value += 1;  
 });  
 
 Players.OnPlayerDisconnected.Add(function (p) 
@@ -176,10 +177,10 @@ const End = function (team)
  	 team.Properties.Get('wins').Value += 1;
       let e = Players.GetEnumerator ();
       while (e.MoveNext ()) if (e.Current.Team == team) e.Current.Properties.Get('Scores').Value += 1;
-   }
+   } 
    else ui.Hint.Value = n + '..::  ничья!  ::..';
    main.Restart (10); 
-}
+} 
 
 BreackGraph.Damage = false, prop ({ 
    context: Inventory.GetContext(), type: ['Main', 'Secondary', 'Explosive', 'Build'], bool: false 
