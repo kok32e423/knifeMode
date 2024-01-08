@@ -56,7 +56,7 @@ const Rand = function (min, max) {
 const Update = function (p) 
 {
    if (s.Value != 'game') return;
-   if (p.Team.GetAlivePlayersCount() == 0 && Another(p.Team).GetAlivePlayersCount() > p.Team.GetAlivePlayersCount()) return End (Another(p.Team)), p.Team.Properties.Get('looses').Value += 1, Another(p.Team).Properties.Get('wins').Value += 1;
+   if (p.Team.GetAlivePlayersCount() == 0 && Another(p.Team).GetAlivePlayersCount() > p.Team.GetAlivePlayersCount()) return End (Another(p.Team)), p.Team.Properties.Get ('looses').Value += 1;
    if (p.Team.GetAlivePlayersCount() == 0 && Another(p.Team).GetAlivePlayersCount() == 0) return End (null);
 }
 
@@ -109,7 +109,7 @@ Properties.OnTeamProperty.Add(function (c, v)
 {
    let t = c.Team, 
    nam = v.Name; 
-   if (nam != 'info2') t.Properties.Get('info2').Value = 'wins: ' + t.Properties.Get('wins').Value + ', looses: ' + t.Properties.Get('looses').Value; // ------------------------
+   if (nam != 'info2') t.Properties.Get('info2').Value = 'Статистика команды' + n + n + 'wins: ' + t.Properties.Get('wins').Value + ', looses: ' + t.Properties.Get('looses').Value; // ------------------------
 });
 
 Spawns.OnSpawn.Add(function (p) 
