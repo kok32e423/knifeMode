@@ -1,8 +1,9 @@
 try {
 	
-	 // константы.
+    // константы.
    const n = '\n', PROPERTIES = [
-       ['wins', 0], ['looses', 0]
+       ['wins', 0],
+       ['looses', 0]
    ], PLAYER_PROPS = [ 
        ['next', 25],
        ['experience', 0],
@@ -26,11 +27,12 @@ try {
              if (identifier === array[index]) {
                     return true;
                 break; 
-            }
+           }
        }  
    }
      
-   const Color = function (hex) {
+   const Color = function (hex) 
+   {
          let hex = hex.replace ('#', ''), 
          max = 3;
   
@@ -38,12 +40,12 @@ try {
          return { r : parseInt (hex.substring(0, 2), 16) / 255, g : parseInt (hex.substring(2, 4), 16) / 255, b : parseInt (hex.substring(4, 6), 16) / 255 };
    }
     
-    /*
-    const Update = function (p) {
+
+   const Update = function (p) {
          if (s.Value != 'game') return;
      
-    }
-    */
+   }
+   
     const Another = function (p) {
          if (p.Team == one) return two;
          else return one;
@@ -51,28 +53,32 @@ try {
         
     const Spawn = function () { for (let e = Teams.GetEnumerator(); e.MoveNext();) e.Current.Spawns.Spawn(); }
 
-     LeaderBoard.PlayerLeaderBoardValues = [
+    LeaderBoard.PlayerLeaderBoardValues = [
         { Value: 'Kills', ShortDisplayName: '<size=11.9><b>ᴋ</b></size>' },
         { Value: 'Deaths', ShortDisplayName: '<size=11.9><b>ᴅ</b></size>' }
     ];
 
-    // создание команд.
+     // создание команд.
     const one = Add ('blue', { up: 'спецназовцы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#476AEC', 1),
     two = Add ('red', { up: 'террористы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#FE5757', 2);
     
    
-    // события.
+     // события.
     Teams.OnRequestJoinTeam.Add(function (p, t) {
         if (Found (BLACKLIST, p.Id, '|')) return p.Ui.Hint.Value = 'ты забанен.';   
         t.Add (p);    
     });  
     
     
-    // инициализация.
-    //['Main', 'Secondary', 'Explosive', 'Build'].forEach(function (indx) { Inventory.GetContext() [indx].Value = false; });
-
-     /*
+     // инициализация.
+    ['Main', 'Secondary', 'Explosive', 'Build'].forEach(function (indx) { Inventory.GetContext() [indx].Value = false; });
+     
     PROPERTIES.forEach(function (indx) { 
         for (let e = Teams.GetEnumerator(); e.MoveNext();) e.Current.Properties.Get(indx[0]).Value = indx[1];  
     });
- */
+    
+    } 
+    catch (e) {
+        msg.Show(e.name + ' ' + e.message); 
+    }
+ 
