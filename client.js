@@ -25,7 +25,7 @@ const found = function (string, identifier, separator) {
    }  
 }
 
-const s = Properties.GetContext().Get('state'), main = Timers.GetContext().Get('main'), ui = Ui.GetContext(), sp = Spawns.GetContext(), P_PROPS = [ 
+const s = Properties.GetContext().Get('state'), main = Timers.GetContext().Get('main'), ui = Ui.GetContext(), sp = Spawns.GetContext(), PLAYER_PROPS = [ 
    ['next', 25],
    ['experience', 0],
    ['level', 1],
@@ -100,16 +100,16 @@ Properties.OnPlayerProperty.Add(function (c, v)
 {
    let p = c.Player, 
    nam = v.Name; 
-   if (nam != 'info1') p.Properties.Get('info1' ).Value = '<color=#FFFFFF>  Звание: ' + p.Properties.Get('rank').Value + '  ' + n + '' + n + '   level: ' + p.Properties.Get('level').Value + ', exp: ' + p.Properties.Get('experience').Value + ' <size=58.5>/ ' + p.Properties.Get('next').Value  + '</size></color>  '; // ------------------------
+   if (nam != 'info1') p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + p.Properties.Get('rank').Value + '  ' + n + '' + n + '   level: ' + p.Properties.Get('level').Value + ', exp: ' + p.Properties.Get('experience').Value + ' <size=58.5>/ ' + p.Properties.Get('next').Value  + '</size></color>  '; // ------------------------
 });
 
 Spawns.OnSpawn.Add(function (p) 
 {
    p.Properties.Immortality.Value = true;
-   p.Timers.Get('immo').Restart(3);
-   p.Ui.Hint.Reset();
-   p.Ui.TeamProp2.Value = { Team: p.Team.Id, Prop: 'info1' };
-   P_PROPS.forEach(function (cur) { if (p.Properties.Get(cur[0]).Value == null) p.Properties.Get(cur[0]).Value = cur[1] });
+   p.Timers.Get('immo').Restart (3), p.Ui.Hint.Reset ();
+   p.Team.Ui.TeamProp1.Value = { Team: p.Team.Id, Prop: p.Id + 'info2' };
+   p.Team.Ui.TeamProp2.Value = { Team: p.Team.Id, Prop: p.Id + 'info1' };
+   PLAYER_PROPS.forEach(function (cur) { if (p.Properties.Get(cur[0]).Value == null) p.Properties.Get(cur[0]).Value = cur[1] });
 });
 
 Damage.OnDeath.Add(function (p) 
@@ -125,6 +125,7 @@ Damage.OnKill.Add(function (p, vic)
    p.Properties.Get('Kills').Value += 1;  
    p.Properties.Get('experience').Value += Rand(1, 4);  
    p.Team.Properties.Get('kills').Value += 1;  
+   if (p.Properties.Get('experience').Value >= p.Properties.Get('next').Value) p.Properties.Get('level').Value += 1, p.Properties.Get('next').Value += 25;
 });  
 
 Players.OnPlayerDisconnected.Add(function (p) 
