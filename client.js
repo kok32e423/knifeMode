@@ -93,7 +93,9 @@ Teams.OnRequestJoinTeam.Add(function (p, t)
 Teams.OnPlayerChangeTeam.Add(function (p) 
 {
    if (s.Value == 'end') return;
-   p.Spawns.Spawn ();
+   p.Spawns.Spawn();
+   p.Ui.TeamProp1.Value = { Team: p.Team.Id, Prop: p.Id + 'info2' };
+   p.Ui.TeamProp2.Value = { Team: p.Team.Id, Prop: p.Id + 'info1' };
 })
 
 Properties.OnPlayerProperty.Add(function (c, v) 
@@ -107,8 +109,6 @@ Spawns.OnSpawn.Add(function (p)
 {
    p.Properties.Immortality.Value = true;
    p.Timers.Get('immo').Restart (3), p.Ui.Hint.Reset ();
-   p.Team.Ui.TeamProp1.Value = { Team: p.Team.Id, Prop: p.Id + 'info2' };
-   p.Team.Ui.TeamProp2.Value = { Team: p.Team.Id, Prop: p.Id + 'info1' };
    PLAYER_PROPS.forEach(function (cur) { if (p.Properties.Get(cur[0]).Value == null) p.Properties.Get(cur[0]).Value = cur[1] });
 });
 
@@ -125,7 +125,6 @@ Damage.OnKill.Add(function (p, vic)
    p.Properties.Get('Kills').Value += 1;  
    p.Properties.Get('experience').Value += Rand(1, 4);  
    p.Team.Properties.Get('kills').Value += 1;  
-   if (p.Properties.Get('experience').Value >= p.Properties.Get('next').Value) p.Properties.Get('level').Value += 1, p.Properties.Get('next').Value += 25;
 });  
 
 Players.OnPlayerDisconnected.Add(function (p) 
