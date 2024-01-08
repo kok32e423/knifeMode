@@ -56,7 +56,7 @@ const Rand = function (min, max) {
 const Update = function (p) 
 {
    if (s.Value != 'game') return;
-   if (p.Team.GetAlivePlayersCount() == 0 && Another(p.Team).GetAlivePlayersCount() > p.Team.GetAlivePlayersCount()) return End (Another(p.Team));
+   if (p.Team.GetAlivePlayersCount() == 0 && Another(p.Team).GetAlivePlayersCount() > p.Team.GetAlivePlayersCount()) return End (Another(p.Team)), p.Team.Properties.Get('looses').Value += 1, Another(p.Team).Properties.Get('wins').Value += 1;
    if (p.Team.GetAlivePlayersCount() == 0 && Another(p.Team).GetAlivePlayersCount() == 0) return End (null);
 }
 
@@ -94,7 +94,7 @@ Teams.OnPlayerChangeTeam.Add(function (p)
 {
    if (s.Value == 'end') return;
    p.Spawns.Spawn();
-   p.Ui.TeamProp1.Value = { Team: p.Team.Id, Prop: p.Id + 'info2' };
+   p.Team.Ui.TeamProp1.Value = { Team: p.Team.Id, Prop: 'info2' };
    p.Ui.TeamProp2.Value = { Team: p.Team.Id, Prop: p.Id + 'info1' };
 })
 
@@ -103,6 +103,13 @@ Properties.OnPlayerProperty.Add(function (c, v)
    let p = c.Player, 
    nam = v.Name; 
    if (nam != 'info1') p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + p.Properties.Get('rank').Value + '  ' + n + '' + n + '   level: ' + p.Properties.Get('level').Value + ', exp: ' + p.Properties.Get('experience').Value + ' <size=58.5>/ ' + p.Properties.Get('next').Value  + '</size></color>  '; // ------------------------
+});
+
+Properties.OnTeamProperty.Add(function (c, v) 
+{
+   let t = c.Team, 
+   nam = v.Name; 
+   if (nam != 'info2') t.Properties.Get('info2').Value = 'wins: ' + t.Properties.Get('wins').Value + ', looses: ' + t.Properties.Get('looses').Value; // ------------------------
 });
 
 Spawns.OnSpawn.Add(function (p) 
