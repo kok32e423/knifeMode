@@ -8,10 +8,10 @@ try {
        ['experience', 0],
        ['level', 1],
        ['rank', '-']
-    ], PROPS = Properties.GetContext(), s = PROPS.Get('state'), main = Timers.GetContext().Get('main'), ui = Ui.GetContext(), s = Spawns.GetContext(), BLACKLIST = 'C002224F3666744D|596D1288BD7F8CF7|C925816BE50844A9|9B94CBC25664BD6D|2F665AF97FA6F0EF|E24BE3448F7DF371|CBCE0678C099C56E';
+    ], PROPS = Properties.GetContext(), s = PROPS.Get('state'), main = Timers.GetContext().Get('main'), ui = Ui.GetContext(), sp = Spawns.GetContext(), BLACKLIST = 'C002224F3666744D|596D1288BD7F8CF7|C925816BE50844A9|9B94CBC25664BD6D|2F665AF97FA6F0EF|E24BE3448F7DF371|CBCE0678C099C56E';
     
     // параметры.
-    s.RespawnEnable = false, TeamsBalancer.IsAutoBalance = true, ui.MainTimerId.Value = main.Id, contextedProperties.GetContext().MaxHp.Value = 35, BreackGraph.Damage = false;
+    sp.RespawnEnable = false, TeamsBalancer.IsAutoBalance = true, ui.MainTimerId.Value = main.Id, contextedProperties.GetContext().MaxHp.Value = 35, BreackGraph.Damage = false;
     
     // инструменты.
     const Add = function (tag, name, color, spawn) { 
@@ -39,11 +39,12 @@ try {
          return { r : parseInt (hex.substring(0, 2), 16) / 255, g : parseInt (hex.substring(2, 4), 16) / 255, b : parseInt (hex.substring(4, 6), 16) / 255 }
     }
     
+    /*
     const Update = function (p) {
          if (s.Value != 'game') return;
      
     }
-    
+    */
     const Another = function (p) {
          if (p.Team == one) return two;
          else return one;
@@ -53,7 +54,7 @@ try {
 
      LeaderBoard.PlayerLeaderBoardValues = [
         { Value: 'Kills', ShortDisplayName: '<size=11.9><b>ᴋ</b></size>' },
-        { Value: 'Deaths', ShortDisplayName: '<size=11.9><b>ᴅ</b></size>' },
+        { Value: 'Deaths', ShortDisplayName: '<size=11.9><b>ᴅ</b></size>' }
     ];
 
     // создание команд.
