@@ -109,7 +109,7 @@ Properties.OnTeamProperty.Add(function (c, v)
 {
    let t = c.Team, 
    nam = v.Name; 
-   if (nam != 'info2') t.Properties.Get('info2').Value = 'Статистика команды' + n + n + 'wins: ' + t.Properties.Get('wins').Value + ', looses: ' + t.Properties.Get('looses').Value; // ------------------------
+   if (nam != 'info2') t.Properties.Get('info2').Value = 'Счёт команды' + n + n + 'wins: ' + t.Properties.Get('wins').Value + ', looses: ' + t.Properties.Get('looses').Value; // ------------------------
 });
 
 Spawns.OnSpawn.Add(function (p) 
