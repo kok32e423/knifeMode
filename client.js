@@ -1,13 +1,12 @@
 try {
 	
 	 // константы.
-    const n = '\n', PROPERTIES = [
+   const n = '\n', PROPERTIES = [
        ['wins', 0], ['looses', 0]
-    ], PLAYER_PROPS = [ 
+   ], PLAYER_PROPS = [ 
        ['next', 25],
        ['experience', 0],
-       ['level', 1],
-       ['rank', '-']
+       ['level', 1]
    ], PROPS = Properties.GetContext(), s = PROPS.Get('state'), main = Timers.GetContext().Get('main'), ui = Ui.GetContext(), sp = Spawns.GetContext(), BLACKLIST = 'C002224F3666744D|596D1288BD7F8CF7|C925816BE50844A9|9B94CBC25664BD6D|2F665AF97FA6F0EF|E24BE3448F7DF371|CBCE0678C099C56E';
     
     // параметры.
@@ -36,7 +35,7 @@ try {
          max = 3;
   
          hex.length == max ? hex = hex.replace (/(.)/g, '$1$1') : null; 
-         return { r : parseInt (hex.substring(0, 2), 16) / 255, g : parseInt (hex.substring(2, 4), 16) / 255, b : parseInt (hex.substring(4, 6), 16) / 255 }
+         return { r : parseInt (hex.substring(0, 2), 16) / 255, g : parseInt (hex.substring(2, 4), 16) / 255, b : parseInt (hex.substring(4, 6), 16) / 255 };
    }
     
     /*
@@ -72,7 +71,8 @@ try {
     // инициализация.
     //['Main', 'Secondary', 'Explosive', 'Build'].forEach(function (indx) { Inventory.GetContext() [indx].Value = false; });
 
+     /*
     PROPERTIES.forEach(function (indx) { 
         for (let e = Teams.GetEnumerator(); e.MoveNext();) e.Current.Properties.Get(indx[0]).Value = indx[1];  
     });
- 
+ */
