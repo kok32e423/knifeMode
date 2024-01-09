@@ -115,6 +115,11 @@ Properties.OnPlayerProperty.Add(function (context, val) {
        p.Properties.Get('next').Value = RANKS[p.Properties.Get('level').Value - 1].target;
        p.Properties.Get('rank').Value = RANKS[p.Properties.Get('level').Value - 2].name; 
    }
+   if (p.Properties.Get('level').Value == null || p.Properties.Get('rank').Value == null) {
+    	P_PROPS.NAMES.forEach(function (prop, el) { 
+            p.Properties.Get(prop).Value = P_PROPS.VALUES[el];
+        });
+    }
 });
 
 Properties.OnTeamProperty.Add(function (context, val) {
@@ -144,22 +149,18 @@ Damage.OnKill.Add(function (p, vic)
 
 Players.OnPlayerDisconnected.Add(function (p) 
 {   
+   Update (p);
+   p.Team.Properties.Get (p.Id + 'info1').Value = null;
+   
    P_PROPS.NAMES.forEach(function (prop) {
        Properties.GetContext().Get(prop + p.Id).Value = p.Properties.Get(prop).Value;
    }); 
-   Update (p);
-   p.Team.Properties.Get (p.Id + 'info1').Value = null;
 }); 
 
 Players.OnPlayerConnected.Add(function (p) 
 {   
-   P_PROPS.NAMES.forEach(function (prop) 
-   {
+   P_PROPS.NAMES.forEach(function (prop) {
        p.Properties.Get(prop).Value = Properties.GetContext().Get(prop + p.Id).Value;
-   });
-   P_PROPS.NAMES.forEach(function (prop, el) 
-   {
-       if (p.Properties.Get(prop).Value == null) p.Properties.Get(prop).Value = P_PROPS.VALUES[el];
    });
 }); 
 
