@@ -1,7 +1,7 @@
 try {
 	
    // константы.
-   const n = '\n', PROPERTIES = { NAMES: ['wins', 'looses'], VALUES: }, RANKS = [
+   const n = '\n', PROPERTIES = { NAMES: ['wins', 'looses'], VALUES: [0, 0] }, RANKS = [
        { name: 'черпак', target: 25 },         
        { name: 'каструля', target: 40 },
        { name: 'мастер', target: 65 },
@@ -94,22 +94,22 @@ try {
   });
   
   const Game = function () {
-        s.Value = 'game', Spawn ();
-        main.Restart (115); 
-  } 
+      s.Value = 'game', Spawn ();
+      main.Restart (115); 
+  }
 
   const End = function (team) {
-        s.Value = 'end'; 
-        if (team != null) team.Properties.Get('wins').Value += 1, Another (team).Properties.Get('looses').Value += 1; for (let e = Players.GetEnumerator(); e.MoveNext();) e.Current.Team == team ? e.Current.Properties.Get('Scores').Value += 1 : null;        
-        main.Restart (10); 
+      s.Value = 'end'; 
+      if (team != null) team.Properties.Get('wins').Value += 1, Another (team).Properties.Get('looses').Value += 1; for (let e = Players.GetEnumerator(); e.MoveNext();) e.Current.Team == team ? e.Current.Properties.Get('Scores').Value += 1 : null;        
+      main.Restart (10); 
   } 
 
        
   // инициализация.
-  ['Main', 'Secondary', 'Explosive', 'Build'].forEach(function (indx) { Inventory.GetContext() [indx].Value = false; });
+  ['Main', 'Secondary', 'Explosive', 'Build'].forEach(function (el) { Inventory.GetContext()[el].Value = false; });
      
-  PROPERTIES.forEach(function (indx) { 
-      for (let e = Teams.GetEnumerator(); e.MoveNext();) e.Current.Properties.Get(indx[0]).Value = indx[1];  
+  PROPERTIES.NAMES.forEach(function (prop, el) { 
+      for (let e = Teams.GetEnumerator(); e.MoveNext();) e.Current.Properties.Get(prop).Value = PROPERTIES.VALUES[el];  
   });
    
   CON.MaxHp.Value = 35;
