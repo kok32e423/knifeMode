@@ -44,7 +44,7 @@ try {
        else return one;
   }
   
-  const Prop = function (el) { el.type.forEach(function(name) { el.context[name].Value = el.bool; }); 
+  const Prop = function (el) { el.type.forEach(function(name) { el.context[name].Value = el.bool; }); }
  
   const Spawn = function () { for (let e = Teams.GetEnumerator(); e.MoveNext();) e.Current.Spawns.Spawn(); }
 
