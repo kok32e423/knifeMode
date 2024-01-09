@@ -174,8 +174,9 @@ PROPERTIES.NAMES.forEach(function (prop, el) {
   for (let e = Teams.GetEnumerator(); e.MoveNext();) e.Current.Properties.Get(prop).Value = PROPERTIES.VALUES[el];  
 });
 
+/*
 P_PROPS.NAMES.forEach(function (prop, el) { 
   for (let e = Players.GetEnumerator(); e.MoveNext();) e.Current.Properties.Get(prop).Value = P_PROPS.VALUES[el];
 });
-   
+   */
 CON.MaxHp.Value = 35;
