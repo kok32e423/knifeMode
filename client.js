@@ -5,8 +5,8 @@ const n = '\n', PROPERTIES = { NAMES: ['wins', 'looses'], VALUES: [0, 0] }, RANK
      { name: 'мастер', target: 65 },
      { name: 'говноед', target: 85 },
      { name: 'stormtro', target: 115 },
-     { name: 'lololoshk', target: 140 }
-     { name: 'странник', target: 160 }
+     { name: 'lololoshk', target: 140 },
+     { name: 'странник', target: 160 },
      { name: 'босс', target: 185 }
 ],  P_PROPS = { NAMES: ['next', 'experience', 'level', 'rank'], VALUES: [RANKS[0].target, 0, 1, 'новичёк'] }, PROP = Properties.GetContext(), s = PROP.Get('state'), main = Timers.GetContext().Get('main'), ui = Ui.GetContext(), sp = Spawns.GetContext(), CON = contextedProperties.GetContext(), BLACKLIST = 'C002224F3666744D|596D1288BD7F8CF7|C925816BE50844A9|9B94CBC25664BD6D|2F665AF97FA6F0EF|E24BE3448F7DF371|CBCE0678C099C56E';
 
