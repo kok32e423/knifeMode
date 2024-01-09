@@ -84,11 +84,11 @@ Teams.OnRequestJoinTeam.Add(function (p, t) {
 
 Teams.OnPlayerChangeTeam.Add(function (p) 
 {
-   let team = p.Team;
-   p.Spawns.Spawn();
+   a = p.Team;
+   p.Spawns.Spawn ();
    
-   p.Ui.TeamProp2.Value = { Team: team.Id, Prop: p.Id + 'info1' };
-   team.Ui.TeamProp1.Value = { Team: team.Id, Prop: 'info2' };
+   p.Ui.TeamProp2.Value = { Team: a.Id, Prop: p.Id + 'info1' };
+   a.Ui.TeamProp1.Value = { Team: a.Id, Prop: 'info2' };
 })
 
 // init
@@ -137,8 +137,21 @@ Damage.OnKill.Add(function (p, vic)
 });  
 
 Players.OnPlayerDisconnected.Add(function (p) 
-{
+{   
+   P_PROPS.NAMES.forEach(function (prop) {
+       Properties.GetContext().Get(prop + p.Id).Value = p.Properties.Get(prop).Value;
+   }); 
    Update (p);
+   p.Team.Properties.Get (p.Id + 'info1').Value = null;
+}); 
+
+Players.OnPlayerConnected.Add(function (p) 
+{   
+   P_PROPS.NAMES.forEach(function (prop, el) 
+   {
+       if (p.Properties.Get(prop).Value == null) p.Properties.Get(prop).Value = P_PROPS.VALUES[el];
+           else p.Properties.Get(prop).Value = Properties.GetContext().Get(prop + p.Id).Value;
+   });
 }); 
 
 Timers.OnPlayerTimer.Add(function (t) { 
