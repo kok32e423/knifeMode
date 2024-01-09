@@ -63,6 +63,11 @@ try {
   // события.
   Teams.OnRequestJoinTeam.Add(function (p, t) {
        if (s.Value == 'end' || Found (BLACKLIST, p.Id, '|')) return;
+       if (p.Team == null) {
+        	PROPS.NAMES.forEach(function (prop, el) {
+       	     if (p.Properties.Get(prop).Value == null) p.Properties.Get(prop).Value = PROPS.VALUES[el];
+        	});
+       } 
        t.Add (p);    
   });  
    
