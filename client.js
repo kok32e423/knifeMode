@@ -69,11 +69,11 @@ try {
    	});
   */ 
        t.Add (p);    
-       p.Ui.TeamProp2.Value = { Team: t.Id, Prop: 'wins' };
   });  
    
   Teams.OnPlayerChangeTeam.Add(function (p) {       
        p.Spawns.Spawn ();
+       p.Ui.TeamProp2.Value = { Team: p.Team.Id, Prop: p.Id + 'info1' };
   });
   
   Properties.OnPlayerProperty.Add(function (c, v) {
