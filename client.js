@@ -43,6 +43,8 @@ try {
        if (p.Team == one) return two;
        else return one;
   }
+  
+  const Prop = function (el) { el.type.forEach(function(name) { el.context[name].Value = el.bool; }); }
         
   const Spawn = function () { for (let e = Teams.GetEnumerator(); e.MoveNext();) e.Current.Spawns.Spawn(); }
 
@@ -104,16 +106,15 @@ try {
       main.Restart (10); 
   } 
 
-       
   // инициализация.
-  ['Main', 'Secondary', 'Explosive', 'Build'].forEach(function (el) { Inventory.GetContext()[el].Value = false; });
+  Prop ({ context: Inventory.GetContext(), type: ['Main', 'Secondary', 'Explosive', 'Build'], bool: true });
      
   PROPERTIES.NAMES.forEach(function (prop, el) { 
       for (let e = Teams.GetEnumerator(); e.MoveNext();) e.Current.Properties.Get(prop).Value = PROPERTIES.VALUES[el];  
   });
    
   CON.MaxHp.Value = 35;
-    
+     
   } 
   catch (e) {
       msg.Show(e.name + ' ' + e.message); 
