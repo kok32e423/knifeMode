@@ -84,9 +84,11 @@ Teams.OnRequestJoinTeam.Add(function (p, t) {
 
 Teams.OnPlayerChangeTeam.Add(function (p) 
 {
+   let team = p.Team;
    p.Spawns.Spawn();
-   p.Team.Ui.TeamProp1.Value = { Team: p.Team.Id, Prop: 'info2' };
-   p.Ui.TeamProp2.Value = { Team: p.Team.Id, Prop: p.Id + 'info1' };
+   
+   p.Ui.TeamProp2.Value = { Team: team.Id, Prop: p.Id + 'info1' };
+   team.Ui.TeamProp1.Value = { Team: team.Id, Prop: 'info2' };
 })
 
 // init
@@ -106,7 +108,7 @@ PROPERTIES.NAMES.forEach(function (prop, el) {
 });
 
 Properties.OnPlayerProperty.Add(function (context, val) {
-   if (val.Name != 'info1') context.Player.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + context.Player.Properties.Get('rank').Value + '  ' + n + '' + n + '   level: ' + context.Player.Properties.Get('level').Value + ', exp: ' + context.Player.Properties.Get('experience').Value + ' <size=58.5>/ ' + context.Player.Properties.Get('next').Value  + '</size></color>  '; 
+   if (val.Name != 'info1') context.Player.Team.Properties.Get(context.Player.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + context.Player.Properties.Get('rank').Value + '  ' + n + '' + n + '   level: ' + context.Player.Properties.Get('level').Value + ', exp: ' + context.Player.Properties.Get('experience').Value + ' <size=58.5>/ ' + context.Player.Properties.Get('next').Value  + '</size></color>  '; 
 });
 
 Properties.OnTeamProperty.Add(function (context, val) {
