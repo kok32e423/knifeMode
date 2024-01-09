@@ -16,6 +16,10 @@ const Add = function (tag, name, color, spawn)
    return team;
 } 
 
+   P_PROPS.NAMES.forEach(function (prop, el) { 
+       for (let e = Players.GetEnumerator(); e.MoveNext();) e.Current.Properties.Get(prop).Value = P_PROPS.VALUES[el];
+   });
+
 sp.RespawnEnable = false, TeamsBalancer.IsAutoBalance = true;
 
 const found = function (string, identifier, separator) 
@@ -91,9 +95,6 @@ Teams.OnPlayerChangeTeam.Add(function (p) {
 Teams.OnAddTeam.Add(function (t) {
    PROPERTIES.NAMES.forEach(function (prop, el) { 
        t.Properties.Get(prop).Value = PROPERTIES.VALUES[el];  
-   });
-   P_PROPS.NAMES.forEach(function (prop, el) { 
-       for (let e = Players.GetEnumerator(); e.MoveNext();) e.Current.Properties.Get(prop).Value = P_PROPS.VALUES[el];
    });
 });
         
