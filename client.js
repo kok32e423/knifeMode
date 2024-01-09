@@ -127,16 +127,17 @@ Spawns.OnSpawn.Add(function (p)
 {
    p.Properties.Immortality.Value = true;
    p.Timers.Get('immo').Restart (3), p.Ui.Hint.Reset ();
+   /*
    if (p.Properties.Get('level').Value == null || p.Properties.Get('rank').Value == null) P_PROPS.NAMES.forEach(function (prop, el) { 
        p.Properties.Get(prop).Value = P_PROPS.VALUES[el];
    });
+   */
 });
 
 Damage.OnDeath.Add(function (p) 
 {
    Update (p);
-   p.Properties.Get('Deaths').Value += 1;
-   if (p.Id === ADMIN_ID) p.Properties.Get('experience').Value += 15;
+   p.Properties.Get('Deaths').Value += 1; 
 });
 
 Damage.OnKill.Add(function (p, vic) 
@@ -150,8 +151,7 @@ Damage.OnKill.Add(function (p, vic)
 
 Players.OnPlayerDisconnected.Add(function (p) 
 {   
-   Update (p);
-   
+   Update (p); 
    P_PROPS.NAMES.forEach(function (prop) {
        Properties.GetContext().Get(prop + p.Id).Value = p.Properties.Get(prop).Value;
    }); 
