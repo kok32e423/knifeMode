@@ -194,7 +194,12 @@ const Game = function ()
 
 const End = function (team)
 {
-   s.Value = 'end'; if (team != null) for (let e = Players.GetEnumerator(); e.MoveNext();) if (e.Current.Team == team) e.Current.Properties.Get('Scores').Value += 1; team.Properties.Get('wins').Value += 1, Another(team).Properties.Get('looses').Value += 1; 
+   s.Value = 'end'; 
+   if (team != null)
+   {
+      for (let e = Players.GetEnumerator(); e.MoveNext();) if (e.Current.Team == team) e.Current.Properties.Get('Scores').Value += 1;
+      team.Properties.Get('wins').Value += 1, Another(team).Properties.Get('looses').Value += 1;
+   }
    main.Restart (10); 
 } 
 
