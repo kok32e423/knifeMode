@@ -8,7 +8,7 @@ try {
        { name: 'говноед', target: 85 },
        { name: 'stormtro', target: 115 },
        { name: 'странник', target: 140 }
-  ],  PROPS = { NAMES: ['next', 'experience', 'level', 'rank'], VALUES: [RANKS[0].target, 1, 0, 'новичёк'] }, PROPS = Properties.GetContext(), s = PROPS.Get('state'), main = Timers.GetContext().Get('main'), ui = Ui.GetContext(), sp = Spawns.GetContext(), CON = contextedProperties.GetContext(), BLACKLIST = 'C002224F3666744D|596D1288BD7F8CF7|C925816BE50844A9|9B94CBC25664BD6D|2F665AF97FA6F0EF|E24BE3448F7DF371|CBCE0678C099C56E';
+  ],  PROPS = { NAMES: ['next', 'experience', 'level', 'rank'], VALUES: [RANKS[0].target, 1, 0, 'новичёк'] }, PROP = Properties.GetContext(), s = PROP.Get('state'), main = Timers.GetContext().Get('main'), ui = Ui.GetContext(), sp = Spawns.GetContext(), CON = contextedProperties.GetContext(), BLACKLIST = 'C002224F3666744D|596D1288BD7F8CF7|C925816BE50844A9|9B94CBC25664BD6D|2F665AF97FA6F0EF|E24BE3448F7DF371|CBCE0678C099C56E';
    
   // параметры.
   sp.RespawnEnable = false, TeamsBalancer.IsAutoBalance = true, BreackGraph.Damage = false;
@@ -68,7 +68,7 @@ try {
        	     if (p.Properties.Get(prop).Value == null) p.Properties.Get(prop).Value = PROPS.VALUES[el];
         	});
        } 
-       one.Add (p);    
+       t.Add (p);    
   });  
    
   Teams.OnPlayerChangeTeam.Add(function (p) {       
