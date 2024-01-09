@@ -80,13 +80,13 @@ red = Add ('red', { up: 'террористы ᵏⁿⁱᶠᵉᵉ', down: '' }, '
 Teams.OnRequestJoinTeam.Add(function (p, t) {
    if (s.Value == 'end' || found (BLACKLIST, p.Id, '|')) return;
    t.Add (p);    
-   t.Ui.TeamProp1.Value = { Team: t.Id, Prop: 'info2' };
-   p.Ui.TeamProp2.Value = { Team: t.Id, Prop: p.Id + 'info1' };
 });  
 
 Teams.OnPlayerChangeTeam.Add(function (p) 
 {
    p.Spawns.Spawn();
+   p.Team.Ui.TeamProp1.Value = { Team: p.Team.Id, Prop: 'info2' };
+   p.Ui.TeamProp2.Value = { Team: p.Team.Id, Prop: p.Id + 'info1' };
 })
 
 // init
