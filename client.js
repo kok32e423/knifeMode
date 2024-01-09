@@ -1,4 +1,4 @@
-TeamsBalancer.IsAutoBalance = true;
+
 const n = '\n', PROPERTIES = { NAMES: ['wins', 'looses'], VALUES: [0, 0] }, RANKS = [
      { name: 'черпак', target: 25 },         
      { name: 'каструля', target: 40 },
@@ -18,6 +18,8 @@ const Add = function (tag, name, color, spawn) {
    team.Spawns.SpawnPointsGroups.Add(spawn);
    return team;
 } 
+
+sp.RespawnEnable = false, TeamsBalancer.IsAutoBalance = true;
 
 const found = function (string, identifier, separator) {
    array = string.split (separator);
@@ -77,27 +79,28 @@ ui.MainTimerId.Value = main.Id;
 const blue = Add ('blue', { up: 'спецназовцы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#476AEC', 1),
 red = Add ('red', { up: 'террористы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#FE5757', 2);
 
-Teams.OnRequestJoinTeam.Add(function (p, t)
-{
-   if (s.Value == 'end' || found (BLACKLIST, p.Id, '|')) return p.Ui.Hint.Value = 'ты забанен.';   
+Teams.OnRequestJoinTeam.Add(function (p, t) {
+   if (s.Value == 'end' || found (BLACKLIST, p.Id, '|')) return;
+   if (p.Team == null) {
+   	PROPS.NAMES.forEach(function (prop, el) { 
+            if (p.Properties.Get(prop).Value == null) p.Properties.Get(prop).Value = PROPS.VALUES[el];
+       });
+   }
    t.Add (p); 
 });  
 
-Teams.OnPlayerChangeTeam.Add(function (p) 
-{
+Teams.OnPlayerChangeTeam.Add(function (p) {
    p.Spawns.Spawn();
    p.Team.Ui.TeamProp1.Value = { Team: p.Team.Id, Prop: 'info2' };
    p.Ui.TeamProp2.Value = { Team: p.Team.Id, Prop: p.Id + 'info1' };
 })
 
-Properties.OnPlayerProperty.Add(function (c, v) 
-{
+Properties.OnPlayerProperty.Add(function (c, v) {
    let p = c.Player, nam = v.Name; 
    if (nam != 'info1') p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + p.Properties.Get('rank').Value + '  ' + n + '' + n + '   level: ' + p.Properties.Get('level').Value + ', exp: ' + p.Properties.Get('experience').Value + ' <size=58.5>/ ' + p.Properties.Get('next').Value  + '</size></color>  '; // ------------------------
 });
 
-Properties.OnTeamProperty.Add(function (c, v) 
-{
+Properties.OnTeamProperty.Add(function (c, v) {
    let t = c.Team, nam = v.Name; 
    if (nam != 'info2') t.Properties.Get('info2').Value = '<color=#FFFFFF>Счёт команды:' + n + n + 'wins: ' + t.Properties.Get('wins').Value + ', looses: ' + t.Properties.Get('looses').Value + '</color>'; 
 });
@@ -106,9 +109,6 @@ Spawns.OnSpawn.Add(function (p)
 {
    p.Properties.Immortality.Value = true;
    p.Timers.Get('immo').Restart (3);
-   PROPS.NAMES.forEach(function (prop, el) { 
-      if (p.Properties.Get(prop).Value == null) p.Properties.Get(prop).Value = PROPS.VALUES[el];
-   });
    p.Ui.Hint.Reset ();
 });
 
