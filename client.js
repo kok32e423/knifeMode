@@ -111,7 +111,7 @@ PROPERTIES.NAMES.forEach(function (prop, el) {
 Properties.OnPlayerProperty.Add(function (context, val) {
    let p = context.Player;
    p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + p.Properties.Get('rank').Value + '  ' + n + '' + n + '   level: ' + p.Properties.Get('level').Value + ', exp: ' + p.Properties.Get('experience').Value + ' <size=58.5>/ ' + p.Properties.Get('next').Value  + '</size></color>  '; 
-   if (p.Properties.Get('experience').Value >= p.Properties.Get('next').Value) {
+   if (val.Name == 'experience' && p.Properties.Get('experience').Value >= p.Properties.Get('next').Value) {
        p.Properties.Get('level').Value += 1;
        p.Properties.Get('next').Value = RANKS[p.Properties.Get('level').Value - 1].target;
        p.Properties.Get('rank').Value = RANKS[p.Properties.Get('level').Value - 2].name; 
@@ -127,7 +127,7 @@ Spawns.OnSpawn.Add(function (p)
 {
    p.Properties.Immortality.Value = true;
    p.Timers.Get('immo').Restart (3), p.Ui.Hint.Reset ();
-   if (p.Properties.Get('level').Value == null || p.Properties.Get('rank').Value == null || p.Properties.Get('experience').Value == null) P_PROPS.NAMES.forEach(function (prop, el) { 
+   if (p.Properties.Get('level').Value == null || p.Properties.Get('rank').Value == null) P_PROPS.NAMES.forEach(function (prop, el) { 
        p.Properties.Get(prop).Value = P_PROPS.VALUES[el];
    });
 });
