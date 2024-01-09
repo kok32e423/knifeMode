@@ -73,6 +73,12 @@ try {
    
   Teams.OnPlayerChangeTeam.Add(function (p) {       
        p.Spawns.Spawn ();
+       p.Ui.TeamProp2.Value = { Team: p.Team.Id, Prop: p.Id + 'info1' };
+  });
+  
+  Properties.OnPlayerProperty.Add(function (c, v) {
+       let p = c.Player, nam = v.Name; 
+       if (nam != 'info1') p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + p.Properties.Get('rank').Value + '  ' + n + '' + n + '   level: ' + p.Properties.Get('level').Value + ', exp: ' + p.Properties.Get('experience').Value + ' <size=58.5>/ ' + p.Properties.Get('next').Value  + '</size></color>  '; // ------------------------
   });
    
   Timers.OnPlayerTimer.Add(function (t) { 
