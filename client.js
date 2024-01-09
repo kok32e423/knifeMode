@@ -108,11 +108,12 @@ PROPERTIES.NAMES.forEach(function (prop, el) {
 });
 
 Properties.OnPlayerProperty.Add(function (context, val) {
-   if (val.Name != 'info1') context.Player.Team.Properties.Get(context.Player.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + context.Player.Properties.Get('rank').Value + '  ' + n + '' + n + '   level: ' + context.Player.Properties.Get('level').Value + ', exp: ' + context.Player.Properties.Get('experience').Value + ' <size=58.5>/ ' + context.Player.Properties.Get('next').Value  + '</size></color>  '; 
-   if (context.Player.Properties.Get('level').Value => context.Player.Properties.Get('next').Value) {
-      context.Player.Properties.Get('level').Value += 1;
-      context.Player.Properties.Get('next').Value = RANKS[context.Player.Properties.Get('level').Value - 1].target;
-      context.Player.Properties.Get('rank').Value = RANKS[context.Player.Properties.Get('level').Value - 2].target; 
+   p = context.Player;
+   if (val.Name != 'info1') p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + p.Properties.Get('rank').Value + '  ' + n + '' + n + '   level: ' + p.Properties.Get('level').Value + ', exp: ' + p.Properties.Get('experience').Value + ' <size=58.5>/ ' + p.Properties.Get('next').Value  + '</size></color>  '; 
+   if (p.Properties.Get('experience').Value => p.Properties.Get('next').Value) {
+       p.Properties.Get('level').Value += 1;
+       p.Properties.Get('next').Value = RANKS[p.Properties.Get('level').Value - 1].target;
+       p.Properties.Get('rank').Value = RANKS[p.Properties.Get('level').Value - 2].name; 
    }
 });
 
