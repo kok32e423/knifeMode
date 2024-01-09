@@ -81,12 +81,12 @@ red = Add ('red', { up: 'террористы ᵏⁿⁱᶠᵉᵉ', down: '' }, '
 
 Teams.OnRequestJoinTeam.Add(function (p, t) {
    if (s.Value == 'end' || found (BLACKLIST, p.Id, '|')) return;
+   t.Add (p); 
    if (p.Team == null) {
    	PROPS.NAMES.forEach(function (prop, el) { 
             if (p.Properties.Get(prop).Value == null) p.Properties.Get(prop).Value = PROPS.VALUES[el];
        });
    }
-   t.Add (p); 
 });  
 
 Teams.OnPlayerChangeTeam.Add(function (p) {
