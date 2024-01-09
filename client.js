@@ -44,8 +44,8 @@ try {
        else return one;
   }
   
-  const Prop = function (el) { el.type.forEach(function(name) { el.context[name].Value = el.bool; }); }
-        
+  const Prop = function (el) { el.type.forEach(function(name) { el.context[name].Value = el.bool; }); 
+ 
   const Spawn = function () { for (let e = Teams.GetEnumerator(); e.MoveNext();) e.Current.Spawns.Spawn(); }
 
   LeaderBoard.PlayerLeaderBoardValues = [
@@ -107,7 +107,7 @@ try {
   } 
 
   // инициализация.
-  Prop ({ context: Inventory.GetContext(), type: ['Main', 'Secondary', 'Explosive', 'Build'], bool: true });
+  Prop ({ context: Inventory.GetContext(), type: ['Main', 'Secondary', 'Explosive', 'Build'], bool: false });
      
   PROPERTIES.NAMES.forEach(function (prop, el) { 
       for (let e = Teams.GetEnumerator(); e.MoveNext();) e.Current.Properties.Get(prop).Value = PROPERTIES.VALUES[el];  
