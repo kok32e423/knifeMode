@@ -80,13 +80,16 @@ red = Add ('red', { up: 'террористы ᵏⁿⁱᶠᵉᵉ', down: '' }, '
 Teams.OnRequestJoinTeam.Add(function (p, t) {
    if (s.Value == 'end' || found (BLACKLIST, p.Id, '|')) return;
    t.Add (p);    
+   t.Ui.TeamProp1.Value = { Team: p.Team.Id, Prop: 'info2' };
+   p.Ui.TeamProp2.Value = { Team: p.Team.Id, Prop: p.Id + 'info1' };
 });  
 
-Teams.OnPlayerChangeTeam.Add(function (p) {
+Teams.OnPlayerChangeTeam.Add(function (p) 
+{
    p.Spawns.Spawn();
-   p.Team.Ui.TeamProp1.Value = { Team: p.Team.Id, Prop: 'info2' };
-   p.Ui.TeamProp2.Value = { Team: p.Team.Id, Prop: p.Id + 'info1' };
 })
+
+// init
 
 Teams.OnAddTeam.Add(function (t) {
    PROPERTIES.NAMES.forEach(function (prop, el) { 
@@ -99,30 +102,27 @@ P_PROPS.NAMES.forEach(function (prop, el) {
 });
 
 PROPERTIES.NAMES.forEach(function (prop, el) { 
-  for (let e = Teams.GetEnumerator(); e.MoveNext();) e.Current.Properties.Get(prop).Value = PROPERTIES.VALUES[el];  
+   for (let e = Teams.GetEnumerator(); e.MoveNext();) e.Current.Properties.Get(prop).Value = PROPERTIES.VALUES[el];  
 });
 
- 
-Properties.OnPlayerProperty.Add(function (c, v) {
-   let p = c.Player, nam = v.Name; 
-   if (nam != 'info1') p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + p.Properties.Get('rank').Value + '  ' + n + '' + n + '   level: ' + p.Properties.Get('level').Value + ', exp: ' + p.Properties.Get('experience').Value + ' <size=58.5>/ ' + p.Properties.Get('next').Value  + '</size></color>  '; // ------------------------
+Properties.OnPlayerProperty.Add(function (context, val) {
+   if (val.Name != 'info1') context.Player.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + context.Player.Properties.Get('rank').Value + '  ' + n + '' + n + '   level: ' + context.Player.Properties.Get('level').Value + ', exp: ' + context.Player.Properties.Get('experience').Value + ' <size=58.5>/ ' + context.Player.Properties.Get('next').Value  + '</size></color>  '; 
 });
 
-Properties.OnTeamProperty.Add(function (c, v) {
-   let t = c.Team, nam = v.Name; 
-   if (nam != 'info2') t.Properties.Get('info2').Value = '<color=#FFFFFF>Счёт команды:' + n + n + 'wins: ' + t.Properties.Get('wins').Value + ', looses: ' + t.Properties.Get('looses').Value + '</color>'; 
+Properties.OnTeamProperty.Add(function (context, val) {
+   if (val.Name != 'info2') context.Team.Properties.Get('info2').Value = '<color=#FFFFFF>Счёт команды:' + n + n + 'wins: ' + context.Team.Properties.Get('wins').Value + ', looses: ' + context.Team.Properties.Get('looses').Value + '</color>'; 
 });
 
 Spawns.OnSpawn.Add(function (p) 
 {
    p.Properties.Immortality.Value = true;
-   p.Timers.Get('immo').Restart (3);
-   p.Ui.Hint.Reset ();
+   p.Timers.Get('immo').Restart (3), p.Ui.Hint.Reset ();
 });
 
 Damage.OnDeath.Add(function (p) 
 {
-   Update (p), p.Properties.Get('Deaths').Value += 1;
+   Update (p);
+   p.Properties.Get('Deaths').Value += 1;
 });
 
 Damage.OnKill.Add(function (p, vic) 
@@ -132,7 +132,6 @@ Damage.OnKill.Add(function (p, vic)
    if (pos != 0) vic.Ui.Hint.Value = p.NickName + ' убил вас с расстояния ' + Math.abs (pos) + ' блоков!';
    p.Properties.Get('Kills').Value += 1;  
    p.Properties.Get('experience').Value += Math.abs (pos);
-   p.Team.Properties.Get('kills').Value += 1; 
 });  
 
 Players.OnPlayerDisconnected.Add(function (p) 
@@ -176,8 +175,7 @@ const End = function (team)
    s.Value = 'end'; 
    if (team != null) 
    {
-       for (let e = Players.GetEnumerator(); e.MoveNext();) if (e.Current.Team == team) e.Current.Properties.Get('Scores').Value += 1;
-       team.Properties.Get('wins').Value += 1, Another(team).Properties.Get('looses').Value += 1;
+       for (let e = Players.GetEnumerator(); e.MoveNext();) if (e.Current.Team == team) e.Current.Properties.Get('Scores').Value += 1; team.Properties.Get('wins').Value += 1, Another(team).Properties.Get('looses').Value += 1;
    }
    main.Restart (10); 
 } 
