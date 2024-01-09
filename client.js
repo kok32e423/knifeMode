@@ -68,7 +68,7 @@ try {
        	     if (p.Properties.Get(prop).Value == null) p.Properties.Get(prop).Value = PROPS.VALUES[el];
         	});
        } 
-       t.Add (p);    
+       one.Add (p);    
   });  
    
   Teams.OnPlayerChangeTeam.Add(function (p) {       
