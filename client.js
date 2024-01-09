@@ -69,7 +69,7 @@ try {
    	});
   */ 
        t.Add (p);    
-       p.Ui.TeamProp2.Value = { Team: t.Id, Prop: p.Id + 'info1' };
+       p.Ui.TeamProp2.Value = { Team: t.Id, Prop: 'wins' };
   });  
    
   Teams.OnPlayerChangeTeam.Add(function (p) {       
