@@ -88,6 +88,16 @@ Teams.OnPlayerChangeTeam.Add(function (p) {
    p.Ui.TeamProp2.Value = { Team: p.Team.Id, Prop: p.Id + 'info1' };
 })
 
+Teams.OnAddTeam.Add(function (t) {
+   PROPERTIES.NAMES.forEach(function (prop, el) { 
+       t.Properties.Get(prop).Value = PROPERTIES.VALUES[el];  
+   });
+   P_PROPS.NAMES.forEach(function (prop, el) { 
+       for (let e = Players.GetEnumerator(); e.MoveNext();) e.Current.Properties.Get(prop).Value = P_PROPS.VALUES[el];
+   });
+});
+        
+
 Properties.OnPlayerProperty.Add(function (c, v) {
    let p = c.Player, nam = v.Name; 
    if (nam != 'info1') p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + p.Properties.Get('rank').Value + '  ' + n + '' + n + '   level: ' + p.Properties.Get('level').Value + ', exp: ' + p.Properties.Get('experience').Value + ' <size=58.5>/ ' + p.Properties.Get('next').Value  + '</size></color>  '; // ------------------------
@@ -175,13 +185,6 @@ Game ();
 
 PROPERTIES.NAMES.forEach(function (prop, el) { 
   for (let e = Teams.GetEnumerator(); e.MoveNext();) e.Current.Properties.Get(prop).Value = PROPERTIES.VALUES[el];  
-});
-
-Map.OnLoad.Add(function () 
-{
-    P_PROPS.NAMES.forEach(function (prop, el) { 
-        for (let e = Players.GetEnumerator(); e.MoveNext();) e.Current.Properties.Get(prop).Value = P_PROPS.VALUES[el];
-    });
 });
 
 CON.MaxHp.Value = 35;
