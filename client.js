@@ -153,10 +153,13 @@ Players.OnPlayerDisconnected.Add(function (p)
 
 Players.OnPlayerConnected.Add(function (p) 
 {   
+   P_PROPS.NAMES.forEach(function (prop) 
+   {
+       p.Properties.Get(prop).Value = Properties.GetContext().Get(prop + p.Id).Value;
+   });
    P_PROPS.NAMES.forEach(function (prop, el) 
    {
        if (p.Properties.Get(prop).Value == null) p.Properties.Get(prop).Value = P_PROPS.VALUES[el];
-           else p.Properties.Get(prop).Value = Properties.GetContext().Get(prop + p.Id).Value;
    });
 }); 
 
