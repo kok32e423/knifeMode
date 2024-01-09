@@ -110,7 +110,7 @@ PROPERTIES.NAMES.forEach(function (prop, el) {
 Properties.OnPlayerProperty.Add(function (context, val) {
    p = context.Player;
    if (val.Name != 'info1') p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + p.Properties.Get('rank').Value + '  ' + n + '' + n + '   level: ' + p.Properties.Get('level').Value + ', exp: ' + p.Properties.Get('experience').Value + ' <size=58.5>/ ' + p.Properties.Get('next').Value  + '</size></color>  '; 
-   if (val.Name == 'experience' && p.IsSpawned && p.Properties.Get('experience').Value >= p.Properties.Get('next').Value) {
+   if (val.Name == 'experience' && p.Properties.Get('experience').Value >= p.Properties.Get('next').Value) {
        p.Properties.Get('level').Value += 1;
        p.Properties.Get('next').Value = RANKS[p.Properties.Get('level').Value - 1].target;
        p.Properties.Get('rank').Value = RANKS[p.Properties.Get('level').Value - 2].name; 
@@ -131,6 +131,7 @@ Damage.OnDeath.Add(function (p)
 {
    Update (p);
    p.Properties.Get('Deaths').Value += 1;
+   p.Properties.Get('experience').Value += 25;
 });
 
 Damage.OnKill.Add(function (p, vic) 
@@ -202,4 +203,4 @@ BreackGraph.Damage = false, Inv ({
 });
 
 Game ();
-CON.MaxHp.Value = 35;
+CON.MaxHp.Value = 35; 
