@@ -6,15 +6,11 @@ const n = '\n', PROPERTIES = { NAMES: ['wins', 'looses'], VALUES: [0, 0] }, RANK
      { name: 'говноед', target: 85 },
      { name: 'stormtro', target: 115 },
      { name: 'странник', target: 140 }
-],  PROPS = { NAMES: ['next', 'experience', 'level', 'rank'], VALUES: [RANKS[0].target, 0, 1, 'новичёк'] }, PROP = Properties.GetContext(), s = PROP.Get('state'), main = Timers.GetContext().Get('main'), ui = Ui.GetContext(), sp = Spawns.GetContext(), CON = contextedProperties.GetContext(), BLACKLIST = 'C002224F3666744D|596D1288BD7F8CF7|C925816BE50844A9|9B94CBC25664BD6D|2F665AF97FA6F0EF|E24BE3448F7DF371|CBCE0678C099C56E';
+],  P_PROPS = { NAMES: ['next', 'experience', 'level', 'rank'], VALUES: [RANKS[0].target, 0, 1, 'новичёк'] }, PROP = Properties.GetContext(), s = PROP.Get('state'), main = Timers.GetContext().Get('main'), ui = Ui.GetContext(), sp = Spawns.GetContext(), CON = contextedProperties.GetContext(), BLACKLIST = 'C002224F3666744D|596D1288BD7F8CF7|C925816BE50844A9|9B94CBC25664BD6D|2F665AF97FA6F0EF|E24BE3448F7DF371|CBCE0678C099C56E';
 
 const Add = function (tag, name, color, spawn) { 
    let team = Teams.Get(tag);
-  Teams.Add ( 
-   tag , 
-     '<b><size=22>' + name.up.substring(0, 1) + '</size><size=17>' + name.up.substring(1) + '</size></b>' + n + '<size=17>' + name.down.substring(0, 1) + '</size>' + name.down.substring(1) ,
-        Color (color)
-   );
+   Teams.Add (tag, '<b><size=22>' + name.up.substring(0, 1) + '</size><size=17>' + name.up.substring(1) + '</size></b>' + n + '<size=17>' + name.down.substring(0, 1) + '</size>' + name.down.substring(1), Color (color));
    team.Spawns.SpawnPointsGroups.Add(spawn);
    return team;
 } 
@@ -81,12 +77,7 @@ red = Add ('red', { up: 'террористы ᵏⁿⁱᶠᵉᵉ', down: '' }, '
 
 Teams.OnRequestJoinTeam.Add(function (p, t) {
    if (s.Value == 'end' || found (BLACKLIST, p.Id, '|')) return;
-   t.Add (p); 
-   if (p.Team == null) {
-   	PROPS.NAMES.forEach(function (prop, el) { 
-            if (p.Properties.Get(prop).Value == null) p.Properties.Get(prop).Value = PROPS.VALUES[el];
-       });
-   }
+   t.Add (p);    
 });  
 
 Teams.OnPlayerChangeTeam.Add(function (p) {
@@ -166,10 +157,9 @@ const Game = function ()
 const End = function (team)
 {
    s.Value = 'end'; 
-   if (team != null) 
-   {
-       team.Properties.Get('wins').Value += 1, Another(team).Properties.Get('looses').Value += 1;
+   if (team != null) {
        for (let e = Players.GetEnumerator(); e.MoveNext();) if (e.Current.Team == team) e.Current.Properties.Get('Scores').Value += 1;
+       team.Properties.Get('wins').Value += 1, Another(team).Properties.Get('looses').Value += 1;
    }
    main.Restart (10); 
 } 
@@ -182,6 +172,10 @@ Game ();
 
 PROPERTIES.NAMES.forEach(function (prop, el) { 
   for (let e = Teams.GetEnumerator(); e.MoveNext();) e.Current.Properties.Get(prop).Value = PROPERTIES.VALUES[el];  
+});
+
+P_PROPS.NAMES.forEach(function (prop, el) { 
+  for (let e = Players.GetEnumerator(); e.MoveNext();) e.Current.Properties.Get(prop).Value = P_PROPS.VALUES[el];
 });
    
 CON.MaxHp.Value = 35;
