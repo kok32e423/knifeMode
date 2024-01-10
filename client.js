@@ -49,14 +49,14 @@ try {
             for (let e = Teams.GetEnumerator(); e.MoveNext();) e.Current.Spawns.Spawn(); 
          }
          
-         const Inventory = function (prop) 
+         const Inv = function (prop) 
          { 
             prop.type.forEach(function (el) { prop.context [el].Value = prop.bool; }); 
          }
          
-         const Another = function (team)
+         const Another = function (t)
          {
-            if (team == blue) return red;
+            if (t == blue) return red;
             else return blue;
          }
                    
@@ -117,22 +117,23 @@ try {
          const End = function (t)
          { 
             s.Value = 'end'; 
-            if (t != null) {
-            for (let e = Players.GetEnumerator(); e.MoveNext();) if (e.Current.Team == t) e.Current.Properties.Get('Scores').Value += 1;
-            t.Properties.Get('wins').Value += 1, Another(t).Properties.Get('looses').Value += 1;
-         }
+            if (t != null) 
+            {
+                for (let e = Players.GetEnumerator(); e.MoveNext();) if (e.Current.Team == t) e.Current.Properties.Get('Scores').Value += 1;
+                t.Properties.Get('wins').Value += 1, Another(t).Properties.Get('looses').Value += 1;
+            }
             main.Restart (10); 
          } 
          
          P_PROPERTIES.NAMES.forEach(function (name, el) { 
-            for (let e = Players.GetEnumerator(); e.MoveNext();) e.Current.Properties.Get(name).Value = P_PROPERTIES.VALUES [el];
+            for (let e = Players.GetEnumerator(); e.MoveNext();) prop.Get(e.Current.Id + name).Value = P_PROPERTIES.VALUES [el];
          });
          
          T_PROPERTIES.NAMES.forEach(function (name, el) { 
             for (let e = Teams.GetEnumerator(); e.MoveNext();) e.Current.Properties.Get(name).Value = T_PROPERTIES.VALUES [el];  
          });
          
-         BreackGraph.Damage = false, Inventory ({ context: Inventory.GetContext (), type: ['Main', 'Secondary', 'Explosive', 'Build'], bool: false });
+         BreackGraph.Damage = false, Inv ({ context: Inventory.GetContext (), type: ['Main', 'Secondary', 'Explosive', 'Build'], bool: false });
          Game ();
          c_prop.MaxHp.Value = 35; 
 
