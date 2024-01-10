@@ -73,11 +73,7 @@ try {
          Teams.OnAddTeam.Add(function (t) {   
              t.Ui.TeamProp1.Value = { Team: t.Id, Prop: 'info2' };
          });
-         
-         P_PROPERTIES.NAMES.forEach(function (name, el) { 
-            for (let e = Players.GetEnumerator(); e.MoveNext();) prop.Get(e.Current.Id + name).Value = P_PROPERTIES.VALUES [el];
-         });
-                  
+                           
          Properties.OnPlayerProperty.Add(function (context, val) {
              let p = context.Player;
              p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + prop.Get(p.Id + 'rank').Value + '  ' + n + '' + n + '   level: ' + prop.Get(p.Id + 'level').Value + ', exp: ' + prop.Get(p.Id + 'experience').Value + ' <size=58.5>/ ' + prop.Get(p.Id + 'next').Value  + '</size></color>  '; 
@@ -139,6 +135,10 @@ try {
          
          T_PROPERTIES.NAMES.forEach(function (name, el) { 
             for (let e = Teams.GetEnumerator(); e.MoveNext();) e.Current.Properties.Get(name).Value = T_PROPERTIES.VALUES [el];  
+         });
+         
+         P_PROPERTIES.NAMES.forEach(function (name, el) { 
+            for (let e = Players.GetEnumerator(); e.MoveNext();) prop.Get(e.Current.Id + name).Value = P_PROPERTIES.VALUES [el];
          });
          
          BreackGraph.Damage = false, Inv ({ context: Inventory.GetContext (), type: ['Main', 'Secondary', 'Explosive', 'Build'], bool: false });
