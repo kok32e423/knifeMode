@@ -60,6 +60,14 @@ try {
          const blue = Add ('blue', { up: 'спецназовцы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#476AEC', 1),
          red = Add ('red', { up: 'террористы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#FE5757', 2);
          
+         T_PROPERTIES.NAMES.forEach(function (name, el) { 
+            for (let e = Teams.GetEnumerator (); e.MoveNext();) e.Current.Properties.Get(name).Value = T_PROPERTIES.VALUES [el];  
+         });
+         
+         P_PROPERTIES.NAMES.forEach(function (name, el) { 
+            for (let e = Players.GetEnumerator (); e.MoveNext();) prop.Get(e.Current.Id + name).Value = P_PROPERTIES.VALUES [el];
+         });
+         
          LeaderBoard.PlayerLeaderBoardValues = [
             { Value: 'Kills', ShortDisplayName: '<size=11.9><b>ᴋ</b></size>' },
             { Value: 'Deaths', ShortDisplayName: '<size=11.9><b>ᴅ</b></size>' },
@@ -114,7 +122,9 @@ try {
             }
          }
   
-         main.OnTimer.Add (Main);
+         main.OnTimer.Add (function () {
+         	Main ();
+         });
                  
          const Game = function ()
          {
@@ -132,19 +142,11 @@ try {
             }
             main.Restart (10); 
          } 
-         
-         T_PROPERTIES.NAMES.forEach(function (name, el) { 
-            for (let e = Teams.GetEnumerator(); e.MoveNext();) e.Current.Properties.Get(name).Value = T_PROPERTIES.VALUES [el];  
-         });
-         
-         P_PROPERTIES.NAMES.forEach(function (name, el) { 
-            for (let e = Players.GetEnumerator(); e.MoveNext();) prop.Get(e.Current.Id + name).Value = P_PROPERTIES.VALUES [el];
-         });
-         
+             
          BreackGraph.Damage = false, Inv ({ context: Inventory.GetContext (), type: ['Main', 'Secondary', 'Explosive', 'Build'], bool: false });
          Game ();
          c_prop.MaxHp.Value = 35; 
-
+         
          } 
          catch (e) {
             msg.Show (e.name + ' ' + e.message); 
