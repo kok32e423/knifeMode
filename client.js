@@ -49,7 +49,7 @@ try {
             for (let e = Teams.GetEnumerator(); e.MoveNext();) e.Current.Spawns.Spawn(); 
          }
          
-         const Inv = function (prop) 
+         const Inventory = function (prop) 
          { 
             prop.type.forEach(function (el) { prop.context [el].Value = prop.bool; }); 
          }
@@ -132,7 +132,7 @@ try {
             for (let e = Teams.GetEnumerator(); e.MoveNext();) e.Current.Properties.Get(name).Value = T_PROPERTIES.VALUES [el];  
          });
          
-         BreackGraph.Damage = false, Inv ({ context: Inventory.GetContext (), type: ['Main', 'Secondary', 'Explosive', 'Build'], bool: false });
+         BreackGraph.Damage = false, Inventory ({ context: Inventory.GetContext (), type: ['Main', 'Secondary', 'Explosive', 'Build'], bool: false });
          Game ();
          c_prop.MaxHp.Value = 35; 
 
