@@ -146,7 +146,7 @@ try {
 
        Players.OnPlayerConnected.Add(function (p) 
        {    
-          null
+          P_PROPERTIES.NAMES.forEach (function (name) { p.Properties.Get(name).Value = Prop.Get(p.Id + name).Value });  
        }); 
     
          main.OnTimer.Add (function () {
