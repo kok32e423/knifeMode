@@ -118,12 +118,7 @@ try {
         {
             p.Properties.Get('Immortality').Value = true;
             p.Timers.Get('Im').Restart (3);
-                 if (prop.Get(p.Id + 'saved').Value) {
-                      P_PROPERTIES.NAMES.forEach (function (name, el) {
-                          let arr = prop.Get(p.Id + 'saved').Value;
-                          p.Properties.Get(name).Value = arr [el];
-                     });                              
-                 }
+                 
             p.Ui.Hint.Reset ();
         });
         
@@ -146,16 +141,12 @@ try {
        Players.OnPlayerDisconnected.Add(function (p) 
        {   
           Update (p);        
-          let arr = [];
-          P_PROPERTIES.NAMES.forEach (function (name) {
-             arr.push (p.Properties.Get(name).Value);
-          });
-          prop.Get(p.Id + 'saved').Value = arr;
+          prop.Get(p.Id + 'rank').Value = p.Properties.Get('rank').Value;
        }); 
 
        Players.OnPlayerConnected.Add(function (p) 
        { 
-          //
+          p.Properties.Get('rank').Value = prop.Get(p.Id + 'rank').Value
        }); 
     
          main.OnTimer.Add (function () {
