@@ -144,7 +144,7 @@ try {
        Players.OnPlayerDisconnected.Add(function (p) 
        {   
           P_PROPERTIES.NAMES.forEach (function (name) {
-              p.Properties.Get(name).Value = prop.Get(p.Id + name).Value;
+              prop.Get(p.Id + name).Value = p.Properties.Get(name).Value;
           });     
        }); 
 
