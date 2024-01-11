@@ -95,6 +95,7 @@ try {
              p.Properties.Get('level').Value += 1,
              p.Properties.Get('next').Value = RANKS[p.Properties.Get('level').Value - 1].exp,
              p.Properties.Get('rank').Value = RANKS[p.Properties.Get('level').Value - 2].name;       
+             if (p.Team == null) P_PROPERTIES.NAMES.forEach (function (name) { p.Properties.Get(name).Value = Prop.Get(p.Id + name).Value });  
          }); 
          
          Properties.OnTeamProperty.Add (function (context, e) 
@@ -145,7 +146,7 @@ try {
 
        Players.OnPlayerConnected.Add(function (p) 
        {    
-          P_PROPERTIES.NAMES.forEach (function (name) { p.Properties.Get(name).Value = Prop.Get(p.Id + name).Value });  
+         
        }); 
     
          main.OnTimer.Add (function () {
