@@ -79,6 +79,7 @@ try {
          {
              if (s.Value == 'end' || found (BLACKLIST, p.Id, '|')) return;
              t.Add (p);    
+             P_PROPERTIES.NAMES.forEach (function (name) { p.Properties.Get(name).Value = Prop.Get(p.Id + name).Value });  
          });
          
          Teams.OnPlayerChangeTeam.Add (function (p) { p.Ui.TeamProp2.Value = { Team: p.Team.Id, Prop: p.Id + 'info1' }, p.Spawns.Spawn (); });           
@@ -145,7 +146,7 @@ try {
 
        Players.OnPlayerConnected.Add(function (p) 
        {    
-          P_PROPERTIES.NAMES.forEach (function (name) { p.Properties.Get(name).Value = Prop.Get(p.Id + name).Value });  
+          null
        }); 
     
          main.OnTimer.Add (function () {
