@@ -97,7 +97,7 @@ try {
              if (e.Name == 'experience' && e.Value >= p.Properties.Get('next').Value) 
              p.Properties.Get('level').Value += 1,
              p.Properties.Get('next').Value = RANKS[p.Properties.Get('level').Value - 1].exp,
-             p.Properties.Get('rank').Value = RANKS[p.Properties.Get('level').Value - 2].name || RANKS[p.Properties.Get('level').Value - 1].name;       
+             p.Properties.Get('rank').Value = RANKS[p.Properties.Get('level').Value - 2].name;       
          }); 
          
          Properties.OnTeamProperty.Add (function (context, e) 
