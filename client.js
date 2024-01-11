@@ -84,8 +84,8 @@ try {
          Teams.OnPlayerChangeTeam.Add (function (p) { p.Ui.TeamProp2.Value = { Team: p.Team.Id, Prop: p.Id + 'info1' }, p.Spawns.Spawn (); });           
          Teams.OnAddTeam.Add (function (t) { t.Ui.TeamProp1.Value = { Team: t.Id, Prop: 'info2' }; });
          
-         P_PROPERTIES.NAMES.forEach(function (name, el) { for (let e = Players.GetEnumerator (); e.MoveNext();) e.Current.Properties.Get(name).Value = P_PROPERTIES.VALUES[el]; });  
-         PROPERTIES.NAMES.forEach(function (name, el) { for (let e = Teams.GetEnumerator (); e.MoveNext();) e.Current.Properties.Get(name).Value = PROPERTIES.VALUES[el]; });
+         P_PROPERTIES.NAMES.forEach (function (name, el) { for (let e = Players.GetEnumerator (); e.MoveNext();) e.Current.Properties.Get(name).Value = P_PROPERTIES.VALUES[el]; });  
+         PROPERTIES.NAMES.forEach (function (name, el) { for (let e = Teams.GetEnumerator (); e.MoveNext();) e.Current.Properties.Get(name).Value = PROPERTIES.VALUES[el]; });
                                          
          Properties.OnPlayerProperty.Add (function (context, e) 
          {
@@ -139,17 +139,23 @@ try {
 
        Players.OnPlayerDisconnected.Add(function (p) 
        {   
-          Update (p); 
-          P_PROPERTIES.NAMES.forEach(function (name) { 
-              prop.Get(p.Id + name).Value = p.Properties.Get(name).Value;
+          Update (p);        
+          let arr = [];
+          P_PROPERTIES.NAMES.forEach (function (name) {
+             arr.push (p.Properties.Get(name).Value);
           });
+          prop.Get(p.Id + 'saved').Value = arr;
        }); 
 
        Players.OnPlayerConnected.Add(function (p) 
        { 
-          P_PROPERTIES.NAMES.forEach(function (name) { 
-              p.Properties.Get(name).Value = prop.Get(p.Id + name).Value;
-          });
+          if (props.Get(p.Id + 'saved').Value) {
+              P_PROPERTIES.NAMES.forEach (function (name, el) {
+                  let arr = props.Get(p.Id + 'saved').Value;
+                  p.Properties.Get(name).Value = arr [el];
+                  prop.Get(p.Id + 'saved').Value == null;
+              });                              
+           }
        }); 
     
          main.OnTimer.Add (function () {
