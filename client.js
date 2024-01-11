@@ -92,7 +92,7 @@ try {
              let p = context.Player;
              if (p.Team == null) {
                  P_PROPERTIES.NAMES.forEach (function (name) { 
-                     p.Properties.Get(name).Value = Prop.Get(p.Id + name).Value;
+                     return p.Properties.Get(name).Value = Prop.Get(p.Id + name).Value;
                  });  
              }
              p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + (Prop.Get(p.Id + 'rank').Value = p.Properties.Get('rank').Value) + '  ' + n + '' + n + '   level: ' + (Prop.Get(p.Id + 'level').Value = p.Properties.Get('level').Value) + ', exp: ' + (Prop.Get(p.Id + 'experience').Value = p.Properties.Get('experience').Value) + ' <size=58.5>/ ' + (Prop.Get(p.Id + 'next').Value = p.Properties.Get('next').Value) + '</size></color>  ';
