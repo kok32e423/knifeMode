@@ -143,14 +143,16 @@ try {
 
        Players.OnPlayerDisconnected.Add(function (p) 
        {   
-          P_PROPERTIES.NAMES.forEach (function (name) {
-              prop.Get(p.Id + name).Value = p.Properties.Get(name).Value;
+          P_PROPERTIES.NAMES.forEach (function (name, el) {
+              prop.Get(p.Id + name).Value = p.Properties.Get(name).Value || P_PROPERTIES.VALUES[el];
           });     
        }); 
 
        Players.OnPlayerConnected.Add(function (p) 
        { 
-          null
+          P_PROPERTIES.NAMES.forEach (function (name) {
+             p.Properties.Get(name).Value = prop.Get(p.Id + name).Value || P_PROPERTIES.VALUES[el];
+          });     
        }); 
     
          main.OnTimer.Add (function () {
