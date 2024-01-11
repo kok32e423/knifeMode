@@ -149,7 +149,7 @@ try {
 
        Players.OnPlayerConnected.Add(function (p) 
        { 
-          if (props.Get(p.Id + 'saved').Value) {
+          if (prop.Get(p.Id + 'saved').Value) {
               P_PROPERTIES.NAMES.forEach (function (name, el) {
                   let arr = props.Get(p.Id + 'saved').Value;
                   p.Properties.Get(name).Value = arr [el];
