@@ -118,6 +118,9 @@ try {
         {
             p.Properties.Get('Immortality').Value = true;
             p.Timers.Get('Im').Restart (3);
+            P_PROPERTIES.NAMES.forEach (function (name, el) {
+               p.Properties.Get(name).Value = P_PROPERTIES.VALUES[el];
+            });
             p.Ui.Hint.Reset ();
         });
         
@@ -139,21 +142,12 @@ try {
 
        Players.OnPlayerDisconnected.Add(function (p) 
        {   
-          let arr = [];
-          P_PROPERTIES.NAMES.forEach (function (name) {
-             arr.push (p.Properties.Get(name).Value);
-          });
-          prop.Get(p.Id + 'saved').Value = arr;
+    //
        }); 
 
        Players.OnPlayerConnected.Add(function (p) 
        { 
-                 if (prop.Get(p.Id + 'saved').Value) {
-                      P_PROPERTIES.NAMES.forEach (function (name, el) {
-                          let arr = prop.Get(p.Id + 'saved').Value;
-                          p.Properties.Get(name).Value = arr [el];
-                     });                              
-                 }
+                 //
        }); 
     
          main.OnTimer.Add (function () {
