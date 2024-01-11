@@ -42,6 +42,11 @@ try {
              }  
          }
          
+         P_PROPERTIES.NAMES.forEach(function (name, el) { 
+            for (let e = Players.GetEnumerator (); e.MoveNext();) p.Properties.Get(name).Value = P_PROPERTIES.VALUES[el];
+         });
+         
+         
          const Update = function (p) 
          {
             if (s.Value != 'game') return;
@@ -137,7 +142,7 @@ try {
            if (vic.Team == p.Team) return;
            pos = p.PositionIndex.x - vic.PositionIndex.x + p.PositionIndex.y - vic.PositionIndex.y + p.PositionIndex.z - vic.PositionIndex.z;
            if (pos != 0) vic.Ui.Hint.Value = p.NickName + ' убил вас с расстояния ' + Math.abs (pos) + ' блоков!';
-           p.Properties.Get('Kills').Value += 1, prop.Get(p.Id + 'experience').Value += Rand (2, 8);
+           p.Properties.Get('Kills').Value += 1, p.Properties.Get('experience').Value += Rand (2, 8);
        });  
 
        Players.OnPlayerDisconnected.Add(function (p) 
@@ -186,10 +191,6 @@ try {
              
          PROPERTIES.NAMES.forEach(function (name, el) { 
             for (let e = Teams.GetEnumerator (); e.MoveNext();) e.Current.Properties.Get(name).Value = PROPERTIES.VALUES[el];  
-         });
-         
-         P_PROPERTIES.NAMES.forEach(function (name, el) { 
-            for (let e = Players.GetEnumerator (); e.MoveNext();) p.Properties.Get(name).Value = P_PROPERTIES.VALUES[el];
          });
          
          BreackGraph.Damage = false, ['Main', 'Secondary', 'Explosive', 'Build'].forEach(function (el) { Inventory.GetContext()[el].Value = false; });
