@@ -164,7 +164,7 @@ try {
          });
          
                                    
- } catch (e) {
-    msg.Show (e.name + ' ' + e.message); 
- }
+} catch (e) {
+   msg.Show (e.name + ' ' + e.message); 
+}
 
