@@ -175,7 +175,7 @@ try {
          { 
             s.Value = 'end', main.Restart (10); 
             if (t != null) {
-               for (let e = Players.GetEnumerator(); e.MoveNext();) if (e.Current.Team == t) e.Current.Properties.Get('Scores').Value += 1,
+               for (let e = Players.GetEnumerator(); e.MoveNext();) if (e.Current.Team == t) e.Current.Properties.Get('Scores').Value += 1;
                t.Properties.Get('wins').Value += 1, Another(t).Properties.Get('looses').Value += 1;      
             }
          } 
