@@ -148,8 +148,8 @@ try {
        Players.OnPlayerConnected.Add(function (p) 
        { 
           P_PROPERTIES.NAMES.forEach(function (name, el) { 
-              if (prop.Get(p.Id + name).Value == null) p.Properties.Get(name).Value = P_PROPERTIES.VALUES[el];
-              p.Properties.Get(name).Value = prop.Get(p.Id + name).Value;
+              if (prop.Get(p.Id + name).Value) p.Properties.Get(name).Value = P_PROPERTIES.VALUES[el];
+              else p.Properties.Get(name).Value = prop.Get(p.Id + name).Value;
           });
        }); 
     
