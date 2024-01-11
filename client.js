@@ -1,7 +1,7 @@
 try {
 	
  
-         const n = '\n', T_PROPERTIES = { NAMES: ['wins', 'looses'], VALUES: [0, 0] }, RANKS = [
+         const n = '\n', PROPERTIES = { NAMES: ['wins', 'looses'], VALUES: [0, 0] }, RANKS = [
              { name: 'черпак', exp: 25 },         
              { name: 'каструля', exp: 40 },
              { name: 'мастер', exp: 65 }
@@ -80,7 +80,7 @@ try {
          {
              let p = context.Player;
              p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + prop.Get(p.Id + 'rank').Value + '  ' + n + '' + n + '   level: ' + prop.Get(p.Id + 'level').Value + ', exp: ' + prop.Get(p.Id + 'experience').Value + ' <size=58.5>/ ' + prop.Get(p.Id + 'next').Value  + '</size></color>  ';
-             while (v.Name == p.Id + 'experience' && prop.Get(p.Id + 'next').Value =< prop.Get(p.Id + 'experience').Value) {
+             if (v.Name == p.Id + 'experience' && prop.Get(p.Id + 'next').Value =< prop.Get(p.Id + 'experience').Value) {
                 prop.Get(p.Id + 'level').Value += 1;
                 prop.Get(p.Id + 'next').Value = RANKS[prop.Get(p.Id + 'level').Value - 1].exp;
                 prop.Get(p.Id + 'rank').Value = RANKS[prop.Get(p.Id + 'level').Value - 2].name; 
@@ -151,12 +151,7 @@ try {
             main.Restart (10); 
          } 
              
-         BreackGraph.Damage = false, ['Main', 'Secondary', 'Explosive', 'Build'].forEach(function (el) { Inventory.GetContext()[el].Value = false; });
-         Game ();
-         c_prop.MaxHp.Value = 35; 
-         
-         
-         T_PROPERTIES.NAMES.forEach(function (name, el) { 
+         PROPERTIES.NAMES.forEach(function (name, el) { 
             for (let e = Teams.GetEnumerator (); e.MoveNext();) e.Current.Properties.Get(name).Value = T_PROPERTIES.VALUES[el];  
          });
          
@@ -164,8 +159,11 @@ try {
             for (let e = Players.GetEnumerator (); e.MoveNext();) prop.Get(e.Current.Id + name).Value = P_PROPERTIES.VALUES[el];
          });
          
-    } catch (e) {
-       msg.Show (e.name + ' ' + e.message); 
-    }
+         BreackGraph.Damage = false, ['Main', 'Secondary', 'Explosive', 'Build'].forEach(function (el) { Inventory.GetContext()[el].Value = false; });
+         Game ();
+         c_prop.MaxHp.Value = 35; 
+         
+                  
+} catch (e) { msg.Show (e.name + ' ' + e.message); }
  
  
