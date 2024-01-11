@@ -15,10 +15,6 @@ try {
              return team;
          } 
          
-         P_PROPERTIES.NAMES.forEach(function (name, el) { 
-            for (let e = Players.GetEnumerator (); e.MoveNext();) prop.Get(e.Current.Id + name).Value = P_PROPERTIES.VALUES [el];
-         });
-         
          const Color = function (hex)
          { 
              let hex = hex.replace ('#', ''), 
@@ -112,9 +108,6 @@ try {
         {
             p.Properties.Get('Immortality').Value = true;
             p.Timers.Get('Immo').Restart (3);
-            prop.Get(p.Id + 'rank').Value = 0;
-            prop.Get(p.Id + 'level').Value = 0;
-            prop.Get(p.Id + 'experience').Value = 0;
         });
     
          main.OnTimer.Add (function () {
@@ -154,7 +147,11 @@ try {
             for (let e = Teams.GetEnumerator (); e.MoveNext();) e.Current.Properties.Get(name).Value = T_PROPERTIES.VALUES [el];  
          });
          
-                          
+         P_PROPERTIES.NAMES.forEach(function (name, el) { 
+            for (let e = Players.GetEnumerator (); e.MoveNext();) prop.Get(e.Current.Id + name).Value = P_PROPERTIES.VALUES [el];
+         });
+         
+                                   
  } catch (e) {
     msg.Show (e.name + ' ' + e.message); 
  }
