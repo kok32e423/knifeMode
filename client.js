@@ -79,8 +79,8 @@ try {
          {
              if (s.Value == 'end' || found (BLACKLIST, p.Id, '|')) return;
              P_PROPERTIES.NAMES.forEach (function (name, el) { 
-                 p.Properties.Get(name).Value = prop.Get(p.Id + name).Value || P_PROPERTIES.VALUES[el]; 
-                 prop.Get(p.Id + name).Value = null;
+                 p.Properties.Get (name).Value = prop.Get (p.Id + name).Value || P_PROPERTIES.VALUES[el]; 
+                 prop.Get (p.Id + name).Value = null;
              });  
              t.Add (p);    
          });
@@ -143,12 +143,12 @@ try {
 
        Players.OnPlayerDisconnected.Add(function (p) 
        {   
-          //
+          null
        }); 
 
        Players.OnPlayerConnected.Add(function (p) 
        { 
-            
+          null
        });
     
          main.OnTimer.Add (function () {
