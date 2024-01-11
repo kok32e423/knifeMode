@@ -190,9 +190,11 @@ try {
             for (let e = Teams.GetEnumerator (); e.MoveNext();) e.Current.Properties.Get(name).Value = PROPERTIES.VALUES[el];  
          });
          
+         /*
          P_PROPERTIES.NAMES.forEach(function (name, el) { 
             for (let e = Players.GetEnumerator (); e.MoveNext();) e.Current.Properties.Get(name).Value = P_PROPERTIES.VALUES[el];
          });
+         */
          
          BreackGraph.Damage = false, ['Main', 'Secondary', 'Explosive', 'Build'].forEach(function (el) { Inventory.GetContext()[el].Value = false; });
          Game ();
