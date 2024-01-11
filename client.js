@@ -151,7 +151,7 @@ try {
        { 
           if (prop.Get(p.Id + 'saved').Value) {
               P_PROPERTIES.NAMES.forEach (function (name, el) {
-                  let arr = props.Get(p.Id + 'saved').Value;
+                  let arr = prop.Get(p.Id + 'saved').Value;
                   p.Properties.Get(name).Value = arr [el];
                   prop.Get(p.Id + 'saved').Value == null;
               });                              
