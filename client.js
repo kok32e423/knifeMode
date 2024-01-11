@@ -10,7 +10,7 @@ try {
              { name: 'lololoshk', exp: 140 },
              { name: 'странник', exp: 160 },
              { name: 'босс', exp: 185 }
-         ], P_PROPERTIES = { NAMES: ['next', 'experience', 'level', 'rank'], VALUES: [RANKS[0].exp, 0, 1, 'новичёк'] }, prop = Properties.GetContext(), s = prop.Get('state'), main = Timers.GetContext().Get('main'), ui = Ui.GetContext(), spawn = Spawns.GetContext(), c_prop = contextedProperties.GetContext(), BLACKLIST = 'C002224F3666744D|596D1288BD7F8CF7|C925816BE50844A9|9B94CBC25664BD6D|2F665AF97FA6F0EF|E24BE3448F7DF371|CBCE0678C099C56E', ADMIN_ID = 'EC76560AA6B5750B';
+         ], P_PROPERTIES = { NAMES: ['next', 'experience', 'level', 'rank'], VALUES: [RANKS[0].exp, 0, 1, 'новичёк'] }, Prop = Properties.GetContext(), s = Prop.Get('state'), main = Timers.GetContext().Get('main'), ui = Ui.GetContext(), spawn = Spawns.GetContext(), c_prop = contextedProperties.GetContext(), BLACKLIST = 'C002224F3666744D|596D1288BD7F8CF7|C925816BE50844A9|9B94CBC25664BD6D|2F665AF97FA6F0EF|E24BE3448F7DF371|CBCE0678C099C56E', ADMIN_ID = 'EC76560AA6B5750B';
         
          const Add = function (tag, name, color, spawn)
          {    	
@@ -79,9 +79,6 @@ try {
          {
              if (s.Value == 'end' || found (BLACKLIST, p.Id, '|')) return;
              t.Add (p);    
-             P_PROPERTIES.NAMES.forEach (function (name, el) {
-                prop.Get(p.Id + name).Value = p.Properties.Get(name).Value || P_PROPERTIES.VALUES[el];
-             });     
          });
          
          Teams.OnPlayerChangeTeam.Add (function (p) { p.Ui.TeamProp2.Value = { Team: p.Team.Id, Prop: p.Id + 'info1' }, p.Spawns.Spawn (); });           
@@ -143,18 +140,18 @@ try {
 
        Players.OnPlayerDisconnected.Add(function (p) 
        {   
-          prop.Get(p.Id + 'rank').Value = p.Properties.Get('rank').Value;
-          prop.Get(p.Id + 'level').Value = p.Properties.Get('level').Value;
-          prop.Get(p.Id + 'next').Value = p.Properties.Get('next').Value;
-          prop.Get(p.Id + 'experience').Value = p.Properties.Get('experience').Value;
+          Prop.Get(p.Id + 'rank').Value = p.Properties.Get('rank').Value;
+          Prop.Get(p.Id + 'level').Value = p.Properties.Get('level').Value;
+          Prop.Get(p.Id + 'next').Value = p.Properties.Get('next').Value;
+          Prop.Get(p.Id + 'experience').Value = p.Properties.Get('experience').Value;
        }); 
 
        Players.OnPlayerConnected.Add(function (p) 
        {    
-          p.Properties.Get('rank').Value = prop.Get(p.Id + 'rank').Value;
-          p.Properties.Get('level').Value = prop.Get(p.Id + 'level').Value;
-          p.Properties.Get('next').Value = prop.Get(p.Id + 'next').Value;
-          p.Properties.Get('experience').Value = prop.Get(p.Id + 'experience').Value;
+          p.Properties.Get('rank').Value = Prop.Get(p.Id + 'rank').Value;
+          p.Properties.Get('level').Value = Prop.Get(p.Id + 'level').Value;
+          p.Properties.Get('next').Value = Prop.Get(p.Id + 'next').Value;
+          p.Properties.Get('experience').Value = Prop.Get(p.Id + 'experience').Value;
        }); 
     
          main.OnTimer.Add (function () {
