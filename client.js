@@ -59,15 +59,7 @@ try {
          
          const blue = Add ('blue', { up: 'спецназовцы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#476AEC', 1),
          red = Add ('red', { up: 'террористы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#FE5757', 2);
-         
-         T_PROPERTIES.NAMES.forEach(function (name, el) { 
-            for (let e = Teams.GetEnumerator (); e.MoveNext();) e.Current.Properties.Get(name).Value = T_PROPERTIES.VALUES [el];  
-         });
-         
-         P_PROPERTIES.NAMES.forEach(function (name, el) { 
-            for (let e = Players.GetEnumerator (); e.MoveNext();) prop.Get(e.Current.Id + name).Value = P_PROPERTIES.VALUES [el];
-         });
-         
+              
          LeaderBoard.PlayerLeaderBoardValues = [
             { Value: 'Kills', ShortDisplayName: '<size=11.9><b>ᴋ</b></size>' },
             { Value: 'Deaths', ShortDisplayName: '<size=11.9><b>ᴅ</b></size>' },
@@ -85,7 +77,7 @@ try {
          Properties.OnPlayerProperty.Add(function (context, val) {
              let p = context.Player;
              p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + prop.Get(p.Id + 'rank').Value + '  ' + n + '' + n + '   level: ' + prop.Get(p.Id + 'level').Value + ', exp: ' + prop.Get(p.Id + 'experience').Value + ' <size=58.5>/ ' + prop.Get(p.Id + 'next').Value  + '</size></color>  '; 
-             if (val.Name == 'experience' && prop.Get(p.Id + 'experience').Value >= prop.Get(p.Id + 'next').Value) {
+             if (val.Name == p.Id + 'experience' && prop.Get(p.Id + 'experience').Value >= prop.Get(p.Id + 'next').Value) {
                 prop.Get(p.Id + 'level').Value += 1;
                 prop.Get(p.Id + 'next').Value = RANKS[prop.Get(p.Id + 'level').Value - 1].exp;
                 prop.Get(p.Id + 'rank').Value = RANKS[prop.Get(p.Id + 'level').Value - 2].name; 
@@ -143,10 +135,19 @@ try {
             main.Restart (10); 
          } 
              
-         BreackGraph.Damage = false, Inv ({ context: Inventory.GetContext (), type: ['Main', 'Secondary', 'Explosive', 'Build'], bool: false });
+         BreackGraph.Damage = false, ['Main', 'Secondary', 'Explosive', 'Build'].forEach(function (el) { Inventory.GetContext()[el].Value = false; });
          Game ();
          c_prop.MaxHp.Value = 35; 
          
+         
+         T_PROPERTIES.NAMES.forEach(function (name, el) { 
+            for (let e = Teams.GetEnumerator (); e.MoveNext();) e.Current.Properties.Get(name).Value = T_PROPERTIES.VALUES [el];  
+         });
+         
+         P_PROPERTIES.NAMES.forEach(function (name, el) { 
+            for (let e = Players.GetEnumerator (); e.MoveNext();) prop.Get(e.Current.Id + name).Value = P_PROPERTIES.VALUES [el];
+         });
+                  
          } 
          catch (e) {
             msg.Show (e.name + ' ' + e.message); 
