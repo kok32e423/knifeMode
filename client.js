@@ -89,10 +89,11 @@ try {
                                                                           
          Properties.OnPlayerProperty.Add (function (context, e) 
          {
-             p = context.Player;              
+             const p = context.Player;              
+             
              if (p.Team == null) P_PROPERTIES.NAMES.forEach (function (name) { 
                 return p.Properties.Get(name).Value = Prop.Get(p.Id + name).Value;
-             }); 
+             });         
              p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + p.Properties.Get('rank').Value + '  ' + n + '' + n + '   level: ' + p.Properties.Get('level').Value + ', exp: ' + p.Properties.Get('experience').Value + ' <size=58.5>/ ' + p.Properties.Get('next').Value + '</size></color>  ';
              if (e.Name == 'experience' && e.Value >= p.Properties.Get('next').Value) 
              p.Properties.Get('level').Value += 1,
@@ -143,7 +144,9 @@ try {
 
        Players.OnPlayerDisconnected.Add(function (p) 
        {   
-          null;
+          P_PROPERTIES.NAMES.forEach (function (name) { 
+             Prop.Get(p.Id + name).Value = p.Properties.Get(name).Value;
+          });         
        }); 
 
        Players.OnPlayerConnected.Add(function (p) 
