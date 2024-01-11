@@ -118,9 +118,6 @@ try {
         {
             p.Properties.Get('Immortality').Value = true;
             p.Timers.Get('Im').Restart (3);
-            P_PROPERTIES.NAMES.forEach (function (name, el) {
-               p.Properties.Get(name).Value = P_PROPERTIES.VALUES[el];
-            });
             p.Ui.Hint.Reset ();
         });
         
@@ -147,7 +144,9 @@ try {
 
        Players.OnPlayerConnected.Add(function (p) 
        { 
-                 //
+          P_PROPERTIES.NAMES.forEach (function (name, el) {
+              p.Properties.Get(name).Value = P_PROPERTIES.VALUES[el];
+          });     
        }); 
     
          main.OnTimer.Add (function () {
