@@ -87,7 +87,7 @@ try {
          P_PROPERTIES.NAMES.forEach (function (name, el) { for (let e = Players.GetEnumerator (); e.MoveNext();) e.Current.Properties.Get(name).Value = P_PROPERTIES.VALUES[el]; });  
          PROPERTIES.NAMES.forEach (function (name, el) { for (let e = Teams.GetEnumerator (); e.MoveNext();) e.Current.Properties.Get(name).Value = PROPERTIES.VALUES[el]; });
                                          
-         Properties.OnPlayerProperty.Add (function (context, e) 
+         Properties.OnRoomProperty.Add (function (context, e) 
          {
              let p = context.Player;
              p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + p.Properties.Get('rank').Value + '  ' + n + '' + n + '   level: ' + p.Properties.Get('level').Value + ', exp: ' + p.Properties.Get('experience').Value + ' <size=58.5>/ ' + p.Properties.Get('next').Value + '</size></color>  ';
@@ -118,9 +118,6 @@ try {
         {
             p.Properties.Get('Immortality').Value = true;
             p.Timers.Get('Im').Restart (3);
-            P_PROPERTIES.NAMES.forEach (function (name) {
-               prop.Get(p.Id + name).Value = p.Properties.Get(name).Value;
-            });     
             p.Ui.Hint.Reset ();
         });
         
@@ -142,9 +139,7 @@ try {
 
        Players.OnPlayerDisconnected.Add(function (p) 
        {   
-          P_PROPERTIES.NAMES.forEach (function (name) {
-              p.Properties.Get(name).Value = prop.Get(p.Id + name).Value;
-          });     
+          //
        }); 
 
        Players.OnPlayerConnected.Add(function (p) 
