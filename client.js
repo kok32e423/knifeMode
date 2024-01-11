@@ -78,14 +78,6 @@ try {
          Teams.OnRequestJoinTeam.Add (function (p, t) 
          {
              if (s.Value == 'end' || found (BLACKLIST, p.Id, '|')) return;
-             if (p.Team == null) {
-                 if (prop.Get(p.Id + 'saved').Value) {
-                      P_PROPERTIES.NAMES.forEach (function (name, el) {
-                          let arr = prop.Get(p.Id + 'saved').Value;
-                          p.Properties.Get(name).Value = arr [el];
-                     });                              
-                 }
-             }
              t.Add (p);    
          });
          
@@ -126,6 +118,12 @@ try {
         {
             p.Properties.Get('Immortality').Value = true;
             p.Timers.Get('Im').Restart (3);
+                 if (prop.Get(p.Id + 'saved').Value) {
+                      P_PROPERTIES.NAMES.forEach (function (name, el) {
+                          let arr = prop.Get(p.Id + 'saved').Value;
+                          p.Properties.Get(name).Value = arr [el];
+                     });                              
+                 }
             p.Ui.Hint.Reset ();
         });
         
