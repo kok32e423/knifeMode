@@ -78,10 +78,7 @@ try {
          Teams.OnRequestJoinTeam.Add (function (p, t) 
          {
              if (s.Value == 'end' || found (BLACKLIST, p.Id, '|')) return;
-             P_PROPERTIES.NAMES.forEach (function (name, el) { 
-                 p.Properties.Get (name).Value = prop.Get (p.Id + name).Value || P_PROPERTIES.VALUES[el]; 
-                 prop.Get (p.Id + name).Value = null;
-             });  
+             
              t.Add (p);    
          });
          
