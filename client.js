@@ -92,7 +92,7 @@ try {
          {
              let p = context.Player;
              p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + p.Properties.Get('rank').Value + '  ' + n + '' + n + '   level: ' + p.Properties.Get('level').Value + ', exp: ' + p.Properties.Get('experience').Value + ' <size=58.5>/ ' + p.Properties.Get('next').Value + '</size></color>  ';
-             if (e.Name == 'experience' && e.Value >= p.Properties.Get('next').Value && ) 
+             if (e.Name == 'experience' && e.Value >= p.Properties.Get('next').Value) 
              p.Properties.Get('level').Value += 1,
              p.Properties.Get('next').Value = RANKS[p.Properties.Get('level').Value - 1].exp || RANKS[p.Properties.Get('level').Value].exp,
              p.Properties.Get('rank').Value = RANKS[p.Properties.Get('level').Value - 2].name;        
