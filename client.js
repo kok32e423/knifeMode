@@ -153,9 +153,9 @@ try {
          T_PROPERTIES.NAMES.forEach(function (name, el) { 
             for (let e = Teams.GetEnumerator (); e.MoveNext();) e.Current.Properties.Get(name).Value = T_PROPERTIES.VALUES [el];  
          });
+         
                           
-         } 
-         catch (e) {
-            msg.Show (e.name + ' ' + e.message); 
-         }
+ } catch (e) {
+    msg.Show (e.name + ' ' + e.message); 
+ }
 
