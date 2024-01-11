@@ -140,15 +140,12 @@ try {
 
        Players.OnPlayerDisconnected.Add(function (p) 
        {   
-          null
+          null;
        }); 
 
        Players.OnPlayerConnected.Add(function (p) 
        {    
-          p.Properties.Get('rank').Value = Prop.Get(p.Id + 'rank').Value;
-          p.Properties.Get('level').Value = Prop.Get(p.Id + 'level').Value;
-          p.Properties.Get('next').Value = Prop.Get(p.Id + 'next').Value;
-          p.Properties.Get('experience').Value = Prop.Get(p.Id + 'experience').Value;
+          null;
        }); 
     
          main.OnTimer.Add (function () {
