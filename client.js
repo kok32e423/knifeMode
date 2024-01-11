@@ -149,14 +149,13 @@ try {
 
        Players.OnPlayerConnected.Add(function (p) 
        { 
-          if (p.Team == null) {
                  if (prop.Get(p.Id + 'saved').Value) {
                       P_PROPERTIES.NAMES.forEach (function (name, el) {
                           let arr = prop.Get(p.Id + 'saved').Value;
                           p.Properties.Get(name).Value = arr [el];
                      });                              
                  }
-             }
+                 p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + p.Properties.Get('rank').Value + '  ' + n + '' + n + '   level: ' + p.Properties.Get('level').Value + ', exp: ' + p.Properties.Get('experience').Value + ' <size=58.5>/ ' + p.Properties.Get('next').Value + '</size></color>  ';
        }); 
     
          main.OnTimer.Add (function () {
