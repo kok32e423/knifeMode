@@ -174,9 +174,10 @@ try {
          const End = function (t)
          { 
             s.Value = 'end', main.Restart (10); 
-            if (t != null) 
+            if (t != null) {
                for (let e = Players.GetEnumerator(); e.MoveNext();) if (e.Current.Team == t) e.Current.Properties.Get('Scores').Value += 1,
                t.Properties.Get('wins').Value += 1, Another(t).Properties.Get('looses').Value += 1;      
+            }
          } 
              
          BreackGraph.Damage = false, ['Main', 'Secondary', 'Explosive', 'Build'].forEach(function (el) { Inventory.GetContext()[el].Value = false; });
