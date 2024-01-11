@@ -149,7 +149,8 @@ try {
        Players.OnPlayerConnected.Add(function (p) 
        { 
           P_PROPERTIES.NAMES.forEach(function (name, el) { 
-              prop.Get(p.Id + name).Value == null ? p.Properties.Get(name).Value = P_PROPERTIES.VALUES[el] : p.Properties.Get(name).Value = prop.Get(p.Id + name).Value;
+              if (p.Properties.Get(name).Value == null) return p.Properties.Get(name).Value = P_PROPERTIES.VALUES[el];
+              p.Properties.Get(name).Value = prop.Get(p.Id + name).Value;
           });
        }); 
     
@@ -175,8 +176,8 @@ try {
          { 
             s.Value = 'end', main.Restart (10); 
             if (t != null) {
-               for (let e = Players.GetEnumerator(); e.MoveNext();) if (e.Current.Team == t) e.Current.Properties.Get('Scores').Value += 1;
-               t.Properties.Get('wins').Value += 1, Another(t).Properties.Get('looses').Value += 1;      
+            for (let e = Players.GetEnumerator(); e.MoveNext();) if (e.Current.Team == t) e.Current.Properties.Get('Scores').Value += 1;
+                  t.Properties.Get('wins').Value += 1, Another(t).Properties.Get('looses').Value += 1;      
             }
          } 
              
