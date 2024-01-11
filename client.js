@@ -139,7 +139,6 @@ try {
 
        Players.OnPlayerDisconnected.Add(function (p) 
        {   
-          Update (p);        
           let arr = [];
           P_PROPERTIES.NAMES.forEach (function (name) {
              arr.push (p.Properties.Get(name).Value);
@@ -155,7 +154,6 @@ try {
                           p.Properties.Get(name).Value = arr [el];
                      });                              
                  }
-                 p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + p.Properties.Get('rank').Value + '  ' + n + '' + n + '   level: ' + p.Properties.Get('level').Value + ', exp: ' + p.Properties.Get('experience').Value + ' <size=58.5>/ ' + p.Properties.Get('next').Value + '</size></color>  ';
        }); 
     
          main.OnTimer.Add (function () {
