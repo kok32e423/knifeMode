@@ -41,11 +41,7 @@ try {
                  }
              }  
          }
-         
-         P_PROPERTIES.NAMES.forEach(function (name, el) { 
-            for (let e = Players.GetEnumerator (); e.MoveNext();) p.Properties.Get(name).Value = P_PROPERTIES.VALUES[el];
-         });
-         
+                
          
          const Update = function (p) 
          {
@@ -99,7 +95,7 @@ try {
          Properties.OnPlayerProperty.Add (function (context, e) 
          {
              let p = context.Player;
-             p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + p.Properties.Get('rank').Value + '  ' + n + '' + n + '   level: ' + p.Properties.Get('level').Value + ', exp: ' + p.Properties.Get('experience').Value + ' <size=58.5>/ ' + p.Properties.Get('next').Value  + '</size></color>  ';
+             p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + p.Properties.Get('rank').Value + '  ' + n + '' + n + '   level: ' + p.Properties.Get('level').Value + ', exp: ' + p.Properties.Get('experience').Value + ' <size=58.5>/ ' + p.Properties.Get('next').Value + '</size></color>  ';
              if (e.Name == 'experience' && e.Value >= p.Properties.Get('next').Value) {
                 p.Properties.Get('level').Value += 1;
                 p.Properties.Get('next').Value = RANKS[p.Properties.Get('level').Value - 1].exp;
@@ -191,6 +187,10 @@ try {
              
          PROPERTIES.NAMES.forEach(function (name, el) { 
             for (let e = Teams.GetEnumerator (); e.MoveNext();) e.Current.Properties.Get(name).Value = PROPERTIES.VALUES[el];  
+         });
+         
+         P_PROPERTIES.NAMES.forEach(function (name, el) { 
+            for (let e = Players.GetEnumerator (); e.MoveNext();) e.Current.Properties.Get(name).Value = P_PROPERTIES.VALUES[el];
          });
          
          BreackGraph.Damage = false, ['Main', 'Secondary', 'Explosive', 'Build'].forEach(function (el) { Inventory.GetContext()[el].Value = false; });
