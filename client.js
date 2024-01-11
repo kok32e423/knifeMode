@@ -76,18 +76,18 @@ try {
              t.Ui.TeamProp1.Value = { Team: t.Id, Prop: 'info2' };
          });
                            
-         Properties.OnPlayerProperty.Add (function (context, val) 
+         Properties.OnPlayerProperty.Add (function (context, v) 
          {
              let p = context.Player;
              p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + prop.Get(p.Id + 'rank').Value + '  ' + n + '' + n + '   level: ' + prop.Get(p.Id + 'level').Value + ', exp: ' + prop.Get(p.Id + 'experience').Value + ' <size=58.5>/ ' + prop.Get(p.Id + 'next').Value  + '</size></color>  ';
-             if (v.Name == p.Id + 'experience' && prop.Get(p.Id + 'experience').Value >= prop.Get(p.Id + 'next').Value) {
+             while (v.Name == p.Id + 'experience' && prop.Get(p.Id + 'next').Value =< prop.Get(p.Id + 'experience').Value) {
                 prop.Get(p.Id + 'level').Value += 1;
                 prop.Get(p.Id + 'next').Value = RANKS[prop.Get(p.Id + 'level').Value - 1].exp;
                 prop.Get(p.Id + 'rank').Value = RANKS[prop.Get(p.Id + 'level').Value - 2].name; 
              }
          });
          
-         Properties.OnTeamProperty.Add (function (context, val) 
+         Properties.OnTeamProperty.Add (function (context, v) 
          {
              let t = context.Team;
              t.Properties.Get('info2').Value = '<color=#FFFFFF>Счёт команды:' + n + n + 'wins: ' + t.Properties.Get('wins').Value + ', looses: ' + t.Properties.Get('looses').Value + '</color>'; 
@@ -105,7 +105,7 @@ try {
          }); 
         
         Teams.OnPlayerChangeTeam.Add (function (p) 
-        {
+         {
              p.Ui.TeamProp2.Value = { Team: p.Team.Id, Prop: p.Id + 'info1' }, p.Spawns.Spawn ();  
          });
              
@@ -135,7 +135,8 @@ try {
                  
          const Game = function ()
          {
-            s.Value = 'game', Spawn ();
+            s.Value = 'game';
+            Spawn ();
             main.Restart (115); 
          } 
 
@@ -163,8 +164,8 @@ try {
             for (let e = Players.GetEnumerator (); e.MoveNext();) prop.Get(e.Current.Id + name).Value = P_PROPERTIES.VALUES[el];
          });
          
-                                   
-} catch (e) {
-   msg.Show (e.name + ' ' + e.message); 
-}
-
+    } catch (e) {
+       msg.Show (e.name + ' ' + e.message); 
+    }
+ 
+ 
