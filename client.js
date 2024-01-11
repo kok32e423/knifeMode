@@ -85,7 +85,7 @@ try {
          Teams.OnPlayerChangeTeam.Add (function (p) { p.Ui.TeamProp2.Value = { Team: p.Team.Id, Prop: p.Id + 'info1' }, p.Spawns.Spawn (); });           
          Teams.OnAddTeam.Add (function (t) { t.Ui.TeamProp1.Value = { Team: t.Id, Prop: 'info2' }; });
          
-         P_PROPERTIES.NAMES.forEach(function (name, el) { for (let e = Players.GetEnumerator (); e.MoveNext();) e.Current.Properties.Get(name).Value = P_PROPERTIES.VALUES[el]; });  
+         P_PROPERTIES.NAMES.forEach(function (name, el) { for (let e = Players.GetEnumerator (); e.MoveNext();) prop.Get(e.Current.Id + name).Value = P_PROPERTIES.VALUES[el]; });  
          PROPERTIES.NAMES.forEach(function (name, el) { for (let e = Teams.GetEnumerator (); e.MoveNext();) e.Current.Properties.Get(name).Value = PROPERTIES.VALUES[el]; });
                                          
          Properties.OnPlayerProperty.Add (function (context, e) 
