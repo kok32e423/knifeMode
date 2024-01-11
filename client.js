@@ -136,7 +136,9 @@ try {
            if (pos != 0) vic.Ui.Hint.Value = p.NickName + ' убил вас с расстояния ' + Math.abs (pos) + ' блоков!';
            p.Properties.Get('Kills').Value += 1;
            p.Properties.Get('experience').Value += Rand (2, 8);
-       });  
+       });
+
+       /*  
 
        Players.OnPlayerDisconnected.Add(function (p) 
        {   
@@ -147,6 +149,7 @@ try {
        { 
           null
        });
+       */
     
          main.OnTimer.Add (function () {
          	switch (s.Value) {
