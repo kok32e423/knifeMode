@@ -89,13 +89,11 @@ try {
                                                                           
          Properties.OnPlayerProperty.Add (function (context, e) 
          {
-             let p = context.Player;
-             if (p.Team == null) {
-                 P_PROPERTIES.NAMES.forEach (function (name) { 
-                     return p.Properties.Get(name).Value = Prop.Get(p.Id + name).Value;
-                 });  
-             }
-             p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + (Prop.Get(p.Id + 'rank').Value = p.Properties.Get('rank').Value) + '  ' + n + '' + n + '   level: ' + (Prop.Get(p.Id + 'level').Value = p.Properties.Get('level').Value) + ', exp: ' + (Prop.Get(p.Id + 'experience').Value = p.Properties.Get('experience').Value) + ' <size=58.5>/ ' + (Prop.Get(p.Id + 'next').Value = p.Properties.Get('next').Value) + '</size></color>  ';
+             p = context.Player;              
+             if (p.Team == null) P_PROPERTIES.NAMES.forEach (function (name) { 
+                return p.Properties.Get(name).Value = Prop.Get(p.Id + name).Value;
+             }); 
+             p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + p.Properties.Get('rank').Value + '  ' + n + '' + n + '   level: ' + p.Properties.Get('level').Value + ', exp: ' + p.Properties.Get('experience').Value + ' <size=58.5>/ ' + p.Properties.Get('next').Value + '</size></color>  ';
              if (e.Name == 'experience' && e.Value >= p.Properties.Get('next').Value) 
              p.Properties.Get('level').Value += 1,
              p.Properties.Get('next').Value = RANKS[p.Properties.Get('level').Value - 1].exp,
@@ -104,7 +102,7 @@ try {
          
          Properties.OnTeamProperty.Add (function (context, e) 
          {
-             let t = context.Team;
+             t = context.Team;
              t.Properties.Get('info2').Value = '<color=#FFFFFF>Счёт команды:' + n + n + 'wins: ' + t.Properties.Get('wins').Value + ', looses: ' + t.Properties.Get('looses').Value + '</color>'; 
          });
     
@@ -176,7 +174,7 @@ try {
             s.Value = 'end', main.Restart (10); 
             if (t != null) {
             for (let e = Players.GetEnumerator(); e.MoveNext();) if (e.Current.Team == t) e.Current.Properties.Get('Scores').Value += 1;
-                  t.Properties.Get('wins').Value += 1, Another(t).Properties.Get('looses').Value += 1;      
+                t.Properties.Get('wins').Value += 1, Another(t).Properties.Get('looses').Value += 1;      
             }
          } 
              
