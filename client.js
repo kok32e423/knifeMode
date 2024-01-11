@@ -126,7 +126,6 @@ try {
         {
             Update (p);
             p.Properties.Get('Deaths').Value += 1;
-            p.Properties.Get('experience').Value += 25;
         }); 
         
         Damage.OnKill.Add(function (p, vic) 
