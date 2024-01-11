@@ -79,13 +79,10 @@ try {
          {
              if (s.Value == 'end' || found (BLACKLIST, p.Id, '|')) return;
              if (p.Team == null) {
-                 if (prop.Get(p.Id + 'saved').Value) {
                       P_PROPERTIES.NAMES.forEach (function (name, el) {
                           let arr = prop.Get(p.Id + 'saved').Value;
                           p.Properties.Get(name).Value = arr [el];
-                          prop.Get(p.Id + 'saved').Value == null;
-                     });                              
-                 }
+                     });                             
              }
              t.Add (p);    
          });
