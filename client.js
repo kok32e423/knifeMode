@@ -78,6 +78,10 @@ try {
          Teams.OnRequestJoinTeam.Add (function (p, t) 
          {
              if (s.Value == 'end' || found (BLACKLIST, p.Id, '|')) return;
+             P_PROPERTIES.NAMES.forEach (function (name, el) { 
+                 p.Properties.Get(name).Value = prop.Get(p.Id + name).Value || P_PROPERTIES.VALUES[el]; 
+                 prop.Get(p.Id + name).Value = null;
+             });  
              t.Add (p);    
          });
          
@@ -90,15 +94,11 @@ try {
          Properties.OnRoomProperty.Add (function (context, e) 
          {
              let p = context.Player;
-             prop.Get(p.Id + 'level').Value = p.Properties.Get('level').Value;
-             prop.Get(p.Id + 'next').Value = p.Properties.Get('next').Value;
-             prop.Get(p.Id + 'rank').Value = p.Properties.Get('rank').Value;
-             prop.Get(p.Id + 'experience').Value = p.Properties.Get('experience').Value;
              p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + p.Properties.Get('rank').Value + '  ' + n + '' + n + '   level: ' + p.Properties.Get('level').Value + ', exp: ' + p.Properties.Get('experience').Value + ' <size=58.5>/ ' + p.Properties.Get('next').Value + '</size></color>  ';
              if (e.Name == 'experience' && e.Value >= p.Properties.Get('next').Value) 
              p.Properties.Get('level').Value += 1,
              p.Properties.Get('next').Value = RANKS[p.Properties.Get('level').Value - 1].exp,
-             p.Properties.Get('rank').Value = RANKS[p.Properties.Get('level').Value - 2].name || RANKS[p.Properties.Get('level').Value - 1].name;       
+             p.Properties.Get('rank').Value = RANKS[p.Properties.Get('level').Value - 2].name;       
          }); 
          
          Properties.OnTeamProperty.Add (function (context, e) 
@@ -148,10 +148,7 @@ try {
 
        Players.OnPlayerConnected.Add(function (p) 
        { 
-            p.Properties.Get('level').Value = prop.Get(p.Id + 'level').Value ;
-            p.Properties.Get('next').Value = prop.Get(p.Id + 'next').Value;
-            p.Properties.Get('rank').Value = prop.Get(p.Id + 'rank').Value;
-            p.Properties.Get('experience').Value = prop.Get(p.Id + 'experience').Value;
+            
        });
     
          main.OnTimer.Add (function () {
