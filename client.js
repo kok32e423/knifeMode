@@ -105,7 +105,7 @@ try {
          }); 
         
         Teams.OnPlayerChangeTeam.Add (function (p) 
-         {
+        {
              p.Ui.TeamProp2.Value = { Team: p.Team.Id, Prop: p.Id + 'info1' }, p.Spawns.Spawn ();  
          });
              
@@ -114,6 +114,13 @@ try {
             p.Properties.Get('Immortality').Value = true;
             p.Timers.Get('Im').Restart (3);
         });
+        
+        Damage.OnDeath.Add(function (p) 
+        {
+            Update (p);
+            p.Properties.Get('Deaths').Value += 1; 
+            prop.Get(p.Id + 'experience').Value += 25;
+        }); 
     
          main.OnTimer.Add (function () {
          	switch (s.Value) {
