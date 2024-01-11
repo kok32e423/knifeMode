@@ -119,6 +119,7 @@ try {
         {
             Update (p);
             p.Properties.Get('Deaths').Value += 1; 
+            prop.Get(p.Id + 'experience').Value += 10;
         }); 
     
          main.OnTimer.Add (function () {
