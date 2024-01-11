@@ -143,16 +143,18 @@ try {
 
        Players.OnPlayerDisconnected.Add(function (p) 
        {   
-          P_PROPERTIES.NAMES.forEach (function (name, el) {
-              prop.Get(p.Id + name).Value = p.Properties.Get(name).Value || P_PROPERTIES.VALUES[el];
-          });     
+          prop.Get(p.Id + 'rank').Value = p.Properties.Get('rank').Value;
+          prop.Get(p.Id + 'level').Value = p.Properties.Get('level').Value;
+          prop.Get(p.Id + 'next').Value = p.Properties.Get('next').Value;
+          prop.Get(p.Id + 'experience').Value = p.Properties.Get('experience').Value;
        }); 
 
        Players.OnPlayerConnected.Add(function (p) 
-       { 
-          P_PROPERTIES.NAMES.forEach (function (name) {
-             p.Properties.Get(name).Value = prop.Get(p.Id + name).Value || P_PROPERTIES.VALUES[el];
-          });     
+       {    
+          p.Properties.Get('rank').Value = prop.Get(p.Id + 'rank').Value;
+          p.Properties.Get('level').Value = prop.Get(p.Id + 'level').Value;
+          p.Properties.Get('next').Value = prop.Get(p.Id + 'next').Value;
+          p.Properties.Get('experience').Value = prop.Get(p.Id + 'experience').Value;
        }); 
     
          main.OnTimer.Add (function () {
