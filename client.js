@@ -69,41 +69,56 @@ try {
             { Value: 'Deaths', ShortDisplayName: '<size=11.9><b>ᴅ</b></size>' },
          ];
 
-         Teams.OnRequestJoinTeam.Add(function (p, t) {
+         Teams.OnRequestJoinTeam.Add (function (p, t) 
+         {
              if (s.Value == 'end' || found (BLACKLIST, p.Id, '|')) return;
              t.Add (p);    
          });
    
-         Teams.OnAddTeam.Add(function (t) {   
+         Teams.OnAddTeam.Add (function (t) 
+         {   
              t.Ui.TeamProp1.Value = { Team: t.Id, Prop: 'info2' };
          });
                            
-         Properties.OnPlayerProperty.Add(function (context, val) {
+         Properties.OnPlayerProperty.Add (function (context, val) 
+         {
              let p = context.Player;
              p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + prop.Get(p.Id + 'rank').Value + '  ' + n + '' + n + '   level: ' + prop.Get(p.Id + 'level').Value + ', exp: ' + prop.Get(p.Id + 'experience').Value + ' <size=58.5>/ ' + prop.Get(p.Id + 'next').Value  + '</size></color>  ';
          });
          
-         Properties.OnTeamProperty.Add(function (context, val) {
+         Properties.OnTeamProperty.Add (function (context, val) 
+         {
              let t = context.Team;
              t.Properties.Get('info2').Value = '<color=#FFFFFF>Счёт команды:' + n + n + 'wins: ' + t.Properties.Get('wins').Value + ', looses: ' + t.Properties.Get('looses').Value + '</color>'; 
          });
     
-         Timers.OnPlayerTimer.Add(function (t) { 
+         Timers.OnPlayerTimer.Add (function (t) 
+         { 
              let p = t.Player,
              id = t.Id;   
              switch (id) {
-                 case 'immo' :
+                 case 'Immo' :
                     p.Properties.Immortality.Value = false; 
                  break;
             }
          }); 
         
-        Teams.OnPlayerChangeTeam.Add(function (p) {
+        Teams.OnPlayerChangeTeam.Add (function (p) 
+         {
              p.Ui.TeamProp2.Value = { Team: p.Team.Id, Prop: p.Id + 'info1' }, p.Spawns.Spawn ();  
          });
-                     
-        const Main = function () {
-            switch (s.Value) {
+             
+        Spawns.OnSpawn.Add (function (p) 
+        {
+            p.Properties.Get('Immortality').Value = true;
+            p.Timers.Get('Immo').Restart (3);
+            prop.Get(p.Id + 'rank').Value = 0;
+            prop.Get(p.Id + 'level').Value = 0;
+            prop.Get(p.Id + 'experience').Value = 0;
+        });
+    
+         main.OnTimer.Add (function () {
+         	switch (s.Value) {
                 case 'game' : 
                 End (null);
                 break;
@@ -111,10 +126,6 @@ try {
                 Game ();
                 break;
             }
-         }
-  
-         main.OnTimer.Add (function () {
-         	Main ();
          });
                  
          const Game = function ()
@@ -142,9 +153,7 @@ try {
          T_PROPERTIES.NAMES.forEach(function (name, el) { 
             for (let e = Teams.GetEnumerator (); e.MoveNext();) e.Current.Properties.Get(name).Value = T_PROPERTIES.VALUES [el];  
          });
-         
-         
-                  
+                          
          } 
          catch (e) {
             msg.Show (e.name + ' ' + e.message); 
