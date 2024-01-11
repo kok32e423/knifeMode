@@ -79,8 +79,8 @@ try {
          Properties.OnPlayerProperty.Add (function (context, val) 
          {
              let p = context.Player;
-             if (val.Name != 'info1') p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + prop.Get(p.Id + 'rank').Value + '  ' + n + '' + n + '   level: ' + prop.Get(p.Id + 'level').Value + ', exp: ' + prop.Get(p.Id + 'experience').Value + ' <size=58.5>/ ' + prop.Get(p.Id + 'next').Value  + '</size></color>  ';
-             if (val.Name === p.Id + 'experience' && prop.Get(p.Id + 'experience').Value >= prop.Get(p.Id + 'next').Value) {
+             p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + prop.Get(p.Id + 'rank').Value + '  ' + n + '' + n + '   level: ' + prop.Get(p.Id + 'level').Value + ', exp: ' + prop.Get(p.Id + 'experience').Value + ' <size=58.5>/ ' + prop.Get(p.Id + 'next').Value  + '</size></color>  ';
+             if (v.Name == p.Id + 'experience' && prop.Get(p.Id + 'experience').Value >= prop.Get(p.Id + 'next').Value) {
                 prop.Get(p.Id + 'level').Value += 1;
                 prop.Get(p.Id + 'next').Value = RANKS[prop.Get(p.Id + 'level').Value - 1].exp;
                 prop.Get(p.Id + 'rank').Value = RANKS[prop.Get(p.Id + 'level').Value - 2].name; 
@@ -89,7 +89,7 @@ try {
          
          Properties.OnTeamProperty.Add (function (context, val) 
          {
-             t = context.Team;
+             let t = context.Team;
              t.Properties.Get('info2').Value = '<color=#FFFFFF>Счёт команды:' + n + n + 'wins: ' + t.Properties.Get('wins').Value + ', looses: ' + t.Properties.Get('looses').Value + '</color>'; 
          });
     
@@ -119,7 +119,6 @@ try {
         {
             Update (p);
             p.Properties.Get('Deaths').Value += 1; 
-            prop.Get(p.Id + 'experience').Value += 25;
         }); 
     
          main.OnTimer.Add (function () {
