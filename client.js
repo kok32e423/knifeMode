@@ -119,7 +119,7 @@ try {
             p.Properties.Get('Immortality').Value = true;
             p.Timers.Get('Im').Restart (3);
             P_PROPERTIES.NAMES.forEach (function (name) {
-                if (prop.Get(p.Id + name).Value) prop.Get(p.Id + name).Value = p.Properties.Get(name).Value;
+               prop.Get(p.Id + name).Value = p.Properties.Get(name).Value;
             });     
             p.Ui.Hint.Reset ();
         });
