@@ -140,21 +140,23 @@ try {
        Players.OnPlayerDisconnected.Add(function (p) 
        {   
           Update (p);        
+          let arr = [];
           P_PROPERTIES.NAMES.forEach (function (name) {
-              arr = []; 
-              arr.push.(p.Properties.Get(name).Value)
-              prop.Get(p.Id + 'saved').Value = arr;
-              ui.Hint.Value = 'saved! ' + prop.Get(p.Id + 'saved').Value[0];
+             arr.push (p.Properties.Get(name).Value);
           });
+          prop.Get(p.Id + 'saved').Value = arr;
        }); 
 
        Players.OnPlayerConnected.Add(function (p) 
        { 
-          P_PROPERTIES.NAMES.forEach (function (name, el) {
-              arr = prop.Get(p.Id + 'saved').Value;
-              p.Properties.Get(name).Value = arr[el];
-              prop.Get(p.Id + 'saved').Value == null;
-          });
+          if (p.Team == null) {
+                 if (prop.Get(p.Id + 'saved').Value) {
+                      P_PROPERTIES.NAMES.forEach (function (name, el) {
+                          let arr = prop.Get(p.Id + 'saved').Value;
+                          p.Properties.Get(name).Value = arr [el];
+                     });                              
+                 }
+             }
        }); 
     
          main.OnTimer.Add (function () {
