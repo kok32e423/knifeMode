@@ -80,6 +80,11 @@ try {
          {
              let p = context.Player;
              p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + prop.Get(p.Id + 'rank').Value + '  ' + n + '' + n + '   level: ' + prop.Get(p.Id + 'level').Value + ', exp: ' + prop.Get(p.Id + 'experience').Value + ' <size=58.5>/ ' + prop.Get(p.Id + 'next').Value  + '</size></color>  ';
+             if (val.Name == p.Id + 'experience' && prop.Get(p.Id + 'experience').Value >= prop.Get(p.Id + 'next').Value) {
+                prop.Get(p.Id + 'level').Value += 1;
+                prop.Get(p.Id + 'next').Value = RANKS[prop.Get(p.Id + 'level').Value - 1].exp;
+                prop.Get(p.Id + 'rank').Value = RANKS[prop.Get(p.Id + 'level').Value - 2].name; 
+             }
          });
          
          Properties.OnTeamProperty.Add (function (context, val) 
@@ -93,7 +98,7 @@ try {
              let p = t.Player,
              id = t.Id;   
              switch (id) {
-                 case 'Immo' :
+                 case 'Im' :
                     p.Properties.Immortality.Value = false; 
                  break;
             }
@@ -107,7 +112,7 @@ try {
         Spawns.OnSpawn.Add (function (p) 
         {
             p.Properties.Get('Immortality').Value = true;
-            p.Timers.Get('Immo').Restart (3);
+            p.Timers.Get('Im').Restart (3);
         });
     
          main.OnTimer.Add (function () {
@@ -118,7 +123,7 @@ try {
                 case 'end' :        
                 Game ();
                 break;
-            }
+             }
          });
                  
          const Game = function ()
@@ -144,11 +149,11 @@ try {
          
          
          T_PROPERTIES.NAMES.forEach(function (name, el) { 
-            for (let e = Teams.GetEnumerator (); e.MoveNext();) e.Current.Properties.Get(name).Value = T_PROPERTIES.VALUES [el];  
+            for (let e = Teams.GetEnumerator (); e.MoveNext();) e.Current.Properties.Get(name).Value = T_PROPERTIES.VALUES[el];  
          });
          
          P_PROPERTIES.NAMES.forEach(function (name, el) { 
-            for (let e = Players.GetEnumerator (); e.MoveNext();) prop.Get(e.Current.Id + name).Value = P_PROPERTIES.VALUES [el];
+            for (let e = Players.GetEnumerator (); e.MoveNext();) prop.Get(e.Current.Id + name).Value = P_PROPERTIES.VALUES[el];
          });
          
                                    
