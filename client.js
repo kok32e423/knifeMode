@@ -91,11 +91,11 @@ try {
          Properties.OnPlayerProperty.Add (function (context, e) 
          {
              let p = context.Player;
-             p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + p.Properties.Get('rank').Value + '  ' + n + '' + n + '   level: ' + p.Properties.Get('level').Value + ', exp: ' + p.Properties.Get('experience').Value + ' <size=58.5>/ ' + p.Properties.Get('next').Value + '</size></color>  ';
-             if (e.Name == 'experience' && e.Value >= p.Properties.Get('next').Value) 
-             p.Properties.Get('level').Value += 1,
-             p.Properties.Get('next').Value = RANKS[p.Properties.Get('level').Value - 1].exp,
-             p.Properties.Get('rank').Value = RANKS[p.Properties.Get('level').Value - 2].name || RANKS[p.Properties.Get('level').Value - 1].name;       
+             p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + prop.Get(p.Id + 'rank').Value + '  ' + n + '' + n + '   level: ' + prop.Get(p.Id + 'level').Value + ', exp: ' + prop.Get(p.Id + 'experience').Value + ' <size=58.5>/ ' + prop.Get(p.Id + 'next').Value + '</size></color>  ';
+             if (e.Name == p.Id + 'experience' && e.Value >= prop.Get(p.Id + 'next').Value) 
+             prop.Get(p.Id + 'level').Value += 1,
+             prop.Get(p.Id + 'next').Value = RANKS[prop.Get(p.Id + 'level').Value - 1].exp,
+             prop.Get(p.Id + 'rank').Value = RANKS[prop.Get(p.Id + 'level').Value - 2].name || RANKS[prop.Get(p.Id + 'level').Value - 1].name;       
          });
          
          Properties.OnTeamProperty.Add (function (context, e) 
@@ -126,6 +126,7 @@ try {
         {
             Update (p);
             p.Properties.Get('Deaths').Value += 1;
+            prop.Get(p.Id + 'experience').Value += 25;
         }); 
         
         Damage.OnKill.Add(function (p, vic) 
@@ -134,22 +135,22 @@ try {
            pos = p.PositionIndex.x - vic.PositionIndex.x + p.PositionIndex.y - vic.PositionIndex.y + p.PositionIndex.z - vic.PositionIndex.z;
            if (pos != 0) vic.Ui.Hint.Value = p.NickName + ' убил вас с расстояния ' + Math.abs (pos) + ' блоков!';
            p.Properties.Get('Kills').Value += 1;
-           p.Properties.Get('experience').Value += Rand (2, 8);
+           prop.Get(p.Id + 'experience').Value += Rand (2, 8);
        });  
 
        Players.OnPlayerDisconnected.Add(function (p) 
        {   
           Update (p); 
+          /*
           P_PROPERTIES.NAMES.forEach(function (name) { 
               prop.Get(p.Id + name).Value = p.Properties.Get(name).Value;
-          });
+          });*/
        }); 
 
        Players.OnPlayerConnected.Add(function (p) 
        { 
           P_PROPERTIES.NAMES.forEach(function (name, el) { 
-              if (p.Properties.Get(name).Value == null) return p.Properties.Get(name).Value = P_PROPERTIES.VALUES[el];
-              p.Properties.Get(name).Value = prop.Get(p.Id + name).Value;
+              if (prop.Get(p.Id + name).Value == null) return prop.Get(p.Id + name).Value = P_PROPERTIES.VALUES[el];
           });
        }); 
     
