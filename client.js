@@ -91,14 +91,6 @@ try {
          {
              let p = context.Player;
              p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + p.Properties.Get('rank').Value + '  ' + n + '' + n + '   level: ' + p.Properties.Get('level').Value + ', exp: ' + p.Properties.Get('experience').Value + ' <size=58.5>/ ' + p.Properties.Get('next').Value + '</size></color>  ';
-             if (p.Team == null) {
-                 if (prop.Get(p.Id + 'saved').Value) {
-                      P_PROPERTIES.NAMES.forEach (function (name, el) {
-                          let arr = prop.Get(p.Id + 'saved').Value;
-                          p.Properties.Get(name).Value = arr [el];
-                     });                              
-                 }
-             }
              if (e.Name == 'experience' && e.Value >= p.Properties.Get('next').Value) 
              p.Properties.Get('level').Value += 1,
              p.Properties.Get('next').Value = RANKS[p.Properties.Get('level').Value - 1].exp,
@@ -148,16 +140,21 @@ try {
        Players.OnPlayerDisconnected.Add(function (p) 
        {   
           Update (p);        
-          let arr = [];
           P_PROPERTIES.NAMES.forEach (function (name) {
-             arr.push (p.Properties.Get(name).Value);
+              arr = []; 
+              arr.push.(p.Properties.Get(name).Value)
+              prop.Get(p.Id + 'saved').Value = arr;
+              ui.Hint.Value = 'saved! ' + prop.Get(p.Id + 'saved').Value[0];
           });
-          prop.Get(p.Id + 'saved').Value = arr;
        }); 
 
        Players.OnPlayerConnected.Add(function (p) 
        { 
-          //
+          P_PROPERTIES.NAMES.forEach (function (name, el) {
+              arr = prop.Get(p.Id + 'saved').Value;
+              p.Properties.Get(name).Value = arr[el];
+              prop.Get(p.Id + 'saved').Value == null;
+          });
        }); 
     
          main.OnTimer.Add (function () {
