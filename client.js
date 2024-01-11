@@ -95,16 +95,20 @@ try {
          P_PROPERTIES.NAMES.forEach(function (name, el) { 
             for (let e = Players.GetEnumerator (); e.MoveNext();) e.Current.Properties.Get(name).Value = P_PROPERTIES.VALUES[el];
          });
-                                    
+         
+         PROPERTIES.NAMES.forEach(function (name, el) { 
+            for (let e = Teams.GetEnumerator (); e.MoveNext();) e.Current.Properties.Get(name).Value = PROPERTIES.VALUES[el];  
+         });
+                                         
          Properties.OnPlayerProperty.Add (function (context, e) 
          {
              let p = context.Player;
              p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + p.Properties.Get('rank').Value + '  ' + n + '' + n + '   level: ' + p.Properties.Get('level').Value + ', exp: ' + p.Properties.Get('experience').Value + ' <size=58.5>/ ' + p.Properties.Get('next').Value + '</size></color>  ';
-             if (e.Name == 'experience' && e.Value >= p.Properties.Get('next').Value) {
-                p.Properties.Get('level').Value += 1;
+             if (e.Name != 'experience' && e.Value < p.Properties.Get('next').Value) return;
+             p.Properties.Get('level').Value += 1;
                 p.Properties.Get('next').Value = RANKS[p.Properties.Get('level').Value - 1].exp;
                 p.Properties.Get('rank').Value = RANKS[p.Properties.Get('level').Value - 2].name; 
-             }
+            
          });
          
          Properties.OnTeamProperty.Add (function (context, e) 
@@ -190,11 +194,6 @@ try {
             main.Restart (10); 
          } 
              
-         PROPERTIES.NAMES.forEach(function (name, el) { 
-            for (let e = Teams.GetEnumerator (); e.MoveNext();) e.Current.Properties.Get(name).Value = PROPERTIES.VALUES[el];  
-         });
-         
-    
          BreackGraph.Damage = false, ['Main', 'Secondary', 'Explosive', 'Build'].forEach(function (el) { Inventory.GetContext()[el].Value = false; });
          Game ();
          c_prop.MaxHp.Value = 35; 
