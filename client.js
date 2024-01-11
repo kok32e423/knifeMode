@@ -90,6 +90,10 @@ try {
          Properties.OnRoomProperty.Add (function (context, e) 
          {
              let p = context.Player;
+             prop.Get(p.Id + 'level').Value = p.Properties.Get('level').Value;
+             prop.Get(p.Id + 'next').Value = p.Properties.Get('next').Value;
+             prop.Get(p.Id + 'rank').Value = p.Properties.Get('rank').Value;
+             prop.Get(p.Id + 'experience').Value = p.Properties.Get('experience').Value;
              p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + p.Properties.Get('rank').Value + '  ' + n + '' + n + '   level: ' + p.Properties.Get('level').Value + ', exp: ' + p.Properties.Get('experience').Value + ' <size=58.5>/ ' + p.Properties.Get('next').Value + '</size></color>  ';
              if (e.Name == 'experience' && e.Value >= p.Properties.Get('next').Value) 
              p.Properties.Get('level').Value += 1,
@@ -144,8 +148,11 @@ try {
 
        Players.OnPlayerConnected.Add(function (p) 
        { 
-          null
-       }); 
+            p.Properties.Get('level').Value = prop.Get(p.Id + 'level').Value ;
+            p.Properties.Get('next').Value = prop.Get(p.Id + 'next').Value;
+            p.Properties.Get('rank').Value = prop.Get(p.Id + 'rank').Value;
+            p.Properties.Get('experience').Value = prop.Get(p.Id + 'experience').Value;
+       });
     
          main.OnTimer.Add (function () {
          	switch (s.Value) {
