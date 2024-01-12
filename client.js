@@ -50,8 +50,15 @@ try {
             if (p.Team.GetAlivePlayersCount() == 0 && Another(p.Team).GetAlivePlayersCount() == 0) return End (null);
          }
                   
-         const Spawn = function () { for (let e = Teams.GetEnumerator(); e.MoveNext();) e.Current.Spawns.Spawn(); }  
-         const Rand = function (min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+         const Spawn = function () 
+         { 
+            for (let e = Teams.GetEnumerator(); e.MoveNext();) e.Current.Spawns.Spawn(); 
+         } 
+ 
+         const Rand = function (min, max) 
+         { 
+            return Math.floor(Math.random() * (max - min + 1)) + min; 
+         }
           
          const Another = function (t)
          {
@@ -66,7 +73,7 @@ try {
               
          LeaderBoard.PlayerLeaderBoardValues = [
             { Value: 'Kills', ShortDisplayName: '<size=11.9><b>ᴋ</b></size>' },
-            { Value: 'Deaths', ShortDisplayName: '<size=11.9><b>ᴅ</b></size>' },
+            { Value: 'Deaths', ShortDisplayName: '<size=11.9><b>ᴅ</b></size>' }
          ];
 
          Teams.OnRequestJoinTeam.Add (function (p, t) 
@@ -80,10 +87,9 @@ try {
          
          P_PROPERTIES.NAMES.forEach (function (name, el) { for (let e = Players.GetEnumerator(); e.MoveNext();) e.Current.Properties.Get(name).Value = P_PROPERTIES.VALUES[el]; });  
          PROPERTIES.NAMES.forEach (function (name, el) { for (let e = Teams.GetEnumerator(); e.MoveNext();) e.Current.Properties.Get(name).Value = PROPERTIES.VALUES[el]; });
-                                                  
-         /*                     
+                                                                               
          Properties.OnPlayerProperty.Add (function (context, e) 
-         {
+         { 
              let p = context.Player;        
              p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + p.Properties.Get('rank').Value + '  ' + n + '' + n + '   level: ' + p.Properties.Get('level').Value + ', exp: ' + p.Properties.Get('experience').Value + ' <size=58.5>/ ' + p.Properties.Get('next').Value + '</size></color>  ';
              if (e.Name == 'experience' & & e.Value >= p.Properties.Get('next').Value) 
@@ -91,8 +97,7 @@ try {
              p.Properties.Get('next').Value = RANKS[p.Properties.Get('level').Value - 1].exp,
              p.Properties.Get('rank').Value = RANKS[p.Properties.Get('level').Value - 1].name;               
          }); 
-         */
-         
+              
          Properties.OnTeamProperty.Add (function (context, e) 
          {
              let t = context.Team;
@@ -117,14 +122,14 @@ try {
             p.Ui.Hint.Reset ();
         });
         
-        Damage.OnDeath.Add(function (p) 
+        Damage.OnDeath.Add (function (p) 
         {
             Update (p);
             p.Properties.Get('Deaths').Value += 1;
             p.Properties.Get('experience').Value += 25;
         }); 
         
-        Damage.OnKill.Add(function (p, vic) 
+        Damage.OnKill.Add (function (p, vic) 
         {
            if (vic.Team == p.Team) return;
            pos = p.PositionIndex.x - vic.PositionIndex.x + p.PositionIndex.y - vic.PositionIndex.y + p.PositionIndex.z - vic.PositionIndex.z;
@@ -133,12 +138,12 @@ try {
            p.Properties.Get('experience').Value += Rand (2, 8);
        });  
 
-       Players.OnPlayerDisconnected.Add(function (p) 
+       Players.OnPlayerDisconnected.Add (function (p) 
        {   
-          Update(p);
+          Update (p);
        }); 
 
-       Players.OnPlayerConnected.Add(function (p) 
+       Players.OnPlayerConnected.Add (function (p) 
        {    
          null
        }); 
