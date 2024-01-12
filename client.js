@@ -111,7 +111,7 @@ try {
                 level = Prop.Get(p.Id + 'level').Value = p.Properties.Get ('level').Value, rank = Prop.Get(p.Id + 'rank').Value = p.Properties.Get ('rank').Value, next = Prop.Get(p.Id + 'next').Value = p.Properties.Get ('next').Value,
              experience = Prop.Get(p.Id + 'experience').Value = p.Properties.Get ('experience').Value;   
              
-             if (e.Value == null) P_PROPERTIES.NAMES.forEach (function (name) { p.Properties.Get(name).Value = Prop.Get(p.Id + name).Value; });   
+             if (e.Value === null) P_PROPERTIES.NAMES.forEach (function (name) { p.Properties.Get(name).Value = Prop.Get(p.Id + name).Value; });   
              if (e.Name == 'experience' && e.Value >= next) level ++, next = RANKS[level - 1].exp, rank = RANKS[level - 1].name;
              p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + String (rank) + '  ' + n + '' + n + '   level: ' + String (level) + ', exp: ' + String (experience) + ' <size=58.5>/ ' + String (next) + '</size></color>  ';         
          });
