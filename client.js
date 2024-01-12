@@ -122,6 +122,7 @@ prop.Get('experience').Value=data.playersData[player.id].exp;
          Players.OnPlayerConnected.Add (function (p) 
          {
              Load(p);
+             p.Ui.Hint.Value = p.Properties.Get('rank').Value;
          });
                                                                            
          Properties.OnTeamProperty.Add (function (context, e) 
@@ -162,7 +163,7 @@ prop.Get('experience').Value=data.playersData[player.id].exp;
         {
             Update (p);
             p.Properties.Get('Deaths').Value += 1;
-            p.Team.Properties.Get(p.Id + 'experience').Value += 25;
+            p.Properties.Get('experience').Value += 25;
         }); 
         
         Damage.OnKill.Add (function (p, vic) 
