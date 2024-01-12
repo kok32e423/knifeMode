@@ -137,7 +137,7 @@ prop.Get('experience').Value=data.playersData[player.id].exp;
                 level = p.Properties.Get ('level').Value, rank = p.Properties.Get ('rank').Value, next = p.Properties.Get ('next').Value,
              experience = p.Properties.Get ('experience').Value;   
              
-             if (e.Value == 'experience' && experience >= next) level += 1, next = RANKS[level-1].exp, rank = RANKS[level-1].name;
+             if (e.Value == 'experience' && e.Value >= next) level += 1, next = RANKS[level-1].exp, rank = RANKS[level-1].name;
              p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + String (rank) + '  ' + n + '' + n + '   level: ' + String (level) + ', exp: ' + String (experience) + ' <size=58.5>/ ' + String (next) + '</size></color>  ';
          });
     
