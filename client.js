@@ -11,7 +11,7 @@ try {
              { name: 'lololoshk', exp: 160 },
              { name: 'странник', exp: 185 },
              { name: 'босс', exp: 1000 }
-         ], P_PROPERTIES = { NAMES: ['next', 'experience', 'level', 'rank'], VALUES: [RANKS[0].exp, 0, 1, RANKS[0].name] }, Prop = Properties.GetContext(), s = Prop.Get('state'), main = Timers.GetContext().Get('main'), ui = Ui.GetContext(), spawn = Spawns.GetContext(), c_prop = contextedProperties.GetContext(), BLACKLIST = 'C002224F3666744D|596D1288BD7F8CF7|C925816BE50844A9|9B94CBC25664BD6D|2F665AF97FA6F0EF|E24BE3448F7DF371|CBCE0678C099C56E', ADMIN_ID = 'EC76560AA6B5750B';
+         ], P_PROPERTIES = { NAMES: ['next', 'experience', 'level', 'rank'], VALUES: [RANKS[0].exp, 0, 1, RANKS[0].name] }, Prop = Properties.GetContext(), s = Prop.Get('state'), main = Timers.GetContext().Get('main'), ui = Ui.GetContext(), spawn = Spawns.GetContext(), c_prop = contextedProperties.GetContext(), last = Prop.Get('last'), BLACKLIST = 'C002224F3666744D|596D1288BD7F8CF7|C925816BE50844A9|9B94CBC25664BD6D|2F665AF97FA6F0EF|E24BE3448F7DF371|CBCE0678C099C56E', ADMIN_ID = 'EC76560AA6B5750B';
         
          const Add = function (tag, name, color, spawn)
          {    	
@@ -97,14 +97,12 @@ try {
          Properties.OnPlayerProperty.Add (function (context, e) 
          { 
              let p = context.Player;       
-             Prop.Get(p.Id + 'experience').OnValue.Add (function (prop) {
-                  p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + Prop.Get(p.Id + 'rank').Value + '  ' + n + '' + n + '   level: ' + Prop.Get(p.Id + 'level').Value + ', exp: ' + Prop.Get(p.Id + 'experience').Value + ' <size=58.5>/ ' + Prop.Get(p.Id + 'next').Value + '</size></color>  ';
-                  if (prop.Value >= Prop.Get(p.Id + 'next').Value) 
-                  Prop.Get(p.Id + 'level').Value += 1,
-                  Prop.Get(p.Id + 'next').Value = RANKS[Prop.Get(p.Id + 'level').Value - 1].exp,
-                  Prop.Get(p.Id + 'rank').Value = RANKS[Prop.Get(p.Id + 'level').Value - 1].name;     
-            });       
+             last = p;
          }); 
+         
+         last.OnValue.Add (function (prop) {
+                  prop.Value.Team.Properties.Get(prop.Value.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + Prop.Get(prop.Value.Id + 'rank').Value + '  ' + n + '' + n + '   level: ' + Prop.Get(prop.Value.Id + 'level').Value + ', exp: ' + Prop.Get(prop.Value.Id + 'experience').Value + ' <size=58.5>/ ' + Prop.Get(prop.Value.Id + 'next').Value + '</size></color>  ';
+         });       
               
          Properties.OnTeamProperty.Add (function (context, e) 
          {
