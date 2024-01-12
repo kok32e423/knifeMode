@@ -11,7 +11,7 @@ try {
              { name: 'lololoshk', exp: 160 },
              { name: 'странник', exp: 185 },
              { name: 'босс', exp: 1000 }
-         ], P_PROPERTIES = { NAMES: ['next', 'experience', 'level', 'rank'], VALUES: [RANKS[0].exp, 0, 1, 'новичёк'] }, Prop = Properties.GetContext(), s = Prop.Get('state'), main = Timers.GetContext().Get('main'), ui = Ui.GetContext(), spawn = Spawns.GetContext(), c_prop = contextedProperties.GetContext(), BLACKLIST = 'C002224F3666744D|596D1288BD7F8CF7|C925816BE50844A9|9B94CBC25664BD6D|2F665AF97FA6F0EF|E24BE3448F7DF371|CBCE0678C099C56E', ADMIN_ID = 'EC76560AA6B5750B';
+         ], P_PROPERTIES = { NAMES: ['next', 'experience', 'level', 'rank'], VALUES: [RANKS[0].exp, 0, 1, RANKS[0].name] }, Prop = Properties.GetContext(), s = Prop.Get('state'), main = Timers.GetContext().Get('main'), ui = Ui.GetContext(), spawn = Spawns.GetContext(), c_prop = contextedProperties.GetContext(), BLACKLIST = 'C002224F3666744D|596D1288BD7F8CF7|C925816BE50844A9|9B94CBC25664BD6D|2F665AF97FA6F0EF|E24BE3448F7DF371|CBCE0678C099C56E', ADMIN_ID = 'EC76560AA6B5750B';
         
          const Add = function (tag, name, color, spawn)
          {    	
@@ -78,8 +78,8 @@ try {
          Teams.OnPlayerChangeTeam.Add (function (p) { p.Ui.TeamProp2.Value = { Team: p.Team.Id, Prop: p.Id + 'info1' }, p.Spawns.Spawn (); });           
          Teams.OnAddTeam.Add (function (t) { t.Ui.TeamProp1.Value = { Team: t.Id, Prop: 'info2' }; });
          
-         P_PROPERTIES.NAMES.forEach (function (name, el) { for (let e = Players.GetEnumerator (); e.MoveNext();) e.Current.Properties.Get (name).Value = P_PROPERTIES.VALUES[el]; });  
-         PROPERTIES.NAMES.forEach (function (name, el) { for (let e = Teams.GetEnumerator (); e.MoveNext();) e.Current.Properties.Get (name).Value = PROPERTIES.VALUES[el]; });
+         P_PROPERTIES.NAMES.forEach (function (name, el) { for (let e = Players.GetEnumerator(); e.MoveNext();) e.Current.Properties.Get(name).Value = P_PROPERTIES.VALUES[el]; });  
+         PROPERTIES.NAMES.forEach (function (name, el) { for (let e = Teams.GetEnumerator(); e.MoveNext();) e.Current.Properties.Get(name).Value = PROPERTIES.VALUES[el]; });
                                                                        
          Properties.OnPlayerProperty.Add (function (context, e) 
          {
@@ -87,8 +87,8 @@ try {
              p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + p.Properties.Get('rank').Value + '  ' + n + '' + n + '   level: ' + p.Properties.Get('level').Value + ', exp: ' + p.Properties.Get('experience').Value + ' <size=58.5>/ ' + p.Properties.Get('next').Value + '</size></color>  ';
              if (e.Name == 'experience' & & e.Value >= p.Properties.Get('next').Value) 
              p.Properties.Get('level').Value += 1,
-             p.Properties.Get('next').Value = RANKS [p.Properties.Get('level').Value - 1].exp,
-             p.Properties.Get('rank').Value = RANKS [p.Properties.Get('level').Value - 1].name;               
+             p.Properties.Get('next').Value = RANKS[p.Properties.Get('level').Value - 1].exp,
+             p.Properties.Get('rank').Value = RANKS[p.Properties.Get('level').Value - 1].name;               
          }); 
          
          Properties.OnTeamProperty.Add (function (context, e) 
@@ -133,7 +133,7 @@ try {
 
        Players.OnPlayerDisconnected.Add(function (p) 
        {   
-          null
+          Update(p);
        }); 
 
        Players.OnPlayerConnected.Add(function (p) 
