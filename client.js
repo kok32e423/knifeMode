@@ -80,6 +80,7 @@ try {
          {
              if (s.Value == 'end' || found (BLACKLIST, p.Id, '|')) return;
              t.Add (p);    
+             Load(p);
          });
          
          Teams.OnPlayerChangeTeam.Add (function (p) { p.Ui.TeamProp2.Value = { Team: p.Team.Id, Prop: p.Id + 'info1' }, p.Spawns.Spawn (); });     
@@ -136,8 +137,8 @@ prop.Get('experience').Value=data.playersData[player.id].exp;
                 level = p.Properties.Get ('level').Value, rank = p.Properties.Get ('rank').Value, next = p.Properties.Get ('next').Value,
              experience = p.Properties.Get ('experience').Value;   
              
-             if (e.Value == 'experience' && e.Value >= next) level += 1, next = RANKS[level-1].exp, rank = RANKS[level-1].name;
              p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + String (rank) + '  ' + n + '' + n + '   level: ' + String (level) + ', exp: ' + String (experience) + ' <size=58.5>/ ' + String (next) + '</size></color>  ';
+             if (e.Value == 'experience' && e.Value >= next) level ++, next = RANKS[level - 1].exp, rank = RANKS[level - 1].name;
          });
     
          Timers.OnPlayerTimer.Add (function (t) 
@@ -156,6 +157,7 @@ prop.Get('experience').Value=data.playersData[player.id].exp;
             p.Properties.Get('Immortality').Value = true;
             p.Timers.Get('Im').Restart (3);   
             p.Ui.Hint.Reset ();
+            Load(p);
         });
         
         Damage.OnDeath.Add (function (p) 
