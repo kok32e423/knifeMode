@@ -91,6 +91,7 @@ try {
              for (var index = 0; index < P_PROPERTIES.NAMES.length; index++) {
                 Prop.Get(p.Id + P_PROPERTIES.NAMES[index]).Value = p.Properties.Get(P_PROPERTIES.NAMES[index]).Value;
              }  
+             p.Team.Properties.Get(p.Id + 'info1').Value = null;
         }); 
 
         Players.OnPlayerConnected.Add (function (p) 
@@ -98,6 +99,7 @@ try {
            for (var index = 0; index < P_PROPERTIES.NAMES.length; index++) {
               p.Properties.Get(P_PROPERTIES.NAMES[index]).Value = Prop.Get(p.Id + P_PROPERTIES.NAMES[index]).Value;
            }  
+           p.Team.Properties.Get(p.Id + 'info1').Value = null;
        }); 
     
          
