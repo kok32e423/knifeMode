@@ -92,6 +92,7 @@ try {
          {
          	p.Team.Properties.Get(p.Id + 'info1').Value = null;
              Save(p);
+             Save(p);
          });
          
          Players.OnPlayerConnected.Add (function (p) 
@@ -131,7 +132,6 @@ try {
             p.Properties.Get('Immortality').Value = true;
             p.Timers.Get('Im').Restart (3);   
             p.Ui.Hint.Reset ();
-            Load(p);
         });
         
         Damage.OnDeath.Add (function (p) 
