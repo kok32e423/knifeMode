@@ -125,21 +125,22 @@ try {
         
         Damage.OnKill.Add (function (p, vic) 
         {
-           if (vic.Team == p.Team) return;
+           if (vic.Team == p.Team)
+               return;
            p.Properties.Get('Kills').Value += 1;
-           
-           let pos = p.PositionIndex.x - vic.PositionIndex.x + p.PositionIndex.y - vic.PositionIndex.y + p.PositionIndex.z - vic.PositionIndex.z,
+      
+              let pos = p.PositionIndex.x - vic.PositionIndex.x + p.PositionIndex.y - vic.PositionIndex.y + p.PositionIndex.z - vic.PositionIndex.z,
               level = Prop.Get(p.Id + 'level').Value, rank = Prop.Get(p.Id + 'rank').Value, next = Prop.Get(p.Id + 'next').Value,
            experience = Prop.Get(p.Id + 'experience').Value;           
            
            if (pos != 0) vic.Ui.Hint.Value = p.NickName + ' убил вас с расстояния ' + Math.abs (pos) + ' блоков!';
                 if (experience >= next) {
-                    level += 1;
-                    next = RANKS[level-1].exp;
-                    rank = RANKS[level-1].name;
+                level += 1;
+                next = RANKS[level-1].exp;
+                rank = RANKS[level-1].name;
            }
-           p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + String(Prop.Get (p.Id + 'rank').Value) + '  ' + n + '' + n + '   level: ' + String(Prop.Get (p.Id + 'level').Value) + ', exp: ' + String(Prop.Get (p.Id + 'experience').Value) + ' <size=58.5>/ ' + String(Prop.Get (p.Id + 'next').Value) + '</size></color>  ';
            experience += Rand (2, 8);
+           p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + String(rank) + '  ' + n + '' + n + '   level: ' + String(level) + ', exp: ' + String(experience) + ' <size=58.5>/ ' + String(next) + '</size></color>  ';          
        });  
        
        main.OnTimer.Add (function () {
