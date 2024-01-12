@@ -85,18 +85,11 @@ try {
          Teams.OnPlayerChangeTeam.Add (function (p) { p.Ui.TeamProp2.Value = { Team: p.Team.Id, Prop: p.Id + 'info1' }, p.Spawns.Spawn (); });           
          Teams.OnAddTeam.Add (function (t) { t.Ui.TeamProp1.Value = { Team: t.Id, Prop: 'info2' }; });
          
-         Players.OnPlayerDisconnected.Add (function (p) 
-         {   
-             Update (p);
-             for (var index = 0; index < P_PROPERTIES.NAMES.length; index++) {
-                Prop.Get(p.Id + P_PROPERTIES.NAMES[index]).Value = p.Properties.Get(P_PROPERTIES.NAMES[index]).Value;
-             } 
-        }); 
-
-        Players.OnPlayerConnected.Add (function (p) 
-        {    
+     
+         Players.OnPlayerConnected.Add (function (p) 
+         {    
           
-       }); 
+         }); 
     
          P_PROPERTIES.NAMES.forEach (function (name, el) { for (let e = Players.GetEnumerator(); e.MoveNext();) e.Current.Properties.Get(name).Value  = P_PROPERTIES.VALUES[el]; });  
          PROPERTIES.NAMES.forEach (function (name, el) { for (let e = Teams.GetEnumerator(); e.MoveNext();) e.Current.Properties.Get(name).Value = PROPERTIES.VALUES[el]; });
@@ -104,7 +97,7 @@ try {
          Properties.OnPlayerProperty.Add (function (context, e) 
          { 
              let p = context.Player;        
-             p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + p.Properties.Get('rank').Value + '  ' + n + '' + n + '   level: ' + p.Properties.Get('level').Value + ', exp: ' + p.Properties.Get('experience').Value + ' <size=58.5>/ ' + p.Properties.Get('next').Value + '</size></color>  ';
+             p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + (Prop.Get(p.Id + 'rank').Value = p.Properties.Get('rank').Value) + '  ' + n + '' + n + '   level: ' + (Prop.Get(p.Id + 'level').Value = p.Properties.Get('level').Value) + ', exp: ' + (Prop.Get(p.Id + 'experience').Value = p.Properties.Get('experience').Value) + ' <size=58.5>/ ' + (Prop.Get(p.Id + 'next').Value = p.Properties.Get('next').Value) + '</size></color>  ';
              if (e.Name == 'experience' && e.Value >= p.Properties.Get('next').Value) 
              p.Properties.Get('level').Value += 1,
              p.Properties.Get('next').Value = RANKS[p.Properties.Get('level').Value - 1].exp,
@@ -128,8 +121,8 @@ try {
             }
          }); 
         
-        Spawns.OnSpawn.Add (function (p) 
-        {
+         Spawns.OnSpawn.Add (function (p) 
+          {
             p.Properties.Get('Immortality').Value = true;
             p.Timers.Get('Im').Restart (3);   
             p.Ui.Hint.Reset ();
