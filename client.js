@@ -121,7 +121,6 @@ try {
         {
             Update (p);
             p.Properties.Get('Deaths').Value += 1;
-            Prop.Get(p.Id + 'experience').Value += 25;
         }); 
         
         Damage.OnKill.Add (function (p, vic) 
@@ -134,13 +133,13 @@ try {
            experience = Prop.Get(p.Id + 'experience').Value;           
            
            if (pos != 0) vic.Ui.Hint.Value = p.NickName + ' убил вас с расстояния ' + Math.abs (pos) + ' блоков!';
-                if (experience >= next) {
+                if (experience >== next) {
                     level += 1;
-                    next = RANKS[Prop.Get(p.Id + 'level').Value - 1].exp;
-                    rank = RANKS[Prop.Get(p.Id + 'level').Value - 1].name;
-               }
-               p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + String(Prop.Get (p.Id + 'rank').Value) + '  ' + n + '' + n + '   level: ' + String(Prop.Get (p.Id + 'level').Value) + ', exp: ' + String(Prop.Get (p.Id + 'experience').Value) + ' <size=58.5>/ ' + String(Prop.Get (p.Id + 'next').Value) + '</size></color>  ';
-               return Prop.Get(p.Id + 'experience').Value += Rand (2, 8);
+                    next = RANKS[level-1].exp;
+                    rank = RANKS[level-1].name;
+           }
+           p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + String(Prop.Get (p.Id + 'rank').Value) + '  ' + n + '' + n + '   level: ' + String(Prop.Get (p.Id + 'level').Value) + ', exp: ' + String(Prop.Get (p.Id + 'experience').Value) + ' <size=58.5>/ ' + String(Prop.Get (p.Id + 'next').Value) + '</size></color>  ';
+           experience += Rand (2, 8);
        });  
        
        main.OnTimer.Add (function () {
