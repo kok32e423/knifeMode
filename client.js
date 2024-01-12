@@ -110,8 +110,8 @@ try {
                 level = p.Properties.Get ('level').Value, rank = p.Properties.Get ('rank').Value, next = p.Properties.Get ('next').Value,
              experience = p.Properties.Get ('experience').Value;   
              
-             if (e.Name == 'experience' && e.Value >= next) level ++, next = RANKS[level - 1].exp, rank = RANKS[level - 1].name;
-             p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + (String (rank)) + '  ' + n + '' + n + '   level: ' + String (level) + ', exp: ' + String (experience) + ' <size=58.5>/ ' + String (next) + '</size></color>  ';         
+             if (e.Name === 'experience' && e.Value >= next) level += 1, next = RANKS[level - 1].exp, rank = RANKS[level - 1].name;
+             p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + rank + '  ' + n + '' + n + '   level: ' + level + ', exp: ' + experience + ' <size=58.5>/ ' + next + '</size></color>  ';         
          });
     
          Timers.OnPlayerTimer.Add (function (t) 
