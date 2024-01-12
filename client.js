@@ -105,7 +105,7 @@ try {
                 level = p.Team.Properties.Get (p.Id + 'level').Value, rank = p.Team.Properties.Get (p.Id + 'rank').Value, next = p.Team.Properties.Get (p.Id + 'next').Value,
              experience = p.Team.Properties.Get (p.Id + 'experience').Value;   
              
-             p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + String(rank) + '  ' + n + '' + n + '   level: ' + String(level) + ', exp: ' + String(experience) + ' <size=58.5>/ ' + String(next) + '</size></color>  ';
+             p.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + String(rank) + '  ' + n + '' + n + '   level: ' + String(level) + ', exp: ' + String(experience) + ' <size=58.5>/ ' + String(next) + '</size></color>  ';
          });
     
          Timers.OnPlayerTimer.Add (function (t) 
