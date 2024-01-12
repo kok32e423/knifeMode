@@ -90,8 +90,7 @@ try {
              Update (p);
              for (var index = 0; index < P_PROPERTIES.NAMES.length; index++) {
                 Prop.Get(p.Id + P_PROPERTIES.NAMES[index]).Value = p.Properties.Get(P_PROPERTIES.NAMES[index]).Value;
-             }  
-             p.Team.Properties.Get(p.Id + 'info1').Value = null;
+             } 
         }); 
 
         Players.OnPlayerConnected.Add (function (p) 
@@ -99,16 +98,15 @@ try {
            for (var index = 0; index < P_PROPERTIES.NAMES.length; index++) {
               p.Properties.Get(P_PROPERTIES.NAMES[index]).Value = Prop.Get(p.Id + P_PROPERTIES.NAMES[index]).Value;
            }  
-           p.Team.Properties.Get(p.Id + 'info1').Value = null;
        }); 
     
-         
          P_PROPERTIES.NAMES.forEach (function (name, el) { for (let e = Players.GetEnumerator(); e.MoveNext();) e.Current.Properties.Get(name).Value  = P_PROPERTIES.VALUES[el]; });  
          PROPERTIES.NAMES.forEach (function (name, el) { for (let e = Teams.GetEnumerator(); e.MoveNext();) e.Current.Properties.Get(name).Value = PROPERTIES.VALUES[el]; });
                                                                                
          Properties.OnPlayerProperty.Add (function (context, e) 
          { 
              let p = context.Player;        
+             if (p.Team == null) return;
              p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + p.Properties.Get('rank').Value + '  ' + n + '' + n + '   level: ' + p.Properties.Get('level').Value + ', exp: ' + p.Properties.Get('experience').Value + ' <size=58.5>/ ' + p.Properties.Get('next').Value + '</size></color>  ';
              if (e.Name == 'experience' && e.Value >= p.Properties.Get('next').Value) 
              p.Properties.Get('level').Value += 1,
