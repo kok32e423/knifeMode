@@ -79,10 +79,11 @@ try {
          Teams.OnRequestJoinTeam.Add (function (p, t) 
          {
              if (s.Value == 'end' || found (BLACKLIST, p.Id, '|')) return;
-             t.Add (p);    
+             t.Add (p);  
+             p.Ui.TeamProp2.Value = { Team: t.Id, Prop: p.Id + 'info1' }  
          });
          
-         Teams.OnPlayerChangeTeam.Add (function (p) { p.Ui.TeamProp2.Value = { Team: p.Team.Id, Prop: p.Id + 'info1' }, p.Spawns.Spawn (); });     
+         Teams.OnPlayerChangeTeam.Add (function (p) { p.Spawns.Spawn (); });     
          Teams.OnAddTeam.Add (function (t) { t.Ui.TeamProp1.Value = { Team: t.Id, Prop: 'info2' }; });
          
          P_PROPERTIES.NAMES.forEach (function (name, el) { for (let e = Players.GetEnumerator(); e.MoveNext();) e.Current.Properties.Get(name).Value = P_PROPERTIES.VALUES[el]; });   
@@ -106,9 +107,9 @@ try {
          
          Properties.OnPlayerProperty.Add (function (context, e) 
          {
-             let p = context.Player;      
-             if (e.Name === 'experience' && e.Value >= p.Properties.Get('next').Value) p.Properties.Get('level').Value += 1, p.Properties.Get('next').Value = RANKS[p.Properties.Get('level').Value - 1].exp, p.Properties.Get('rank').Value = RANKS[p.Properties.Get('level').Value - 1].name;    
-                 p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + p.Properties.Get('rank').Value + '  ' + n + '' + n + '   level: ' + p.Properties.Get('level').Value + ', exp: ' + p.Properties.Get('experience').Value + ' <size=58.5>/ ' + p.Properties.Get('next').Value + '</size></color>  ';         
+             let p = context.Player;   
+             p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + p.Properties.Get('rank').Value + '  ' + n + '' + n + '   level: ' + p.Properties.Get('level').Value + ', exp: ' + p.Properties.Get('experience').Value + ' <size=58.5>/ ' + p.Properties.Get('next').Value + '</size></color>  ';            
+             if (e.Name === 'experience' && e.Value >= p.Properties.Get('next').Value) return p.Properties.Get('level').Value += 1, p.Properties.Get('next').Value = RANKS[p.Properties.Get('level').Value - 1].exp, p.Properties.Get('rank').Value = RANKS[p.Properties.Get('level').Value - 1].name;    
          });
     
          Timers.OnPlayerTimer.Add (function (t) 
