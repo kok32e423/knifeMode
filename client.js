@@ -84,34 +84,19 @@ try {
          
          Teams.OnPlayerChangeTeam.Add (function (p) { 
              p.Ui.TeamProp2.Value = { Team: p.Team.Id, Prop: p.Id + 'info1' };
-             p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + p.Properties.Get('rank').Value + '  ' + n + '' + n + '   level: ' + p.Properties.Get('level').Value + ', exp: ' + p.Properties.Get('experience').Value + ' <size=58.5>/ ' + p.Properties.Get('next').Value + '</size></color>  ';
              p.Spawns.Spawn (); 
          });     
       
          Teams.OnAddTeam.Add (function (t) { t.Ui.TeamProp1.Value = { Team: t.Id, Prop: 'info2' }; });
          
      
-         Players.OnPlayerConnected.Add (function (p) 
-         {    
-         	P_PROPERTIES.NAMES.forEach (function (name) { 
-                p.Properties.Get(name).Value = Prop.Get(p.Id + name).Value;
-             });
-         }); 
-         
-         Players.OnPlayerDisconnected.Add (function (p) 
-         {    
-             P_PROPERTIES.NAMES.forEach (function (name) { 
-                Prop.Get(p.Id + name).Value = p.Properties.Get(name).Value;
-             });
-         }); 
-    
-         P_PROPERTIES.NAMES.forEach (function (name, el) { for (let e = Players.GetEnumerator(); e.MoveNext();) e.Current.Properties.Get(name).Value = P_PROPERTIES.VALUES[el]; });   
+         P_PROPERTIES.NAMES.forEach (function (name, el) { for (let e = Players.GetEnumerator(); e.MoveNext();) Prop.Get (p.Id + name).Value = P_PROPERTIES.VALUES[el]; });   
          PROPERTIES.NAMES.forEach (function (name, el) { for (let e = Teams.GetEnumerator(); e.MoveNext();) e.Current.Properties.Get(name).Value = PROPERTIES.VALUES[el]; });
                                                                                
          Properties.OnPlayerProperty.Add (function (context, e) 
          { 
              let p = context.Player;       
-             p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + p.Properties.Get('rank').Value + '  ' + n + '' + n + '   level: ' + p.Properties.Get('level').Value + ', exp: ' + p.Properties.Get('experience').Value + ' <size=58.5>/ ' + p.Properties.Get('next').Value + '</size></color>  ';
+             p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + Prop.Get(p.Id + 'rank').Value + '  ' + n + '' + n + '   level: ' + Prop.Get (p.Id + 'level').Value + ', exp: ' + Prop.Get (p.Id + 'experience').Value + ' <size=58.5>/ ' + Prop.Get (p.Id + 'next').Value + '</size></color>  ';
          }); 
          
          Properties.OnTeamProperty.Add (function (context, e) 
@@ -142,7 +127,7 @@ try {
         {
             Update (p);
             p.Properties.Get('Deaths').Value += 1;
-            p.Properties.Get('experience').Value += 25;
+            Prop.Get (p.Id + 'experience').Value += 25;
         }); 
         
         Damage.OnKill.Add (function (p, vic) 
