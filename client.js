@@ -95,9 +95,7 @@ try {
 
         Players.OnPlayerConnected.Add (function (p) 
         {    
-           for (var index = 0; index < P_PROPERTIES.NAMES.length; index++) {
-              p.Properties.Get(P_PROPERTIES.NAMES[index]).Value = Prop.Get(p.Id + P_PROPERTIES.NAMES[index]).Value;
-           }  
+          
        }); 
     
          P_PROPERTIES.NAMES.forEach (function (name, el) { for (let e = Players.GetEnumerator(); e.MoveNext();) e.Current.Properties.Get(name).Value  = P_PROPERTIES.VALUES[el]; });  
@@ -106,7 +104,6 @@ try {
          Properties.OnPlayerProperty.Add (function (context, e) 
          { 
              let p = context.Player;        
-             if (p.Team == null) return;
              p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + p.Properties.Get('rank').Value + '  ' + n + '' + n + '   level: ' + p.Properties.Get('level').Value + ', exp: ' + p.Properties.Get('experience').Value + ' <size=58.5>/ ' + p.Properties.Get('next').Value + '</size></color>  ';
              if (e.Name == 'experience' && e.Value >= p.Properties.Get('next').Value) 
              p.Properties.Get('level').Value += 1,
@@ -136,6 +133,9 @@ try {
             p.Properties.Get('Immortality').Value = true;
             p.Timers.Get('Im').Restart (3);   
             p.Ui.Hint.Reset ();
+            for (var index = 0; index < P_PROPERTIES.NAMES.length; index++) {
+              p.Properties.Get(P_PROPERTIES.NAMES[index]).Value = Prop.Get(p.Id + P_PROPERTIES.NAMES[index]).Value;
+           }  
         });
         
         Damage.OnDeath.Add (function (p) 
