@@ -96,7 +96,6 @@ try {
          Properties.OnPlayerProperty.Add (function (context, e) 
          { 
              let p = context.Player;       
-             return p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + Prop.Get(p.Id + 'rank').Value + '  ' + n + '' + n + '   level: ' + Prop.Get (p.Id + 'level').Value + ', exp: ' + Prop.Get (p.Id + 'experience').Value + ' <size=58.5>/ ' + Prop.Get (p.Id + 'next').Value + '</size></color>  ';
          }); 
          
          Properties.OnTeamProperty.Add (function (context, e) 
@@ -128,6 +127,7 @@ try {
             Update (p);
             p.Properties.Get('Deaths').Value += 1;
             Prop.Get (p.Id + 'experience').Value += 25;
+            p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + Prop.Get(p.Id + 'rank').Value + '  ' + n + '' + n + '   level: ' + Prop.Get (p.Id + 'level').Value + ', exp: ' + Prop.Get (p.Id + 'experience').Value + ' <size=58.5>/ ' + Prop.Get (p.Id + 'next').Value + '</size></color>  ';
         }); 
         
         Damage.OnKill.Add (function (p, vic) 
