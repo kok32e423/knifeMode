@@ -101,13 +101,11 @@ try {
          
          Properties.OnPlayerProperty.Add (function (context, e) 
          {
-         	/*
              let p = context.Player,
                 level = p.Team.Properties.Get (p.Id + 'level').Value, rank = p.Team.Properties.Get (p.Id + 'rank').Value, next = p.Team.Properties.Get (p.Id + 'next').Value,
              experience = p.Team.Properties.Get (p.Id + 'experience').Value;   
              
              p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + String(rank) + '  ' + n + '' + n + '   level: ' + String(level) + ', exp: ' + String(experience) + ' <size=58.5>/ ' + String(next) + '</size></color>  ';
-             */
          });
     
          Timers.OnPlayerTimer.Add (function (t) 
@@ -139,7 +137,7 @@ try {
         {
            if (vic.Team == p.Team)
                return;
-           let pos = p.PositionIndex.x - vic.PositionIndex.x + p.PositionIndex.y - vic.PositionIndex.y + p.PositionIndex.z - vic.PositionIndex.z,             
+           let pos = p.PositionIndex.x - vic.PositionIndex.x + p.PositionIndex.y - vic.PositionIndex.y + p.PositionIndex.z - vic.PositionIndex.z;   
                 if (pos != 0) vic.Ui.Hint.Value = p.NickName + ' убил вас с расстояния ' + Math.abs (pos) + ' блоков!';
                 p.Properties.Get('Kills').Value += 1;
        });  
