@@ -50,7 +50,7 @@ try {
             if (p.Team.GetAlivePlayersCount() == 0 && Another(p.Team).GetAlivePlayersCount() == 0) return End (null);
          }
                   
-         const Spwn = function () { for (let e = Teams.GetEnumerator(); e.MoveNext();) e.Current.Spawns.Spawn(); }  
+         const Spawn = function () { for (let e = Teams.GetEnumerator(); e.MoveNext();) e.Current.Spawns.Spawn(); }  
          const Rand = function (min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
           
          const Another = function (t)
@@ -80,7 +80,8 @@ try {
          
          P_PROPERTIES.NAMES.forEach (function (name, el) { for (let e = Players.GetEnumerator(); e.MoveNext();) e.Current.Properties.Get(name).Value = P_PROPERTIES.VALUES[el]; });  
          PROPERTIES.NAMES.forEach (function (name, el) { for (let e = Teams.GetEnumerator(); e.MoveNext();) e.Current.Properties.Get(name).Value = PROPERTIES.VALUES[el]; });
-                                                                       
+                                                  
+         /*                     
          Properties.OnPlayerProperty.Add (function (context, e) 
          {
              let p = context.Player;        
@@ -90,6 +91,7 @@ try {
              p.Properties.Get('next').Value = RANKS[p.Properties.Get('level').Value - 1].exp,
              p.Properties.Get('rank').Value = RANKS[p.Properties.Get('level').Value - 1].name;               
          }); 
+         */
          
          Properties.OnTeamProperty.Add (function (context, e) 
          {
@@ -155,7 +157,7 @@ try {
          const Game = function ()
          {
             s.Value = 'game';
-            Spwn ();
+            Spawn ();
             main.Restart (115); 
          } 
 
