@@ -89,9 +89,14 @@ try {
                                                                           
          Properties.OnPlayerProperty.Add (function (context, e) 
          {
-             let p = context.Player;                 
-             p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + prop.Get(p.Id + 'rank').Value = p.Properties.Get('rank').Value + '  ' + n + '' + n + '   level: ' + prop.Get(p.Id + 'level').Value = p.Properties.Get('level').Value + ', exp: ' + prop.Get(p.Id + 'experience').Value = p.Properties.Get('experience').Value + ' <size=58.5>/ ' + prop.Get(p.Id + 'next').Value = p.Properties.Get('next').Value + '</size></color>  ';
-             if (e.Name == 'experience' && e.Value >= p.Properties.Get('next').Value) 
+              let p = context.Player,
+                 rank = p.Team == null ? prop.Get(p.Id + 'rank').Value = p.Properties.Get('rank').Value : p.Properties.Get('rank').Value = prop.Get(p.Id + 'rank').Value,
+                 next = p.Team == null ? prop.Get(p.Id + 'next').Value = p.Properties.Get('next').Value : p.Properties.Get('next').Value = prop.Get(p.Id + 'next').Value,
+                 level = p.Team == null ? prop.Get(p.Id + 'level').Value = p.Properties.Get('level').Value : p.Properties.Get('level').Value = prop.Get(p.Id + 'level').Value,
+              experience = p.Team == null ? prop.Get(p.Id + 'experience').Value = p.Properties.Get('experience').Value : p.Properties.Get('experience').Value = prop.Get(p.Id + 'experience').Value;
+             
+             p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + rank + '  ' + n + '' + n + '   level: ' + level + ', exp: ' + experience + ' <size=58.5>/ ' + next + '</size></color>  ';
+             if (e.Name == 'experience' & & e.Value >= p.Properties.Get('next').Value) 
              p.Properties.Get('level').Value += 1,
              p.Properties.Get('next').Value = RANKS[p.Properties.Get('level').Value - 1].exp,
              p.Properties.Get('rank').Value = RANKS[p.Properties.Get('level').Value - 2].name;       
