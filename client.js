@@ -122,7 +122,6 @@ prop.Get('experience').Value=data.playersData[player.id].exp;
          Players.OnPlayerConnected.Add (function (p) 
          {
              Load(p);
-             p.Ui.Hint.Value = p.Properties.Get('rank').Value;
          });
                                                                            
          Properties.OnTeamProperty.Add (function (context, e) 
