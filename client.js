@@ -111,7 +111,7 @@ try {
              experience = p.Properties.Get ('experience').Value;   
              
              if (e.Name == 'experience' && e.Value >= next) level ++, next = RANKS[level - 1].exp, rank = RANKS[level - 1].name;
-             p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + (String (rank) || RANKS[0].name) + '  ' + n + '' + n + '   level: ' + String (level) + ', exp: ' + String (experience) + ' <size=58.5>/ ' + String (next) + '</size></color>  ';         
+             p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + (String (rank)) + '  ' + n + '' + n + '   level: ' + String (level) + ', exp: ' + String (experience) + ' <size=58.5>/ ' + String (next) + '</size></color>  ';         
          });
     
          Timers.OnPlayerTimer.Add (function (t) 
@@ -144,8 +144,9 @@ try {
            if (vic.Team == p.Team)
                return;
            let pos = p.PositionIndex.x - vic.PositionIndex.x + p.PositionIndex.y - vic.PositionIndex.y + p.PositionIndex.z - vic.PositionIndex.z;   
-                if (pos != 0) vic.Ui.Hint.Value = p.NickName + ' убил вас с расстояния ' + Math.abs (pos) + ' блоков!';
+                if (pos != 0) vic.Ui.Hint.Value = p.NickName + ' убил вас с расстояния ' + Math.abs(pos) + ' блоков!';
                 p.Properties.Get('Kills').Value += 1;
+                p.Properties.Get('experience').Value += Rand(3, 9);
        });  
        
        main.OnTimer.Add (function () {
