@@ -90,14 +90,12 @@ try {
           
          Players.OnPlayerDisconnected.Add (function (p) 
          {
-         	p.Team.Properties.Get(p.Id + 'info1').Value = null;
-             Save(p);
-             Save(p);
+
          });
          
          Players.OnPlayerConnected.Add (function (p) 
          {
-             Load(p);
+             
          });
                                                                            
          Properties.OnTeamProperty.Add (function (context, e) 
@@ -113,7 +111,7 @@ try {
              experience = p.Properties.Get ('experience').Value;   
              
              if (e.Name == 'experience' && e.Value >= next) level ++, next = RANKS[level - 1].exp, rank = RANKS[level - 1].name;
-             p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + (String (rank)) + '  ' + n + '' + n + '   level: ' + String (level) + ', exp: ' + String (experience) + ' <size=58.5>/ ' + String (next) + '</size></color>  ';         
+             p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + (String (rank) || RANKS[0].name) + '  ' + n + '' + n + '   level: ' + String (level) + ', exp: ' + String (experience) + ' <size=58.5>/ ' + String (next) + '</size></color>  ';         
          });
     
          Timers.OnPlayerTimer.Add (function (t) 
