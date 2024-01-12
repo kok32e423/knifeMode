@@ -101,7 +101,7 @@ try {
          Properties.OnTeamProperty.Add (function (context, e) 
          {
              let t = context.Team;
-             t.Properties.Get('info2').Value = '<color=#FFFFFF>Счёт команды:' + n + n + 'wins: ' + t.Properties.Get('wins').Value + ', looses: ' + t.Properties.Get('looses').Value + '</color>'; 
+             t.Properties.Get('info2').Value = ' <color=#FFFFFF> Счёт команды: ' + n + n + ' wins: ' + t.Properties.Get('wins').Value + ', looses: ' + t.Properties.Get('looses').Value + ' </color>'; 
          });
          
          Properties.OnPlayerProperty.Add (function (context, e) 
