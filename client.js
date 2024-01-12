@@ -85,6 +85,22 @@ try {
          Teams.OnPlayerChangeTeam.Add (function (p) { p.Ui.TeamProp2.Value = { Team: p.Team.Id, Prop: p.Id + 'info1' }, p.Spawns.Spawn (); });           
          Teams.OnAddTeam.Add (function (t) { t.Ui.TeamProp1.Value = { Team: t.Id, Prop: 'info2' }; });
          
+         Players.OnPlayerDisconnected.Add (function (p) 
+         {   
+             Update (p);
+             for (var index = 0; index < P_PROPERTIES.NAMES.length; index++) {
+                Prop.Get(p.Id + P_PROPERTIES.NAMES[index]).Value = p.Properties.Get(P_PROPERTIES.NAMES[index]).Value;
+             }  
+        }); 
+
+        Players.OnPlayerConnected.Add (function (p) 
+        {    
+           for (var index = 0; index < P_PROPERTIES.NAMES.length; index++) {
+              p.Properties.Get(P_PROPERTIES.NAMES[index]).Value = Prop.Get(p.Id + P_PROPERTIES.NAMES[index]).Value;
+           }  
+       }); 
+    
+         
          P_PROPERTIES.NAMES.forEach (function (name, el) { for (let e = Players.GetEnumerator(); e.MoveNext();) e.Current.Properties.Get(name).Value  = P_PROPERTIES.VALUES[el]; });  
          PROPERTIES.NAMES.forEach (function (name, el) { for (let e = Teams.GetEnumerator(); e.MoveNext();) e.Current.Properties.Get(name).Value = PROPERTIES.VALUES[el]; });
                                                                                
@@ -137,52 +153,37 @@ try {
            p.Properties.Get('Kills').Value += 1;
            p.Properties.Get('experience').Value += Rand (2, 8);
        });  
-
-       Players.OnPlayerDisconnected.Add (function (p) 
-       {   
-          Update (p);
-          for (var index = 0; index < P_PROPERTIES.NAMES.length; index++) {
-             Prop.Get(p.Id + P_PROPERTIES.NAMES[index]).Value = p.Properties.Get(P_PROPERTIES.NAMES[index]).Value;
-          }  
-       }); 
-
-       Players.OnPlayerConnected.Add (function (p) 
-       {    
-          for (var index = 0; index < P_PROPERTIES.NAMES.length; index++) {
-             p.Properties.Get(P_PROPERTIES.NAMES[index]).Value = Prop.Get(p.Id + P_PROPERTIES.NAMES[index]).Value;
-          }  
-       }); 
-    
-         main.OnTimer.Add (function () {
-         	switch (s.Value) {
-                case 'game' : 
-                End (null);
-                break;
-                case 'end' :        
-                Game ();
-                break;
-             }
-         });
+       
+       main.OnTimer.Add (function () {
+      	switch (s.Value) {
+              case 'game' : 
+              End (null);
+              break;
+              case 'end' :        
+              Game ();
+              break;
+          }
+      });
                  
-         const Game = function ()
-         {
-            s.Value = 'game';
-            Spawn ();
-            main.Restart (115); 
-         } 
+      const Game = function ()
+      {
+          s.Value = 'game';
+          Spawn ();
+          main.Restart (115); 
+      } 
 
-         const End = function (t)
-         { 
-            s.Value = 'end', main.Restart (10); 
-            if (t != null) {
-            for (let e = Players.GetEnumerator(); e.MoveNext();) if (e.Current.Team == t) e.Current.Properties.Get('Scores').Value += 1;
-                t.Properties.Get('wins').Value += 1, Another(t).Properties.Get('looses').Value += 1;      
-            }
-         } 
+      const End = function (t)
+      { 
+          s.Value = 'end', main.Restart (10); 
+          if (t != null) {
+          for (let e = Players.GetEnumerator(); e.MoveNext();) if (e.Current.Team == t) e.Current.Properties.Get('Scores').Value += 1;
+              t.Properties.Get('wins').Value += 1, Another(t).Properties.Get('looses').Value += 1;      
+          }
+      } 
              
-         BreackGraph.Damage = false, ['Main', 'Secondary', 'Explosive', 'Build'].forEach(function (el) { Inventory.GetContext()[el].Value = false; });
-         Game ();
-         c_prop.MaxHp.Value = 35; 
+      BreackGraph.Damage = false, ['Main', 'Secondary', 'Explosive', 'Build'].forEach(function (el) { Inventory.GetContext()[el].Value = false; });
+      Game ();
+      c_prop.MaxHp.Value = 35; 
          
                   
 } catch (e) { msg.Show (e.name + ' ' + e.message); }
