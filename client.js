@@ -106,16 +106,9 @@ try {
          
          Properties.OnPlayerProperty.Add (function (context, e) 
          {
-             let p = context.Player,
-                level = p.Properties.Get ('level').Value, rank = p.Properties.Get ('rank').Value, next = p.Properties.Get ('next').Value,
-             experience = p.Properties.Get ('experience').Value;   
-          
-             if (e.Name == 'experience' && e.Value >= next) {
-                 level += 1;
-                 next = RANKS[level - 1].exp;
-                 rank = RANKS[level - 1].name;
-             }
-             p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + rank + '  ' + n + '' + n + '   level: ' + level + ', exp: ' + experience + ' <size=58.5>/ ' + next + '</size></color>  ';         
+             let p = context.Player;      
+             if (e.Name === 'experience' && e.Value >= p.Properties.Get('next').Value) p.Properties.Get('level').Value += 1, p.Properties.Get('next').Value = RANKS[p.Properties.Get('level').Value - 1].exp, p.Properties.Get('rank').Value = RANKS[p.Properties.Get('level').Value - 1].name;    
+                 p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + p.Properties.Get('rank').Value + '  ' + n + '' + n + '   level: ' + p.Properties.Get('level').Value + ', exp: ' + p.Properties.Get('experience').Value + ' <size=58.5>/ ' + p.Properties.Get('next').Value + '</size></color>  ';         
          });
     
          Timers.OnPlayerTimer.Add (function (t) 
