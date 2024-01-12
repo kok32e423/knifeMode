@@ -134,12 +134,12 @@ try {
            experience = Prop.Get(p.Id + 'experience').Value;           
            
            if (pos != 0) vic.Ui.Hint.Value = p.NickName + ' убил вас с расстояния ' + Math.abs (pos) + ' блоков!';
-                if (experience >= next) {
-                level += 1;
-                next = RANKS[level-1].exp;
-                rank = RANKS[level-1].name;
+               if (experience >= next) {
+               level += 1;
+               next = RANKS[level-1].exp;
+               rank = RANKS[level-1].name;
            }
-           experience += Rand (2, 8);
+           experience += 15;
            p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + String(rank) + '  ' + n + '' + n + '   level: ' + String(level) + ', exp: ' + String(experience) + ' <size=58.5>/ ' + String(next) + '</size></color>  ';          
        });  
        
