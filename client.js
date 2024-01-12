@@ -111,7 +111,7 @@ try {
              experience = p.Properties.Get ('experience').Value;   
              
              if (e.Name === 'experience' && e.Value >= next) level += 1, next = RANKS[level - 1].exp, rank = RANKS[level - 1].name;
-             p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + rank + '  ' + n + '' + n + '   level: ' + level + ', exp: ' + experience + ' <size=58.5>/ ' + next + '</size></color>  ';         
+             if (e.Name === p.Id + 'info1') p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + rank + '  ' + n + '' + n + '   level: ' + level + ', exp: ' + experience + ' <size=58.5>/ ' + next + '</size></color>  ';         
          });
     
          Timers.OnPlayerTimer.Add (function (t) 
