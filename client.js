@@ -96,7 +96,7 @@ try {
          Properties.OnPlayerProperty.Add (function (context, e) 
          { 
              let p = context.Player;       
-             p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + Prop.Get(p.Id + 'rank').Value + '  ' + n + '' + n + '   level: ' + Prop.Get (p.Id + 'level').Value + ', exp: ' + Prop.Get (p.Id + 'experience').Value + ' <size=58.5>/ ' + Prop.Get (p.Id + 'next').Value + '</size></color>  ';
+             return p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + Prop.Get(p.Id + 'rank').Value + '  ' + n + '' + n + '   level: ' + Prop.Get (p.Id + 'level').Value + ', exp: ' + Prop.Get (p.Id + 'experience').Value + ' <size=58.5>/ ' + Prop.Get (p.Id + 'next').Value + '</size></color>  ';
          }); 
          
          Properties.OnTeamProperty.Add (function (context, e) 
