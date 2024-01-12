@@ -134,7 +134,7 @@ try {
             p.Timers.Get('Im').Restart (3);   
             p.Ui.Hint.Reset ();
             for (var index = 0; index < P_PROPERTIES.NAMES.length; index++) {
-              if (Prop.Get(p.Id + P_PROPERTIES.NAMES[index]).Value != null) p.Properties.Get(P_PROPERTIES.NAMES[index]).Value = Prop.Get(p.Id + P_PROPERTIES.NAMES[index]).Value;
+              p.Properties.Get(P_PROPERTIES.NAMES[index]).Value = Prop.Get(p.Id + P_PROPERTIES.NAMES[index]).Value;
            }  
         });
         
