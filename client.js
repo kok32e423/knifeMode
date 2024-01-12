@@ -87,10 +87,41 @@ try {
          
          P_PROPERTIES.NAMES.forEach (function (name, el) { for (let e = Players.GetEnumerator(); e.MoveNext();) e.Current.Properties.Get(name).Value = P_PROPERTIES.VALUES[el]; });   
          PROPERTIES.NAMES.forEach (function (name, el) { for (let e = Teams.GetEnumerator(); e.MoveNext();) e.Current.Properties.Get(name).Value = PROPERTIES.VALUES[el]; });
-           
-         Players.OnPlayerDisconnected.Add (function () 
+          
+ var data={field:"",playersData:{}};
+          function Save(player){
+let prop = player.Properties;
+if(data.field.search(player.id)==-1){
+data.field+=player.id;
+data.playersData[player.id]=[{}]
+data.playersData[player.id].level = prop.Get('level').Value;
+data.playersData[player.id].next = prop.Get('next').Value;
+data.playersData[player.id].rank = prop.Get('rank').Value;
+data.playersData[player.id].exp = prop.Get('experience').Value;
+ }
+}
+function Load(player){
+let prop = player.Properties;
+if(data.field.search(player.id)!=-1){
+data.field=data.field.replace(player.id,"");
+prop.Get('level').Value = data.playersData[player.id].level ;
+prop.Get('next').Value=data.playersData[player.id].next;
+prop.Get('rank').Value=data.playersData[player.id].rank;
+prop.Get('experience').Value=data.playersData[player.id].exp;
+ }
+}
+
+
+ 
+         Players.OnPlayerDisconnected.Add (function (p) 
          {
          	p.Team.Properties.Get(p.Id + 'info1').Value = null;
+             Save(p);
+         });
+         
+         Players.OnPlayerConnected.Add (function (p) 
+         {
+             Load(p);
          });
                                                                            
          Properties.OnTeamProperty.Add (function (context, e) 
