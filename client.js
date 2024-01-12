@@ -2,14 +2,15 @@ try {
 	
  
          const n = '\n', PROPERTIES = { NAMES: ['wins', 'looses'], VALUES: [0, 0] }, RANKS = [
-             { name: 'черпак', exp: 25 },         
-             { name: 'каструля', exp: 40 },
-             { name: 'мастер', exp: 65 },
-             { name: 'говноед', exp: 85 },
-             { name: 'stormtro', exp: 115 },
-             { name: 'lololoshk', exp: 140 },
-             { name: 'странник', exp: 160 },
-             { name: 'босс', exp: 185 }
+             { name: 'новичёк', exp: 25 },         
+             { name: 'черпак', exp: 40 },         
+             { name: 'каструля', exp: 65 },
+             { name: 'мастер', exp: 85 },
+             { name: 'говноед', exp: 115 },
+             { name: 'stormtro', exp: 140 },
+             { name: 'lololoshk', exp: 160 },
+             { name: 'странник', exp: 185 },
+             { name: 'босс', exp: 1000 }
          ], P_PROPERTIES = { NAMES: ['next', 'experience', 'level', 'rank'], VALUES: [RANKS[0].exp, 0, 1, 'новичёк'] }, Prop = Properties.GetContext(), s = Prop.Get('state'), main = Timers.GetContext().Get('main'), ui = Ui.GetContext(), spawn = Spawns.GetContext(), c_prop = contextedProperties.GetContext(), BLACKLIST = 'C002224F3666744D|596D1288BD7F8CF7|C925816BE50844A9|9B94CBC25664BD6D|2F665AF97FA6F0EF|E24BE3448F7DF371|CBCE0678C099C56E', ADMIN_ID = 'EC76560AA6B5750B';
         
          const Add = function (tag, name, color, spawn)
@@ -49,16 +50,9 @@ try {
             if (p.Team.GetAlivePlayersCount() == 0 && Another(p.Team).GetAlivePlayersCount() == 0) return End (null);
          }
                   
-         const Spawn = function () 
-         {
-            for (let e = Teams.GetEnumerator(); e.MoveNext();) e.Current.Spawns.Spawn(); 
-         }
-         
-         const Rand = function (min, max) 
-         {
-            return Math.floor(Math.random() * (max - min + 1)) + min; 
-         }
-         
+         const Spwn = function () { for (let e = Teams.GetEnumerator(); e.MoveNext();) e.Current.Spawns.Spawn(); }  
+         const Rand = function (min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+          
          const Another = function (t)
          {
             if (t == blue) return red;
@@ -117,8 +111,7 @@ try {
         Spawns.OnSpawn.Add (function (p) 
         {
             p.Properties.Get('Immortality').Value = true;
-            p.Timers.Get('Im').Restart (3);
-            
+            p.Timers.Get('Im').Restart (3);   
             p.Ui.Hint.Reset ();
         });
         
@@ -162,7 +155,7 @@ try {
          const Game = function ()
          {
             s.Value = 'game';
-            Spawn ();
+            Spwn ();
             main.Restart (115); 
          } 
 
