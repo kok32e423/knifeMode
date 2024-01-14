@@ -66,21 +66,6 @@ try {
             else return blue;
          }
          
-function Save(p){
-Props.Get(p.Id + 'experience').Value= p.Properties.Get('experience').Value;
-Props.Get(p.Id + 'level').Value = p.Properties.Get('level').Value;
-Props.Get(p.Id + 'rank').Value = p.Properties.Get('rank').Value;
-Props.Get(p.Id + 'next').Value = p.Properties.Get('next').Value;
-}
-function LoadSave (p) {
-p.Properties.Get('experience').Value = Props.Get(p.Id + 'experience').Value;
-p.Properties.Get('level').Value = Props.Get(p.Id + 'level').Value;
-p.Properties.Get('rank').Value = Props.Get(p.Id + 'rank').Value;
-p.Properties.Get('next').Value = Props.Get(p.Id + 'next').Value;
-}
-Players.OnPlayerDisconnected.Add(function (p){ Save(p); });
-//Players.OnPlayerConnected.Add(function(p) { });
-         
          spawn.RespawnEnable = false, TeamsBalancer.IsAutoBalance = true, ui.MainTimerId.Value = main.Id;  
          
          const blue = Add ('blue', { up: 'спецназовцы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#476AEC', 1),
@@ -96,7 +81,6 @@ Players.OnPlayerDisconnected.Add(function (p){ Save(p); });
          {
              if (s.Value == 'end' || found (BLACKLIST, p.Id, '|')) return;
              t.Add (p);  
-             LoadSave (p); 
          });
          
          Teams.OnPlayerChangeTeam.Add (function (p) { p.Spawns.Spawn (); });     
@@ -144,7 +128,7 @@ Players.OnPlayerDisconnected.Add(function (p){ Save(p); });
             p.Properties.Get('experience').Value += 25;
         }); 
         
-        Damage.OnKill.Add (function (p, vic) 
+        Damage.OnKill.Add (function (p, vic, e) 
         {
            if (vic.Team == p.Team)
                return;
@@ -152,6 +136,8 @@ Players.OnPlayerDisconnected.Add(function (p){ Save(p); });
                 if (pos != 0) vic.Ui.Hint.Value = p.NickName + ' убил вас с расстояния ' + Math.abs(pos) + ' блоков!';
                 p.Properties.Get('Kills').Value += 1;
                 p.Properties.Get('experience').Value += Rand(3, 9);
+                if (e.Name === 'experience' && e.Value >= p.Properties.Get('next').Value) p.Properties.Get('level').Value ++, p.Properties.Get('next').Value = RANKS[p.Properties.Get('level').Value - 1].exp, p.Properties.Get('rank').Value = RANKS[p.Properties.Get('level').Value - 1].name;    
+                p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + String(p.Properties.Get('rank').Value) + '  ' + n + '' + n + '   level: ' + String(p.Properties.Get('level').Value) + ', exp: ' + String(p.Properties.Get('experience').Value) + ' <size=58.5>/ ' + String(p.Properties.Get('next').Value) + '</size></color>  ';            
        });  
        
        main.OnTimer.Add (function () {
