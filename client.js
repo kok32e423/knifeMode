@@ -73,13 +73,13 @@ Props.Get(p.Id + 'rank').Value = p.Properties.Get('rank').Value;
 Props.Get(p.Id + 'next').Value = p.Properties.Get('next').Value;
 }
 function LoadSave (p) {
-p.Properties.Get('experience') .Value =Props.Get(p.Id + 'experience').Value;
-p. Properties.Get('level').Value = Props.Get(p.Id + 'level').Value;
-p. Properties.Get('rank' ).Value = Props.Get(p.Id + 'rank').Value;
-p. Properties.Get('next').Value = Props.Get(p.Id + 'next').Value;
+p.Properties.Get('experience').Value =Props.Get(p.Id + 'experience').Value;
+p.Properties.Get('level').Value = Props.Get(p.Id + 'level').Value;
+p.Properties.Get('rank' ).Value = Props.Get(p.Id + 'rank').Value;
+p.Properties.Get('next').Value = Props.Get(p.Id + 'next').Value;
 }
-Players.OnPlayer Disconnected.Add(function (p){ Save(p); });
-Players.OnPlayerConnected.Add(function(p) {LoadSave (p); });
+Players.OnPlayerDisconnected.Add(function (p){ Save(p); });
+Players.OnPlayerConnected.Add(function(p) { LoadSave (p); });
          
          spawn.RespawnEnable = false, TeamsBalancer.IsAutoBalance = true, ui.MainTimerId.Value = main.Id;  
          
