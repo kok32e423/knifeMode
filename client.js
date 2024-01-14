@@ -133,7 +133,7 @@ try {
        
        Players.OnPlayerConnected.Add(function (p) 
        {   
-           P_PROPERTIES.NAMES.forEach(function (prop, el) {
+           P_PROPERTIES.NAMES.forEach(function (name, el) {
                if (props.Get(p.Id + name).Value == null) props.Get(p.Id + name).Value = P_PROPERTIES.VALUES[el];
            });
        }); 
