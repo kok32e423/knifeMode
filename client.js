@@ -65,21 +65,6 @@ try {
             if (t == blue) return red;
             else return blue;
          }
- function Save(p){ 
-  Props.Get(p.Id + 'experience').Value= p.Properties.Get('experience').Value;
-  Props.Get(p.Id + 'level').Value = p.Properties.Get('level').Value;
-  Props.Get(p.Id + 'rank').Value = p.Properties.Get('rank').Value;
-  Props.Get(p.Id + 'next').Value = p.Properties.Get('next').Value;
-        
-}
-function LoadSave(p){ 
-  p.Properties.Get('experience').Value = Props.Get(p.Id + 'experience').Value;
-  p.Properties.Get('level').Value = Props.Get(p.Id + 'level').Value;
-  p.Properties.Get('rank').Value = Props.Get(p.Id + 'rank').Value;
-  p.Properties.Get('next').Value = Props.Get(p.Id + 'next').Value;
-}
-Players.OnPlayerDisconnected.Add(function(p) { Save(p); });
-Players.OnPlayerConnected.Add(function(p) { LoadSave(p); });
          
          spawn.RespawnEnable = false, TeamsBalancer.IsAutoBalance = true, ui.MainTimerId.Value = main.Id;  
          
@@ -101,25 +86,22 @@ Players.OnPlayerConnected.Add(function(p) { LoadSave(p); });
          Teams.OnPlayerChangeTeam.Add (function (p) { p.Spawns.Spawn (); });     
          Teams.OnAddTeam.Add (function (t) { t.Ui.TeamProp1.Value = { Team: t.Id, Prop: 'info2' }; });
          
-         
+         P_PROPERTIES.NAMES.forEach (function (name, el) { for (let e = Players.GetEnumerator(); e.MoveNext();) e.Current.Properties.Get(name).Value = P_PROPERTIES.VALUES[el]; });
          PROPERTIES.NAMES.forEach (function (name, el) { for (let e = Teams.GetEnumerator(); e.MoveNext();) e.Current.Properties.Get(name).Value = PROPERTIES.VALUES[el]; });
-          
-        
-                                                                           
+                                                                                     
          Properties.OnTeamProperty.Add (function (context, e) 
          {
              let t = context.Team;
              t.Properties.Get('info2').Value = '  <color=#FFFFFF> Счёт команды:  ' + n + n + '  wins: ' + t.Properties.Get('wins').Value + ', looses: ' + t.Properties.Get('looses').Value + '  </color>'; 
          });
-         
-         
+              
          Properties.OnPlayerProperty.Add (function (context, e) 
          {
              let p = context.Player;   
                   if (e.Name === 'experience' && e.Value >= p.Properties.Get('next').Value) p.Properties.Get('level').Value ++, p.Properties.Get('next').Value = RANKS[p.Properties.Get('level').Value - 1].exp, p.Properties.Get('rank').Value = RANKS[p.Properties.Get('level').Value - 1].name;    
-                  p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + (p.Properties.Get('rank').Value || RANKS[0].name) + '  ' + n + '' + n + '   level: ' + (p.Properties.Get('level').Value || 1) + ', exp: ' + (p.Properties.Get('experience').Value || 0) + ' <size=58.5>/ ' + (p.Properties.Get('next').Value || 25) + '</size></color>  ';            
+                  p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + String(p.Properties.Get('rank').Value) + '  ' + n + '' + n + '   level: ' + String(p.Properties.Get('level').Value) + ', exp: ' + String(p.Properties.Get('experience').Value) + ' <size=58.5>/ ' + String(p.Properties.Get('next').Value) + '</size></color>  ';            
          });
-    
+     
          Timers.OnPlayerTimer.Add (function (t) 
          { 
              let p = t.Player,
@@ -138,6 +120,27 @@ Players.OnPlayerConnected.Add(function(p) { LoadSave(p); });
             p.Ui.Hint.Reset ();
             p.Ui.TeamProp2.Value = { Team: p.Team.Id, Prop: p.Id + 'info1' };
         });
+        
+        Players.OnPlayerDisconnected.Add(function(p) {
+           let arr = [];
+           P_PROPERTIES.NAMES.forEach(function (name) { arr.push(p.Properties.Get(name).Value); });           
+           Props.Get(p.Id + 'saved').Value = arr;
+        });
+        
+        Players.OnPlayerConnected.Add(function(p) { 
+       	if (Props.Get(p.Id + 'saved').Value) {
+               P_PROPERTIES.NAMES.forEach(function (name, el) {
+                   let arr = Props.Get(p.Id + 'saved').Value;
+                   p.Properties.Get(name).Value = arr[el];
+                   Props.Get(p.Id + 'saved').Value = null;
+               });
+          } else {
+              P_PROPERTIES.NAMES.forEach(function (name, el) {
+                  p.Properties.Get(nem).Value = P_PROPERTIES.VALUES[el];
+              });
+          }
+        });
+         
         
         Damage.OnDeath.Add (function (p) 
         {
