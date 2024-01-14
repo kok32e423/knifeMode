@@ -137,7 +137,7 @@ try {
                 if (pos != 0) vic.Ui.Hint.Value = p.NickName + ' убил вас с расстояния ' + Math.abs(pos) + ' блоков!';
                 p.Properties.Get('Kills').Value += 1;
                 p.Properties.Get('experience').Value += Rand(3, 9);
-                if (e.Name === 'experience' && e.Value >= p.Properties.Get('next').Value) p.Properties.Get('level').Value ++, p.Properties.Get('next').Value = RANKS[p.Properties.Get('level').Value - 1].exp, p.Properties.Get('rank').Value = RANKS[p.Properties.Get('level').Value - 1].name;    
+                if (p.Properties.Get('experience').Value >= p.Properties.Get('next').Value) p.Properties.Get('level').Value ++, p.Properties.Get('next').Value = RANKS[p.Properties.Get('level').Value - 1].exp, p.Properties.Get('rank').Value = RANKS[p.Properties.Get('level').Value - 1].name;    
                 p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + String(p.Properties.Get('rank').Value) + '  ' + n + '' + n + '   level: ' + String(p.Properties.Get('level').Value) + ', exp: ' + String(p.Properties.Get('experience').Value) + ' <size=58.5>/ ' + String(p.Properties.Get('next').Value) + '</size></color>  ';            
        });  
        
