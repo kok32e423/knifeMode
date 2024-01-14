@@ -123,12 +123,16 @@ try {
         
         Players.OnPlayerDisconnected.Add(function(p) {
             Props.Get(p.Id + 'experience').Value = p.Properties.Get('experience').Value;
+            Props.Get(p.Id + 'level').Value = p.Properties.Get('next').Value;
+            Props.Get(p.Id + 'rank').Value = p.Properties.Get('next').Value;
             Props.Get(p.Id + 'next').Value = p.Properties.Get('next').Value;
         });     
         
         Players.OnPlayerConnected.Add(function(p) {
             p.Properties.Get('experience').Value = Props.Get(p.Id + 'experience').Value;
             p.Properties.Get('next').Value = Props.Get(p.Id + 'next').Value;
+            p.Properties.Get('level').Value = Props.Get(p.Id + 'level').Value;
+            p.Properties.Get('rank').Value = Props.Get(p.Id + 'rank').Value;
         });     
         
         Damage.OnDeath.Add (function (p) 
