@@ -91,12 +91,12 @@ try {
           
          Players.OnPlayerDisconnected.Add (function (p) 
          {
-             Props.Get('experience').Value = p.Properties.Get('experience').Value;
+             Props.Get(p.Id + 'experience').Value = p.Properties.Get('experience').Value;
          });
          
          Players.OnPlayerConnected.Add (function (p) 
          {
-             p.Properties.Get('experience').Value = Props.Get('experience').Value;
+             p.Properties.Get('experience').Value = Props.Get(p.Id + 'experience').Value;
          });
                                                                            
          Properties.OnTeamProperty.Add (function (context, e) 
