@@ -117,8 +117,8 @@ Players.OnPlayerConnected.Add(function(p) { LoadSave(p); });
          Properties.OnPlayerProperty.Add (function (context, e) 
          {
              let p = context.Player;   
-             if (p.IsSpawned) p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + p.Properties.Get('rank').Value + '  ' + n + '' + n + '   level: ' + p.Properties.Get('level').Value + ', exp: ' + p.Properties.Get('experience').Value + ' <size=58.5>/ ' +  p.Properties.Get('next').Value + '</size></color>  ';            
-             if (p.IsSpawned && e.Name === 'experience' && e.Value >= p.Properties.Get('next').Value) p.Properties.Get('level').Value += 1, p.Properties.Get('next').Value = RANKS[p.Properties.Get('level').Value - 1].exp, p.Properties.Get('rank').Value = RANKS[p.Properties.Get('level').Value - 1].name;    
+             if (p.Team != null) p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + p.Properties.Get('rank').Value + '  ' + n + '' + n + '   level: ' + p.Properties.Get('level').Value + ', exp: ' + p.Properties.Get('experience').Value + ' <size=58.5>/ ' +  p.Properties.Get('next').Value + '</size></color>  ';            
+             if (p.Team != null && e.Name === 'experience' && e.Value >= p.Properties.Get('next').Value) p.Properties.Get('level').Value += 1, p.Properties.Get('next').Value = RANKS[p.Properties.Get('level').Value - 1].exp, p.Properties.Get('rank').Value = RANKS[p.Properties.Get('level').Value - 1].name;    
          });
     
          Timers.OnPlayerTimer.Add (function (t) 
