@@ -101,7 +101,7 @@ Players.OnPlayerConnected.Add(function(p) { LoadSave(p); });
          Teams.OnPlayerChangeTeam.Add (function (p) { p.Spawns.Spawn (); });     
          Teams.OnAddTeam.Add (function (t) { t.Ui.TeamProp1.Value = { Team: t.Id, Prop: 'info2' }; });
          
-         P_PROPERTIES.NAMES.forEach (function (name, el) { for (let e = Players.GetEnumerator(); e.MoveNext();) e.Current.Properties.Get(name).Value = P_PROPERTIES.VALUES[el]; });   
+         
          PROPERTIES.NAMES.forEach (function (name, el) { for (let e = Teams.GetEnumerator(); e.MoveNext();) e.Current.Properties.Get(name).Value = PROPERTIES.VALUES[el]; });
           
         
@@ -115,16 +115,9 @@ Players.OnPlayerConnected.Add(function(p) { LoadSave(p); });
          
          Properties.OnPlayerProperty.Add (function (context, e) 
          {
-             let p = context.Player, 
-               level = p.Properties.Get('level').Value, rank = p.Properties.Get('rank').Value, next = p.Properties.Get('next').Value,
-             experience = p.Properties.Get('experience').Value;
-                      
-             if (e.Name === 'experience' && e.Value >= next) {
-                 level += 1;
-                 next = RANKS[level - 1].exp;
-                 rank = RANKS[level - 1].name;    
-             }
-             p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + p.Properties.Get('rank').Value + '  ' + n + '' + n + '   level: ' + p.Properties.Get('level').Value + ', exp: ' + p.Properties.Get('experience').Value + ' <size=58.5>/ ' +  p.Properties.Get('next').Value + '</size></color>  ';            
+             let p = context.Player;   
+                  if (e.Name === 'experience' && e.Value >= p.Properties.Get('next').Value) p.Properties.Get('level').Value ++, p.Properties.Get('next').Value = RANKS[p.Properties.Get('level').Value - 1].exp, p.Properties.Get('rank').Value = RANKS[p.Properties.Get('level').Value - 1].name;    
+                  p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + (p.Properties.Get('rank').Value || RANKS[0].name) + '  ' + n + '' + n + '   level: ' + (p.Properties.Get('level').Value || 1) + ', exp: ' + (p.Properties.Get('experience').Value || 0) + ' <size=58.5>/ ' + (p.Properties.Get('next').Value || 25) + '</size></color>  ';            
          });
     
          Timers.OnPlayerTimer.Add (function (t) 
