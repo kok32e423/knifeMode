@@ -80,18 +80,12 @@ try {
          Teams.OnRequestJoinTeam.Add (function (p, t) 
          {
              if (s.Value == 'end' || found (BLACKLIST, p.Id, '|')) return;
-             if (p.Team == null) {
              if (Props.Get(p.Id + 'saved').Value) {
                P_PROPERTIES.NAMES.forEach(function (name, el) {
                    let arr = Props.Get(p.Id + 'saved').Value;
                    p.Properties.Get(name).Value = arr[el];
                    Props.Get(p.Id + 'saved').Value = null;
                });
-          } else {
-              P_PROPERTIES.NAMES.forEach(function (name, el) {
-                  p.Properties.Get(name).Value = P_PROPERTIES.VALUES[el];
-              });
-          }
           }
              t.Add (p);  
          });
@@ -138,10 +132,7 @@ try {
            let arr = [];
            P_PROPERTIES.NAMES.forEach(function (name) { arr.push(p.Properties.Get(name).Value); });           
            Props.Get(p.Id + 'saved').Value = arr;
-        });
-        
-        
-         
+        });     
         
         Damage.OnDeath.Add (function (p) 
         {
