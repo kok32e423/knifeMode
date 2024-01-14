@@ -122,14 +122,21 @@ try {
         Damage.OnKill.Add (function (p, vic, e) 
         {
            if (vic.Team == p.Team)
-               return;
+                return;
            let pos = p.PositionIndex.x - vic.PositionIndex.x + p.PositionIndex.y - vic.PositionIndex.y + p.PositionIndex.z - vic.PositionIndex.z;   
                 if (pos != 0) vic.Ui.Hint.Value = p.NickName + ' убил вас с расстояния ' + Math.abs(pos) + ' блоков!';
                 p.Properties.Get('Kills').Value += 1;
-                props.Get(p.Id + 'experience').Value += Rand(3, 9);
-                if (props.Get(p.Id + 'experience').Value >= props.Get(p.Id + 'next').Value) props.Get(p.Id + 'level').Value ++, props.Get(p.Id + 'next').Value = RANKS[props.Get(p.Id + 'level').Value - 1].exp, props.Get(p.Id + 'rank').Value = RANKS[props.Get(p.Id + 'level').Value - 1].name;    
+                props.Get(p.Id + 'experience').Value += Math.abs(pos) <= 3 ? Rand(3, 7) : (Math.abs(pos) + Rand(1, 4));
+                if (props.Get(p.Id + 'experience').Value >= props.Get(p.Id + 'next').Value) props.Get(p.Id + 'level').Value ++, props.Get(p.Id + 'next').Value = RANKS[props.Get(p.Id + 'level').Value - 1].exp, props.Get(p.Id + 'rank').Value = RANKS[props.Get(p.Id + 'level').Value - 1].name, p.PopUp('Ты достиг уровня:' + props.Get(p.Id + 'level').Value + '!\nтвоё звание теперь: ' + props.Get(p.Id + 'rank').Value);
                 p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + String(props.Get(p.Id + 'rank').Value) + '  ' + n + '' + n + '   level: ' + String(props.Get(p.Id + 'level').Value) + ', exp: ' + String(props.Get(p.Id + 'experience').Value) + ' <size=58.5>/ ' + String(props.Get(p.Id + 'next').Value) + '</size></color>  ';            
        });  
+       
+       Players.OnPlayerConnected.Add(function (p) 
+       {   
+           P_PROPERTIES.NAMES.forEach(function (prop, el) {
+               if (props.Get(p.Id + name).Value == null) props.Get(p.Id + name).Value = P_PROPERTIES.VALUES[el];
+           });
+       }); 
        
        main.OnTimer.Add (function () {
       	switch (s.Value) {
