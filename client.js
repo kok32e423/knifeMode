@@ -82,6 +82,9 @@ try {
              if (s.Value == 'end' || found (BLACKLIST, p.Id, '|')) return;
              t.Add (p); 
              p.Properties.Get('experience').Value = Props.Get(p.Id + 'experience').Value;
+             p.Properties.Get('level').Value = Props.Get(p.Id + 'level').Value;
+             p.Properties.Get('rank').Value = Props.Get(p.Id + 'rank').Value;
+             p.Properties.Get('next').Value = Props.Get(p.Id + 'next').Value;
          });
          
          Teams.OnPlayerChangeTeam.Add (function (p) { p.Spawns.Spawn (), p.Ui.TeamProp2.Value = { Team: p.Team.Id, Prop: p.Id + 'info1' }; });     
@@ -109,7 +112,7 @@ try {
          Properties.OnPlayerProperty.Add (function (context, e) 
          {
              let p = context.Player;   
-             p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + p.Properties.Get('rank').Value + '  ' + n + '' + n + '   level: ' + p.Properties.Get('level').Value + ', exp: ' + (Props.Get(p.Id + 'experience').Value = p.Properties.Get('experience').Value || 0) + ' <size=58.5>/ ' + p.Properties.Get('next').Value + '</size></color>  ';            
+             p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + (Props.Get(p.Id + 'rank').Value = p.Properties.Get('rank').Value || RANKS[0].name)  + '  ' + n + '' + n + '   level: ' + (Props.Get(p.Id + 'level').Value = p.Properties.Get('experience').Value || 1)  + ', exp: ' + (Props.Get(p.Id + 'experience').Value = p.Properties.Get('experience').Value || 0) + ' <size=58.5>/ ' +  (Props.Get(p.Id + 'experience').Value = p.Properties.Get('experience').Value || 25) + '</size></color>  ';            
              if (e.Name === 'experience' && e.Value >= p.Properties.Get('next').Value) p.Properties.Get('level').Value += 1, p.Properties.Get('next').Value = RANKS[p.Properties.Get('level').Value - 1].exp, p.Properties.Get('rank').Value = RANKS[p.Properties.Get('level').Value - 1].name;    
          });
     
