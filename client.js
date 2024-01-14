@@ -11,7 +11,7 @@ try {
              { name: 'lololoshk', exp: 160 },
              { name: 'странник', exp: 185 },
              { name: 'босс', exp: 1000 }
-         ], P_PROPERTIES = { NAMES: ['next', 'experience', 'level', 'rank'], VALUES: [RANKS[0].exp, 0, 1, RANKS[0].name] }, Props = Properties.GetContext(), s = Props.Get('state'), main = Timers.GetContext().Get('main'), ui = Ui.GetContext(), spawn = Spawns.GetContext(), c_prop = contextedProperties.GetContext(), BLACKLIST = 'C002224F3666744D|596D1288BD7F8CF7|C925816BE50844A9|9B94CBC25664BD6D|2F665AF97FA6F0EF|E24BE3448F7DF371|CBCE0678C099C56E', ADMIN_ID = 'EC76560AA6B5750B';
+         ], P_PROPERTIES = { NAMES: ['next', 'experience', 'level', 'rank'], VALUES: [RANKS[0].exp, 0, 1, RANKS[0].name] }, props = Properties.GetContext(), s = props.Get('state'), main = Timers.GetContext().Get('main'), ui = Ui.GetContext(), spawn = Spawns.GetContext(), c_prop = contextedProperties.GetContext(), BLACKLIST = 'C002224F3666744D|596D1288BD7F8CF7|C925816BE50844A9|9B94CBC25664BD6D|2F665AF97FA6F0EF|E24BE3448F7DF371|CBCE0678C099C56E', ADMIN_ID = 'EC76560AA6B5750B';
         
          const Add = function (tag, name, color, spawn)
          {    	
@@ -83,10 +83,10 @@ try {
              t.Add (p);  
          });
          
-         Teams.OnPlayerChangeTeam.Add (function (p) { p.Spawns.Spawn (); });     
+         Teams.OnPlayerChangeTeam.Add (function (p) { p.Spawns.Spawn (), p.Ui.TeamProp2.Value = { Team: p.Team.Id, Prop: p.Id + 'info1' }, p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + String(props.Get(p.Id + 'rank').Value) + '  ' + n + '' + n + '   level: ' + String(props.Get(p.Id + 'level').Value) + ', exp: ' + String(props.Get(p.Id + 'experience').Value) + ' <size=58.5>/ ' + String(props.Get(p.Id + 'next').Value) + '</size></color>  '; });     
          Teams.OnAddTeam.Add (function (t) { t.Ui.TeamProp1.Value = { Team: t.Id, Prop: 'info2' }; });
          
-         P_PROPERTIES.NAMES.forEach (function (name, el) { for (let e = Players.GetEnumerator(); e.MoveNext();) e.Current.Properties.Get(name).Value = P_PROPERTIES.VALUES[el]; });
+         P_PROPERTIES.NAMES.forEach (function (name, el) { for (let e = Players.GetEnumerator(); e.MoveNext();) props.Get(e.Current.Id + name).Value = P_PROPERTIES.VALUES[el]; });
          PROPERTIES.NAMES.forEach (function (name, el) { for (let e = Teams.GetEnumerator(); e.MoveNext();) e.Current.Properties.Get(name).Value = PROPERTIES.VALUES[el]; });
                                                                                      
          Properties.OnTeamProperty.Add (function (context, e) 
@@ -94,15 +94,7 @@ try {
              let t = context.Team;
              t.Properties.Get('info2').Value = '  <color=#FFFFFF> Счёт команды:  ' + n + n + '  wins: ' + t.Properties.Get('wins').Value + ', looses: ' + t.Properties.Get('looses').Value + '  </color>'; 
          });
-         
-/*     
-         Properties.OnPlayerProperty.Add (function (context, e) 
-         {
-             let p = context.Player;   
-                  if (e.Name === 'experience' && e.Value >= p.Properties.Get('next').Value) p.Properties.Get('level').Value ++, p.Properties.Get('next').Value = RANKS[p.Properties.Get('level').Value - 1].exp, p.Properties.Get('rank').Value = RANKS[p.Properties.Get('level').Value - 1].name;    
-                  p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + String(p.Properties.Get('rank').Value) + '  ' + n + '' + n + '   level: ' + String(p.Properties.Get('level').Value) + ', exp: ' + String(p.Properties.Get('experience').Value) + ' <size=58.5>/ ' + String(p.Properties.Get('next').Value) + '</size></color>  ';            
-         });
-     */
+       
          Timers.OnPlayerTimer.Add (function (t) 
          { 
              let p = t.Player,
@@ -119,14 +111,12 @@ try {
             p.Properties.Get('Immortality').Value = true;
             p.Timers.Get('Im').Restart (3);   
             p.Ui.Hint.Reset ();
-            p.Ui.TeamProp2.Value = { Team: p.Team.Id, Prop: p.Id + 'info1' };
         });
                 
         Damage.OnDeath.Add (function (p) 
         {
             Update (p);
             p.Properties.Get('Deaths').Value += 1;
-            p.Properties.Get('experience').Value += 25;
         }); 
         
         Damage.OnKill.Add (function (p, vic, e) 
@@ -136,9 +126,9 @@ try {
            let pos = p.PositionIndex.x - vic.PositionIndex.x + p.PositionIndex.y - vic.PositionIndex.y + p.PositionIndex.z - vic.PositionIndex.z;   
                 if (pos != 0) vic.Ui.Hint.Value = p.NickName + ' убил вас с расстояния ' + Math.abs(pos) + ' блоков!';
                 p.Properties.Get('Kills').Value += 1;
-                p.Properties.Get('experience').Value += Rand(3, 9);
-                if (p.Properties.Get('experience').Value >= p.Properties.Get('next').Value) p.Properties.Get('level').Value ++, p.Properties.Get('next').Value = RANKS[p.Properties.Get('level').Value - 1].exp, p.Properties.Get('rank').Value = RANKS[p.Properties.Get('level').Value - 1].name;    
-                p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + String(p.Properties.Get('rank').Value) + '  ' + n + '' + n + '   level: ' + String(p.Properties.Get('level').Value) + ', exp: ' + String(p.Properties.Get('experience').Value) + ' <size=58.5>/ ' + String(p.Properties.Get('next').Value) + '</size></color>  ';            
+                props.Get(p.Id + 'experience').Value += Rand(3, 9);
+                if (props.Get(p.Id + 'experience').Value >= props.Get(p.Id + 'next').Value) props.Get(p.Id + 'level').Value ++, props.Get(p.Id + 'next').Value = RANKS[props.Get(p.Id + 'level').Value - 1].exp, props.Get(p.Id + 'rank').Value = RANKS[props.Get(p.Id + 'level').Value - 1].name;    
+                p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + String(props.Get(p.Id + 'rank').Value) + '  ' + n + '' + n + '   level: ' + String(props.Get(p.Id + 'level').Value) + ', exp: ' + String(props.Get(p.Id + 'experience').Value) + ' <size=58.5>/ ' + String(props.Get(p.Id + 'next').Value) + '</size></color>  ';            
        });  
        
        main.OnTimer.Add (function () {
