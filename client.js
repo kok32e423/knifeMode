@@ -122,23 +122,16 @@ try {
         });
         
         Players.OnPlayerDisconnected.Add(function(p) {
-           let arr = [];
-           P_PROPERTIES.NAMES.forEach(function (name) { arr.push(p.Properties.Get(name).Value); });           
-           Props.Get(p.Id + 'saved').Value = arr;
+            P_PROPERTIES.NAMES.forEach(function (name) { 
+                Props.Get(p.Id + name).Value = p.Properties.Get(name).Value;
+            });           
         });
         
         Players.OnPlayerConnected.Add(function(p) { 
-       	if (Props.Get(p.Id + 'saved').Value) {
-               P_PROPERTIES.NAMES.forEach(function (name, el) {
-                   let arr = Props.Get(p.Id + 'saved').Value;
-                   p.Properties.Get(name).Value = arr[el];
-                   Props.Get(p.Id + 'saved').Value = null;
-               });
-          } else {
-              P_PROPERTIES.NAMES.forEach(function (name, el) {
-                  p.Properties.Get(nem).Value = P_PROPERTIES.VALUES[el];
-              });
-          }
+       	P_PROPERTIES.NAMES.forEach(function (name, el) { 
+               Props.Get(p.Id + name).Value != null ? p.Properties.Get(name).Value = Props.Get(p.Id + name).Value: p.Properties.Get(name).Value = P_PROPERTIES.VALUES[el];
+               Props.Get(p.Id + name).Value = null;
+            });           
         });
          
         
