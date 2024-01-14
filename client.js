@@ -66,6 +66,17 @@ try {
             else return blue;
          }
          
+         const Save = function (p, bool)
+         {
+            if (bool) P_PROPERTIES.NAMES.forEach (function (name) { 
+           	  p.Properties.Get(name).Value = Props.Get(p.Id + name).Value;
+            });
+            else P_PROPERTIES.NAMES.forEach (function (name) { Props.Get(p.Id + name).Value = p.Properties.Get(name).Value; });            	
+         }
+         
+         Players.OnPlayerDisconnected.Add(function(p) { Save(p, false); });
+         Players.OnPlayerConnected.Add(function(p) { Save(p, true); });
+         
          spawn.RespawnEnable = false, TeamsBalancer.IsAutoBalance = true, ui.MainTimerId.Value = main.Id;  
          
          const blue = Add ('blue', { up: 'спецназовцы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#476AEC', 1),
@@ -80,20 +91,13 @@ try {
          Teams.OnRequestJoinTeam.Add (function (p, t) 
          {
              if (s.Value == 'end' || found (BLACKLIST, p.Id, '|')) return;
-             if (Props.Get(p.Id + 'saved').Value) {
-               P_PROPERTIES.NAMES.forEach(function (name, el) {
-                   let arr = Props.Get(p.Id + 'saved').Value;
-                   p.Properties.Get(name).Value = arr[el];
-                   Props.Get(p.Id + 'saved').Value = null;
-               });
-          }
              t.Add (p);  
          });
          
          Teams.OnPlayerChangeTeam.Add (function (p) { p.Spawns.Spawn (); });     
          Teams.OnAddTeam.Add (function (t) { t.Ui.TeamProp1.Value = { Team: t.Id, Prop: 'info2' }; });
          
-         //P_PROPERTIES.NAMES.forEach (function (name, el) { for (let e = Players.GetEnumerator(); e.MoveNext();) e.Current.Properties.Get(name).Value = P_PROPERTIES.VALUES[el]; });
+         P_PROPERTIES.NAMES.forEach (function (name, el) { for (let e = Players.GetEnumerator(); e.MoveNext();) e.Current.Properties.Get(name).Value = P_PROPERTIES.VALUES[el]; });
          PROPERTIES.NAMES.forEach (function (name, el) { for (let e = Teams.GetEnumerator(); e.MoveNext();) e.Current.Properties.Get(name).Value = PROPERTIES.VALUES[el]; });
                                                                                      
          Properties.OnTeamProperty.Add (function (context, e) 
@@ -129,9 +133,7 @@ try {
         });
         
         Players.OnPlayerDisconnected.Add(function(p) {
-           let arr = [];
-           P_PROPERTIES.NAMES.forEach(function (name) { arr.push(p.Properties.Get(name).Value); });           
-           Props.Get(p.Id + 'saved').Value = arr;
+           
         });     
         
         Damage.OnDeath.Add (function (p) 
