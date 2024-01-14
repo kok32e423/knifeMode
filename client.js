@@ -11,7 +11,7 @@ try {
              { name: 'lololoshk', exp: 160 },
              { name: 'странник', exp: 185 },
              { name: 'босс', exp: 1000 }
-         ], P_PROPERTIES = { NAMES: ['next', 'experience', 'level', 'rank'], VALUES: [RANKS[0].exp, 0, 1, RANKS[0].name] }, Prop = Properties.GetContext(), s = Prop.Get('state'), main = Timers.GetContext().Get('main'), ui = Ui.GetContext(), spawn = Spawns.GetContext(), c_prop = contextedProperties.GetContext(), BLACKLIST = 'C002224F3666744D|596D1288BD7F8CF7|C925816BE50844A9|9B94CBC25664BD6D|2F665AF97FA6F0EF|E24BE3448F7DF371|CBCE0678C099C56E', ADMIN_ID = 'EC76560AA6B5750B';
+         ], P_PROPERTIES = { NAMES: ['next', 'experience', 'level', 'rank'], VALUES: [RANKS[0].exp, 0, 1, RANKS[0].name] }, Props = Properties.GetContext(), s = Props.Get('state'), main = Timers.GetContext().Get('main'), ui = Ui.GetContext(), spawn = Spawns.GetContext(), c_prop = contextedProperties.GetContext(), BLACKLIST = 'C002224F3666744D|596D1288BD7F8CF7|C925816BE50844A9|9B94CBC25664BD6D|2F665AF97FA6F0EF|E24BE3448F7DF371|CBCE0678C099C56E', ADMIN_ID = 'EC76560AA6B5750B';
         
          const Add = function (tag, name, color, spawn)
          {    	
@@ -73,17 +73,17 @@ try {
               
          LeaderBoard.PlayerLeaderBoardValues = [
             { Value: 'Kills', ShortDisplayName: '<size=11.9><b>ᴋ</b></size>' },
-            { Value: 'Deaths', ShortDisplayName: '<size=11.9><b>ᴅ</b></size>' }
+            { Value: 'Deaths', ShortDisplayName: '<size=11.9><b>ᴅ</b></size>' },
+            { Value: 'experience', ShortDisplayName: '<size=11.9><b>xp</b></size>' }
          ];
 
          Teams.OnRequestJoinTeam.Add (function (p, t) 
          {
              if (s.Value == 'end' || found (BLACKLIST, p.Id, '|')) return;
-             t.Add (p);  
-             p.Ui.TeamProp2.Value = { Team: t.Id, Prop: p.Id + 'info1' }  
+             t.Add (p); 
          });
          
-         Teams.OnPlayerChangeTeam.Add (function (p) { p.Spawns.Spawn (); });     
+         Teams.OnPlayerChangeTeam.Add (function (p) { p.Spawns.Spawn (), p.Ui.TeamProp2.Value = { Team: t.Id, Prop: p.Id + 'info1' }; });     
          Teams.OnAddTeam.Add (function (t) { t.Ui.TeamProp1.Value = { Team: t.Id, Prop: 'info2' }; });
          
          P_PROPERTIES.NAMES.forEach (function (name, el) { for (let e = Players.GetEnumerator(); e.MoveNext();) e.Current.Properties.Get(name).Value = P_PROPERTIES.VALUES[el]; });   
@@ -91,12 +91,12 @@ try {
           
          Players.OnPlayerDisconnected.Add (function (p) 
          {
-
+             Props.Get('experience').Value = p.Properties.Get('experience').Value;
          });
          
          Players.OnPlayerConnected.Add (function (p) 
          {
-             
+             p.Properties.Get('experience').Value = Props.Get('experience').Value;
          });
                                                                            
          Properties.OnTeamProperty.Add (function (context, e) 
