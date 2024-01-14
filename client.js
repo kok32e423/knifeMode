@@ -65,6 +65,21 @@ try {
             if (t == blue) return red;
             else return blue;
          }
+ function Save(p){ 
+  Props.Get(p.Id + 'experience').Value= p.Properties.Get('experience').Value;
+  Props.Get(p.Id + 'level').Value = p.Properties.Get('level').Value;
+  Props.Get(p.Id + 'rank').Value = p.Properties.Get('rank').Value;
+  Props.Get(p.Id + 'next').Value = p.Properties.Get('next').Value;
+        
+}
+function LoadSave(p){ 
+  p.Properties.Get('experience').Value = Props.Get(p.Id + 'experience').Value;
+  p.Properties.Get('level').Value = Props.Get(p.Id + 'level').Value;
+  p.Properties.Get('rank').Value = Props.Get(p.Id + 'rank').Value;
+  p.Properties.Get('next').Value = Props.Get(p.Id + 'next').Value;
+}
+Players.OnPlayerDisconnected.Add(function(p) { Save(p); });
+Players.OnPlayerConnected.Add(function(p) { LoadSave(p); });
          
          spawn.RespawnEnable = false, TeamsBalancer.IsAutoBalance = true, ui.MainTimerId.Value = main.Id;  
          
@@ -81,30 +96,16 @@ try {
          {
              if (s.Value == 'end' || found (BLACKLIST, p.Id, '|')) return;
              t.Add (p); 
-             p.Properties.Get('experience').Value = Props.Get(p.Id + 'experience').Value;
-             p.Properties.Get('level').Value = Props.Get(p.Id + 'level').Value;
-             p.Properties.Get('rank').Value = Props.Get(p.Id + 'rank').Value;
-             p.Properties.Get('next').Value = Props.Get(p.Id + 'next').Value;
+   
          });
          
-         Teams.OnPlayerChangeTeam.Add (function (p) { p.Spawns.Spawn (), p.Ui.TeamProp2.Value = { Team: p.Team.Id, Prop: p.Id + 'info1' }; });     
+         Teams.OnPlayerChangeTeam.Add (function (p) { p.Spawns.Spawn ()/*, p.Ui.TeamProp2.Value = { Team: p.Team.Id, Prop: p.Id + 'info1' }; */});     
          Teams.OnAddTeam.Add (function (t) { t.Ui.TeamProp1.Value = { Team: t.Id, Prop: 'info2' }; });
          
          P_PROPERTIES.NAMES.forEach (function (name, el) { for (let e = Players.GetEnumerator(); e.MoveNext();) e.Current.Properties.Get(name).Value = P_PROPERTIES.VALUES[el]; });   
          PROPERTIES.NAMES.forEach (function (name, el) { for (let e = Teams.GetEnumerator(); e.MoveNext();) e.Current.Properties.Get(name).Value = PROPERTIES.VALUES[el]; });
           
-         Players.OnPlayerDisconnected.Add (function (p) 
-         {
-             Props.Get(p.Id + 'experience').Value = p.Properties.Get('experience').Value;
-             Props.Get(p.Id + 'level').Value = p.Properties.Get('level').Value;
-             Props.Get(p.Id + 'rank').Value = p.Properties.Get('rank').Value;
-             Props.Get(p.Id + 'next').Value = p.Properties.Get('next').Value;
-         });
-         
-         Players.OnPlayerConnected.Add (function (p) 
-         {
-             
-         });
+        
                                                                            
          Properties.OnTeamProperty.Add (function (context, e) 
          {
