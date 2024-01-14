@@ -66,17 +66,6 @@ try {
             else return blue;
          }
          
-         const Save = function (p, bool)
-         {
-            if (bool) P_PROPERTIES.NAMES.forEach (function (name) { 
-           	  p.Properties.Get(name).Value = Props.Get(p.Id + name).Value;
-            });
-            else P_PROPERTIES.NAMES.forEach (function (name) { Props.Get(p.Id + name).Value = p.Properties.Get(name).Value; });            	
-         }
-         
-         Players.OnPlayerDisconnected.Add(function(p) { Save(p, false); });
-         Players.OnPlayerConnected.Add(function(p) { Save(p, true); });
-         
          spawn.RespawnEnable = false, TeamsBalancer.IsAutoBalance = true, ui.MainTimerId.Value = main.Id;  
          
          const blue = Add ('blue', { up: 'спецназовцы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#476AEC', 1),
@@ -133,7 +122,13 @@ try {
         });
         
         Players.OnPlayerDisconnected.Add(function(p) {
-           
+            Props.Get(p.Id + 'experience').Value = p.Properties.Get('experience').Value;
+            Props.Get(p.Id + 'next').Value = p.Properties.Get('next').Value;
+        });     
+        
+        Players.OnPlayerConnected.Add(function(p) {
+            p.Properties.Get('experience').Value = Props.Get(p.Id + 'experience').Value;
+            p.Properties.Get('next').Value = Props.Get(p.Id + 'next').Value;
         });     
         
         Damage.OnDeath.Add (function (p) 
