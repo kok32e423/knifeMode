@@ -66,6 +66,21 @@ try {
             else return blue;
          }
          
+function Save(p){
+Props.Get(p.Id + 'experience').Value= p.Properties.Get('experience').Value;
+Props.Get(p.Id + 'level').Value = p.Properties.Get('level').Value;
+Props.Get(p.Id + 'rank').Value = p.Properties.Get('rank').Value;
+Props.Get(p.Id + 'next').Value = p.Properties.Get('next').Value;
+}
+function LoadSave (p) {
+p.Properties.Get('experience') .Value =Props.Get(p.Id + 'experience').Value;
+p. Properties.Get('level').Value = Props.Get(p.Id + 'level').Value;
+p. Properties.Get('rank' ).Value = Props.Get(p.Id + 'rank').Value;
+p. Properties.Get('next').Value = Props.Get(p.Id + 'next').Value;
+}
+Players.OnPlayer Disconnected.Add(function (p){ Save(p); });
+Players.OnPlayerConnected.Add(function(p) {LoadSave (p); });
+         
          spawn.RespawnEnable = false, TeamsBalancer.IsAutoBalance = true, ui.MainTimerId.Value = main.Id;  
          
          const blue = Add ('blue', { up: 'спецназовцы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#476AEC', 1),
@@ -120,21 +135,7 @@ try {
             p.Ui.Hint.Reset ();
             p.Ui.TeamProp2.Value = { Team: p.Team.Id, Prop: p.Id + 'info1' };
         });
-        
-        Players.OnPlayerDisconnected.Add(function(p) {
-            Props.Get(p.Id + 'experience').Value = p.Properties.Get('experience').Value;
-            Props.Get(p.Id + 'level').Value = p.Properties.Get('next').Value;
-            Props.Get(p.Id + 'rank').Value = p.Properties.Get('next').Value;
-            Props.Get(p.Id + 'next').Value = p.Properties.Get('next').Value;
-        });     
-        
-        Players.OnPlayerConnected.Add(function(p) {
-            p.Properties.Get('experience').Value = Props.Get(p.Id + 'experience').Value;
-            p.Properties.Get('next').Value = Props.Get(p.Id + 'next').Value;
-            p.Properties.Get('level').Value = Props.Get(p.Id + 'level').Value;
-            p.Properties.Get('rank').Value = Props.Get(p.Id + 'rank').Value;
-        });     
-        
+                
         Damage.OnDeath.Add (function (p) 
         {
             Update (p);
