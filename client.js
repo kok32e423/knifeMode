@@ -15,7 +15,7 @@ try {
          
             const _Add = function (tag, name, color, spawn) {    	
                       let team = Teams.Get (tag);
-                      Teams.Add (tag, '<b><size=22>' + name.up.substring(0, 1) + '</size><size=17>' + name.up.substring(1) + '</size></b>' + n + '<size=17>' + name.down.substring(0, 1) + '</size>' + name.down.substring(1), Color (color));
+                      Teams.Add (tag, '<b><size=22>' + name.up.substring(0, 1) + '</size><size=17>' + name.up.substring(1) + '</size></b>' + n + '<size=17>' + name.down.substring(0, 1) + '</size>' + name.down.substring(1), _Color (color));
                       team.Spawns.SpawnPointsGroups.Add(spawn);
                       return team;
             }   
@@ -40,8 +40,8 @@ try {
             
             const _Update = function (p) {
                 	if (state.Value != 'game') return;
-                    if (p.Team.GetAlivePlayersCount() == 0 && Another(p.Team).GetAlivePlayersCount() > p.Team.GetAlivePlayersCount()) return End (Another(p.Team));
-                    if (p.Team.GetAlivePlayersCount() == 0 && Another(p.Team).GetAlivePlayersCount() == 0) return End (null);
+                    if (p.Team.GetAlivePlayersCount() == 0 && _Another(p.Team).GetAlivePlayersCount() > p.Team.GetAlivePlayersCount()) return End (_Another(p.Team));
+                    if (p.Team.GetAlivePlayersCount() == 0 && _Another(p.Team).GetAlivePlayersCount() == 0) return End (null);
             }
                   
             const _Spawn = function () { 
@@ -113,7 +113,7 @@ try {
                    let pos = p.PositionIndex.x - vic.PositionIndex.x + p.PositionIndex.y - vic.PositionIndex.y + p.PositionIndex.z - vic.PositionIndex.z;   
                         if (pos != 0) vic.Ui.Hint.Value = p.NickName + ' убил вас с расстояния ' + Math.abs(pos) + ' блоков!';
                         p.Properties.Get('Kills').Value += 1;
-                        props.Get(p.Id + 'experience').Value += Math.abs(pos) <= 3 ? Rand(2, 5) : (Math.abs(pos) + Rand(1, 3));
+                        props.Get(p.Id + 'experience').Value += Math.abs(pos) <= 3 ? _Rand(2, 5) : (Math.abs(pos) + _Rand(1, 3));
                         if (props.Get(p.Id + 'experience').Value >= props.Get(p.Id + 'next').Value) props.Get(p.Id + 'level').Value ++, props.Get(p.Id + 'next').Value = RANKS[props.Get(p.Id + 'level').Value - 1].exp, props.Get(p.Id + 'rank').Value = RANKS[props.Get(p.Id + 'level').Value - 1].name, p.PopUp('Ты достиг уровня:' + props.Get(p.Id + 'level').Value + '!\nтвоё звание теперь: ' + props.Get(p.Id + 'rank').Value);
                         p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + String(props.Get(p.Id + 'rank').Value) + '  ' + n + '' + n + '   level: ' + String(props.Get(p.Id + 'level').Value) + ', exp: ' + String(props.Get(p.Id + 'experience').Value) + ' <size=58.5>/ ' + String(props.Get(p.Id + 'next').Value) + '</size></color>  ';            
             });  
