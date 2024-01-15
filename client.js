@@ -12,10 +12,7 @@ try {
                       { name: 'странник', target: 185 },
                       { name: 'босс', target: 1000 } 
             ], PROPERTIES = [{ name: ['wins', 'looses'], value: [0, 0] }, { name: ['next', 'experience', 'level', 'rank'], value: [RANKS[0].target, 0, 1, RANKS[0].name] }], props = Properties.GetContext(), state = props.Get('state'), last_round = props.Get('lzt_round'), main = Timers.GetContext().Get('main'), ui = Ui.GetContext(), spawn = Spawns.GetContext(), con_prop = contextedProperties.GetContext(), BLACKLIST = 'C002224F3666744D|596D1288BD7F8CF7|C925816BE50844A9|9B94CBC25664BD6D|2F665AF97FA6F0EF|E24BE3448F7DF371|CBCE0678C099C56E', ADMIN_ID = 'EC76560AA6B5750B';
-          
-            PROPERTIES[1].name.forEach (function (el1, el2) { for (let e = Players.GetEnumerator (); e.MoveNext();) props.Get(e.Current.Id + el1).Value = P_PROPERTIES[1].value[el2]; });
-            
-            
+                 
             const _Add = function (tag, name, color, spawn) {    	
                       let team = Teams.Get (tag);
                       Teams.Add (tag, '<b><size=22>' + name.up.substring(0, 1) + '</size><size=17>' + name.up.substring(1) + '</size></b>' + n + '<size=17>' + name.down.substring(0, 1) + '</size>' + name.down.substring(1), _Color (color));
@@ -79,7 +76,7 @@ try {
                 
             Teams.OnPlayerChangeTeam.Add (function (p) { p.Spawns.Spawn (), p.Ui.TeamProp2.Value = { Team: p.Team.Id, Prop: p.Id + 'info1' }, p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + String(props.Get(p.Id + 'rank').Value) + '  ' + n + '' + n + '   level: ' + String(props.Get(p.Id + 'level').Value) + ', exp: ' + String(props.Get(p.Id + 'experience').Value) + ' <size=58.5>/ ' + String(props.Get(p.Id + 'next').Value) + '</size></color>  '; });      
             Teams.OnAddTeam.Add (function (t) { t.Ui.TeamProp1.Value = { Team: t.Id, Prop: 'info2' }; });
-                     PROPERTIES[0].name.forEach (function (el1, el2) { for (let e = Teams.GetEnumerator (); e.MoveNext();) e.Current.Properties.Get(el1).Value = P_PROPERTIES[0].value[el2]; });                    
+                    // PROPERTIES[0].name.forEach (function (el1, el2) { for (let e = Teams.GetEnumerator (); e.MoveNext();) e.Current.Properties.Get(el1).Value = P_PROPERTIES[0].value[el2]; });                    
             Properties.OnTeamProperty.Add (function (context, e) {
                    let t = context.Team;
                    t.Properties.Get('info2').Value = '  <color=#FFFFFF> Счёт команды:  ' + n + n + '  wins: ' + t.Properties.Get('wins').Value + ', looses: ' + t.Properties.Get('looses').Value + '  </color>'; 
@@ -119,7 +116,7 @@ try {
                         p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + String(props.Get(p.Id + 'rank').Value) + '  ' + n + '' + n + '   level: ' + String(props.Get(p.Id + 'level').Value) + ', exp: ' + String(props.Get(p.Id + 'experience').Value) + ' <size=58.5>/ ' + String(props.Get(p.Id + 'next').Value) + '</size></color>  ';            
             });  
             
-            Players.OnPlayerConnected.Add (function (p) { PROPERTIES[1].name.forEach(function (el1, el2) { if (props.Get(p.Id + el1).Value == null) props.Get(p.Id + el1).Value = PROPERTIES[1].value[el2]; }); }); 
+          //  Players.OnPlayerConnected.Add (function (p) { PROPERTIES[1].name.forEach(function (el1, el2) { if (props.Get(p.Id + el1).Value == null) props.Get(p.Id + el1).Value = PROPERTIES[1].value[el2]; }); }); 
        
             main.OnTimer.Add (function () {
                   	switch (state.Value) {
