@@ -101,7 +101,7 @@ try {
             }); 
                    
             Damage.OnDeath.Add (function (p) {
-            	  _Update (p);
+            	//  _Update (p);
                   p.Properties.Get('Deaths').Value += 1;
             }); 
             
@@ -128,25 +128,19 @@ try {
                              break;
                  }
             });
-            
-            
-              
+                   
             const _Game = function () {
                    state.Value = 'game';
                    _Spawn ();
-                  // ui.Hint.Value = n + '..:: round - ' + last_round.Value + ' ::..';
-                   //last_round.Value ++;
                    main.Restart (115); 
             }   
  
             const _End = function (team) { 
-                   state.Value = 'end', main.Restart (10);          
-                   if (team == null) return;
-                   for (let e = Players.GetEnumerator(); e.MoveNext();) if (e.Current.Team == team) e.Current.Properties.Get('Scores').Value += 1;
-                   team.Properties.Get('wins').Value += 1, Another(team).Properties.Get('looses').Value += 1;      
+                   state.Value = 'end';
+                   main.Restart (10);              
             } 
              
-            ['Main', 'Secondary', 'Explosive', 'Build'].forEach (function (name) { Inventory.GetContext()[name].Value = false; });
+            ['Main', 'Secondary', 'Explosive', 'Build'].forEach (function (el) { Inventory.GetContext()[el].Value = false; });
             _Game ();
             con_prop.MaxHp.Value = 35; 
         
