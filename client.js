@@ -40,8 +40,8 @@ try {
             
             const _Update = function (p) {
                 	if (state.Value != 'game') return;
-                    if (p.Team.GetAlivePlayersCount() == 0 && _Another(p.Team).GetAlivePlayersCount() > p.Team.GetAlivePlayersCount()) return End (_Another(p.Team));
-                    if (p.Team.GetAlivePlayersCount() == 0 && _Another(p.Team).GetAlivePlayersCount() == 0) return End (null);
+                    if (p.Team.GetAlivePlayersCount() == 0 && _Another(p.Team).GetAlivePlayersCount() > p.Team.GetAlivePlayersCount()) return _End (_Another(p.Team));
+                    if (p.Team.GetAlivePlayersCount() == 0 && _Another(p.Team).GetAlivePlayersCount() == 0) return _End (null);
             }
                   
             const _Spawn = function () { 
@@ -129,19 +129,19 @@ try {
                  }
             });
             
-            //last_round.Value = 1;
+            last_round.Value = 1;
               
             const _Game = function () {
                    state.Value = 'game';
                    _Spawn ();
-                   //ui.Hint.Value = n + '..:: round - ' + last_round.Value + ' ::..';
-                //   last_round.Value ++;
+                   ui.Hint.Value = n + '..:: round - ' + last_round.Value + ' ::..';
+                   last_round.Value ++;
                    main.Restart (115); 
             }   
  
             const _End = function (team) { 
                    state.Value = 'end', main.Restart (10);          
-                   /*if (team == null) return;
+                   if (team == null) return;
                    for (let e = Players.GetEnumerator(); e.MoveNext();) if (e.Current.Team == team) e.Current.Properties.Get('Scores').Value += 1;
                    team.Properties.Get('wins').Value += 1, Another(team).Properties.Get('looses').Value += 1;      */
             } 
