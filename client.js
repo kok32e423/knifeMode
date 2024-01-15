@@ -69,10 +69,7 @@ try {
          
             const blue = _Add ('blue', { up: 'спецназовцы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#476AEC', 1),
             red = _Add ('red', { up: 'террористы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#FE5757', 2);
-            
-            PROPERTIES[1].name.forEach (function (el1, el2) { for (let e = Players.GetEnumerator (); e.MoveNext();) props.Get(e.Current.Id + el1).Value = P_PROPERTIES[1].value[el2]; });
-            PROPERTIES[0].name.forEach (function (el1, el2) { for (let e = Teams.GetEnumerator (); e.MoveNext();) e.Current.Properties.Get(el1).Value = P_PROPERTIES[0].value[el2]; });
-            
+                 
             Teams.OnRequestJoinTeam.Add (function (p, t) {
                    if (state.Value == 'end' || _Found (BLACKLIST, p.Id, '|')) return;
                    t.Add (p);  
@@ -94,7 +91,10 @@ try {
                             p.Properties.Immortality.Value = false; 
                         break;
                  }
-            });                    
+            });
+
+            PROPERTIES[1].name.forEach (function (el1, el2) { for (let e = Players.GetEnumerator (); e.MoveNext();) props.Get(e.Current.Id + el1).Value = P_PROPERTIES[1].value[el2]; });
+            PROPERTIES[0].name.forEach (function (el1, el2) { for (let e = Teams.GetEnumerator (); e.MoveNext();) e.Current.Properties.Get(el1).Value = P_PROPERTIES[0].value[el2]; });                    
             
             Spawns.OnSpawn.Add (function (p) {
               	p.Ui.Hint.Reset ();
@@ -131,7 +131,7 @@ try {
                  }
             });
             
-            last_round.Value = 1;
+            
               
             const _Game = function () {
                    state.Value = 'game';
