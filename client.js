@@ -143,7 +143,7 @@ try {
                    state.Value = 'end', main.Restart (10);          
                    if (team == null) return;
                    for (let e = Players.GetEnumerator(); e.MoveNext();) if (e.Current.Team == team) e.Current.Properties.Get('Scores').Value += 1;
-                   team.Properties.Get('wins').Value += 1, Another(team).Properties.Get('looses').Value += 1;      */
+                   team.Properties.Get('wins').Value += 1, Another(team).Properties.Get('looses').Value += 1;      
             } 
              
             ['Main', 'Secondary', 'Explosive', 'Build'].forEach (function (name) { Inventory.GetContext()[name].Value = false; });
