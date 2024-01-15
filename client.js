@@ -72,7 +72,7 @@ try {
                    t.Add (p);  
             });
                
-            Teams.OnPlayerChangeTeam.Add (function (p) { p.Spawns.Spawn (), p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + String(props.Get(p.Id + 'rank').Value) + '  ' + n + '' + n + '   level: ' + String(props.Get(p.Id + 'level').Value) + ', exp: ' + String(props.Get(p.Id + 'experience').Value) + ' <size=58.5>/ ' + String(props.Get(p.Id + 'next').Value) + '</size></color>  ', p.Ui.TeamProp2.Value = { Team: p.Team.Id, Prop: p.Id + 'info1' }; });     
+            Teams.OnPlayerChangeTeam.Add (function (p) { p.Spawns.Spawn (), p.Ui.TeamProp2.Value = { Team: p.Team.Id, Prop: p.Id + 'info1' }, p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + String(props.Get(p.Id + 'rank').Value) + '  ' + n + '' + n + '   level: ' + String(props.Get(p.Id + 'level').Value) + ', exp: ' + String(props.Get(p.Id + 'experience').Value) + ' <size=58.5>/ ' + String(props.Get(p.Id + 'next').Value) + '</size></color>  '; });     
             
             Teams.OnAddTeam.Add (function (t) { 
             	   PROPERTIES.NAMES.forEach (function (name, index) { t.Properties.Get(name).Value = PROPERTIES.VALUES[index]; });
@@ -146,7 +146,7 @@ try {
                    team.Properties.Get('wins').Value += 1, Another(team).Properties.Get('looses').Value += 1;      */
             } 
              
-            ['Main', 'Secondary', 'Explosive', 'Build'].forEach (function (el) { Inventory.GetContext()[el].Value = false; });
+            ['Main', 'Secondary', 'Explosive', 'Build'].forEach (function (name) { Inventory.GetContext()[name].Value = false; });
             _Game ();
             con_prop.MaxHp.Value = 35; 
          
