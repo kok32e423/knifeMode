@@ -107,7 +107,7 @@ try {
             
             Damage.OnKill.Add (function (p, vic) {
                   if (vic.Team == p.Team)
-                        return;
+                             return;
                    let pos = p.PositionIndex.x - vic.PositionIndex.x + p.PositionIndex.y - vic.PositionIndex.y + p.PositionIndex.z - vic.PositionIndex.z;   
                         if (pos != 0) vic.Ui.Hint.Value = p.NickName + ' убил вас с расстояния ' + Math.abs(pos) + ' блоков!';
                         p.Properties.Get('Kills').Value += 1;
@@ -134,16 +134,16 @@ try {
             const _Game = function () {
                    state.Value = 'game';
                    _Spawn ();
-                   ui.Hint.Value = n + '..:: round - ' + last_round.Value + ' ::..';
-                   last_round.Value ++;
+                  // ui.Hint.Value = n + '..:: round - ' + last_round.Value + ' ::..';
+                   //last_round.Value ++;
                    main.Restart (115); 
             }   
  
             const _End = function (team) { 
                    state.Value = 'end', main.Restart (10);          
-                   if (team == null) return;
+                  /* if (team == null) return;
                    for (let e = Players.GetEnumerator(); e.MoveNext();) if (e.Current.Team == team) e.Current.Properties.Get('Scores').Value += 1;
-                   team.Properties.Get('wins').Value += 1, Another(team).Properties.Get('looses').Value += 1;      
+                   team.Properties.Get('wins').Value += 1, Another(team).Properties.Get('looses').Value += 1;      */
             } 
              
             ['Main', 'Secondary', 'Explosive', 'Build'].forEach (function (name) { Inventory.GetContext()[name].Value = false; });
