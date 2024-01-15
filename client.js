@@ -49,14 +49,12 @@ try {
             } 
  
             const _Rand = function (min, max) { 
-                    return 
-                         Math.floor(Math.random() * (max - min + 1)) + min; 
+                    return Math.floor(Math.random() * (max - min + 1)) + min; 
             }
           
             const _Another = function (t) {
-                   if (t == blue) return red;
-                   else return 
-                           blue;
+                    if (t == blue) return red;
+                    else return blue;
             }
             
             spawn.RespawnEnable = false, BreackGraph.Damage = false, ui.MainTimerId.Value = main.Id;  
@@ -131,29 +129,28 @@ try {
                  }
             });
             
-            last_round.Value = 0;
+            //last_round.Value = 1;
               
             const _Game = function () {
                    state.Value = 'game';
                    _Spawn ();
-                   last_round.Value ++;
-                   ui.Hint.Value = n + '..:: round - ' + last_round.Value + ' ::..';
+                   //ui.Hint.Value = n + '..:: round - ' + last_round.Value + ' ::..';
+                //   last_round.Value ++;
                    main.Restart (115); 
             }   
  
             const _End = function (team) { 
-                   state.Value = 'end', ui.Hint.Reset (), main.Restart (10);          
-                   if (team != null) {
+                   state.Value = 'end', main.Restart (10);          
+                   /*if (team == null) return;
                    for (let e = Players.GetEnumerator(); e.MoveNext();) if (e.Current.Team == team) e.Current.Properties.Get('Scores').Value += 1;
-                         team.Properties.Get('wins').Value += 1, Another(team).Properties.Get('looses').Value += 1;      
-            }
+                   team.Properties.Get('wins').Value += 1, Another(team).Properties.Get('looses').Value += 1;      */
             } 
              
-           ['Main', 'Secondary', 'Explosive', 'Build'].forEach (function (el) { Inventory.GetContext()[el].Value = false; });
-           _Game ();
-           con_prop.MaxHp.Value = 35; 
+            ['Main', 'Secondary', 'Explosive', 'Build'].forEach (function (el) { Inventory.GetContext()[el].Value = false; });
+            _Game ();
+            con_prop.MaxHp.Value = 35; 
          
-           P_PROPERTIES.NAMES.forEach (function (name, index) { for (let e = Players.GetEnumerator(); e.MoveNext();) props.Get(e.Current.Id + name).Value = P_PROPERTIES.VALUES[index]; });
+            P_PROPERTIES.NAMES.forEach (function (name, index) { for (let e = Players.GetEnumerator(); e.MoveNext();) props.Get(e.Current.Id + name).Value = P_PROPERTIES.VALUES[index]; });
             
                  
 } catch (err) { msg.Show (err.name + ' ' + err.message); }
