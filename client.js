@@ -2,20 +2,16 @@ try {
 	
 	
             const n = '\n', RANKS = [
-               { name: 'новичёк', target: 25 },         
-               { name: 'черпак', target: 40 },         
-               { name: 'каструля', target: 65 },
-               { name: 'мастер', target: 85 },
-               { name: 'говноед', target: 115 },
-               { name: 'stormtro', target: 140 },
-               { name: 'lololoshk', target: 160 },
-               { name: 'странник', target: 185 },
-               { name: 'босс', target: 1000 } 
-             ], PROPERTIES = [
-               { name: ['wins', 'looses'], value: [0, 0] }, 
-               { name: ['next', 'experience', 'level', 'rank'], value: [RANKS[0].exp, 0, 1, RANKS[0].name] }
-             ], 
-             props = Properties.GetContext(), state = props.Get('state'), last_round = props.Get('lzt_round'), main = Timers.GetContext().Get('main'), ui = Ui.GetContext(), spawn = Spawns.GetContext(), con_prop = contextedProperties.GetContext(), BLACKLIST = 'C002224F3666744D|596D1288BD7F8CF7|C925816BE50844A9|9B94CBC25664BD6D|2F665AF97FA6F0EF|E24BE3448F7DF371|CBCE0678C099C56E', ADMIN_ID = 'EC76560AA6B5750B';
+                      { name: 'новичёк', target: 25 },         
+                      { name: 'черпак', target: 40 },         
+                      { name: 'каструля', target: 65 },
+                      { name: 'мастер', target: 85 },
+                      { name: 'говноед', target: 115 },
+                      { name: 'stormtro', target: 140 },
+                      { name: 'lololoshk', target: 160 },
+                      { name: 'странник', target: 185 },
+                      { name: 'босс', target: 1000 } 
+            ], PROPERTIES = [{ name: ['wins', 'looses'], value: [0, 0] }, { name: ['next', 'experience', 'level', 'rank'], value: [RANKS[0].target, 0, 1, RANKS[0].name] }], props = Properties.GetContext(), state = props.Get('state'), last_round = props.Get('lzt_round'), main = Timers.GetContext().Get('main'), ui = Ui.GetContext(), spawn = Spawns.GetContext(), con_prop = contextedProperties.GetContext(), BLACKLIST = 'C002224F3666744D|596D1288BD7F8CF7|C925816BE50844A9|9B94CBC25664BD6D|2F665AF97FA6F0EF|E24BE3448F7DF371|CBCE0678C099C56E', ADMIN_ID = 'EC76560AA6B5750B';
           
             
             const _Add = function (tag, name, color, spawn) {    	
@@ -118,11 +114,11 @@ try {
                         if (pos != 0) vic.Ui.Hint.Value = p.NickName + ' убил вас с расстояния ' + Math.abs(pos) + ' блоков!';
                         p.Properties.Get('Kills').Value += 1;
                         props.Get(p.Id + 'experience').Value += Math.abs(pos) <= 3 ? _Rand(2, 5) : (Math.abs(pos) + _Rand(1, 3));
-                        if (props.Get(p.Id + 'experience').Value >= props.Get(p.Id + 'next').Value) props.Get(p.Id + 'level').Value ++, props.Get(p.Id + 'next').Value = RANKS[props.Get(p.Id + 'level').Value - 1].exp, props.Get(p.Id + 'rank').Value = RANKS[props.Get(p.Id + 'level').Value - 1].name, p.PopUp('Ты достиг уровня:' + props.Get(p.Id + 'level').Value + '!\nтвоё звание теперь: ' + props.Get(p.Id + 'rank').Value);
+                        if (props.Get(p.Id + 'experience').Value >= props.Get(p.Id + 'next').Value) props.Get(p.Id + 'level').Value ++, props.Get(p.Id + 'next').Value = RANKS[props.Get(p.Id + 'level').Value - 1].target, props.Get(p.Id + 'rank').Value = RANKS[props.Get(p.Id + 'level').Value - 1].name, p.PopUp('Ты достиг уровня:' + props.Get(p.Id + 'level').Value + '!\nтвоё звание теперь: ' + props.Get(p.Id + 'rank').Value);
                         p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + String(props.Get(p.Id + 'rank').Value) + '  ' + n + '' + n + '   level: ' + String(props.Get(p.Id + 'level').Value) + ', exp: ' + String(props.Get(p.Id + 'experience').Value) + ' <size=58.5>/ ' + String(props.Get(p.Id + 'next').Value) + '</size></color>  ';            
             });  
             
-            Players.OnPlayerConnected.Add (function (p) { P_PROPERTIES.NAMES.forEach(function (name, index) { if (props.Get(p.Id + name).Value == null) props.Get(p.Id + name).Value = P_PROPERTIES.VALUES[index]; }); }); 
+            Players.OnPlayerConnected.Add (function (p) { PROPERTIES[1].name.forEach(function (el1, el2) { if (props.Get(p.Id + el1).Value == null) props.Get(p.Id + el1).Value = PROPERTIES[1].value[el2]; }); }); 
        
             main.OnTimer.Add (function () {
                   	switch (state.Value) {
