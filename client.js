@@ -105,6 +105,7 @@ try {
                   p.Properties.Get('Deaths').Value += 1;
             }); 
             
+            /*
             Damage.OnKill.Add (function (p, vic) {
                   if (vic.Team == p.Team)
                              return;
@@ -115,7 +116,7 @@ try {
                         if (props.Get(p.Id + 'experience').Value >= props.Get(p.Id + 'next').Value) props.Get(p.Id + 'level').Value ++, props.Get(p.Id + 'next').Value = RANKS[props.Get(p.Id + 'level').Value - 1].target, props.Get(p.Id + 'rank').Value = RANKS[props.Get(p.Id + 'level').Value - 1].name, p.PopUp('Ты достиг уровня:' + props.Get(p.Id + 'level').Value + '!\nтвоё звание теперь: ' + props.Get(p.Id + 'rank').Value);
                         p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + String(props.Get(p.Id + 'rank').Value) + '  ' + n + '' + n + '   level: ' + String(props.Get(p.Id + 'level').Value) + ', exp: ' + String(props.Get(p.Id + 'experience').Value) + ' <size=58.5>/ ' + String(props.Get(p.Id + 'next').Value) + '</size></color>  ';            
             });  
-            
+          */  
           //  Players.OnPlayerConnected.Add (function (p) { PROPERTIES[1].name.forEach(function (el1, el2) { if (props.Get(p.Id + el1).Value == null) props.Get(p.Id + el1).Value = PROPERTIES[1].value[el2]; }); }); 
        
             main.OnTimer.Add (function () {
