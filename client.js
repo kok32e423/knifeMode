@@ -41,12 +41,7 @@ try {
                       }
                  }  
             }
-            
-            const _States = function () {
-                    if (s.Value = 'game') return _End ();
-                    else return _Game ();
-            } 
-            
+          
             const _Update = function (p) {
                 	if (s.Value != 'game') return;
                     if (p.Team.GetAlivePlayersCount() == 0 && _Another(p.Team).GetAlivePlayersCount() > p.Team.GetAlivePlayersCount()) return _End (_Another(p.Team));
@@ -80,6 +75,11 @@ try {
                    }
                    main.Restart (10);              
             } 
+            
+            const _States = function () {
+                    if (s.Value = 'game') return _End ();
+                    else return _Game ();
+            } 
              
             LeaderBoard.PlayerLeaderBoardValues = [
                    { Value: 'Kills', ShortDisplayName: '<size=11.9><b>ᴋ</b></size>' },
@@ -91,7 +91,7 @@ try {
             const blue = _Add ('blue', { up: 'спецназовцы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#476AEC', 1),
             red = _Add ('red', { up: 'террористы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#FE5757', 2);
           
-            _Initialization (0)//, _Initialization (1); 
+          //  _Initialization (0) _Initialization (1); 
            
             Teams.OnRequestJoinTeam.Add (function (p, t) {
                    if (s.Value == 'end' || _Found (BLACKLIST, p.Id, '|')) return;
@@ -116,7 +116,7 @@ try {
             	  _Update (p);
                   p.Properties.Get('Deaths').Value += 1;
             }); 
-                     
+                      
             Damage.OnKill.Add (function (p, vic) {
                   if (vic.Team == p.Team)
                       return;
