@@ -87,11 +87,12 @@ try {
             ];
                       
             spawn.RespawnEnable = false, BreackGraph.Damage = false, ui.MainTimerId.Value = main.Id;  
-            _Initialization (0), _Initialization (1);
-            
+                 
             const blue = _Add ('blue', { up: 'спецназовцы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#476AEC', 1),
             red = _Add ('red', { up: 'террористы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#FE5757', 2);
-                  
+            
+            _Initialization (0), _Initialization (1);
+      
             Teams.OnRequestJoinTeam.Add (function (p, t) {
                    if (state.Value == 'end' || _Found (BLACKLIST, p.Id, '|')) return;
                    t.Add (p);  
@@ -108,7 +109,7 @@ try {
             Spawns.OnSpawn.Add (function (p) {
                   p.Properties.Get('Immortality').Value = true;
                   p.Timers.Get('Immo').Restart (3);   
-                  p.Ui.Hint.Reset ();
+                  p.Ui.Hint.Reset (); 
             }); 
                    
             Damage.OnDeath.Add (function (p) {
@@ -137,7 +138,7 @@ try {
                 }
             });
            
-            Players.OnPlayerConnected.Add (function (p) { PROPERTIES[1].name.forEach(function (el1, el2) { if (props.Get(p.Id + el1).Value == null) props.Get(p.Id + el1).Value = PROPERTIES[1].value[el2]; }); });        
+            Players.OnPlayerConnected.Add (function (p) { PROPERTIES[1].name.forEach(function (element1, element2) { if (props.Get(p.Id + element1).Value == null) props.Get(p.Id + element1).Value = PROPERTIES[1].value[element2]; }); });        
             main.OnTimer.Add (function () { _States (); });
                         
             _Game (), con_prop.MaxHp.Value = 35; 
