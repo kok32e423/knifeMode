@@ -91,7 +91,7 @@ try {
             const blue = _Add ('blue', { up: 'спецназовцы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#476AEC', 1),
             red = _Add ('red', { up: 'террористы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#FE5757', 2);
           
-          //  _Initialization (0) _Initialization (1); 
+            _Initialization (0) _Initialization (1); 
            
             Teams.OnRequestJoinTeam.Add (function (p, t) {
                    if (s.Value == 'end' || _Found (BLACKLIST, p.Id, '|')) return;
@@ -112,6 +112,7 @@ try {
                   p.Ui.Hint.Reset (); 
             }); 
                    
+            /*
             Damage.OnDeath.Add (function (p) {
             	  _Update (p);
                   p.Properties.Get('Deaths').Value += 1;
@@ -140,7 +141,7 @@ try {
            
             Players.OnPlayerConnected.Add (function (p) { PROPERTIES[1].name.forEach(function (element1, element2) { if (props.Get(p.Id + element1).Value == null) props.Get(p.Id + element1).Value = PROPERTIES[1].value[element2]; }); });        
             main.OnTimer.Add (function () { _States (); });
-                        
+                        */
             _Game (), con_prop.MaxHp.Value = 35; 
         
                
