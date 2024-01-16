@@ -143,7 +143,7 @@ try {
              
            // ['Main', 'Secondary', 'Explosive', 'Build'].forEach (function (el) { Inventory.GetContext()[el].Value = false; });
             _Game ();
-           // con_prop.MaxHp.Value = 35; 
+            con_prop.MaxHp.Value = 35; 
         
                
 } catch (err) { msg.Show (err.name + ' ' + err.message); }
