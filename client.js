@@ -77,7 +77,7 @@ try {
             } 
             
             const _States = function () {
-                    if (s.Value = 'game') return _End ();
+                    if (s.Value == 'game') return _End ();
                     else return _Game ();
             } 
              
