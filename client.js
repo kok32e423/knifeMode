@@ -72,7 +72,9 @@ try {
          
             const blue = _Add ('blue', { up: 'спецназовцы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#476AEC', 1),
             red = _Add ('red', { up: 'террористы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#FE5757', 2);
-                 
+              
+            _Initialization (0);
+       
             Teams.OnRequestJoinTeam.Add (function (p, t) {
                    if (state.Value == 'end' || _Found (BLACKLIST, p.Id, '|')) return;
                    t.Add (p);  
