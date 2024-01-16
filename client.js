@@ -96,7 +96,7 @@ try {
             }); 
                    
             Damage.OnDeath.Add (function (p) {
-            	//  _Update (p);
+            	  _Update (p);
                   p.Properties.Get('Deaths').Value += 1;
             }); 
             
@@ -131,14 +131,9 @@ try {
                    main.Restart (115); 
             }   
  
-            const _End = function (team) { 
-                   state.Value = 'end';
-                   main.Restart (10);              
-            } 
-             
-            ['Main', 'Secondary', 'Explosive', 'Build'].forEach (function (el) { Inventory.GetContext()[el].Value = false; });
+           // ['Main', 'Secondary', 'Explosive', 'Build'].forEach (function (el) { Inventory.GetContext()[el].Value = false; });
             _Game ();
-            con_prop.MaxHp.Value = 35; 
+          //  con_prop.MaxHp.Value = 35; 
         
                
 } catch (err) { msg.Show (err.name + ' ' + err.message); }
