@@ -11,7 +11,7 @@ try {
                       { name: 'lololoshk', target: 160 },
                       { name: 'странник', target: 185 },
                       { name: 'босс', target: 1000 } 
-            ], PROPERTIES = [{ name: ['wins', 'looses'], value: [0, 0] }, { name: ['next', 'experience', 'level', 'rank'], value: [RANKS[0].target, 0, 1, RANKS[0].name] }], props = Properties.GetContext(), state = props.Get('state'), last_round = props.Get('lzt_round'), main = Timers.GetContext().Get('main'), ui = Ui.GetContext(), spawn = Spawns.GetContext(), con_prop = contextedProperties.GetContext(), BLACKLIST = 'C002224F3666744D|596D1288BD7F8CF7|C925816BE50844A9|9B94CBC25664BD6D|2F665AF97FA6F0EF|E24BE3448F7DF371|CBCE0678C099C56E', ADMIN_ID = 'EC76560AA6B5750B';
+            ], PROPERTIES = [{ name: ['wins', 'looses'], value: [0, 0] }, { name: ['next', 'experience', 'level', 'rank'], value: [RANKS[0].target, 0, 1, RANKS[0].name] }], props = Properties.GetContext(), s = props.Get('state'), last_round = props.Get('lzt_round'), main = Timers.GetContext().Get('main'), ui = Ui.GetContext(), spawn = Spawns.GetContext(), con_prop = contextedProperties.GetContext(), BLACKLIST = 'C002224F3666744D|596D1288BD7F8CF7|C925816BE50844A9|9B94CBC25664BD6D|2F665AF97FA6F0EF|E24BE3448F7DF371|CBCE0678C099C56E', ADMIN_ID = 'EC76560AA6B5750B';
                  
             const _Initialization = function (index) {
             	      PROPERTIES[index].name.forEach (function (element1, element2) { for (let e = index == 0 ? Teams.GetEnumerator () : Players.GetEnumerator (); e.MoveNext();) index == 0 ? e.Current.Properties.Get(element1).Value = PROPERTIES[index].value[element2] : props.Get(e.Current.Id + element1).Value = PROPERTIES[index].value[element2]; }); 
@@ -42,8 +42,13 @@ try {
                  }  
             }
             
+            const _States = function () {
+                    if (s.Value = 'game') return _End ();
+                    else return _Game ();
+            } 
+            
             const _Update = function (p) {
-                	if (state.Value != 'game') return;
+                	if (s.Value != 'game') return;
                     if (p.Team.GetAlivePlayersCount() == 0 && _Another(p.Team).GetAlivePlayersCount() > p.Team.GetAlivePlayersCount()) return _End (_Another(p.Team));
                     if (p.Team.GetAlivePlayersCount() == 0 && _Another(p.Team).GetAlivePlayersCount() == 0) return _End (null);
             }
@@ -60,21 +65,33 @@ try {
             const _Another = function (t) {
                     if (t == blue) return red;
                     else return 
-                               blue;
+                              blue;
             }
             
+            const _Game = function () {
+                   s.Value = 'game', _Spawn (), main.Restart (115); 
+            }   
+ 
+            const _End = function (t) { 
+                   s.Value = 'end';
+                   if (t) {
+                   	for (let e = Players.GetEnumerator (), e.MoveNext();) if (e.Current.Team == t) e.Current.Properties.Get('Scores').Value += 1;
+                           t.Properties.Get('wins').Value += 1, _Another (t).Properties.Get('looses').Value += 1;
+                   }
+                   main.Restart (10);              
+            } 
+             
             LeaderBoard.PlayerLeaderBoardValues = [
                    { Value: 'Kills', ShortDisplayName: '<size=11.9><b>ᴋ</b></size>' },
                    { Value: 'Deaths', ShortDisplayName: '<size=11.9><b>ᴅ</b></size>' }
             ];
                       
             spawn.RespawnEnable = false, BreackGraph.Damage = false, ui.MainTimerId.Value = main.Id;  
-         
+            _Initialization (0), _Initialization (1);
+            
             const blue = _Add ('blue', { up: 'спецназовцы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#476AEC', 1),
             red = _Add ('red', { up: 'террористы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#FE5757', 2);
-              
-            _Initialization (0);
-       
+                  
             Teams.OnRequestJoinTeam.Add (function (p, t) {
                    if (state.Value == 'end' || _Found (BLACKLIST, p.Id, '|')) return;
                    t.Add (p);  
@@ -88,6 +105,28 @@ try {
                    t.Properties.Get('info2').Value = '  <color=#FFFFFF> Счёт команды:  ' + n + n + '  wins: ' + t.Properties.Get('wins').Value + ', looses: ' + t.Properties.Get('looses').Value + '  </color>'; 
             });                                                                       
            
+            Spawns.OnSpawn.Add (function (p) {
+                  p.Properties.Get('Immortality').Value = true;
+                  p.Timers.Get('Immo').Restart (3);   
+                  p.Ui.Hint.Reset ();
+            }); 
+                   
+            Damage.OnDeath.Add (function (p) {
+            	  _Update (p);
+                  p.Properties.Get('Deaths').Value += 1;
+            }); 
+                     
+            Damage.OnKill.Add (function (p, vic) {
+                  if (vic.Team == p.Team)
+                      return;
+                  let pos = p.PositionIndex.x - vic.PositionIndex.x + p.PositionIndex.y - vic.PositionIndex.y + p.PositionIndex.z - vic.PositionIndex.z;   
+                      if (pos != 0) vic.Ui.Hint.Value = p.NickName + ' убил вас с расстояния ' + Math.abs(pos) + ' блоков!';
+                      p.Properties.Get('Kills').Value += 1;
+                      props.Get(p.Id + 'experience').Value += Math.abs(pos) <= 3 ? _Rand(3, 5) : (Math.abs(pos) + _Rand(1, 3));
+                      if (props.Get(p.Id + 'experience').Value >= props.Get(p.Id + 'next').Value) props.Get(p.Id + 'level').Value ++, props.Get(p.Id + 'next').Value = RANKS[props.Get(p.Id + 'level').Value - 1].target, props.Get(p.Id + 'rank').Value = RANKS[props.Get(p.Id + 'level').Value - 1].name, p.PopUp('Ты достиг уровня:' + props.Get(p.Id + 'level').Value + '!\nтвоё звание теперь: ' + props.Get(p.Id + 'rank').Value);
+                      p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + String(props.Get(p.Id + 'rank').Value) + '  ' + n + '' + n + '   level: ' + String(props.Get(p.Id + 'level').Value) + ', exp: ' + String(props.Get(p.Id + 'experience').Value) + ' <size=58.5>/ ' + String(props.Get(p.Id + 'next').Value) + '</size></color>  ';            
+            });  
+         
             Timers.OnPlayerTimer.Add (function (t) { 
                   let p = t.Player,
                   id = t.Id;   
@@ -97,56 +136,11 @@ try {
                       break;
                 }
             });
-            
-            Spawns.OnSpawn.Add (function (p) {
-              	p.Ui.Hint.Reset ();
-                  p.Properties.Get('Immortality').Value = true;
-                  p.Timers.Get('Immo').Restart (3);   
-            }); 
-                   
-            Damage.OnDeath.Add (function (p) {
-            	//  _Update (p);
-                  p.Properties.Get('Deaths').Value += 1;
-            }); 
-            
-            /*
-            Damage.OnKill.Add (function (p, vic) {
-                  if (vic.Team == p.Team)
-                             return;
-                   let pos = p.PositionIndex.x - vic.PositionIndex.x + p.PositionIndex.y - vic.PositionIndex.y + p.PositionIndex.z - vic.PositionIndex.z;   
-                        if (pos != 0) vic.Ui.Hint.Value = p.NickName + ' убил вас с расстояния ' + Math.abs(pos) + ' блоков!';
-                        p.Properties.Get('Kills').Value += 1;
-                        props.Get(p.Id + 'experience').Value += Math.abs(pos) <= 3 ? _Rand(2, 5) : (Math.abs(pos) + _Rand(1, 3));
-                        if (props.Get(p.Id + 'experience').Value >= props.Get(p.Id + 'next').Value) props.Get(p.Id + 'level').Value ++, props.Get(p.Id + 'next').Value = RANKS[props.Get(p.Id + 'level').Value - 1].target, props.Get(p.Id + 'rank').Value = RANKS[props.Get(p.Id + 'level').Value - 1].name, p.PopUp('Ты достиг уровня:' + props.Get(p.Id + 'level').Value + '!\nтвоё звание теперь: ' + props.Get(p.Id + 'rank').Value);
-                        p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + String(props.Get(p.Id + 'rank').Value) + '  ' + n + '' + n + '   level: ' + String(props.Get(p.Id + 'level').Value) + ', exp: ' + String(props.Get(p.Id + 'experience').Value) + ' <size=58.5>/ ' + String(props.Get(p.Id + 'next').Value) + '</size></color>  ';            
-            });  
-          */  
-          //  Players.OnPlayerConnected.Add (function (p) { PROPERTIES[1].name.forEach(function (el1, el2) { if (props.Get(p.Id + el1).Value == null) props.Get(p.Id + el1).Value = PROPERTIES[1].value[el2]; }); }); 
-                 
-            main.OnTimer.Add (function () {
-              	switch (state.Value) {
-                      case 'game': 
-                        _End (null);
-                       break;
-                       case 'end':        
-                       _Game ();
-                       break;
-                }
-            });
+           
+            Players.OnPlayerConnected.Add (function (p) { PROPERTIES[1].name.forEach(function (el1, el2) { if (props.Get(p.Id + el1).Value == null) props.Get(p.Id + el1).Value = PROPERTIES[1].value[el2]; }); });        
+            main.OnTimer.Add (function () { _States (); });
                         
-            const _Game = function () {
-                   state.Value = 'game';
-                   _Spawn ();
-                   main.Restart (115); 
-            }   
- 
-            const _End = function (team) { 
-                   state.Value = 'end';
-                   main.Restart (10);              
-            } 
-             
-            _Game ();
-            con_prop.MaxHp.Value = 35; 
+            _Game (), con_prop.MaxHp.Value = 35; 
         
                
 } catch (err) { msg.Show (err.name + ' ' + err.message); }
