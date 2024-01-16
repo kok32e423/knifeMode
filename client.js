@@ -87,10 +87,11 @@ try {
             ];
                       
             spawn.RespawnEnable = false, BreackGraph.Damage = false, ui.MainTimerId.Value = main.Id;  
-            _Initialization (0), _Initialization (1);
-            
+                  
             const blue = _Add ('blue', { up: 'спецназовцы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#476AEC', 1),
             red = _Add ('red', { up: 'террористы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#FE5757', 2);
+          
+            _Initialization (0)//, _Initialization (1); 
            
             Teams.OnRequestJoinTeam.Add (function (p, t) {
                    if (s.Value == 'end' || _Found (BLACKLIST, p.Id, '|')) return;
