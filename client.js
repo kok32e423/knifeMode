@@ -94,7 +94,7 @@ try {
             Teams.OnRequestJoinTeam.Add (function (p, t) {
                    if (s.Value == 'end' || _Found (BLACKLIST, p.Id, '|')) return;
                    t.Add (p);  
-                   p.PopUp(n + '<b>' + p.NickName + '</b>' + n + n + '<size=25>..:: Поздравляем! ::..' + n + '..:: Вы достигли: ' + props.Get(p.Id + 'level').Value + ' уровня ::..</size>' + n + n); 
+                   p.PopUp(n + '<b>' + p.NickName + '</b>' + n + n + '<size=25>..:: Поздравляем! ::..' + n + '<size=18..:: Вы достигли: ' + props.Get(p.Id + 'level').Value + ' уровня ::..</size></size>' + n + n); 
             });
                
             Teams.OnPlayerChangeTeam.Add (function (p) { p.Spawns.Spawn (), p.Ui.TeamProp2.Value = { Team: p.Team.Id, Prop: p.Id + 'info1' }, p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + String(props.Get(p.Id + 'rank').Value) + '  ' + n + '' + n + '   level: ' + String(props.Get(p.Id + 'level').Value) + ', exp: ' + String(props.Get(p.Id + 'experience').Value) + ' <size=58.5>/ ' + String(props.Get(p.Id + 'next').Value) + '</size></color>  '; });      
