@@ -70,13 +70,13 @@ try {
             const _End = function (t) { 
                    s.Value = 'end';
                    if (t) {
-                   	for (let e = Players.GetEnumerator (), e.MoveNext();) if (e.Current.Team == t) e.Current.Properties.Get('Scores').Value += 1;
+                   	for (let e = Players.GetEnumerator (); e.MoveNext();) if (e.Current.Team == t) e.Current.Properties.Get('Scores').Value += 1;
                            t.Properties.Get('wins').Value += 1, _Another (t).Properties.Get('looses').Value += 1;
                    }
                    main.Restart (10);              
             } 
             
-            const _States = function () { s.Value == 'game' ? _End (): _Game (); } 
+            const _States = function () { s.Value == 'game' ? _End () : _Game (); } 
              
             LeaderBoard.PlayerLeaderBoardValues = [
                    { Value: 'Kills', ShortDisplayName: '<size=11.9><b>ᴋ</b></size>' },
@@ -87,7 +87,7 @@ try {
                   
             const blue = _Add ('blue', { up: 'спецназовцы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#476AEC', 1),
             red = _Add ('red', { up: 'террористы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#FE5757', 2);
-          /*
+          
              _Initialization (0) _Initialization (1); 
            
             Teams.OnRequestJoinTeam.Add (function (p, t) {
@@ -140,7 +140,7 @@ try {
                        
             _Game (), con_prop.MaxHp.Value = 35; 
         
-             */  
+            
 } catch (err) { msg.Show (err.name + ' ' + err.message); }
  
  
