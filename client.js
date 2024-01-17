@@ -47,7 +47,7 @@ try {
                     for (let e = Teams.GetEnumerator(); e.MoveNext();) {
              	   team = e.Current;     
                           if (team.Count != 0 && team.GetAlivePlayersCount () > 0) return _End (team);
-                          if (team.GetAlivePlayersCount() <= 0) return _End (null);
+                          if (team.GetAlivePlayersCount() == 0) return _End (null);
                  }
             }
                
@@ -60,8 +60,7 @@ try {
             } 
  
             const _Rand = function (min, max) { 
-                    return 
-                          Math.floor(Math.random() * (max - min + 1)) + min; 
+                    return Math.floor(Math.random() * (max - min + 1)) + min; 
             }
           
             const _Another = function (t) {
