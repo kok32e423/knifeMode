@@ -68,7 +68,7 @@ try {
             }
                       
             const _Game = function () {
-                   s.Value = 'game', _Spawn (), main.Restart (115); 
+                   s.Value = 'game', _Spawn (), main.Restart (4); 
                    _Text (n + 'round: ' + last_round.Value);
             }   
  
