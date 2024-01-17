@@ -73,7 +73,7 @@ try {
                       
             const _Game = function () {
                    s.Value = 'game', _Spawn (), main.Restart (115); 
-                   _Text (n + 'round: ' + last_round.Value);
+                   _Text (n + 'round: ' + last_round.Value + '/ 250');
             }   
  
             const _End = function (t) { 
