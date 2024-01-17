@@ -43,12 +43,11 @@ try {
             }
           
             const _Update = function () {
-                	if (s.Value == 'game') {
-               	    for (let e = Players.GetEnumerator (); e.MoveNext();) {
-                       const p = e.Current.Team;       
-                            if (p.GetAlivePlayersCount() <= 0 && _Another (p).GetAlivePlayersCount() > p.GetAlivePlayersCount()) return _End (_Another(p));
-                            if (p.GetAlivePlayersCount() <= 0 && _Another (p).GetAlivePlayersCount() <= 0) return _End (null);
-                      }
+                	if (s.Value != 'game') return;
+               	     for (let e = Players.GetEnumerator (); e.MoveNext();) {
+                        p = e.Current.Team;       
+                             if (p.GetAlivePlayersCount() <= 0 && _Another (p).GetAlivePlayersCount() > p.GetAlivePlayersCount()) return _End (_Another(p));
+                             if (p.GetAlivePlayersCount() <= 0 && _Another (p).GetAlivePlayersCount() <= 0) return _End (null);
                  }
             }
                 
@@ -73,11 +72,10 @@ try {
                       
             const _Game = function () {
                    s.Value = 'game', _Spawn (), main.Restart (115); 
-                   _Text (n + 'round: ' + last_round.Value + '/ 250');
             }   
  
             const _End = function (t) { 
-                   s.Value = 'end', _Text ('reset');
+                   s.Value = 'end';
                    last_round.Value += 1;
                    if (t) {
                    	for (let e = Players.GetEnumerator (); e.MoveNext();) if (e.Current.Team == t) e.Current.Properties.Get('Scores').Value += 1;
