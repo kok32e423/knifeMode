@@ -65,7 +65,7 @@ try {
                       
             const _Game = function () {
                    s.Value = 'game', _Spawn (), main.Restart (115); 
-                   ui.Hint.Value = n + '◅' + last_round.Value + '▻';
+                   ui.Hint.Value = n + '◅ : ' + last_round.Value + ' : ▻';
             }   
  
             const _End = function (t) { 
