@@ -139,13 +139,13 @@ try {
                   let pos = p.PositionIndex.x - vic.PositionIndex.x + p.PositionIndex.y - vic.PositionIndex.y + p.PositionIndex.z - vic.PositionIndex.z;   
                       if (pos != 0) vic.Ui.Hint.Value = p.NickName + ' убил вас с расстояния ' + Math.abs(pos) + ' блоков!';
                       p.Properties.Get('Kills').Value += 1;
-                      props.Get(p.Id + 'experience').Value += Math.abs(pos) <= 4 ? _Rand (3, 5) : (Math.abs(pos) + _Rand (1, 3));
+                      props.Get(p.Id + 'experience').Value += _Rand (3, 5);
                       if (props.Get(p.Id + 'experience').Value >= props.Get(p.Id + 'next').Value) props.Get(p.Id + 'level').Value ++, props.Get(p.Id + 'next').Value = RANKS[props.Get(p.Id + 'level').Value - 1].target, props.Get(p.Id + 'rank').Value = RANKS[props.Get(p.Id + 'level').Value - 1].name;
                       p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + String(props.Get(p.Id + 'rank').Value) + '  ' + n + '' + n + '   level: ' + String(props.Get(p.Id + 'level').Value) + ', exp: ' + String(props.Get(p.Id + 'experience').Value) + ' <size=58.5>/ ' + String(props.Get(p.Id + 'next').Value) + '</size></color>  ';            
             });  
           
             Players.OnPlayerConnected.Add (function (p) { PROPERTIES[1].name.forEach(function (element1, element2) { if (props.Get(p.Id + element1).Value == null) props.Get(p.Id + element1).Value = PROPERTIES[1].value[element2]; }); });                          
-            Players.OnPlayerDisconnected.Add (function (p) { /*_Update (),*/ p.Team.Properties.Get(p.Id + 'info1').Value = null; });                          
+            Players.OnPlayerDisconnected.Add (function (p) { _Update (), p.Team.Properties.Get(p.Id + 'info1').Value = null; });                          
                    
             inv.Main.Value = false;
             inv.Secondary.Value = false;
