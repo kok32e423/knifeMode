@@ -44,10 +44,10 @@ try {
           
             const _Update = function () {
                     if (s.Value != 'game') return;
-                    for (let e = Teams.GetEnumerator(); e.MoveNext();) {
+                    for (let e = Teams.GetEnumerator (); e.MoveNext();) {
                     team = e.Current;     
-                         if (team.GetAlivePlayersCount () => 1) return _End (team);
-                         if (team.GetAlivePlayersCount () == 0) return _End (null);
+                         if (team.GetAlivePlayersCount () > 1) _End (team);
+                         if (team.GetAlivePlayersCount () == 0) _End (null);
                  }
             }
                
