@@ -42,13 +42,10 @@ try {
                  }  
             }
           
-            const _Update = function () {
+            const _Update = function (p) {
                     if (s.Value != 'game') return;
-                    for (let e = Teams.GetEnumerator (); e.MoveNext();) {
-                    team = e.Current;     
-                         if (team.GetAlivePlayersCount () > 1) _End (team);
-                         if (team.GetAlivePlayersCount () == 0) _End (null);
-                 }
+                    if (_Alive (p.Team) <= 0) _End (_Another (p.Team)); 
+                    if (_Alive (p.Team) <= 0 && _Alive(_Another (p.Team)) <= 0) _End (null);
             }
                
             const _Spawn = function () { 
@@ -67,6 +64,12 @@ try {
                     if (t == blue) return red;
                     else return 
                               blue;
+            }
+            
+            const _Alive = function (t) {
+                    count = 0;
+                    for (e = Players.GetEnumerator (); e.MoveNext();) if (e.Current.Team == t && e.Current.Spawns.IsSpawned && e.Current.IsAlive) count++;
+                    return count;
             }
                       
             const _Game = function () {
@@ -110,7 +113,7 @@ try {
                    let t = context.Team;
                    t.Properties.Get('info2').Value = '  <color=#FFFFFF> Счёт команды:  ' + n + n + '  wins: ' + t.Properties.Get('wins').Value + ', looses: ' + t.Properties.Get('looses').Value + '  </color>'; 
             });   
- 
+            
             Timers.OnPlayerTimer.Add (function (t) { 
                   let p = t.Player,
                   id = t.Id;   
