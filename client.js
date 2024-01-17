@@ -42,14 +42,13 @@ try {
                  }  
             }
           
-            const _Update = function () {
-                	if (s.Value != 'game') return;
-               	     for (let e = Players.GetEnumerator (); e.MoveNext();) {
-                        p = e.Current.Team;       
-                             if (p.GetAlivePlayersCount() <= 0 && _Another (p).GetAlivePlayersCount() > p.GetAlivePlayersCount()) return _End (_Another(p));
-                             if (p.GetAlivePlayersCount() <= 0 && _Another (p).GetAlivePlayersCount() <= 0) return _End (null);
-                 }
-            }
+            const _Update = function (p) 
+{
+   if (s.Value != 'game') return;
+   if (p.Team.GetAlivePlayersCount() == 0 && _Another(p.Team).GetAlivePlayersCount() > p.Team.GetAlivePlayersCount()) return _End (_Another(p.Team));
+   if (p.Team.GetAlivePlayersCount() == 0 && _Another(p.Team).GetAlivePlayersCount() == 0) return _End (null);
+}
+
                 
             const _Spawn = function () { 
                     for (let e = Teams.GetEnumerator(); e.MoveNext();) e.Current.Spawns.Spawn(); 
