@@ -87,14 +87,14 @@ try {
                   
             const blue = _Add ('blue', { up: 'спецназовцы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#476AEC', 1),
             red = _Add ('red', { up: 'террористы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#FE5757', 2);
-          /*
+         
              _Initialization (0) _Initialization (1); 
            
             Teams.OnRequestJoinTeam.Add (function (p, t) {
                    if (s.Value == 'end' || _Found (BLACKLIST, p.Id, '|')) return;
                    t.Add (p);  
             });
-                
+                /*
             Teams.OnPlayerChangeTeam.Add (function (p) { p.Spawns.Spawn (), p.Ui.TeamProp2.Value = { Team: p.Team.Id, Prop: p.Id + 'info1' }, p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + String(props.Get(p.Id + 'rank').Value) + '  ' + n + '' + n + '   level: ' + String(props.Get(p.Id + 'level').Value) + ', exp: ' + String(props.Get(p.Id + 'experience').Value) + ' <size=58.5>/ ' + String(props.Get(p.Id + 'next').Value) + '</size></color>  '; });      
             Teams.OnAddTeam.Add (function (t) { t.Ui.TeamProp1.Value = { Team: t.Id, Prop: 'info2' }; });
             
