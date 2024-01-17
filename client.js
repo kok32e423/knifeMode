@@ -47,7 +47,7 @@ try {
                     if (p.Team.GetAlivePlayersCount() == 0 && _Another(p.Team).GetAlivePlayersCount() > p.Team.GetAlivePlayersCount()) return _End (_Another(p.Team));
                     if (p.Team.GetAlivePlayersCount() == 0 && _Another(p.Team).GetAlivePlayersCount() == 0) return _End (null);
             }
-                  
+                /*
             const _Spawn = function () { 
                     for (let e = Teams.GetEnumerator(); e.MoveNext();) e.Current.Spawns.Spawn(); 
             } 
@@ -76,10 +76,7 @@ try {
                    main.Restart (10);              
             } 
             
-            const _States = function () {
-                    if (s.Value == 'game') return _End ();
-                    else return _Game ();
-            } 
+            const _States = function () { s.Value == 'game' ? _End (): _Game (); } 
              
             LeaderBoard.PlayerLeaderBoardValues = [
                    { Value: 'Kills', ShortDisplayName: '<size=11.9><b>ᴋ</b></size>' },
@@ -91,7 +88,7 @@ try {
             const blue = _Add ('blue', { up: 'спецназовцы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#476AEC', 1),
             red = _Add ('red', { up: 'террористы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#FE5757', 2);
           
-        //    _Initialization (0) _Initialization (1); 
+             _Initialization (0) _Initialization (1); 
            
             Teams.OnRequestJoinTeam.Add (function (p, t) {
                    if (s.Value == 'end' || _Found (BLACKLIST, p.Id, '|')) return;
@@ -104,15 +101,24 @@ try {
             Properties.OnTeamProperty.Add (function (context, e) {
                    let t = context.Team;
                    t.Properties.Get('info2').Value = '  <color=#FFFFFF> Счёт команды:  ' + n + n + '  wins: ' + t.Properties.Get('wins').Value + ', looses: ' + t.Properties.Get('looses').Value + '  </color>'; 
-            });                                                                       
-           
+            });   
+
+            Timers.OnPlayerTimer.Add (function (t) { 
+                  let p = t.Player,
+                  id = t.Id;   
+                  switch (id) {
+                      case 'Immo':
+                          p.Properties.Immortality.Value = false; 
+                      break;
+                }
+            });
+                                                                                       
             Spawns.OnSpawn.Add (function (p) {
-                 // p.Properties.Get('Immortality').Value = true;
-           //     p.Timers.Get('Immo').Restart (3);   
-            //      p.Ui.Hint.Reset (); 
+                   p.Properties.Get('Immortality').Value = true;
+                   p.Timers.Get('Immo').Restart (3);   
+                   p.Ui.Hint.Reset (); 
             }); 
-                   
-            /*
+                         
             Damage.OnDeath.Add (function (p) {
             	  _Update (p);
                   p.Properties.Get('Deaths').Value += 1;
@@ -129,22 +135,12 @@ try {
                       p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + String(props.Get(p.Id + 'rank').Value) + '  ' + n + '' + n + '   level: ' + String(props.Get(p.Id + 'level').Value) + ', exp: ' + String(props.Get(p.Id + 'experience').Value) + ' <size=58.5>/ ' + String(props.Get(p.Id + 'next').Value) + '</size></color>  ';            
             });  
          
-            Timers.OnPlayerTimer.Add (function (t) { 
-                  let p = t.Player,
-                  id = t.Id;   
-                  switch (id) {
-                      case 'Immo':
-                          p.Properties.Immortality.Value = false; 
-                      break;
-                }
-            });
-           
             Players.OnPlayerConnected.Add (function (p) { PROPERTIES[1].name.forEach(function (element1, element2) { if (props.Get(p.Id + element1).Value == null) props.Get(p.Id + element1).Value = PROPERTIES[1].value[element2]; }); });        
             main.OnTimer.Add (function () { _States (); });
-                        */
+                       
             _Game (), con_prop.MaxHp.Value = 35; 
         
-               
+             */  
 } catch (err) { msg.Show (err.name + ' ' + err.message); }
  
  
