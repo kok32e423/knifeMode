@@ -44,10 +44,14 @@ try {
           
             const _Update = function () {
                     if (s.Value != 'game') return;
-                    for (let e = Teams.GetEnumerator(); e.MoveNext();) {
-             	   team = e.Current;     
-                          if (team.Count != 0 && team.GetAlivePlayersCount () > 0) _End (team);
-                          if (team.GetAlivePlayersCount() <= 0) _End (null);
+                    alcount = 0;
+                    winner = null;
+                      for (let e = Teams.GetEnumerator(); e.MoveNext();) {
+             	     team = e.Current;     
+                      alcount += team.GetAlivePlayersCount ();
+                              if (team.GetAlivePlayersCount () > 0) winner = team;
+                              if (team.Count != 0 && alcount > 0) return _End (winner); 
+                              if (alcount <= 0) _End (null);                             
                  }
             }
                
