@@ -65,16 +65,17 @@ try {
                       
             const _Game = function () {
                    s.Value = 'game', _Spawn (), main.Restart (115); 
-                   ui.Hint.Value = n + '◅ : ' + last_round.Value + ' : ▻';
+                   ui.Hint.Value = n + '◅ ' + last_round.Value + ' ▻';
             }   
  
             const _End = function (t) { 
                    s.Value = 'end', ui.Hint.Reset ();
+                   last_round.Value += 1;
                    if (t) {
                    	for (let e = Players.GetEnumerator (); e.MoveNext();) if (e.Current.Team == t) e.Current.Properties.Get('Scores').Value += 1;
                            t.Properties.Get('wins').Value += 1, _Another (t).Properties.Get('looses').Value += 1;
                    }              
-                   main.Restart (10);              
+                   main.Restart (10);                        
             } 
             
             const _States = function () { s.Value == 'game' ? _End () : _Game (); } 
