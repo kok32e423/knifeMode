@@ -44,8 +44,9 @@ try {
           
             const _Update = function (p) {
                     if (s.Value != 'game') return;
-                    if (_Alive (p.Team) <= 0) _End (_Another (p.Team)); 
-                    if (_Alive (p.Team) <= 0 && _Alive(_Another (p.Team)) <= 0) _End (null);
+                    team = p.Team;
+                        if (_Alive (team) <= 0) _End (_Another (team)); 
+                        if (_Alive (team) <= 0 && _Alive(_Another (team)) <= 0) _End (null);
             }
                
             const _Spawn = function () { 
@@ -62,8 +63,7 @@ try {
           
             const _Another = function (t) {
                     if (t == blue) return red;
-                    else return 
-                              blue;
+                    else return blue;
             }
             
             const _Alive = function (t) {
@@ -80,7 +80,7 @@ try {
                    s.Value = 'end';
                    last_round.Value += 1;
                    if (t) {
-                   	for (let e = Players.GetEnumerator (); e.MoveNext();) if (e.Current.Team == t) e.Current.Properties.Get('Scores').Value += 1;
+                   	for (e = Players.GetEnumerator (); e.MoveNext();) if (e.Current.Team == t) e.Current.Properties.Get('Scores').Value += 1;
                            t.Properties.Get('wins').Value += 1, _Another (t).Properties.Get('looses').Value += 1;
                    }              
                    main.Restart (10);                        
