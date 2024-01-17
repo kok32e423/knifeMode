@@ -51,6 +51,10 @@ try {
             const _Spawn = function () { 
                     for (let e = Teams.GetEnumerator(); e.MoveNext();) e.Current.Spawns.Spawn(); 
             } 
+            
+            const _Text = function (text) { 
+                    for (let e = Teams.GetEnumerator(); e.MoveNext();) text == 'reset' ? : e.Current.Ui.Hint.Reset () : e.Current.Ui.Hint.Value = text;
+            } 
  
             const _Rand = function (min, max) { 
                     return 
@@ -65,11 +69,11 @@ try {
                       
             const _Game = function () {
                    s.Value = 'game', _Spawn (), main.Restart (115); 
-                   ui.Hint.Value = n + '◅ ' + last_round.Value + ' ▻';
+                   _Text (n + 'round: ' + last_round.Value);
             }   
  
             const _End = function (t) { 
-                   s.Value = 'end', ui.Hint.Reset ();
+                   s.Value = 'end', _Text ('reset');
                    last_round.Value += 1;
                    if (t) {
                    	for (let e = Players.GetEnumerator (); e.MoveNext();) if (e.Current.Team == t) e.Current.Properties.Get('Scores').Value += 1;
