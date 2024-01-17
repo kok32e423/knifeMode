@@ -46,7 +46,7 @@ try {
                     if (s.Value != 'game') return;
                     for (let e = Teams.GetEnumerator(); e.MoveNext();) {
              	   team = e.Current;     
-                          if (team.Count != 0 && team.GetAlivePlayersCount() > 0) return _End (_Another (team));
+                          if (team.Count != 0 && team.GetAlivePlayersCount () > 0) return _End (team);
                           if (team.GetAlivePlayersCount() <= 0) return _End (null);
                  }
             }
