@@ -77,7 +77,8 @@ try {
             } 
             
             const _States = function () { s.Value == 'game' ? _End () : _Game (); } 
-             
+            main.OnTimer.Add (_States);
+            
             LeaderBoard.PlayerLeaderBoardValues = [
                    { Value: 'Kills', ShortDisplayName: '<size=11.9><b>ᴋ</b></size>' },
                    { Value: 'Deaths', ShortDisplayName: '<size=11.9><b>ᴅ</b></size>' }
@@ -94,7 +95,7 @@ try {
                    if (s.Value == 'end' || _Found (BLACKLIST, p.Id, '|')) return;
                    t.Add (p);  
             });
-                /*
+               
             Teams.OnPlayerChangeTeam.Add (function (p) { p.Spawns.Spawn (), p.Ui.TeamProp2.Value = { Team: p.Team.Id, Prop: p.Id + 'info1' }, p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + String(props.Get(p.Id + 'rank').Value) + '  ' + n + '' + n + '   level: ' + String(props.Get(p.Id + 'level').Value) + ', exp: ' + String(props.Get(p.Id + 'experience').Value) + ' <size=58.5>/ ' + String(props.Get(p.Id + 'next').Value) + '</size></color>  '; });      
             Teams.OnAddTeam.Add (function (t) { t.Ui.TeamProp1.Value = { Team: t.Id, Prop: 'info2' }; });
             
@@ -135,12 +136,11 @@ try {
                       p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + String(props.Get(p.Id + 'rank').Value) + '  ' + n + '' + n + '   level: ' + String(props.Get(p.Id + 'level').Value) + ', exp: ' + String(props.Get(p.Id + 'experience').Value) + ' <size=58.5>/ ' + String(props.Get(p.Id + 'next').Value) + '</size></color>  ';            
             });  
          
-            Players.OnPlayerConnected.Add (function (p) { PROPERTIES[1].name.forEach(function (element1, element2) { if (props.Get(p.Id + element1).Value == null) props.Get(p.Id + element1).Value = PROPERTIES[1].value[element2]; }); });        
-            main.OnTimer.Add (function () { _States (); });
-                       
-            _Game (), con_prop.MaxHp.Value = 35; 
+            Players.OnPlayerConnected.Add (function (p) { PROPERTIES[1].name.forEach(function (element1, element2) { if (props.Get(p.Id + element1).Value == null) props.Get(p.Id + element1).Value = PROPERTIES[1].value[element2]; }); });                          
+            _Game ();
+            con_prop.MaxHp.Value = 35; 
         
-            */
+            
 } catch (err) { msg.Show (err.name + ' ' + err.message); }
  
  
