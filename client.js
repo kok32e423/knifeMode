@@ -45,8 +45,8 @@ try {
             const _Update = function (p) {
                     if (s.Value != 'game') return;
                     team = p.Team;
-                        if (_Alive (team) <= 0) _End (_Another (team)); 
                         if (_Alive (team) <= 0 && _Alive(_Another (team)) <= 0) _End (null);
+                        else if (_Alive (team) <= 0) _End (_Another (team)); 
             }
                
             const _Spawn = function () { 
