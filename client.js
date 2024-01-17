@@ -43,7 +43,7 @@ try {
             }
           
             const _Update = function () {
-                    if (s.Value !== 'game') return;
+                    if (s.Value != 'game') return;
                     for (let e = Teams.GetEnumerator(); e.MoveNext();) {
                     team = e.Current;     
                          if (team.GetAlivePlayersCount () => 1) return _End (team);
@@ -99,7 +99,7 @@ try {
             _Initialization (0), _Initialization (1);
            
             Teams.OnRequestJoinTeam.Add (function (p, t) {
-                   if (s.Value === 'end' || _Found (BLACKLIST, p.Id, '|')) return;
+                   if (s.Value == 'end' || _Found (BLACKLIST, p.Id, '|')) return;
                    t.Add (p);  
             });
                
