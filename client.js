@@ -47,7 +47,7 @@ try {
                     if (p.Team.GetAlivePlayersCount() == 0 && _Another(p.Team).GetAlivePlayersCount() > p.Team.GetAlivePlayersCount()) return _End (_Another(p.Team));
                     if (p.Team.GetAlivePlayersCount() == 0 && _Another(p.Team).GetAlivePlayersCount() == 0) return _End (null);
             }
-                /*
+                
             const _Spawn = function () { 
                     for (let e = Teams.GetEnumerator(); e.MoveNext();) e.Current.Spawns.Spawn(); 
             } 
@@ -87,7 +87,7 @@ try {
                   
             const blue = _Add ('blue', { up: 'спецназовцы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#476AEC', 1),
             red = _Add ('red', { up: 'террористы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#FE5757', 2);
-          
+          /*
              _Initialization (0) _Initialization (1); 
            
             Teams.OnRequestJoinTeam.Add (function (p, t) {
