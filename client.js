@@ -43,15 +43,11 @@ try {
             }
           
             const _Update = function () {
-                    if (s.Value != 'game') return;
-                    alcount = 0;
-                    winner = null;
-                      for (let e = Teams.GetEnumerator(); e.MoveNext();) {
-             	     team = e.Current;     
-                      alcount += team.GetAlivePlayersCount ();
-                              if (team.GetAlivePlayersCount () > 0) winner = team;
-                              if (team.Count != 0 && alcount > 0) return _End (winner); 
-                              if (alcount <= 0) _End (null);                             
+                    if (s.Value !== 'game') return;
+                    for (let e = Teams.GetEnumerator(); e.MoveNext();) {
+                    team = e.Current;     
+                         if (team.GetAlivePlayersCount () => 1) return _End (team);
+                         if (team.GetAlivePlayersCount () <= 0) return _End (null);
                  }
             }
                
@@ -103,7 +99,7 @@ try {
             _Initialization (0), _Initialization (1);
            
             Teams.OnRequestJoinTeam.Add (function (p, t) {
-                   if (s.Value == 'end' || _Found (BLACKLIST, p.Id, '|')) return;
+                   if (s.Value === 'end' || _Found (BLACKLIST, p.Id, '|')) return;
                    t.Add (p);  
             });
                
@@ -142,7 +138,7 @@ try {
                   let pos = p.PositionIndex.x - vic.PositionIndex.x + p.PositionIndex.y - vic.PositionIndex.y + p.PositionIndex.z - vic.PositionIndex.z;   
                       if (pos != 0) vic.Ui.Hint.Value = p.NickName + ' убил вас с расстояния ' + Math.abs(pos) + ' блоков!';
                       p.Properties.Get('Kills').Value += 1;
-                      props.Get(p.Id + 'experience').Value += Math.abs(pos) <= 4 ? _Rand (3, 5) : Math.abs(pos) + _Rand (1, 3) ;
+                      props.Get(p.Id + 'experience').Value += Math.abs(pos) <= 4 ? _Rand (3, 5) : Math.abs(pos) + _Rand (1, 2);
                       if (props.Get(p.Id + 'experience').Value >= props.Get(p.Id + 'next').Value) props.Get(p.Id + 'level').Value ++, props.Get(p.Id + 'next').Value = RANKS[props.Get(p.Id + 'level').Value - 1].target, props.Get(p.Id + 'rank').Value = RANKS[props.Get(p.Id + 'level').Value - 1].name;
                       p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + String(props.Get(p.Id + 'rank').Value) + '  ' + n + '' + n + '   level: ' + String(props.Get(p.Id + 'level').Value) + ', exp: ' + String(props.Get(p.Id + 'experience').Value) + ' <size=58.5>/ ' + String(props.Get(p.Id + 'next').Value) + '</size></color>  ';            
             });  
