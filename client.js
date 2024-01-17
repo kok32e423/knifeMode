@@ -53,7 +53,7 @@ try {
             } 
             
             const _Text = function (text) { 
-                    for (let e = Teams.GetEnumerator(); e.MoveNext();) text == 'reset' ? : e.Current.Ui.Hint.Reset () : e.Current.Ui.Hint.Value = text;
+                    for (let e = Teams.GetEnumerator(); e.MoveNext();) text == 'reset' ? e.Current.Ui.Hint.Reset () : e.Current.Ui.Hint.Value = text;
             } 
  
             const _Rand = function (min, max) { 
