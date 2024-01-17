@@ -42,14 +42,15 @@ try {
                  }  
             }
           
-            const _Update = function (p) 
-{
-   if (s.Value != 'game') return;
-   if (p.Team.GetAlivePlayersCount() == 0 && _Another(p.Team).GetAlivePlayersCount() > p.Team.GetAlivePlayersCount()) return _End (_Another(p.Team));
-   if (p.Team.GetAlivePlayersCount() == 0 && _Another(p.Team).GetAlivePlayersCount() == 0) return _End (null);
-}
-
-                
+            const _Update = function () {
+                    if (s.Value != 'game') return;
+                    for (let e = Teams.GetEnumerator(); e.MoveNext();) {
+             	   team = e.Current;
+                          if (team.GetAlivePlayersCount() == 0 && _Another (team).GetAlivePlayersCount() > team.GetAlivePlayersCount()) return _End (_Another (team));
+                          if (team.GetAlivePlayersCount() == 0 && _Another (team).GetAlivePlayersCount() == 0) return _End (null);
+                 }
+            }
+               
             const _Spawn = function () { 
                     for (let e = Teams.GetEnumerator(); e.MoveNext();) e.Current.Spawns.Spawn(); 
             } 
@@ -128,7 +129,7 @@ try {
             }); 
                          
             Damage.OnDeath.Add (function (p) {
-            	  _Update (p);
+            	  _Update ();
                   p.Properties.Get('Deaths').Value += 1;
             }); 
                       
@@ -144,7 +145,7 @@ try {
             });  
           
             Players.OnPlayerConnected.Add (function (p) { PROPERTIES[1].name.forEach(function (element1, element2) { if (props.Get(p.Id + element1).Value == null) props.Get(p.Id + element1).Value = PROPERTIES[1].value[element2]; }); });                          
-            Players.OnPlayerDisconnected.Add (function (p) { _Update (p), p.Team.Properties.Get(p.Id + 'info1').Value = null; });                          
+            Players.OnPlayerDisconnected.Add (function (p) { _Update (), p.Team.Properties.Get(p.Id + 'info1').Value = null; });                          
                    
             inv.Main.Value = false;
             inv.Secondary.Value = false;
