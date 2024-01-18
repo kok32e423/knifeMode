@@ -43,11 +43,10 @@ try {
             }
           
             const _Update = function () {
-                    if (s.Value == 'game') {
-                       if (_Alive (red) <= 0) return _End (blue);
-                           else if (_Alive (blue) <= 0) return _End (red);
-                               else if (_Alive (blue) <= 0 && _Alive (red) <= 0) return _End (null);
-                       props.Get('winner').Value = false;
+                    if (s.Value === 'game') {
+                        if (_Alive (red) <= 0) return _End (blue);
+                            else if (_Alive (blue) <= 0) return _End (red);
+                                else if (_Alive (blue) <= 0 && _Alive (red) <= 0) return _End (null);
                  }
             }            
             
@@ -135,7 +134,7 @@ try {
             }); 
                          
             Damage.OnDeath.Add (function (p) {
-            	  props.Get('winner').Value = true; 
+            	  update.Restart (1);
                   p.Properties.Get('Deaths').Value += 1;
             }); 
                       
@@ -156,14 +155,10 @@ try {
             });   
                        
             Players.OnPlayerDisconnected.Add (function (p) { 
-                  //p.Team.Properties.Get(p.Id + 'info1').Value = null;                   
-                  props.Get('winner').Value = true; 
+                  p.Team.Properties.Get(p.Id + 'info1').Value = null;                   
+                  update.Restart (1);
             });    
 
-            props.Get('winner').OnValue.Add (function (prop) {
-             	 if (prop.Value) update.Restart (1);
-            });                      
-                   
             inv.Main.Value = false;
             inv.Secondary.Value = false;
             inv.Explosive.Value = false;
