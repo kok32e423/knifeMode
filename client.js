@@ -180,7 +180,10 @@ try {
                         
             Players.OnPlayerDisconnected.Add (function (p) { 
                   p.Team.Properties.Get(p.Id + 'info1').Value = null;                   
-                  update.Restart (1);
+                  if (s.Value === 'game') {
+                      if (_Alive (red) <= 0) return _End (red);
+                          if (_Alive (blue) <= 0) return _End (blue);
+                 }
             });    
 
             inv.Main.Value = false;
