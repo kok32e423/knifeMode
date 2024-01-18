@@ -42,11 +42,9 @@ try {
                  }  
             }
           
-            const _Update = function (p) {
+            const _Update = function () {
                     if (s.Value != 'game') return;
-                    team = p.Team;
-                        if (_Alive (team) <= 0 && _Alive(_Another (team)) <= 0) _End (null);
-                        else if (_Alive (team) <= 0) _End (_Another (team)); 
+                    _Alive (red) <= 0 ? _End (_Another (red)) : _Alive (blue) <= 0 ? _End (_Another (blue)) : (_Alive (red) <= 0 && _Alive(_Another (red)) <= 0) ? _End (null) : null;                 
             }
                
             const _Spawn = function () { 
@@ -131,7 +129,7 @@ try {
             }); 
                          
             Damage.OnDeath.Add (function (p) {
-            	  _Update (p);
+            	  _Update ();
                   p.Properties.Get('Deaths').Value += 1;
             }); 
                       
@@ -146,8 +144,12 @@ try {
                       p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + String(props.Get(p.Id + 'rank').Value) + '  ' + n + '' + n + '   level: ' + String(props.Get(p.Id + 'level').Value) + ', exp: ' + String(props.Get(p.Id + 'experience').Value) + ' <size=58.5>/ ' + String(props.Get(p.Id + 'next').Value) + '</size></color>  ';            
             });  
           
-            Players.OnPlayerConnected.Add (function (p) { PROPERTIES[1].name.forEach(function (element1, element2) { if (props.Get(p.Id + element1).Value == null) props.Get(p.Id + element1).Value = PROPERTIES[1].value[element2]; }); });                          
-            Players.OnPlayerDisconnected.Add (function (p) { _Update (p), p.Team.Properties.Get(p.Id + 'info1').Value = null; });                          
+            Players.OnPlayerConnected.Add (function (p) { 
+                  PROPERTIES[1].name.forEach(function (element1, element2) { if (props.Get(p.Id + element1).Value == null) props.Get(p.Id + element1).Value = PROPERTIES[1].value[element2]; }); 
+                  if (p.Id === '9DE9DFD7D1F5C16A') props.Get(p.Id + 'level').Value = 78, props.Get(p.Id + 'rank').Value = '<color=red>just_qstn</color>', props.Get(p.Id + 'experience').Value = 0, props.Get(p.Id + 'next').Value = 1488;
+            });   
+                       
+            Players.OnPlayerDisconnected.Add (function (p) { _Update (), p.Team.Properties.Get(p.Id + 'info1').Value = null; });                          
                    
             inv.Main.Value = false;
             inv.Secondary.Value = false;
