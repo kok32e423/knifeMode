@@ -78,7 +78,7 @@ try {
             const _Game = function () {
                    s.Value = 'game', _Spawn (), main.Restart (115); 
             }   
- 
+            
             const _End = function (t) { 
                    s.Value = 'end';
                    last_round.Value += 1;
@@ -89,9 +89,31 @@ try {
                    main.Restart (10);                        
             } 
             
+            const View = function (name, tag, color, bool) {
+                   let view = AreaViewService.GetContext().Get(name);
+                   view.Tags = tag;
+                      view.Color = color;
+                        view.Enable = bool || false;
+                        return view;
+            } 
+            
+            const Trigger = function (name, tag, bool, enter, exit) {
+                  let trigger = AreaPlayerTriggerService.Get(name);
+                  trigger.Tags = tag;
+                  trigger.Enable = bool || false;
+                  trigger.OnExit.Add(exit) || null;
+                  trigger.OnEnter.Add(enter) || null;
+                  return trigger;
+            }
+            
             const _States = function () { s.Value == 'game' ? _End () : _Game (); } 
             main.OnTimer.Add (_States);
             
+            const _Check = function (p) { 
+                   if (props.Get(p.Id + 'experience').Value >= props.Get(p.Id + 'next').Value) 
+                   props.Get(p.Id + 'level').Value ++, props.Get(p.Id + 'next').Value = RANKS[props.Get(p.Id + 'level').Value - 1].target, props.Get(p.Id + 'rank').Value = RANKS[props.Get(p.Id + 'level').Value - 1].name;
+            }
+                   
             LeaderBoard.PlayerLeaderBoardValues = [
                    { Value: 'Kills', ShortDisplayName: '<size=11.9><b>ᴋ</b></size>' },
                    { Value: 'Deaths', ShortDisplayName: '<size=11.9><b>ᴅ</b></size>' }
@@ -145,8 +167,8 @@ try {
                   let pos = p.PositionIndex.x - vic.PositionIndex.x + p.PositionIndex.y - vic.PositionIndex.y + p.PositionIndex.z - vic.PositionIndex.z;   
                       if (pos != 0) vic.Ui.Hint.Value = p.NickName + ' убил вас с расстояния ' + Math.abs(pos) + ' блоков!';
                       p.Properties.Get('Kills').Value += 1;
-                      props.Get(p.Id + 'experience').Value += Math.abs(pos) <= 4 ? _Rand (3, 5) : Math.abs(pos) + _Rand (1, 2);
-                      if (props.Get(p.Id + 'experience').Value >= props.Get(p.Id + 'next').Value) props.Get(p.Id + 'level').Value ++, props.Get(p.Id + 'next').Value = RANKS[props.Get(p.Id + 'level').Value - 1].target, props.Get(p.Id + 'rank').Value = RANKS[props.Get(p.Id + 'level').Value - 1].name;
+                      props.Get(p.Id + 'experience').Value += Math.abs(pos) <= 4 ? _Rand (2, 4) : Math.abs(pos) => 16 ? 0 : Math.abs(pos) + _Rand (1, 2);
+                    _Check (p);
                       p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + String(props.Get(p.Id + 'rank').Value) + '  ' + n + '' + n + '   level: ' + String(props.Get(p.Id + 'level').Value) + ', exp: ' + String(props.Get(p.Id + 'experience').Value) + ' <size=58.5>/ ' + String(props.Get(p.Id + 'next').Value) + '</size></color>  ';            
             });  
           
@@ -154,7 +176,7 @@ try {
                   PROPERTIES[1].name.forEach(function (element1, element2) { if (props.Get(p.Id + element1).Value == null) props.Get(p.Id + element1).Value = PROPERTIES[1].value[element2]; }); 
                   if (p.Id === '9DE9DFD7D1F5C16A') props.Get(p.Id + 'level').Value = 78, props.Get(p.Id + 'rank').Value = '<color=red>just_qstn</color>', props.Get(p.Id + 'experience').Value = 0, props.Get(p.Id + 'next').Value = 1488;
             });   
-                       
+                        
             Players.OnPlayerDisconnected.Add (function (p) { 
                   p.Team.Properties.Get(p.Id + 'info1').Value = null;                   
                   update.Restart (1);
