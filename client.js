@@ -54,7 +54,7 @@ try {
                
             const _Spawn = function () { 
                     for (let e = Teams.GetEnumerator(); e.MoveNext();) e.Current.Spawns.Spawn(); 
-            } 
+            }  
             
             const _Text = function (text) { 
                     for (let e = Teams.GetEnumerator(); e.MoveNext();) if (e.Current != null) text == 'reset' ? e.Current.Ui.Hint.Reset () : e.Current.Ui.Hint.Value = text;
@@ -106,7 +106,7 @@ try {
             _Initialization (0), _Initialization (1);
            
             Teams.OnRequestJoinTeam.Add (function (p, t) {
-                   if (s.Value == 'end' || _Found (BLACKLIST, p.Id, '|')) return;
+                   if (s.Value === 'end' || _Found (BLACKLIST, p.Id, '|')) return;
                    t.Add (p);  
             });
                
