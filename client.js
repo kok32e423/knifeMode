@@ -110,10 +110,15 @@ try {
             main.OnTimer.Add (_States);
             
             const _Check = function (p) { 
-                    if (props.Get(p.Id + 'experience').Value >= props.Get(p.Id + 'next').Value) 
-                    props.Get(p.Id + 'level').Value ++, props.Get(p.Id + 'next').Value = RANKS[props.Get(p.Id + 'level').Value - 1].target, props.Get(p.Id + 'rank').Value = RANKS[props.Get(p.Id + 'level').Value - 1].name;                     
+                  if (props.Get(p.Id + 'experience').Value >= props.Get(p.Id + 'next').Value) 
+                  props.Get(p.Id + 'level').Value ++, props.Get(p.Id + 'next').Value = RANKS[props.Get(p.Id + 'level').Value - 1].target, props.Get(p.Id + 'rank').Value = RANKS[props.Get(p.Id + 'level').Value - 1].name;                     
             }
-                   
+            
+            const _Refresh = function (p) { 
+            	  plrs = [];
+                  for (e = Players.GetEnumerator (); e.MoveNext();) if (e.Current.Team == _Another (p.Team) && e.Current.Spawns.IsSpawned && e.Current.IsAlive && e.Current != p) plrs.push (e.Current.IdInRoom);
+            }
+                               
             LeaderBoard.PlayerLeaderBoardValues = [
                    { Value: 'Kills', ShortDisplayName: '<size=11.9><b>ᴋ</b></size>' },
                    { Value: 'Deaths', ShortDisplayName: '<size=11.9><b>ᴅ</b></size>' }
@@ -154,6 +159,7 @@ try {
             Spawns.OnSpawn.Add (function (p) {
                    p.Properties.Get('Immortality').Value = true;
                    p.Timers.Get('Immo').Restart (3);   
+                   p.Properties.Get('Index').Value = 0;
                    p.Ui.Hint.Reset (); 
             }); 
                          
@@ -192,7 +198,14 @@ try {
             inv.Build.Value = false;
            
             const choose_view = View ('choose_v', ['choose'], '#F35D40', true),
-            choose_trigger = Trigger ('choose_t', ['choose']);
+            choose_trigger = Trigger ('choose_t', ['choose'], true, function (p, a) {
+            	 _Refresh (p);
+                 indx = p.Properties.Get('Index').Value;
+                 if (indx < plrs.length) indx ++;
+                 else indx = 0;
+                 current = Players.GetByRoomId (plrs[indx]);
+                 p.PopUp ('хотите сыграть дуэль с игроком ' + current.NickName + ' ?');
+            });
             
             last_round.Value = 1;
             _Game ();
