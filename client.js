@@ -156,7 +156,7 @@ try {
             });   
                        
             Players.OnPlayerDisconnected.Add (function (p) { 
-                  p.Team.Properties.Get(p.Id + 'info1').Value = null;                   
+                  //p.Team.Properties.Get(p.Id + 'info1').Value = null;                   
                   props.Get('winner').Value = true; 
             });    
 
