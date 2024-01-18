@@ -53,17 +53,17 @@ try {
             update.OnTimer.Add (_Update);
                
             const _Spawn = function () { 
-                    for (let e = Teams.GetEnumerator(); e.MoveNext();) e.Current.Spawns.Spawn(); 
+                    for (e = Teams.GetEnumerator (); e.MoveNext();) e.Current.Spawns.Spawn(); 
             }  
             
             const _Text = function (text) { 
-                    for (let e = Teams.GetEnumerator(); e.MoveNext();) if (e.Current != null) text == 'reset' ? e.Current.Ui.Hint.Reset () : e.Current.Ui.Hint.Value = text;
+                    for (e = Teams.GetEnumerator (); e.MoveNext();) if (e.Current != null) text == 'reset' ? e.Current.Ui.Hint.Reset () : e.Current.Ui.Hint.Value = text;
             } 
  
             const _Rand = function (min, max) { 
                     return Math.floor(Math.random() * (max - min + 1)) + min; 
             }
-          
+           
             const _Another = function (t) {
                     if (t == blue) return red;
                     else return blue;
@@ -92,7 +92,7 @@ try {
             const View = function (name, tag, color, bool) {
                    let view = AreaViewService.GetContext().Get(name);
                    view.Tags = tag;
-                      view.Color = color;
+                      view.Color = _Color (color);
                         view.Enable = bool || false;
                         return view;
             } 
@@ -124,7 +124,8 @@ try {
     
             const blue = _Add ('blue', { up: 'спецназовцы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#476AEC', 1),
             red = _Add ('red', { up: 'террористы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#FE5757', 2);
-         
+            
+            // init
             _Initialization (0), _Initialization (1);
            
             Teams.OnRequestJoinTeam.Add (function (p, t) {
@@ -186,11 +187,14 @@ try {
             inv.Secondary.Value = false;
             inv.Explosive.Value = false;
             inv.Build.Value = false;
+           
+            const choose_view = View ('choose_v', ['choose'], '#F35D40', true);
+            const choose_trigger = Trigger ('choose_t', ['choose']);
             
             last_round.Value = 1;
             _Game ();
             con_prop.MaxHp.Value = 35; 
-         
+            
   
 } catch (err) { msg.Show (err.name + ' ' + err.message); }
  
