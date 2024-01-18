@@ -153,8 +153,8 @@ try {
             });   
                        
             Players.OnPlayerDisconnected.Add (function (p) { 
-                  p.Team.Properties.Get(p.Id + 'info1').Value = null; 
-                  
+            	  _Update ();
+                  p.Team.Properties.Get(p.Id + 'info1').Value = null;                   
             });                          
                    
             inv.Main.Value = false;
