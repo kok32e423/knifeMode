@@ -44,8 +44,8 @@ try {
           
             const _Update = function () {
                     if (s.Value === 'game') {
-                        if (_Alive (red) <= 0) return _End (blue);
-                            else if (_Alive (blue) <= 0) return _End (red);
+                        if (_Alive (red) > 0 && _Alive (blue) <= 0) return _End (red);
+                            else if (_Alive (blue) > 0 && _Alive (red) <= 0) return _End (blue);
                                 else if (_Alive (blue) <= 0 && _Alive (red) <= 0) return _End (null);
                  }
             }            
@@ -188,8 +188,8 @@ try {
             inv.Explosive.Value = false;
             inv.Build.Value = false;
            
-            const choose_view = View ('choose_v', ['choose'], '#F35D40', true);
-            const choose_trigger = Trigger ('choose_t', ['choose']);
+            const choose_view = View ('choose_v', ['choose'], '#F35D40', true),
+            choose_trigger = Trigger ('choose_t', ['choose']);
             
             last_round.Value = 1;
             _Game ();
