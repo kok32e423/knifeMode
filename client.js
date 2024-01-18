@@ -44,7 +44,9 @@ try {
           
             const _Update = function () {
                     if (s.Value != 'game') return;
-                    _Alive (red) <= 0 ? _End (_Another (red)) : _Alive (blue) <= 0 ? _End (_Another (blue)) : (_Alive (red) <= 0 && _Alive(_Another (red)) <= 0) ? _End (null) : null;                 
+                    if (_Alive (red) <= 0) _End (blue);
+                    if (_Alive (blue) <= 0) _End (red);
+                    if (_Alive (blue) <= 0 && _Alive (red) <= 0) _End (null);
             }
                
             const _Spawn = function () { 
