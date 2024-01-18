@@ -47,6 +47,7 @@ try {
                        if (_Alive (red) <= 0) return _End (blue);
                            else if (_Alive (blue) <= 0) return _End (red);
                                else if (_Alive (blue) <= 0 && _Alive (red) <= 0) return _End (null);
+                       props.Get('winner').Value = false;
                  }
             }            
             
@@ -134,7 +135,7 @@ try {
             }); 
                          
             Damage.OnDeath.Add (function (p) {
-            	  update.Restart (2);
+            	  props.Get('winner').Value = true; 
                   p.Properties.Get('Deaths').Value += 1;
             }); 
                       
@@ -156,9 +157,12 @@ try {
                        
             Players.OnPlayerDisconnected.Add (function (p) { 
                   p.Team.Properties.Get(p.Id + 'info1').Value = null;                   
-                  update.Restart (2);
-                  update.Restart (2);
-            });                          
+                  props.Get('winner').Value = true; 
+            });    
+
+            props.Get('winner').OnValue.Add (function (prop) {
+             	 if (prop.Value) update.Restart (1);
+            });                      
                    
             inv.Main.Value = false;
             inv.Secondary.Value = false;
