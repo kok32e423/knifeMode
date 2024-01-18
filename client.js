@@ -11,7 +11,7 @@ try {
                       { name: 'lololoshk', target: 160 },
                       { name: 'странник', target: 185 },
                       { name: 'босс', target: 1000 } 
-            ], PROPERTIES = [{ name: ['wins', 'looses'], value: [0, 0] }, { name: ['next', 'experience', 'level', 'rank'], value: [RANKS[0].target, 0, 1, RANKS[0].name] }], props = Properties.GetContext(), s = props.Get('state'), last_round = props.Get('l_round'), inv = Inventory.GetContext(), main = Timers.GetContext().Get('main'), ui = Ui.GetContext(), spawn = Spawns.GetContext(), con_prop = contextedProperties.GetContext(), BLACKLIST = 'C002224F3666744D|596D1288BD7F8CF7|C925816BE50844A9|9B94CBC25664BD6D|2F665AF97FA6F0EF|E24BE3448F7DF371|CBCE0678C099C56E', ADMIN_ID = 'EC76560AA6B5750B';
+            ], PROPERTIES = [{ name: ['wins', 'looses'], value: [0, 0] }, { name: ['next', 'experience', 'level', 'rank'], value: [RANKS[0].target, 0, 1, RANKS[0].name] }], props = Properties.GetContext(), s = props.Get('state'), last_round = props.Get('l_round'), inv = Inventory.GetContext(), main = Timers.GetContext().Get('main'), update = Timers.GetContext().Get('update'), ui = Ui.GetContext(), spawn = Spawns.GetContext(), con_prop = contextedProperties.GetContext(), BLACKLIST = 'C002224F3666744D|596D1288BD7F8CF7|C925816BE50844A9|9B94CBC25664BD6D|2F665AF97FA6F0EF|E24BE3448F7DF371|CBCE0678C099C56E', ADMIN_ID = 'EC76560AA6B5750B';
                  
             const _Initialization = function (index) {
             	      PROPERTIES[index].name.forEach (function (element1, element2) { for (let e = index == 0 ? Teams.GetEnumerator () : Players.GetEnumerator (); e.MoveNext();) index == 0 ? e.Current.Properties.Get(element1).Value = PROPERTIES[index].value[element2] : props.Get(e.Current.Id + element1).Value = PROPERTIES[index].value[element2]; }); 
@@ -45,10 +45,12 @@ try {
             const _Update = function () {
                     if (s.Value == 'game') {
                        if (_Alive (red) <= 0) return _End (blue);
-                          if (_Alive (blue) <= 0) return _End (red);
-                             if (_Alive (blue) <= 0 && _Alive (red) <= 0) return _End (null);
+                           else if (_Alive (blue) <= 0) return _End (red);
+                               else if (_Alive (blue) <= 0 && _Alive (red) <= 0) return _End (null);
                  }
-            }
+            }            
+            
+            update.OnTimer.Add(_Update);
                
             const _Spawn = function () { 
                     for (let e = Teams.GetEnumerator(); e.MoveNext();) e.Current.Spawns.Spawn(); 
@@ -132,7 +134,7 @@ try {
             }); 
                          
             Damage.OnDeath.Add (function (p) {
-            	  _Update ();
+            	  update.Restart (3);
                   p.Properties.Get('Deaths').Value += 1;
             }); 
                       
@@ -153,7 +155,7 @@ try {
             });   
                        
             Players.OnPlayerDisconnected.Add (function (p) { 
-            	  _Update ();
+            	  update.Restart (3);
                   p.Team.Properties.Get(p.Id + 'info1').Value = null;                   
             });                          
                    
