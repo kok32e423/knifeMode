@@ -50,7 +50,7 @@ try {
                  }
             }            
             
-            update.OnTimer.Add(_Update);
+            update.OnTimer.Add (_Update);
                
             const _Spawn = function () { 
                     for (let e = Teams.GetEnumerator(); e.MoveNext();) e.Current.Spawns.Spawn(); 
@@ -134,7 +134,7 @@ try {
             }); 
                          
             Damage.OnDeath.Add (function (p) {
-            	  update.Restart (3);
+            	  update.Restart (2);
                   p.Properties.Get('Deaths').Value += 1;
             }); 
                       
@@ -155,7 +155,7 @@ try {
             });   
                        
             Players.OnPlayerDisconnected.Add (function (p) { 
-            	  update.Restart (3);
+            	  update.Restart (2);
                   p.Team.Properties.Get(p.Id + 'info1').Value = null;                   
             });                          
                    
