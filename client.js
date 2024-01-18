@@ -110,8 +110,9 @@ try {
             main.OnTimer.Add (_States);
             
             const _Check = function (p) { 
-                   if (props.Get(p.Id + 'experience').Value >= props.Get(p.Id + 'next').Value) 
-                   props.Get(p.Id + 'level').Value ++, props.Get(p.Id + 'next').Value = RANKS[props.Get(p.Id + 'level').Value - 1].target, props.Get(p.Id + 'rank').Value = RANKS[props.Get(p.Id + 'level').Value - 1].name;
+                     if (props.Get(p.Id + 'experience').Value >= props.Get(p.Id + 'next').Value) {
+                     props.Get(p.Id + 'level').Value ++, props.Get(p.Id + 'next').Value = RANKS[props.Get(p.Id + 'level').Value - 1].target, props.Get(p.Id + 'rank').Value = RANKS[props.Get(p.Id + 'level').Value - 1].name;             
+                }
             }
                    
             LeaderBoard.PlayerLeaderBoardValues = [
