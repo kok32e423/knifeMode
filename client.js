@@ -43,10 +43,11 @@ try {
             }
           
             const _Update = function () {
-                    if (s.Value != 'game') return;
-                    if (_Alive (red) <= 0) _End (blue);
-                    if (_Alive (blue) <= 0) _End (red);
-                    if (_Alive (blue) <= 0 && _Alive (red) <= 0) _End (null);
+                    if (s.Value == 'game') {
+                       if (_Alive (red) <= 0) return _End (blue);
+                          if (_Alive (blue) <= 0) return _End (red);
+                             if (_Alive (blue) <= 0 && _Alive (red) <= 0) return _End (null);
+                 }
             }
                
             const _Spawn = function () { 
@@ -153,10 +154,7 @@ try {
                        
             Players.OnPlayerDisconnected.Add (function (p) { 
                   p.Team.Properties.Get(p.Id + 'info1').Value = null; 
-                  if (s.Value != 'game') return;
-                  if (_Alive (red) <= 0) _End (blue);
-                  if (_Alive (blue) <= 0) _End (red);
-                  if (_Alive (blue) <= 0 && _Alive (red) <= 0) _End (null);
+                  
             });                          
                    
             inv.Main.Value = false;
