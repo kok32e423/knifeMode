@@ -116,7 +116,7 @@ try {
             
             const _Refresh = function (p) { 
             	  plrs = [];
-                  for (e = Players.GetEnumerator (); e.MoveNext();) if (e.Current.Team == _Another (p.Team) && e.Current.Spawns.IsSpawned && e.Current.IsAlive) plrs.push (e.Current.IdInRoom);
+                  for (e = Players.GetEnumerator (); e.MoveNext();) if (e.Current.Spawns.IsSpawned && e.Current.IsAlive) plrs.push (e.Current.IdInRoom);
             }
                                
             LeaderBoard.PlayerLeaderBoardValues = [
@@ -199,7 +199,7 @@ try {
            
             const choose_view = View ('choose_v', ['choose'], '#F35D40', true),
             choose_trigger = Trigger ('choose_t', ['choose'], true, function (p, a) {
-           	 _Refresh (p);
+            	 _Refresh (p);
                  indx = p.Properties.Get('Index').Value;
                  if (indx < plrs.length) indx ++;
                  else indx = 0;
