@@ -109,7 +109,7 @@ try {
                    t.Add (p);  
             });
                
-            Teams.OnPlayerChangeTeam.Add (function (p) { p.Spawns.Spawn (), p.Ui.TeamProp2.Value = { Team: p.Team.Id, Prop: p.Id + 'info1' }, p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + String(props.Get(p.Id + 'rank').Value) + '  ' + n + '' + n + '   level: ' + String(props.Get(p.Id + 'level').Value) + ', exp: ' + String(props.Get(p.Id + 'experience').Value) + ' <size=58.5>/ ' + String(props.Get(p.Id + 'next').Value) + '</size></color>  '; });      
+            Teams.OnPlayerChangeTeam.Add (function (p) { p.Spawns.Spawn (), p.Spawns.Spawn (), p.Ui.TeamProp2.Value = { Team: p.Team.Id, Prop: p.Id + 'info1' }, p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + String(props.Get(p.Id + 'rank').Value) + '  ' + n + '' + n + '   level: ' + String(props.Get(p.Id + 'level').Value) + ', exp: ' + String(props.Get(p.Id + 'experience').Value) + ' <size=58.5>/ ' + String(props.Get(p.Id + 'next').Value) + '</size></color>  '; });      
             Teams.OnAddTeam.Add (function (t) { t.Ui.TeamProp1.Value = { Team: t.Id, Prop: 'info2' }; });
             
             Properties.OnTeamProperty.Add (function (context, e) {
@@ -155,8 +155,9 @@ try {
             });   
                        
             Players.OnPlayerDisconnected.Add (function (p) { 
-            	  update.Restart (2);
                   p.Team.Properties.Get(p.Id + 'info1').Value = null;                   
+                  update.Restart (2);
+                  update.Restart (2);
             });                          
                    
             inv.Main.Value = false;
