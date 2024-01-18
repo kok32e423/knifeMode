@@ -151,7 +151,13 @@ try {
                   if (p.Id === '9DE9DFD7D1F5C16A') props.Get(p.Id + 'level').Value = 78, props.Get(p.Id + 'rank').Value = '<color=red>just_qstn</color>', props.Get(p.Id + 'experience').Value = 0, props.Get(p.Id + 'next').Value = 1488;
             });   
                        
-            Players.OnPlayerDisconnected.Add (function (p) { _Update (), p.Team.Properties.Get(p.Id + 'info1').Value = null; });                          
+            Players.OnPlayerDisconnected.Add (function (p) { 
+                  p.Team.Properties.Get(p.Id + 'info1').Value = null; 
+                  if (s.Value != 'game') return;
+                  if (_Alive (red) <= 0) _End (blue);
+                  if (_Alive (blue) <= 0) _End (red);
+                  if (_Alive (blue) <= 0 && _Alive (red) <= 0) _End (null);
+            });                          
                    
             inv.Main.Value = false;
             inv.Secondary.Value = false;
