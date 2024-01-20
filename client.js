@@ -116,7 +116,7 @@ try {
                   props.Get(p.Id + 'level').Value ++, props.Get(p.Id + 'next').Value = RANKS[props.Get(p.Id + 'level').Value - 1].target, props.Get(p.Id + 'rank').Value = RANKS[props.Get(p.Id + 'level').Value - 1].name;                     
             }
             
-            const _Refresh = function (p) { 
+            const _Refresh = function () { 
             	  plrs = [];
                   for (e = Players.GetEnumerator (); e.MoveNext();) if (e.Current.Spawns.IsSpawned && e.Current.IsAlive) plrs.push (e.Current.IdInRoom);
             }
@@ -207,12 +207,12 @@ try {
            
             const choose_view = View ('choose_v', ['choose'], '#F35D40', true),
             choose_trigger = Trigger ('choose_t', ['choose'], true, function (p, a) {
-            	 _Refresh (p);
+            	 _Refresh ();
                  indx = p.Properties.Get('Index').Value;
                  if (indx < plrs.length) indx ++;
                  else indx = 0;
                  current = Players.GetByRoomId (plrs[indx]);
-                 p.PopUp ('хотите сыграть дуэль с игроком ' + current.NickName + ' ?');
+                 p.Ui.Hint.Value = 'хотите сыграть дуэль с игроком ' + current.NickName + ' ?';
             });
             
             last_round.Value = 1;
