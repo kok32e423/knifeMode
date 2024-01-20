@@ -149,7 +149,7 @@ try {
             });
                
             Teams.OnPlayerChangeTeam.Add (function (p) { 
-                  if (p.Team == null || p.IsAlive) p.Spawns.Spawn ();
+                  if (!p.Spawns.IsSpawned) p.Spawns.Spawn ();
                   p.Ui.TeamProp2.Value = { Team: p.Team.Id, Prop: p.Id + 'info1' };
                 _Info (p);
             }); 
