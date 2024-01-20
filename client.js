@@ -11,7 +11,7 @@ try {
                       { name: 'lololoshk', target: 160 },
                       { name: 'странник', target: 185 },
                       { name: 'босс', target: 1000 } 
-            ], PROPERTIES = [{ name: ['wins', 'looses'], value: [0, 0] }, { name: ['next', 'experience', 'level', 'rank'], value: [RANKS[0].target, 0, 1, RANKS[0].name] }], props = Properties.GetContext(), s = props.Get('state'), last_round = props.Get('l_round'), inv = Inventory.GetContext(), main = Timers.GetContext().Get('main'), update = Timers.GetContext().Get('update'), ui = Ui.GetContext(), spawn = Spawns.GetContext(), con_prop = contextedProperties.GetContext(), BLACKLIST = 'FC31765F7E136211|C002224F3666744D|596D1288BD7F8CF7|C925816BE50844A9|9B94CBC25664BD6D|2F665AF97FA6F0EF|E24BE3448F7DF371|CBCE0678C099C56E';            
+            ], PROPERTIES = [{ name: ['wins', 'looses'], value: [0, 0] }, { name: ['next', 'experience', 'level', 'rank'], value: [RANKS[0].target, 0, 1, RANKS[0].name] }], props = Properties.GetContext(), s = props.Get('state'), last_round = props.Get('l_round'), inv = Inventory.GetContext(), main = Timers.GetContext().Get('main'), update = Timers.GetContext().Get('update'), ui = Ui.GetContext(), spawn = Spawns.GetContext(), con_prop = contextedProperties.GetContext(), BLACKLIST = '2F5C420A6D9AC5DE|FC31765F7E136211|C002224F3666744D|596D1288BD7F8CF7|C925816BE50844A9|9B94CBC25664BD6D|2F665AF97FA6F0EF|E24BE3448F7DF371|CBCE0678C099C56E';            
             let 
             plrs = [];
             
@@ -91,7 +91,7 @@ try {
                    main.Restart (10);                        
             } 
             
-            const View = function (name, tag, color, bool) {
+            const _View = function (name, tag, color, bool) {
                    let view = AreaViewService.GetContext().Get(name);
                    view.Tags = tag;
                       view.Color = _Color (color);
@@ -99,7 +99,7 @@ try {
                         return view;
             } 
             
-            const Trigger = function (name, tag, bool, enter, exit) {
+            const _Trigger = function (name, tag, bool, enter, exit) {
                   let trigger = AreaPlayerTriggerService.Get(name);
                   trigger.Tags = tag;
                   trigger.Enable = bool || false;
@@ -209,16 +209,16 @@ try {
             inv.Explosive.Value = false;
             inv.Build.Value = false;
            
-            const choose_view = View ('choose_v', ['choose'], '#F35D40', true),
-            choose_trigger = Trigger ('choose_t', ['choose'], true, function (p, a) {
+            const choose_view = _View ('choose_v', ['choose'], '#F35D40', true),
+            choose_trigger = _Trigger ('choose_t', ['choose'], true, function (p, a) {
              	 _Refresh (p);
                   indx = p.Properties.Get('Index').Value;
                   if (indx < plrs.length - 1) indx ++;
                   else indx = 0;
                   current = Players.GetByRoomId (plrs[indx]);
                   p.PopUp ('хотите сыграть дуэль с игроком ' + current.NickName + ' ?');
-            },  
-            _Reset);
+            },    
+            _Reset );
             
             last_round.Value = 1;
             _Game ();
