@@ -48,7 +48,7 @@ try {
                     if (s.Value === 'game') {
                         if (_Alive (red) > 0 && _Alive (blue) <= 0) return _End (red);
                             else if (_Alive (blue) > 0 && _Alive (red) <= 0) return _End (blue);
-                                else if (_Alive (blue) <= 0 && _Alive (red) <= 0) return _End (null);
+                                else if (_Alive (blue) <= 0 && _Alive (red) <= 0) return _End ();
                  }
             }            
             
@@ -116,11 +116,15 @@ try {
                   props.Get(p.Id + 'level').Value ++, props.Get(p.Id + 'next').Value = RANKS[props.Get(p.Id + 'level').Value - 1].target, props.Get(p.Id + 'rank').Value = RANKS[props.Get(p.Id + 'level').Value - 1].name;                     
             }
             
+            const _Info = function (p) {
+            	  p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + String(props.Get(p.Id + 'rank').Value) + '  ' + n + '' + n + '   level: ' + String(props.Get(p.Id + 'level').Value) + ', exp: ' + String(props.Get(p.Id + 'experience').Value) + ' <size=58.5>/ ' + String(props.Get(p.Id + 'next').Value) + '</size></color>  ';
+            }
+            
             const _Refresh = function (p) { 
             	  plrs = [];
                   for (e = Players.GetEnumerator (); e.MoveNext();) if (e.Current.Team == _Another (p.Team) && e.Current.Spawns.IsSpawned && e.Current.IsAlive) plrs.push (e.Current.IdInRoom);
             }
-            
+             
             const _Reset = function (p) { 
             	  p.Ui.Hint.Reset (); 
             }
@@ -139,17 +143,24 @@ try {
             // init
             _Initialization (0), _Initialization (1);
            
-            Teams.OnRequestJoinTeam.Add (function (p, t) {
+            Teams.OnRequestJoinTeam.Add (function (p, team) {
                    if (s.Value === 'end' || _Found (BLACKLIST, p.Id, '|')) return;
-                   t.Add (p);  
+                   team.Add (p);  
             });
                
-            Teams.OnPlayerChangeTeam.Add (function (p) { p.Spawns.Spawn (), p.Spawns.Spawn (), p.Ui.TeamProp2.Value = { Team: p.Team.Id, Prop: p.Id + 'info1' }, p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + String(props.Get(p.Id + 'rank').Value) + '  ' + n + '' + n + '   level: ' + String(props.Get(p.Id + 'level').Value) + ', exp: ' + String(props.Get(p.Id + 'experience').Value) + ' <size=58.5>/ ' + String(props.Get(p.Id + 'next').Value) + '</size></color>  '; });      
-            Teams.OnAddTeam.Add (function (t) { t.Ui.TeamProp1.Value = { Team: t.Id, Prop: 'info2' }; });
+            Teams.OnPlayerChangeTeam.Add (function (p) { 
+                  if (p.IsAlive) p.Spawns.Spawn ();
+                  p.Ui.TeamProp2.Value = { Team: p.Team.Id, Prop: p.Id + 'info1' };
+                _Info (p);
+            }); 
+  
+            Teams.OnAddTeam.Add (function (team) {
+                  team.Ui.TeamProp1.Value = { Team: t.Id, Prop: 'info2' };
+            });
             
             Properties.OnTeamProperty.Add (function (context, e) {
-                   let t = context.Team;
-                   t.Properties.Get('info2').Value = '  <color=#FFFFFF> Счёт команды:  ' + n + n + '  wins: ' + t.Properties.Get('wins').Value + ', looses: ' + t.Properties.Get('looses').Value + '  </color>'; 
+                  let team = context.Team;
+                  team.Properties.Get('info2').Value = '  <color=#FFFFFF> Счёт команды:  ' + n + n + '  wins: ' + team.Properties.Get('wins').Value + ', looses: ' + team.Properties.Get('looses').Value + '  </color>'; 
             });   
             
             Timers.OnPlayerTimer.Add (function (t) { 
@@ -183,19 +194,19 @@ try {
             Damage.OnKill.Add (function (p, vic) {
                   if (vic.Team == p.Team)
                       return;
-                  let pos = p.PositionIndex.x - vic.PositionIndex.x + p.PositionIndex.y - vic.PositionIndex.y + p.PositionIndex.z - vic.PositionIndex.z;   
+                  let pos = p.PositionIndex.x - vic.PositionIndex.x + p.PositionIndex.z - vic.PositionIndex.z;  // p.PositionIndex.y - vic.PositionIndex.y;
                       if (pos != 0) vic.Ui.Hint.Value = p.NickName + ' убил вас с расстояния ' + Math.abs(pos) + ' блоков!';
                       p.Properties.Get('Kills').Value += 1;
-                      props.Get(p.Id + 'experience').Value += _Rand (2, 5);
+                      props.Get(p.Id + 'experience').Value += _Rand (1, 5);
                     _Check (p);
-                      p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + String(props.Get(p.Id + 'rank').Value) + '  ' + n + '' + n + '   level: ' + String(props.Get(p.Id + 'level').Value) + ', exp: ' + String(props.Get(p.Id + 'experience').Value) + ' <size=58.5>/ ' + String(props.Get(p.Id + 'next').Value) + '</size></color>  ';            
+                    _Info (p);
             });  
           
             Players.OnPlayerConnected.Add (function (p) { 
                   PROPERTIES[1].name.forEach(function (element1, element2) { if (props.Get(p.Id + element1).Value == null) props.Get(p.Id + element1).Value = PROPERTIES[1].value[element2]; }); 
                   if (p.Id === '9DE9DFD7D1F5C16A') props.Get(p.Id + 'level').Value = 78, props.Get(p.Id + 'rank').Value = '<color=red>just_qstn</color>', props.Get(p.Id + 'experience').Value = 0, props.Get(p.Id + 'next').Value = 1488;
             });   
-                        
+                         
             Players.OnPlayerDisconnected.Add (function (p) { 
                   p.Team.Properties.Get(p.Id + 'info1').Value = null;                   
                   if (s.Value === 'game') {
@@ -209,8 +220,8 @@ try {
             inv.Explosive.Value = false;
             inv.Build.Value = false;
            
-            const choose_view = _View ('choose_v', ['choose'], '#F35D40', true),
-            choose_trigger = _Trigger ('choose_t', ['choose'], true, function (p, a) {
+            const duel_view = _View ('duel_v', ['duel'], '#F35D40', true),
+            duel_trigger = _Trigger ('duel_t', ['duel'], true, function (p, a) {
              	 _Refresh (p);
                   indx = p.Properties.Get('Index').Value;
                   if (indx < plrs.length - 1) indx ++;
