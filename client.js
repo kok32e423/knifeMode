@@ -212,8 +212,8 @@ try {
             inv.Explosive.Value = false;
             inv.Build.Value = false;
            
-            const duel_view = View ('duel_v', ['choose'], '#F35D40', true),
-            duel_trigger = Trigger ('duel_t', ['choose'], true, function (p, a) {
+            const duel_view = View ('duel_v', ['duel'], '#F35D40', true),
+            duel_trigger = Trigger ('duel_t', ['duel'], true, function (p, a) {
              	 _Refresh (p);
                   indx = p.Properties.Get('Index').Value;
                   if (indx < plrs.length - 1) indx ++;
