@@ -177,7 +177,6 @@ try {
                    p.Properties.Get('Immortality').Value = true;
                    p.Timers.Get('Immo').Restart (3);   
                    p.Properties.Get('Index').Value = 0;
-                   red.Add(p);
                    _Reset (p);
             }); 
             
@@ -190,6 +189,7 @@ try {
             Damage.OnDeath.Add (function (p) {
             	  update.Restart (1);
                   p.Properties.Get('Deaths').Value += 1;
+                  red.Add (p);
             }); 
                       
             Damage.OnKill.Add (function (p, vic) {
