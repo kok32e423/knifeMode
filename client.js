@@ -159,6 +159,9 @@ try {
                       case 'Immo':
                           p.Properties.Immortality.Value = false; 
                       break;
+                      case 'Invite_tp':
+                          p.Position = { x: 999, y: 999, z: 999 };
+                      break;
                 }
             });
                                                                                        
@@ -187,7 +190,7 @@ try {
                       if (pos != 0) vic.Ui.Hint.Value = p.NickName + ' убил вас с расстояния ' + Math.abs(pos) + ' блоков!';
                       p.Properties.Get('Kills').Value += 1;
                       props.Get(p.Id + 'experience').Value += _Rand (2, 5);
-                    _Check (p);
+                     _Check (p);
                       p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + String(props.Get(p.Id + 'rank').Value) + '  ' + n + '' + n + '   level: ' + String(props.Get(p.Id + 'level').Value) + ', exp: ' + String(props.Get(p.Id + 'experience').Value) + ' <size=58.5>/ ' + String(props.Get(p.Id + 'next').Value) + '</size></color>  ';            
             });  
           
@@ -209,16 +212,17 @@ try {
             inv.Explosive.Value = false;
             inv.Build.Value = false;
            
-            const choose_view = View ('choose_v', ['choose'], '#F35D40', true),
-            choose_trigger = Trigger ('choose_t', ['choose'], true, function (p, a) {
+            const duel_view = View ('duel_v', ['choose'], '#F35D40', true),
+            duel_trigger = Trigger ('duel_t', ['choose'], true, function (p, a) {
              	 _Refresh (p);
                   indx = p.Properties.Get('Index').Value;
                   if (indx < plrs.length - 1) indx ++;
                   else indx = 0;
                   current = Players.GetByRoomId (plrs[indx]);
+                  current.Timers.Get('Invite_tp').Restart (2);
                   p.PopUp ('хотите сыграть дуэль с игроком ' + current.NickName + ' ?');
             },     
-            _Reset(p));
+            _Reset (p));
             
             last_round.Value = 1;
             _Game ();
