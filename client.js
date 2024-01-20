@@ -217,8 +217,8 @@ try {
                   else indx = 0;
                   current = Players.GetByRoomId (plrs[indx]);
                   p.PopUp ('хотите сыграть дуэль с игроком ' + current.NickName + ' ?');
-            },    
-            _Reset (p));
+            },  
+            _Reset);
             
             last_round.Value = 1;
             _Game ();
