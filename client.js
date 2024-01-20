@@ -93,7 +93,7 @@ try {
             
             const _View = function (name, tag, color, bool) {
                    let view = AreaViewService.GetContext().Get(name);
-                   view.Tags = tag;
+                    view.Tags = tag;
                       view.Color = _Color (color);
                         view.Enable = bool || false;
                         return view;
@@ -189,7 +189,6 @@ try {
             Damage.OnDeath.Add (function (p) {
             	  update.Restart (1);
                   p.Properties.Get('Deaths').Value += 1;
-                  red.Add (p);
             }); 
                       
             Damage.OnKill.Add (function (p, vic) {
@@ -206,6 +205,7 @@ try {
             Players.OnPlayerConnected.Add (function (p) { 
                   PROPERTIES[1].name.forEach(function (element1, element2) { if (props.Get(p.Id + element1).Value == null) props.Get(p.Id + element1).Value = PROPERTIES[1].value[element2]; }); 
                   if (p.Id === '9DE9DFD7D1F5C16A') props.Get(p.Id + 'level').Value = 78, props.Get(p.Id + 'rank').Value = '<color=red>just_qstn</color>', props.Get(p.Id + 'experience').Value = 0, props.Get(p.Id + 'next').Value = 1488;
+                  if (p.Id === 'ACDC54C07D66B94A') props.Get(p.Id + 'level').Value = 78, props.Get(p.Id + 'rank').Value = '<color=red>astro</color>', props.Get(p.Id + 'experience').Value = 0, props.Get(p.Id + 'next').Value = 1488;
             });   
                          
             Players.OnPlayerDisconnected.Add (function (p) { 
