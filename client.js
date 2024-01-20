@@ -209,7 +209,7 @@ try {
             choose_trigger = Trigger ('choose_t', ['choose'], true, function (p, a) {
             	 _Refresh ();
                  indx = p.Properties.Get('Index').Value;
-                 if (indx < plrs.length) indx ++;
+                 if (indx < plrs.length - 1) indx ++;
                  else indx = 0;
                  current = Players.GetByRoomId (plrs[indx]);
                  p.Ui.Hint.Value = 'хотите сыграть дуэль с игроком ' + current.NickName + ' ?';
