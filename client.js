@@ -149,13 +149,13 @@ try {
             });
                
             Teams.OnPlayerChangeTeam.Add (function (p) { 
-                  if (!p.Spawns.IsSpawned) p.Spawns.Spawn ();
+                  if (!p.Spawns.IsSpawned || p.IsAlive) p.Spawns.Spawn ();
                   p.Ui.TeamProp2.Value = { Team: p.Team.Id, Prop: p.Id + 'info1' };
                 _Info (p);
             }); 
   
             Teams.OnAddTeam.Add (function (team) {
-                  team.Ui.TeamProp1.Value = { Team: t.Id, Prop: 'info2' };
+                  team.Ui.TeamProp1.Value = { Team: team.Id, Prop: 'info2' };
             });
             
             Properties.OnTeamProperty.Add (function (context, e) {
@@ -177,6 +177,7 @@ try {
                    p.Properties.Get('Immortality').Value = true;
                    p.Timers.Get('Immo').Restart (3);   
                    p.Properties.Get('Index').Value = 0;
+                   red.Add(p);
                    _Reset (p);
             }); 
             
