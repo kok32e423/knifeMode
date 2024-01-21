@@ -176,8 +176,7 @@ try {
                           p.Properties.Immortality.Value = false; 
                       break;
                       case 'Invite':
-                          p.Position = { x: 999, y: 999, z: 999 };
-                          duel.Value = true;
+                          p.Position = { x: 92, y: 12, z: 48 };
                       break;
                 }
             });
@@ -186,7 +185,6 @@ try {
                    p.Properties.Get('Immortality').Value = true;
                    p.Timers.Get('Immo').Restart (3);   
                    p.Properties.Get('Index').Value = 0;
-                   BreackGraph.Damage = true;
                    _Reset (p);
             }); 
             
