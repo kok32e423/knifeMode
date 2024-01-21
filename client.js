@@ -164,6 +164,10 @@ try {
                   team.Properties.Get('info2').Value = '  <color=#FFFFFF> Счёт команды:  ' + n + n + '  wins: ' + team.Properties.Get('wins').Value + ', looses: ' + team.Properties.Get('looses').Value + '  </color>'; 
             });   
             
+            BreackGraph.OnOptions.Add (function () {
+            	  if (BreackGraph.Damage) BreackGraph.Damage = false;
+            });
+            
             Timers.OnPlayerTimer.Add (function (t) { 
                   let p = t.Player,
                   id = t.Id;   
@@ -182,6 +186,7 @@ try {
                    p.Properties.Get('Immortality').Value = true;
                    p.Timers.Get('Immo').Restart (3);   
                    p.Properties.Get('Index').Value = 0;
+                   BreackGraph.Damage = true;
                    _Reset (p);
             }); 
             
