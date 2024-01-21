@@ -122,7 +122,7 @@ try {
             
             const _Refresh = function (p) { 
             	  plrs = [];
-                  for (e = Players.GetEnumerator (); e.MoveNext();) if (e.Current.Team == _Another (p.Team) && e.Current.Spawns.IsSpawned && e.Current.IsAlive) plrs.push (e.Current.IdInRoom);
+                  for (e = Players.GetEnumerator (); e.MoveNext();) if (/*e.Current.Team == _Another (p.Team) && */e.Current.Spawns.IsSpawned && e.Current.IsAlive) plrs.push (e.Current.IdInRoom);
             }
              
             const _Reset = function (p) { 
@@ -170,6 +170,9 @@ try {
                       case 'Immo':
                           p.Properties.Immortality.Value = false; 
                       break;
+                      case 'Invite':
+                          p.Position = { x: 999, y: 999, z: 999 };
+                      break;
                 }
             });
                                                                                        
@@ -194,12 +197,11 @@ try {
             Damage.OnKill.Add (function (p, vic) {
                   if (vic.Team == p.Team)
                       return;
-                  let pos = p.PositionIndex.x - vic.PositionIndex.x + p.PositionIndex.z - vic.PositionIndex.z;  // p.PositionIndex.y - vic.PositionIndex.y;
+                  let pos = p.PositionIndex.x - vic.PositionIndex.x + p.PositionIndex.y - vic.PositionIndex.y + p.PositionIndex.z - vic.PositionIndex.z;  // 
                       if (pos != 0) vic.Ui.Hint.Value = p.NickName + ' убил вас с расстояния ' + Math.abs(pos) + ' блоков!';
                       p.Properties.Get('Kills').Value += 1;
                       props.Get(p.Id + 'experience').Value += _Rand (1, 5);
-                    _Check (p);
-                    _Info (p);
+                    _Check (p), _Info (p);
             });  
           
             Players.OnPlayerConnected.Add (function (p) { 
@@ -210,10 +212,6 @@ try {
                          
             Players.OnPlayerDisconnected.Add (function (p) { 
                   p.Team.Properties.Get(p.Id + 'info1').Value = null;                   
-                  if (s.Value === 'game') {
-                      if (_Alive (red) <= 0) return _End (red);
-                          if (_Alive (blue) <= 0) return _End (blue);
-                 }
             });    
 
             inv.Main.Value = false;
@@ -224,11 +222,12 @@ try {
             const duel_view = _View ('duel_v', ['duel'], '#F35D40', true),
             duel_trigger = _Trigger ('duel_t', ['duel'], true, function (p, a) {
              	 _Refresh (p);
-                  indx = p.Properties.Get('Index').Value;
+                  let indx = p.Properties.Get('Index').Value;
                   if (indx < plrs.length - 1) indx ++;
                   else indx = 0;
-                  current = Players.GetByRoomId (plrs[indx]);
+                  let current = Players.GetByRoomId (plrs[indx]); 
                   p.PopUp ('хотите сыграть дуэль с игроком ' + current.NickName + ' ?');
+                  current.Timers.Get('Invite').Restart (3);
             },    
             _Reset );
             
