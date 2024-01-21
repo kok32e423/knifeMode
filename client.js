@@ -222,14 +222,16 @@ try {
             const duel_view = _View ('duel_v', ['duel'], '#F35D40', true),
             duel_trigger = _Trigger ('duel_t', ['duel'], true, function (p, a) {
              	 _Refresh (p);
-                  let indx = p.Properties.Get('Index').Value;
+                  indx = p.Properties.Get('Index').Value;
                   if (indx < plrs.length - 1) indx ++;
                   else indx = 0;
-                  let current = Players.GetByRoomId (plrs[indx]); 
-                  p.PopUp ('хотите сыграть дуэль с игроком ' + current.NickName + ' ?');
+                  current = Players.GetByRoomId (plrs[indx]); 
                   current.Timers.Get('Invite').Restart (3);
-            },    
-            _Reset );
+                  p.PopUp ('хотите сыграть дуэль с игроком ' + current.NickName + ' ?');
+            }, function (p) {
+            	  _Reset (p);
+                  current.Timers.Get('Invite').Stop ();
+            });
             
             last_round.Value = 1;
             _Game ();
