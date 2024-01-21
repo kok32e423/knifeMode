@@ -11,7 +11,7 @@ try {
                       { name: 'lololoshk', target: 160 },
                       { name: 'странник', target: 185 },
                       { name: 'босс', target: 1000 } 
-            ], PROPERTIES = [{ name: ['wins', 'looses'], value: [0, 0] }, { name: ['next', 'experience', 'level', 'rank'], value: [RANKS[0].target, 0, 1, RANKS[0].name] }], props = Properties.GetContext(), s = props.Get('state'), last_round = props.Get('l_round'), inv = Inventory.GetContext(), main = Timers.GetContext().Get('main'), update = Timers.GetContext().Get('update'), ui = Ui.GetContext(), spawn = Spawns.GetContext(), con_prop = contextedProperties.GetContext(), BLACKLIST = '2F5C420A6D9AC5DE|FC31765F7E136211|C002224F3666744D|596D1288BD7F8CF7|C925816BE50844A9|9B94CBC25664BD6D|2F665AF97FA6F0EF|E24BE3448F7DF371|CBCE0678C099C56E';            
+            ], PROPERTIES = [{ name: ['wins', 'looses'], value: [0, 0] }, { name: ['next', 'experience', 'level', 'rank'], value: [RANKS[0].target, 0, 1, RANKS[0].name] }], props = Properties.GetContext(), s = props.Get('state'), last_round = props.Get('l_round'), duel = props.Get('duel'), inv = Inventory.GetContext(), main = Timers.GetContext().Get('main'), update = Timers.GetContext().Get('update'), ui = Ui.GetContext(), spawn = Spawns.GetContext(), con_prop = contextedProperties.GetContext(), BLACKLIST = '2F5C420A6D9AC5DE|FC31765F7E136211|C002224F3666744D|596D1288BD7F8CF7|C925816BE50844A9|9B94CBC25664BD6D|2F665AF97FA6F0EF|E24BE3448F7DF371|CBCE0678C099C56E';            
             let 
             plrs = [];
             
@@ -79,6 +79,7 @@ try {
                       
             const _Game = function () {
                    s.Value = 'game', _Spawn (), main.Restart (115); 
+                   duel.Value = false;
             }   
             
             const _End = function (t) { 
@@ -172,6 +173,7 @@ try {
                       break;
                       case 'Invite':
                           p.Position = { x: 999, y: 999, z: 999 };
+                          duel.Value = true;
                       break;
                 }
             });
@@ -200,7 +202,7 @@ try {
                   let pos = p.PositionIndex.x - vic.PositionIndex.x + p.PositionIndex.y - vic.PositionIndex.y + p.PositionIndex.z - vic.PositionIndex.z;  // 
                       if (pos != 0) vic.Ui.Hint.Value = p.NickName + ' убил вас с расстояния ' + Math.abs(pos) + ' блоков!';
                       p.Properties.Get('Kills').Value += 1;
-                      props.Get(p.Id + 'experience').Value += _Rand (1, 5);
+                      props.Get(p.Id + 'experience').Value += _Rand (2, 6);
                     _Check (p), _Info (p);
             });  
           
@@ -219,19 +221,18 @@ try {
             inv.Explosive.Value = false;
             inv.Build.Value = false;
            
-            const duel_view = _View ('duel_v', ['duel'], '#F35D40', true),
+            const duel_view = _View ('duel_v', ['duel'], '#21049E', true),
             duel_trigger = _Trigger ('duel_t', ['duel'], true, function (p, a) {
-             	 _Refresh (p);
+            	  if (duel.Value) return;
+            	 _Refresh (p);
                   indx = p.Properties.Get('Index').Value;
                   if (indx < plrs.length - 1) indx ++;
                   else indx = 0;
                   current = Players.GetByRoomId (plrs[indx]); 
                   current.Timers.Get('Invite').Restart (3);
                   p.PopUp ('хотите сыграть дуэль с игроком ' + current.NickName + ' ?');
-            }, function (p) {
-            	  _Reset (p);
-                  current.Timers.Get('Invite').Stop ();
-            });
+            },
+            function (p) { _Reset (p), current.Timers.Get('Invite').Stop (); });
             
             last_round.Value = 1;
             _Game ();
