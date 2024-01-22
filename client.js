@@ -79,7 +79,7 @@ try {
                       
             const _Game = function () {
                    s.Value = 'game', _Spawn (), main.Restart (115); 
-                   duel.Value = false;
+                   duel.Value = false; 
             }   
             
             const _End = function (t) { 
@@ -236,8 +236,8 @@ try {
             	  if (duel.Value) return;
            	 _Refresh (p);
                   indx = p.Properties.Get('Index').Value;
-                  if (indx > plrs.length - 1) indx = 0;
-                  else indx += 1;
+                  if (indx < plrs.length - 1) indx ++;
+                  else indx = 0;
                   current = Players.GetByRoomId (plrs[indx]), current.Timers.Get('Invite').Restart (5);
                   p.Ui.Hint.Value = 'хотите сыграть дуэль с игроком ' + current.NickName + ' ?';
                   p.Properties.Get('1').Value = true;
