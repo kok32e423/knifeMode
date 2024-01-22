@@ -227,7 +227,7 @@ try {
             duel.OnValue.Add (function (prop) {
             	  if (prop.Value) for (e = Players.GetEnumerator (); e.MoveNext();) {
                       if (e.Current.Properties.Get('1').Value) e.Current.SetPositionAndRotation ({ x: 122, y: 14, z: 40 }, { x: 0, y: -90 }), e.Current.Inventory.Secondary.Value = true;
-                          else if (e.Current.Properties.Get('2').Value) e.Current.SetPositionAndRotation ({ x: 116, y: 14, z: 82 }, { x: 0, y: 90 }), e.Current.Inventory.Secondary.Value = true;
+                          if (e.Current.Properties.Get('2').Value) e.Current.SetPositionAndRotation ({ x: 116, y: 14, z: 82 }, { x: 0, y: 90 }), e.Current.Inventory.Secondary.Value = true;
                  }
             }); 
            
