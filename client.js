@@ -11,12 +11,12 @@ try {
                       { name: 'lololoshk', target: 160 },
                       { name: 'странник', target: 185 },
                       { name: 'босс', target: 1000 } 
-            ], PROPERTIES = [{ name: ['wins', 'looses'], value: [0, 0] }, { name: ['next', 'experience', 'level', 'rank'], value: [RANKS[0].target, 0, 1, RANKS[0].name] }], props = Properties.GetContext(), s = props.Get('state'), last_round = props.Get('l_round'), duel = props.Get('duel'), inv = Inventory.GetContext(), main = Timers.GetContext().Get('main'), update = Timers.GetContext().Get('update'), ui = Ui.GetContext(), spawn = Spawns.GetContext(), con_prop = contextedProperties.GetContext(), BLACKLIST = '2F5C420A6D9AC5DE|FC31765F7E136211|C002224F3666744D|596D1288BD7F8CF7|C925816BE50844A9|9B94CBC25664BD6D|2F665AF97FA6F0EF|E24BE3448F7DF371|CBCE0678C099C56E';            
+            ], PROPERTIES = [{ name: ['wins', 'looses'], value: [0, 0] }, { name: ['next', 'experience', 'level', 'rank'], value: [RANKS[0].target, 0, 1, RANKS[0].name] }], prop = Properties.GetContext(), s = prop.Get('state'), last_round = prop.Get('l_round'), duel = prop.Get('duel'), inv = Inventory.GetContext(), main = Timers.GetContext().Get('main'), update = Timers.GetContext().Get('update'), ui = Ui.GetContext(), spawn = Spawns.GetContext(), con_prop = contextedProperties.GetContext(), BLACKLIST = '2F5C420A6D9AC5DE|FC31765F7E136211|C002224F3666744D|596D1288BD7F8CF7|C925816BE50844A9|9B94CBC25664BD6D|2F665AF97FA6F0EF|E24BE3448F7DF371|CBCE0678C099C56E';            
             let 
             plrs = [];
             
             const _Initialization = function (index) {
-            	      PROPERTIES[index].name.forEach (function (element1, element2) { for (let e = index == 0 ? Teams.GetEnumerator () : Players.GetEnumerator (); e.MoveNext();) index == 0 ? e.Current.Properties.Get(element1).Value = PROPERTIES[index].value[element2] : props.Get(e.Current.Id + element1).Value = PROPERTIES[index].value[element2]; }); 
+            	      PROPERTIES[index].name.forEach (function (element1, element2) { for (let e = index == 0 ? Teams.GetEnumerator () : Players.GetEnumerator (); e.MoveNext();) index == 0 ? e.Current.Properties.Get(element1).Value = PROPERTIES[index].value[element2] : prop.Get(e.Current.Id + element1).Value = PROPERTIES[index].value[element2]; }); 
             }
             
             const _Add = function (tag, name, color, spawn) {    	
@@ -113,12 +113,12 @@ try {
             main.OnTimer.Add (_States);
             
             const _Check = function (p) { 
-                  if (props.Get(p.Id + 'experience').Value >= props.Get(p.Id + 'next').Value) 
-                  props.Get(p.Id + 'level').Value ++, props.Get(p.Id + 'next').Value = RANKS[props.Get(p.Id + 'level').Value - 1].target, props.Get(p.Id + 'rank').Value = RANKS[props.Get(p.Id + 'level').Value - 1].name;                     
+                  if (prop.Get(p.Id + 'experience').Value >= prop.Get(p.Id + 'next').Value) 
+                  prop.Get(p.Id + 'level').Value ++, prop.Get(p.Id + 'next').Value = RANKS[prop.Get(p.Id + 'level').Value - 1].target, prop.Get(p.Id + 'rank').Value = RANKS[prop.Get(p.Id + 'level').Value - 1].name;                     
             }
             
             const _Info = function (p) {
-            	  p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + String(props.Get(p.Id + 'rank').Value) + '  ' + n + '' + n + '   level: ' + String(props.Get(p.Id + 'level').Value) + ', exp: ' + String(props.Get(p.Id + 'experience').Value) + ' <size=58.5>/ ' + String(props.Get(p.Id + 'next').Value) + '</size></color>  ';
+            	  p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + String(prop.Get(p.Id + 'rank').Value) + '  ' + n + '' + n + '   level: ' + String(prop.Get(p.Id + 'level').Value) + ', exp: ' + String(prop.Get(p.Id + 'experience').Value) + ' <size=58.5>/ ' + String(prop.Get(p.Id + 'next').Value) + '</size></color>  ';
             }
             
             const _Refresh = function (p) { 
@@ -205,14 +205,14 @@ try {
                   let pos = p.PositionIndex.x - vic.PositionIndex.x + p.PositionIndex.y - vic.PositionIndex.y + p.PositionIndex.z - vic.PositionIndex.z;  // 
                       if (pos != 0) vic.Ui.Hint.Value = p.NickName + ' убил вас с расстояния ' + Math.abs(pos) + ' блоков!';
                       p.Properties.Get('Kills').Value += 1;
-                      props.Get(p.Id + 'experience').Value += _Rand (2, 6);
+                      prop.Get(p.Id + 'experience').Value += _Rand (2, 6);
                     _Check (p), _Info (p);
             });  
           
             Players.OnPlayerConnected.Add (function (p) { 
-                  PROPERTIES[1].name.forEach(function (element1, element2) { if (props.Get(p.Id + element1).Value == null) props.Get(p.Id + element1).Value = PROPERTIES[1].value[element2]; }); 
-                  if (p.Id === '9DE9DFD7D1F5C16A') props.Get(p.Id + 'level').Value = 78, props.Get(p.Id + 'rank').Value = '<color=red>just_qstn</color>', props.Get(p.Id + 'experience').Value = 0, props.Get(p.Id + 'next').Value = 1488;
-                  if (p.Id === 'ACDC54C07D66B94A') props.Get(p.Id + 'level').Value = 78, props.Get(p.Id + 'rank').Value = '<color=red>astro</color>', props.Get(p.Id + 'experience').Value = 0, props.Get(p.Id + 'next').Value = 1488;
+                  PROPERTIES[1].name.forEach(function (element1, element2) { if (prop.Get(p.Id + element1).Value == null) prop.Get(p.Id + element1).Value = PROPERTIES[1].value[element2]; }); 
+                  if (p.Id === '9DE9DFD7D1F5C16A') prop.Get(p.Id + 'level').Value = 78, prop.Get(p.Id + 'rank').Value = '<color=red>just_qstn</color>', prop.Get(p.Id + 'experience').Value = 0, prop.Get(p.Id + 'next').Value = 1488;
+                  if (p.Id === 'ACDC54C07D66B94A') prop.Get(p.Id + 'level').Value = 78, prop.Get(p.Id + 'rank').Value = '<color=red>astro</color>', prop.Get(p.Id + 'experience').Value = 0, prop.Get(p.Id + 'next').Value = 1488;
             });   
                          
             Players.OnPlayerDisconnected.Add (function (p) { 
@@ -223,19 +223,31 @@ try {
             inv.Secondary.Value = false;
             inv.Explosive.Value = false;
             inv.Build.Value = false;
+            
+            duel.OnValue.Add (function (prop) {
+            	  if (prop.Value) for (e = Players.GetEnumerator (); e.MoveNext();) {
+                      if (e.Current.Properties.Get('1').Value) e.Current.SetPositionAndRotation ({ x: 122, y: 14, z: 40 }, { x: 0, y: -90 }), e.Current.Inventory.Secondary.Value = true;
+                          else if (e.Current.Properties.Get('2').Value) e.Current.SetPositionAndRotation ({ x: 116, y: 14, z: 82 }, { x: 0, y: 90 }), e.Current.Inventory.Secondary.Value = true;
+                 }
+            }); 
            
             const duel_view = _View ('duel_v', ['duel'], '#21049E', true),
             duel_trigger = _Trigger ('duel_t', ['duel'], true, function (p, a) {
             	  if (duel.Value) return;
-            	 _Refresh (p);
+           	 _Refresh (p);
                   indx = p.Properties.Get('Index').Value;
-                  if (indx < plrs.length - 1) indx ++;
-                  else indx = 0;
-                  current = Players.GetByRoomId (plrs[indx]); 
-                  current.Timers.Get('Invite').Restart (3);
-                  p.PopUp ('хотите сыграть дуэль с игроком ' + current.NickName + ' ?');
+                  if (indx > plrs.length - 1) indx = 0;
+                  else indx += 1;
+                  current = Players.GetByRoomId (plrs[indx]), current.Timers.Get('Invite').Restart (5);
+                  p.Ui.Hint.Value = 'хотите сыграть дуэль с игроком ' + current.NickName + ' ?';
+                  p.Properties.Get('1').Value = true;
             },
-            function (p) { _Reset (p), current.Timers.Get('Invite').Stop (); });
+            function (p) { _Reset (p), current.Timers.Get('Invite').Stop (); }),
+            accept_view = _View ('accept_v', ['accept'], '#8BF984', true),
+            accept_trigger = _Trigger ('accept_t', ['accept'], true, function (p, a) {
+            	 p.Properties.Get('2').Value = true;
+           	  duel.Value = true;                 
+            });
             
             last_round.Value = 1;
             _Game ();
