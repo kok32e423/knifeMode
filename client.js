@@ -53,7 +53,7 @@ try {
             }            
             
             update.OnTimer.Add (function () {
-            	 if (!duel.Value) Players.GetByRoomId (last.Value).Spawns.Spawn (), Players.GetByRoomId (plrs [indx]).Spawns.Spawn ();
+            	 if (duel.Value == false) Players.GetByRoomId (last.Value).Spawns.Spawn (), Players.GetByRoomId (plrs [indx]).Spawns.Spawn ();
                _Update ();
             });
                
@@ -180,12 +180,15 @@ try {
                           p.Properties.Immortality.Value = false; 
                       break;
                       case 'Invite':
+                          if (!p.IsAlive) return t.Stop ();
                           p.Position = { x: 92, y: 12, z: 48 };
                           p.Ui.Hint.Value = n + 'вас пригласили на дуэль!';
                           p.Timers.Get('Spawn').Restart (8);
                       break;
                       case 'Spawn':
                           p.Spawns.Spawn ();
+                        _Reset (p);
+                          last.Value = null;
                       break;
                 }
             });
@@ -216,7 +219,7 @@ try {
                       p.Properties.Get('Kills').Value += 1;
                       prop.Get(p.Id + 'experience').Value += _Rand (2, 6);
                     _Check (p), _Info (p);
-                    if (duel.Value && p.Inventory.Secondary.Value) duel.Value = false;
+                      if (duel.Value && p.Inventory.Secondary.Value) duel.Value = false;
             });  
           
             Players.OnPlayerConnected.Add (function (p) { 
