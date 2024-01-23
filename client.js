@@ -80,6 +80,7 @@ try {
             const _Game = function () {
                    s.Value = 'game', _Spawn (), main.Restart (115); 
                    duel.Value = false; 
+                   last.Value = null;
             }   
             
             const _End = function (t) { 
@@ -178,6 +179,8 @@ try {
                       break;
                       case 'Invite':
                           p.Position = { x: 92, y: 12, z: 48 };
+                          let p2 = Players.GetByRoomId (last.Value);
+                          p.Ui.Hint.Value = n + p2.NickName + 'хочет сыграть с вами дуэль!';
                       break;
                 }
             });
@@ -185,7 +188,9 @@ try {
             Spawns.OnSpawn.Add (function (p) {
                    p.Properties.Get('Immortality').Value = true;
                    p.Timers.Get('Immo').Restart (3);   
+                   p.contextedProperties.MaxHp.Value = 35; 
                    _Reset (p);
+                   if (p.Inventory.Secondary.Value) p.Inventory.Secondary.Value = false;
             }); 
             
             Spawns.OnDespawn.Add (function (p) {
@@ -197,8 +202,6 @@ try {
             Damage.OnDeath.Add (function (p) {
             	  update.Restart (1);
                   p.Properties.Get('Deaths').Value += 1;
-                  p.contextedProperties.MaxHp.Value = 35; 
-                  if (duel.Value) p.Inventory.Secondary.Value = false;
             }); 
                       
             Damage.OnKill.Add (function (p, vic) {
@@ -206,6 +209,7 @@ try {
                       return;
                   let pos = p.PositionIndex.x - vic.PositionIndex.x + p.PositionIndex.y - vic.PositionIndex.y + p.PositionIndex.z - vic.PositionIndex.z;  // 
                       if (pos != 0) vic.Ui.Hint.Value = p.NickName + ' убил вас с расстояния ' + Math.abs(pos) + ' блоков!';
+                      if (duel.Value) p.Spawns.Spawn ();
                       p.Properties.Get('Kills').Value += 1;
                       prop.Get(p.Id + 'experience').Value += _Rand (2, 6);
                     _Check (p), _Info (p);
@@ -228,26 +232,28 @@ try {
             
             duel.OnValue.Add (function (prop) {
             	  if (prop.Value) {
-                      let p = Players.GetByRoomId (last);
-                      let opponent = Players.GetByRoomId (plrs[indx]);
-                      p.SetPositionAndRotation ({ x: 122, y: 14, z: 40 }, { x: 0, y: - 90 });
-                      p.Inventory.Secondary.Value = true;
-                      p.Ui.Hint.Value = n + 'дуэль началась!';
-                      opponent.SetPositionAndRotation ({ x: 116, y: 14, z: 82 }, { x: 0, y: 90 });
-                      opponent.Inventory.Secondary.Value = true;
-                      opponent.Ui.Hint.Value = n + 'дуэль началась!';
+                      let a = Players.GetByRoomId (last.Value);
+                      let e = Players.GetByRoomId (plrs[indx]);
+                      a.contextedProperties.MaxHp.Value = 100; 
+                      e.contextedProperties.MaxHp.Value = 100; 
+                      a.SetPositionAndRotation ({ x: 122, y: 14, z: 40 }, { x: 0, y: - 90 });
+                      e.SetPositionAndRotation ({ x: 116, y: 14, z: 82 }, { x: 0, y: 90 });
+                      a.Inventory.Secondary.Value = true;
+                      e.Inventory.Secondary.Value = true;
+                      a.Ui.Hint.Value = n + 'дуэль началась!!'; 
+                      e.Ui.Hint.Value = n + 'дуэль началась!!';
                  } 
             }); 
            
             const duel_view = _View ('duel_v', ['duel'], '#21049E', true),
             duel_trigger = _Trigger ('duel_t', ['duel'], true, function (p, a) {
-            	  if (duel.Value) return;
+            	  if (duel.Value || last.Value) return;
            	 _Refresh (p);
                   indx = p.Properties.Get('Index').Value;
                   if (indx < plrs.length - 1) indx ++;
                   else indx = 0;
                   current = Players.GetByRoomId (plrs[indx]), current.Timers.Get('Invite').Restart (5);
-                  last = p.IdInRoom;
+                  last.Value = p.IdInRoom;
                   p.Ui.Hint.Value = 'хотите сыграть дуэль с игроком ' + current.NickName + ' ?';
             },
             function (p) { _Reset (p), current.Timers.Get('Invite').Stop (); }),
