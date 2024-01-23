@@ -11,7 +11,7 @@ try {
                       { name: 'lololoshk', target: 160 },
                       { name: 'странник', target: 185 },
                       { name: 'босс', target: 1000 } 
-            ], PROPERTIES = [{ name: ['wins', 'looses'], value: [0, 0] }, { name: ['next', 'experience', 'level', 'rank'], value: [RANKS[0].target, 0, 1, RANKS[0].name] }], prop = Properties.GetContext(), s = prop.Get('state'), last_round = prop.Get('l_round'), duel = prop.Get('duel'), inv = Inventory.GetContext(), main = Timers.GetContext().Get('main'), update = Timers.GetContext().Get('update'), ui = Ui.GetContext(), spawn = Spawns.GetContext(), con_prop = contextedProperties.GetContext(), BLACKLIST = '2F5C420A6D9AC5DE|FC31765F7E136211|C002224F3666744D|596D1288BD7F8CF7|C925816BE50844A9|9B94CBC25664BD6D|2F665AF97FA6F0EF|E24BE3448F7DF371|CBCE0678C099C56E';            
+            ], PROPERTIES = [{ name: ['wins', 'looses'], value: [0, 0] }, { name: ['next', 'experience', 'level', 'rank'], value: [RANKS[0].target, 0, 1, RANKS[0].name] }], prop = Properties.GetContext(), s = prop.Get('state'), round = prop.Get('round'), duel = prop.Get('duel'), inv = Inventory.GetContext(), main = Timers.GetContext().Get('main'), update = Timers.GetContext().Get('update'), ui = Ui.GetContext(), spawn = Spawns.GetContext(), con_prop = contextedProperties.GetContext(), BLACKLIST = '2F5C420A6D9AC5DE|FC31765F7E136211|C002224F3666744D|596D1288BD7F8CF7|C925816BE50844A9|9B94CBC25664BD6D|2F665AF97FA6F0EF|E24BE3448F7DF371|CBCE0678C099C56E';            
             let 
             plrs = [];
             
@@ -84,7 +84,7 @@ try {
             
             const _End = function (t) { 
                    s.Value = 'end';
-                   last_round.Value += 1;
+                   round.Value += 1;
                    if (t) {
                    	for (e = Players.GetEnumerator (); e.MoveNext();) if (e.Current.Team == t) e.Current.Properties.Get('Scores').Value += 1;
                            t.Properties.Get('wins').Value += 1, _Another (t).Properties.Get('looses').Value += 1;
@@ -123,7 +123,7 @@ try {
             
             const _Refresh = function (p) { 
             	  plrs = [];
-                  for (e = Players.GetEnumerator (); e.MoveNext();) if (/*e.Current.Team == _Another (p.Team) && */e.Current.Spawns.IsSpawned && e.Current.IsAlive) plrs.push (e.Current.IdInRoom);
+                  for (e = Players.GetEnumerator (); e.MoveNext();) if (/*e.Current.Team == _Another (p.Team) && */ e.Current.IsAlive) plrs.push (e.Current.IdInRoom);
             }
              
             const _Reset = function (p) { 
@@ -186,6 +186,7 @@ try {
                    p.Timers.Get('Immo').Restart (3);   
                    p.Properties.Get('Index').Value = 0;
                    _Reset (p);
+                   Players.Get('katze').Ui.Hint.Value = '-';
             }); 
             
             Spawns.OnDespawn.Add (function (p) {
@@ -240,7 +241,6 @@ try {
                   else indx = 0;
                   current = Players.GetByRoomId (plrs[indx]), current.Timers.Get('Invite').Restart (5);
                   p.Ui.Hint.Value = 'хотите сыграть дуэль с игроком ' + current.NickName + ' ?';
-                  p.Properties.Get('1').Value = true;
             },
             function (p) { _Reset (p), current.Timers.Get('Invite').Stop (); }),
             accept_view = _View ('accept_v', ['accept'], '#8BF984', true),
@@ -249,7 +249,7 @@ try {
            	  duel.Value = true;                 
             });
             
-            last_round.Value = 1;
+            round.Value = 1;
             _Game ();
             con_prop.MaxHp.Value = 35; 
             
