@@ -179,16 +179,13 @@ try {
                       break;
                       case 'Invite':
                           p.Position = { x: 92, y: 12, z: 48 };
-                          let p2 = Players.GetByRoomId (last.Value);
-                          p.Ui.Hint.Value = n + p2.NickName + 'хочет сыграть с вами дуэль!';
                       break;
                 }
             });
                                                                                        
             Spawns.OnSpawn.Add (function (p) {
                    p.Properties.Get('Immortality').Value = true;
-                   p.Timers.Get('Immo').Restart (3);   
-                   p.contextedProperties.MaxHp.Value = 35; 
+                   p.Timers.Get('Immo').Restart (3);  
                    _Reset (p);
                    if (p.Inventory.Secondary.Value) p.Inventory.Secondary.Value = false;
             }); 
@@ -234,8 +231,6 @@ try {
             	  if (prop.Value) {
                       let a = Players.GetByRoomId (last.Value);
                       let e = Players.GetByRoomId (plrs[indx]);
-                      a.contextedProperties.MaxHp.Value = 100; 
-                      e.contextedProperties.MaxHp.Value = 100; 
                       a.SetPositionAndRotation ({ x: 122, y: 14, z: 40 }, { x: 0, y: - 90 });
                       e.SetPositionAndRotation ({ x: 116, y: 14, z: 82 }, { x: 0, y: 90 });
                       a.Inventory.Secondary.Value = true;
