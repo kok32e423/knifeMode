@@ -52,7 +52,10 @@ try {
                  }
             }            
             
-            update.OnTimer.Add (_Update);
+            update.OnTimer.Add (function () {
+            	 if (!duel.Value) Players.GetByRoomId (last.Value).Spawns.Spawn (), Players.GetByRoomId (plrs [indx]).Spawns.Spawn ();
+               _Update ();
+            });
                
             const _Spawn = function () { 
                     for (e = Teams.GetEnumerator (); e.MoveNext();) e.Current.Spawns.Spawn(); 
@@ -79,8 +82,7 @@ try {
                       
             const _Game = function () {
                    s.Value = 'game', _Spawn (), main.Restart (115); 
-                   duel.Value = false; 
-                   last.Value = null;
+                   duel.Value = null, last.Value = null;
             }   
             
             const _End = function (t) { 
@@ -124,7 +126,7 @@ try {
             
             const _Refresh = function (p) { 
             	  plrs = [];
-                  for (e = Players.GetEnumerator (); e.MoveNext();) if (/*e.Current.Team == _Another (p.Team) && */ e.Current.IsAlive) plrs.push (e.Current.IdInRoom);
+                  for (e = Players.GetEnumerator (); e.MoveNext();) if (e.Current.Team == _Another (p.Team) && e.Current.Spawns.IsSpawned && e.Current.IsAlive) plrs.push (e.Current.IdInRoom);
             }
              
             const _Reset = function (p) { 
@@ -179,6 +181,11 @@ try {
                       break;
                       case 'Invite':
                           p.Position = { x: 92, y: 12, z: 48 };
+                          p.Ui.Hint.Value = n + 'вас пригласили на дуэль!';
+                          p.Timers.Get('Spawn').Restart (8);
+                      break;
+                      case 'Spawn':
+                          p.Spawns.Spawn ();
                       break;
                 }
             });
@@ -206,10 +213,10 @@ try {
                       return;
                   let pos = p.PositionIndex.x - vic.PositionIndex.x + p.PositionIndex.y - vic.PositionIndex.y + p.PositionIndex.z - vic.PositionIndex.z;  // 
                       if (pos != 0) vic.Ui.Hint.Value = p.NickName + ' убил вас с расстояния ' + Math.abs(pos) + ' блоков!';
-                      if (duel.Value) p.Spawns.Spawn ();
                       p.Properties.Get('Kills').Value += 1;
                       prop.Get(p.Id + 'experience').Value += _Rand (2, 6);
                     _Check (p), _Info (p);
+                    if (duel.Value && p.Inventory.Secondary.Value) duel.Value = false;
             });  
           
             Players.OnPlayerConnected.Add (function (p) { 
@@ -228,22 +235,18 @@ try {
             inv.Build.Value = false;
             
             duel.OnValue.Add (function (prop) {
-            	  if (prop.Value) {
-                      let a = Players.GetByRoomId (last.Value);
-                      let e = Players.GetByRoomId (plrs[indx]);
-                      a.SetPositionAndRotation ({ x: 122, y: 14, z: 40 }, { x: 0, y: - 90 });
-                      e.SetPositionAndRotation ({ x: 116, y: 14, z: 82 }, { x: 0, y: 90 });
-                      a.Inventory.Secondary.Value = true;
-                      e.Inventory.Secondary.Value = true;
-                      a.Ui.Hint.Value = n + 'дуэль началась!!'; 
-                      e.Ui.Hint.Value = n + 'дуэль началась!!';
+            	if (prop.Value) {
+                      let p1 = Players.GetByRoomId (last.Value);
+                      let p2 = Players.GetByRoomId (plrs[indx]);
+                      p1.SetPositionAndRotation ({ x: 122, y: 14, z: 40 }, { x: 0, y: - 90 }), p2.SetPositionAndRotation ({ x: 116, y: 14, z: 82 }, { x: 0, y: 90 });
+                      p1.Inventory.Secondary.Value = true, p2.Inventory.Secondary.Value = true;
+                      p1.Ui.Hint.Value = n + 'дуэль началась!!', p2.Ui.Hint.Value = n + 'дуэль началась!!';
                  } 
-            }); 
-           
-            const duel_view = _View ('duel_v', ['duel'], '#21049E', true),
-            duel_trigger = _Trigger ('duel_t', ['duel'], true, function (p, a) {
+            });
+            
+            const invite_view = _View ('invite_v', ['invite'], '#FFD2E7', true),
+            invite_trigger = _Trigger ('invite_t', ['invite'], true, function (p, a) {
             	  if (duel.Value || last.Value) return;
-           	 _Refresh (p);
                   indx = p.Properties.Get('Index').Value;
                   if (indx < plrs.length - 1) indx ++;
                   else indx = 0;
@@ -251,9 +254,18 @@ try {
                   last.Value = p.IdInRoom;
                   p.Ui.Hint.Value = 'хотите сыграть дуэль с игроком ' + current.NickName + ' ?';
             },
-            function (p) { _Reset (p), current.Timers.Get('Invite').Stop (); }),
             
-            accept_view = _View ('accept_v', ['accept'], '#8BF984', true), accept_trigger = _Trigger ('accept_t', ['accept'], true, function (p, a) { duel.Value = true; });
+            function (p) { 
+                  if (last.Value == p.IdInRoom) last.Value = null;
+                  else return;
+                _Reset (p);
+                  current.Timers.Get('Invite').Stop ();
+            }),
+            
+            refresh_view = _View ('ref_v', ['refresh'], '#ABFBFE', true),
+            refresh_trigger = _Trigger ('ref_t', ['refresh'], true, function (p, a) { _Refresh (p), p.Ui.Hint.Value = n + 'список игроков обновлен!'; }, _Reset ),            
+            accept_view = _View ('accept_v', ['accept'], '#8BF984', true), 
+            accept_trigger = _Trigger ('accept_t', ['accept'], true, function (p, a) { duel.Value = true, p.Timers.Get('Spawn').Stop (); });
             
             round.Value = 1;
             _Game ();
