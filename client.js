@@ -11,7 +11,7 @@ try {
                       { name: 'lololoshk', target: 160 },
                       { name: 'странник', target: 185 },
                       { name: 'босс', target: 1000 } 
-            ], PROPERTIES = [{ name: ['wins', 'looses'], value: [0, 0] }, { name: ['next', 'experience', 'level', 'rank'], value: [RANKS[0].target, 0, 1, RANKS[0].name] }], prop = Properties.GetContext(), s = prop.Get('state'), round = prop.Get('round'), duel = prop.Get('duel'), inv = Inventory.GetContext(), main = Timers.GetContext().Get('main'), update = Timers.GetContext().Get('update'), ui = Ui.GetContext(), spawn = Spawns.GetContext(), con_prop = contextedProperties.GetContext(), BLACKLIST = '2F5C420A6D9AC5DE|FC31765F7E136211|C002224F3666744D|596D1288BD7F8CF7|C925816BE50844A9|9B94CBC25664BD6D|2F665AF97FA6F0EF|E24BE3448F7DF371|CBCE0678C099C56E';            
+            ], PROPERTIES = [{ name: ['wins', 'looses'], value: [0, 0] }, { name: ['next', 'experience', 'level', 'rank'], value: [RANKS[0].target, 0, 1, RANKS[0].name] }], prop = Properties.GetContext(), s = prop.Get('state'), round = prop.Get('round'), duel = prop.Get('duel'), last = prop.Get('last'), inv = Inventory.GetContext(), main = Timers.GetContext().Get('main'), update = Timers.GetContext().Get('update'), ui = Ui.GetContext(), spawn = Spawns.GetContext(), con_prop = contextedProperties.GetContext(), BLACKLIST = '2F5C420A6D9AC5DE|FC31765F7E136211|C002224F3666744D|596D1288BD7F8CF7|C925816BE50844A9|9B94CBC25664BD6D|2F665AF97FA6F0EF|E24BE3448F7DF371|CBCE0678C099C56E';            
             let 
             plrs = [];
             
@@ -147,6 +147,7 @@ try {
             Teams.OnRequestJoinTeam.Add (function (p, team) {
                    if (s.Value === 'end' || _Found (BLACKLIST, p.Id, '|')) return;
                    team.Add (p);  
+                   p.Properties.Get('Index').Value = 0;
             });
                
             Teams.OnPlayerChangeTeam.Add (function (p) { 
@@ -184,9 +185,7 @@ try {
             Spawns.OnSpawn.Add (function (p) {
                    p.Properties.Get('Immortality').Value = true;
                    p.Timers.Get('Immo').Restart (3);   
-                   p.Properties.Get('Index').Value = 0;
                    _Reset (p);
-                   Players.Get('katze').Ui.Hint.Value = '-';
             }); 
             
             Spawns.OnDespawn.Add (function (p) {
@@ -198,6 +197,8 @@ try {
             Damage.OnDeath.Add (function (p) {
             	  update.Restart (1);
                   p.Properties.Get('Deaths').Value += 1;
+                  p.contextedProperties.MaxHp.Value = 35; 
+                  if (duel.Value) p.Inventory.Secondary.Value = false;
             }); 
                       
             Damage.OnKill.Add (function (p, vic) {
@@ -226,10 +227,16 @@ try {
             inv.Build.Value = false;
             
             duel.OnValue.Add (function (prop) {
-            	  if (prop.Value) for (e = Players.GetEnumerator (); e.MoveNext();) {
-                      if (e.Current.Properties.Get('1').Value) e.Current.SetPositionAndRotation ({ x: 122, y: 14, z: 40 }, { x: 0, y: -90 }), e.Current.Inventory.Secondary.Value = true;
-                          if (e.Current.Properties.Get('2').Value) e.Current.SetPositionAndRotation ({ x: 116, y: 14, z: 82 }, { x: 0, y: 90 }), e.Current.Inventory.Secondary.Value = true;
-                 }
+            	  if (prop.Value) {
+                      let p = Players.GetByRoomId (last);
+                      let opponent = Players.GetByRoomId (plrs[indx]);
+                      p.SetPositionAndRotation ({ x: 122, y: 14, z: 40 }, { x: 0, y: - 90 });
+                      p.Inventory.Secondary.Value = true;
+                      p.Ui.Hint.Value = n + 'дуэль началась!';
+                      opponent.SetPositionAndRotation ({ x: 116, y: 14, z: 82 }, { x: 0, y: 90 });
+                      opponent.Inventory.Secondary.Value = true;
+                      opponent.Ui.Hint.Value = n + 'дуэль началась!';
+                 } 
             }); 
            
             const duel_view = _View ('duel_v', ['duel'], '#21049E', true),
@@ -240,14 +247,12 @@ try {
                   if (indx < plrs.length - 1) indx ++;
                   else indx = 0;
                   current = Players.GetByRoomId (plrs[indx]), current.Timers.Get('Invite').Restart (5);
+                  last = p.IdInRoom;
                   p.Ui.Hint.Value = 'хотите сыграть дуэль с игроком ' + current.NickName + ' ?';
             },
             function (p) { _Reset (p), current.Timers.Get('Invite').Stop (); }),
-            accept_view = _View ('accept_v', ['accept'], '#8BF984', true),
-            accept_trigger = _Trigger ('accept_t', ['accept'], true, function (p, a) {
-            	 p.Properties.Get('2').Value = true;
-           	  duel.Value = true;                 
-            });
+            
+            accept_view = _View ('accept_v', ['accept'], '#8BF984', true), accept_trigger = _Trigger ('accept_t', ['accept'], true, function (p, a) { duel.Value = true; });
             
             round.Value = 1;
             _Game ();
