@@ -260,6 +260,10 @@ try {
             */
             
             platform_trigger = _Trigger ('platform_t', ['platform'], true, function (p, a) { 
+              	let iter = a.Ranges.GetEnumerator();
+                  iter.MoveNext();
+                  let range = iter.Current;
+                  if (MapEditor.GetBlockId (range.End.x, range.Start.y + 1, range.End.z) == 0) return;
                   MapEditor.SetBlock (a, 0);
                   p.Timers.Get('ret_' + a.Name).Restart (4);
             });
