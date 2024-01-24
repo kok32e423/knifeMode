@@ -177,7 +177,7 @@ try {
                       break;
                       case 'ret_' + id.slice(4) :
                           empty = prop.Get ('is_' + id.slice(4)).Value;
-                          MapEditor.SetBlock (AreaService.Get(id.slice(4)), 3);
+                          MapEditor.SetBlock (AreaService.Get(id.slice(4).Ranges.End.x, AreaService.Get(id.slice(4).Ranges.End.y - 1, AreaService.Get(id.slice(4).Ranges.End.z), 3);
                           empty = false;
                       break;
                 }
