@@ -262,7 +262,7 @@ try {
             platform_trigger = _Trigger ('platform_t', ['platform'], true, function (p, a) { 
             	//  if (MapEditor.GetBlockId (a.Ranges.y - 1) == 0) return;
                   MapEditor.SetBlock (a, 0);
-                  p.Ui.Hint.Value = a.Ranges.y;
+                  p.Ui.Hint.Value = a.Ranges.End.y;
                   p.Timers.Get('ret_' + a.Name).Restart (2);
             });
             
