@@ -52,10 +52,7 @@ try {
                  }
             }            
             
-            update.OnTimer.Add (function () {
-            	 if (duel.Value == false) Players.GetByRoomId (last.Value).Spawns.Spawn (), Players.GetByRoomId (plrs [indx]).Spawns.Spawn ();
-               _Update ();
-            });
+            update.OnTimer.Add (_Update });
                
             const _Spawn = function () { 
                     for (e = Teams.GetEnumerator (); e.MoveNext();) e.Current.Spawns.Spawn(); 
@@ -82,7 +79,6 @@ try {
                       
             const _Game = function () {
                    s.Value = 'game', _Spawn (), main.Restart (115); 
-                   duel.Value = null, last.Value = null;
             }   
             
             const _End = function (t) { 
@@ -179,6 +175,7 @@ try {
                       case 'Immo':
                           p.Properties.Immortality.Value = false; 
                       break;
+                      /*
                       case 'Invite':
                           if (!p.IsAlive) return t.Stop ();
                           p.Position = { x: 92, y: 12, z: 48 };
@@ -190,6 +187,7 @@ try {
                         _Reset (p);
                           last.Value = null;
                       break;
+                      */
                 }
             });
                                                                                        
@@ -219,7 +217,6 @@ try {
                       p.Properties.Get('Kills').Value += 1;
                       prop.Get(p.Id + 'experience').Value += _Rand (2, 6);
                     _Check (p), _Info (p);
-                      if (duel.Value && p.Inventory.Secondary.Value) duel.Value = false;
             });  
           
             Players.OnPlayerConnected.Add (function (p) { 
@@ -237,6 +234,7 @@ try {
             inv.Explosive.Value = false;
             inv.Build.Value = false;
             
+            /*
             duel.OnValue.Add (function (prop) {
             	if (prop.Value) {
                       let p1 = Players.GetByRoomId (last.Value);
@@ -269,6 +267,11 @@ try {
             refresh_trigger = _Trigger ('ref_t', ['refresh'], true, function (p, a) { _Refresh (p), p.Ui.Hint.Value = n + 'список игроков обновлен!'; }, _Reset ),            
             accept_view = _View ('accept_v', ['accept'], '#8BF984', true), 
             accept_trigger = _Trigger ('accept_t', ['accept'], true, function (p, a) { duel.Value = true, p.Timers.Get('Spawn').Stop (); });
+            */
+            
+            platform_trigger = _Trigger ('platform_t', ['platform'], true, function (p, a) { 
+                MapEditor.SetBlock(a, 8);
+            });
             
             round.Value = 1;
             _Game ();
