@@ -180,7 +180,7 @@ try {
                           e = AreaService.Get(id.slice(4)).Ranges.GetEnumerator();
                           e.moveNext();
                           range = e.Current;
-                          MapEditor.SetBlock (range.Start.x + 1, range.Start.y + 1, range.Start.z + 1, 3);
+                          MapEditor.SetBlock (range.End.x, range.Start.y + 1, range.End.z + 1, 3);
                           empty = false;
                       break;
                 }
