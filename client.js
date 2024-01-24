@@ -175,19 +175,9 @@ try {
                       case 'Immo':
                           p.Properties.Immortality.Value = false; 
                       break;
-                      /*
-                      case 'Invite':
-                          if (!p.IsAlive) return t.Stop ();
-                          p.Position = { x: 92, y: 12, z: 48 };
-                          p.Ui.Hint.Value = n + 'вас пригласили на дуэль!';
-                          p.Timers.Get('Spawn').Restart (8);
+                      case 'ret_' + id.slice(4) :
+                          MapEditor.SetBlock (AreaService.Get(id.slice(4)), 3);
                       break;
-                      case 'Spawn':
-                          p.Spawns.Spawn ();
-                        _Reset (p);
-                          last.Value = null;
-                      break;
-                      */
                 }
             });
                                                                                        
@@ -270,7 +260,9 @@ try {
             */
             
             platform_trigger = _Trigger ('platform_t', ['platform'], true, function (p, a) { 
+            	  if (MapEditor.GetBlockId (a) == 0) return;
                   MapEditor.SetBlock (a, 0);
+                  p.Timers.Get('ret_' + a.Name).Restart (2);
             });
             
             round.Value = 1;
