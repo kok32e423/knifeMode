@@ -177,7 +177,10 @@ try {
                       break;
                       case 'ret_' + id.slice(4) :
                           empty = prop.Get ('is_' + id.slice(4)).Value;
-                          MapEditor.SetBlock (AreaService.Get(id.slice(4)).Ranges.End.x, AreaService.Get(id.slice(4)).Ranges.End.y - 1, AreaService.Get(id.slice(4)).Ranges.End.z, 3);
+                          e = AreaService.Get(id.slice(4)).Ranges.GetEnumerator();
+                          e.moveNext();
+                          range = e.Current;
+                          MapEditor.SetBlock (range.Start.x + 1, range.Start.y + 1, range.Start.z + 1, 3);
                           empty = false;
                       break;
                 }
