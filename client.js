@@ -52,7 +52,7 @@ try {
                  }
             }            
             
-            update.OnTimer.Add (_Update });
+            update.OnTimer.Add (_Update);
                
             const _Spawn = function () { 
                     for (e = Teams.GetEnumerator (); e.MoveNext();) e.Current.Spawns.Spawn(); 
@@ -270,7 +270,7 @@ try {
             */
             
             platform_trigger = _Trigger ('platform_t', ['platform'], true, function (p, a) { 
-                MapEditor.SetBlock(AreaService.Get(a.Name)), 0);
+                  MapEditor.SetBlock (a, 0);
             });
             
             round.Value = 1;
