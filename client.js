@@ -263,7 +263,7 @@ try {
               	let iter = a.Ranges.GetEnumerator();
                   iter.MoveNext();
                   let range = iter.Current;
-                  if (MapEditor.GetBlockId (range.End.x - 1, range.End.y - 1, range.End.z - 1) == 0) return;
+                  if (MapEditor.GetBlockId (range.Start.x - range.End.x - 1, range.Start.y - range.End.y - 1, range.Start.z - range.End.z - 1) == 0) return;
                   MapEditor.SetBlock (a, 0);
                   p.Timers.Get('ret_' + a.Name).Restart (4);
             });
