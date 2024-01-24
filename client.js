@@ -179,7 +179,7 @@ try {
                           empty = prop.Get ('is_' + id.slice(4)).Value;
                           for (e = AreaService.Get(id.slice(4)).Ranges.GetEnumerator(); e.MoveNext();)                        
                           range = e.Current,
-                          MapEditor.SetBlock (range.Start.x + 3, range.Start.y, range.Start.z + 3, 3),
+                          MapEditor.SetBlock (range.Start.x + range.End.x, range.Start.y, range.Start.z + range.End.z, 3),
                           empty = false;
                       break;
                 }
