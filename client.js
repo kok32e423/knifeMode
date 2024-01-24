@@ -176,7 +176,9 @@ try {
                           p.Properties.Immortality.Value = false; 
                       break;
                       case 'ret_' + id.slice(4) :
+                          empty = prop.Get ('is_' + id.slice(4)).Value;
                           MapEditor.SetBlock (AreaService.Get(id.slice(4)), 3);
+                          empty = false;
                       break;
                 }
             });
@@ -260,12 +262,11 @@ try {
             */
             
             platform_trigger = _Trigger ('platform_t', ['platform'], true, function (p, a) { 
-              	let iter = a.Ranges.GetEnumerator();
-                  iter.MoveNext();
-                  let range = iter.Current;
-                  if (MapEditor.GetBlockId (range.Start.x - range.End.x - 1, range.Start.y - range.End.y - 1, range.Start.z - range.End.z - 1) == 0) return;
-                  MapEditor.SetBlock (a, 0);
-                  p.Timers.Get('ret_' + a.Name).Restart (4);
+            	  empty = prop.Get ('is_' + a.Name).Value;
+                  if (empty) return;       
+                  empty = true;        
+                  MapEditor.SetBlock (a, 0); 
+                  p.Timers.Get('ret_' + a.Name).Restart (4);          
             });
             
             round.Value = 1;
