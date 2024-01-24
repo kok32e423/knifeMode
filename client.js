@@ -176,7 +176,7 @@ try {
                           p.Properties.Immortality.Value = false; 
                       break;
                       case 'ret_' + id.slice(4) :
-                          MapEditor.SetBlock (AreaService.Get(id.slice(4)), 3);
+                          MapEditor.SetBlock (AreaService.Get(id.slice(4)).End.x - 1, AreaService.Get(id.slice(4)).End.y - 1, AreaService.Get(id.slice(4)).End.z - 1, 3);
                       break;
                 }
             });
@@ -260,7 +260,7 @@ try {
             */
             
             platform_trigger = _Trigger ('platform_t', ['platform'], true, function (p, a) { 
-            	  if (MapEditor.GetBlockId (a.Ranges.End.y - 1) == 0) return;
+            	 // if (MapEditor.GetBlockId (a.Ranges.End.y - 1) == 0) return;
                   MapEditor.SetBlock (a, 0);
                   p.Timers.Get('ret_' + a.Name).Restart (2);
             });
