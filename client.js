@@ -270,7 +270,7 @@ try {
             */
             
             platform_trigger = _Trigger ('platform_t', ['platform'], true, function (p, a) { 
-                MapEditor.SetBlock(a, 8);
+                MapEditor.SetBlock(AreaService.Get(a.Name)), 0);
             });
             
             round.Value = 1;
