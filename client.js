@@ -276,7 +276,7 @@ try {
             
             platform_trigger = _Trigger ('platform_t', ['platform'], true, function (p, a) { 
             	  _a = AreaService.Get ('pl_' + a.Name);
-                  if (MapEditor.GetBlockId (_a) == 0) return;
+                 // if (MapEditor.GetBlockId (_a) == 0) return;
                   MapEditor.SetBlock (_a, 0); 
                   p.Team.Timers.Get('ret_' + _a.Name).Restart (4);          
             }); 
