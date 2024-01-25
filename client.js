@@ -120,9 +120,9 @@ try {
             	  p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + String(prop.Get(p.Id + 'rank').Value) + '  ' + n + '' + n + '   level: ' + String(prop.Get(p.Id + 'level').Value) + ', exp: ' + String(prop.Get(p.Id + 'experience').Value) + ' <size=58.5>/ ' + String(prop.Get(p.Id + 'next').Value) + '</size></color>  ';
             }
             
-            const _Refresh = function (p) { 
+            const _Refresh = function (t) { 
             	  plrs = [];
-                  for (e = Players.GetEnumerator (); e.MoveNext();) if (e.Current.Team == _Another (p.Team) && e.Current.Spawns.IsSpawned && e.Current.IsAlive) plrs.push (e.Current.IdInRoom);
+                  for (e = Players.GetEnumerator (); e.MoveNext();) if (e.Current.Team == t && e.Current.Spawns.IsSpawned && e.Current.IsAlive) plrs.push (e.Current.IdInRoom);
             }
              
             const _Reset = function (p) { 
@@ -133,6 +133,14 @@ try {
                    { Value: 'Kills', ShortDisplayName: '<size=11.9><b>ᴋ</b></size>' },
                    { Value: 'Deaths', ShortDisplayName: '<size=11.9><b>ᴅ</b></size>' }
             ];
+            
+            LeaderBoard.TeamWeightGetter.Set (function (team) {
+                   return team.Properties.Get('looses').Value;
+            });
+            
+            LeaderBoard.PlayersWeightGetter.Set (function (p) {
+                   return p.Properties.Get('Kills').Value;
+            });
                       
             spawn.RespawnEnable = false, BreackGraph.Damage = false, ui.MainTimerId.Value = main.Id;  
             TeamsBalancer.IsAutoBalance = true;
@@ -175,16 +183,19 @@ try {
                       case 'Immo':
                           p.Properties.Immortality.Value = false; 
                       break;
+                }
+            });
+            
+            Timers.OnTeamTimer.Add (function (t) { 
+                  let p = t.Player,
+                  id = t.Id;   
+                  switch (id) {
                       case 'ret_' + id.slice(4) :
-                          empty = prop.Get ('is_' + id.slice(4)).Value;
-                          for (e = AreaService.Get(id.slice(4)).Ranges.GetEnumerator(); e.MoveNext();)                        
-                          range = e.Current,
-                          MapEditor.SetBlock (range.Start.x - range.End.x, range.Start.y, range.Start.z - range.End.z, 3),
-                          empty = false;
+                          MapEditor.SetBlock (AreaService.Get (id.slice(4).split('|')[0]), id.slice(4).split('|')[1]);
                       break;
                 }
             });
-                                                                                       
+                                                                                                                                       
             Spawns.OnSpawn.Add (function (p) {
                    p.Properties.Get('Immortality').Value = true;
                    p.Timers.Get('Immo').Restart (3);  
@@ -264,12 +275,11 @@ try {
             */
             
             platform_trigger = _Trigger ('platform_t', ['platform'], true, function (p, a) { 
-            	  empty = prop.Get ('is_' + a.Name).Value;
-                  if (empty) return;       
-                  empty = true;        
-                  MapEditor.SetBlock (a, 0); 
-                  p.Timers.Get('ret_' + a.Name).Restart (4);          
-            });
+            	  _a = AreaService.Get ('pl_' + a.Name);
+                  if (MapEditor.GetBlockId (_a) == 0) return;
+                  MapEditor.SetBlock (_a, 0); 
+                  p.Team.Timers.Get('ret_' + _a.Name).Restart (4);          
+            }); 
             
             round.Value = 1;
             _Game ();
