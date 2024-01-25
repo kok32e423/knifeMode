@@ -187,7 +187,7 @@ try {
             });
             
             Timers.OnTeamTimer.Add (function (t) { 
-                  let p = t.Player,
+                  let p = t.Team,
                   id = t.Id;   
                   switch (id) {
                       case 'ret_' + id.slice(4) :
