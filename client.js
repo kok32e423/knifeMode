@@ -212,7 +212,7 @@ try {
             Damage.OnKill.Add (function (p, vic) {
                   if (vic.Team == p.Team)
                       return;
-                  let pos = p.PositionIndex.x - vic.PositionIndex.x + p.PositionIndex.y - vic.PositionIndex.y + p.PositionIndex.z - vic.PositionIndex.z;  // 
+                  let pos = p.PositionIndex.ToVector () - vic.PositionIndex.ToVector;  // 
                       if (pos != 0) vic.Ui.Hint.Value = p.NickName + ' убил вас с расстояния ' + Math.abs(pos) + ' блоков!';
                       p.Properties.Get('Kills').Value += 1;
                       prop.Get(p.Id + 'experience').Value += _Rand (2, 6);
