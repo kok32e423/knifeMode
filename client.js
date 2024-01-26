@@ -214,17 +214,15 @@ try {
             Damage.OnKill.Add (function (p, vic) {
                   if (vic.Team == p.Team)
                       return;
-                      pos = p.PositionIndex.ToVector() - vic.PositionIndex.ToVector(); // 
-                      if (pos != 0) vic.Ui.Hint.Value = p.NickName + ' убил вас с расстояния ' + Math.abs(pos) + ' блоков!';
-                      p.Properties.Get('Kills').Value += 1;
-                      prop.Get(p.Id + 'experience').Value += _Rand (2, 6);
-                    _Check (p), _Info (p);
+                  pos = p.PositionIndex.x - vic.PositionIndex.x - p.PositionIndex.y - vic.PositionIndex.y - p.PositionIndex.z - vic.PositionIndex.z; // 
+                  if (pos != 0) vic.Ui.Hint.Value = p.NickName + ' убил вас с расстояния ' + String(Math.abs(pos)) + ' блоков!';
+                  p.Properties.Get('Kills').Value += 1;
+                  prop.Get(p.Id + 'experience').Value += _Rand (2, 6);
+                _Check (p), _Info (p);
             });  
           
             Players.OnPlayerConnected.Add (function (p) { 
                   PROPERTIES[1].name.forEach(function (element1, element2) { if (prop.Get(p.Id + element1).Value == null) prop.Get(p.Id + element1).Value = PROPERTIES[1].value[element2]; }); 
-                  if (p.Id === '9DE9DFD7D1F5C16A') prop.Get(p.Id + 'level').Value = 78, prop.Get(p.Id + 'rank').Value = '<color=red>just_qstn</color>', prop.Get(p.Id + 'experience').Value = 0, prop.Get(p.Id + 'next').Value = 1488;
-                  if (p.Id === 'ACDC54C07D66B94A') prop.Get(p.Id + 'level').Value = 78, prop.Get(p.Id + 'rank').Value = '<color=red>astro</color>', prop.Get(p.Id + 'experience').Value = 0, prop.Get(p.Id + 'next').Value = 1488;
             });   
                          
             Players.OnPlayerDisconnected.Add (function (p) { 
