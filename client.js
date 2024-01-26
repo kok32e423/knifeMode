@@ -76,14 +76,14 @@ try {
                     for (e = Players.GetEnumerator (); e.MoveNext();) if (e.Current.Team == t && e.Current.Spawns.IsSpawned && e.Current.IsAlive) count++;
                     return count;
             }
+            
+            round.Value = 360;
                       
-            const _Game = function () {
-                   s.Value = 'game', _Spawn (), main.Restart (115); 
-            }   
+            const _Game = function () { s.Value = 'game', _Spawn (), main.Restart (115); }   
             
             const _End = function (t) { 
                    s.Value = 'end';
-                   round.Value += 1;
+                   round.Value -= 1;
                    if (t) {
                    	for (e = Players.GetEnumerator (); e.MoveNext();) if (e.Current.Team == t) e.Current.Properties.Get('Scores').Value += 1;
                            t.Properties.Get('wins').Value += 1, _Another (t).Properties.Get('looses').Value += 1;
@@ -167,9 +167,14 @@ try {
                   team.Ui.TeamProp1.Value = { Team: team.Id, Prop: 'info2' };
             });
             
-            Properties.OnTeamProperty.Add (function (context, e) {
-                  let team = context.Team;
+            Properties.OnTeamProperty.Add (function (context) {
+                  team = context.Team;
                   team.Properties.Get('info2').Value = '  <color=#FFFFFF> Счёт команды:  ' + n + n + '  wins: ' + team.Properties.Get('wins').Value + ', looses: ' + team.Properties.Get('looses').Value + '  </color>'; 
+            });   
+            
+            Properties.OnRoomProperty.Add (function (context) {
+                  room = context.Room;
+                  if (room.Properties.Get('round').Value <= 0) Game.RestartGame ();
             });   
             
             BreackGraph.OnOptions.Add (function () {
@@ -268,7 +273,7 @@ try {
             accept_view = _View ('accept_v', ['accept'], '#8BF984', true), 
             accept_trigger = _Trigger ('accept_t', ['accept'], true, function (p, a) { duel.Value = true, p.Timers.Get('Spawn').Stop (); });
             */
-            /*
+            /* 
             platform_trigger = _Trigger ('platform_t', ['platform'], true, function (p, a) {
                   a2 = AreaService.Get ('_' + a.Name);
                   empty = prop.Get ('is_' + a2.Name).Value;
@@ -276,6 +281,7 @@ try {
                   p.Timers.Get('ret_' + a2.Name).Restart (1);          
             });
             */
+            
             round.Value = 1;
             _Game ();
             con_prop.MaxHp.Value = 35; 
