@@ -269,13 +269,13 @@ try {
             accept_trigger = _Trigger ('accept_t', ['accept'], true, function (p, a) { duel.Value = true, p.Timers.Get('Spawn').Stop (); });
             */
             
-            platform_trigger = _Trigger ('platform_t', ['platform'], true, function (p, a) { 
-            	  empty = prop.Get ('is_' + a.Name).Value;
-                  area = AreaService.Get ('_' + a.Name);
+            platform_trigger = _Trigger ('platform_t', ['platform'], true, function (p, a) {
+                  a_ = AreaService.Get ('_' + a.Name);
+                  empty = prop.Get ('is_' + a_.Name).Value;
                   if (empty) return;       
                   empty = true;                          
-                  MapEditor.SetBlock (area, 0); 
-                  p.Timers.Get('ret_' + area.Name).Restart (4);          
+                  MapEditor.SetBlock (a_, 0); 
+                  p.Timers.Get('ret_' + a_.Name).Restart (4);          
             });
             
             round.Value = 1;
