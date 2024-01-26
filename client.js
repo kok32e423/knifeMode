@@ -183,19 +183,14 @@ try {
                       case 'Immo':
                           p.Properties.Immortality.Value = false; 
                       break;
-                }
-            });
-            
-            Timers.OnTeamTimer.Add (function (t) { 
-                  let p = t.Team,
-                  id = t.Id;   
-                  switch (id) {
                       case 'ret_' + id.slice(4) :
-                          MapEditor.SetBlock (AreaService.Get (id.slice(4).split('|')[0]), id.slice(4).split('|')[1]);
+                          empty = prop.Get ('is_' + id.slice(4)).Value;
+                          MapEditor.SetBlock (id.slice(4), 3);
+                          empty = false;
                       break;
                 }
             });
-                                                                                                                                       
+                                                                                       
             Spawns.OnSpawn.Add (function (p) {
                    p.Properties.Get('Immortality').Value = true;
                    p.Timers.Get('Immo').Restart (3);  
@@ -275,11 +270,13 @@ try {
             */
             
             platform_trigger = _Trigger ('platform_t', ['platform'], true, function (p, a) { 
-            	  _a = AreaService.Get ('pl_' + a.Name);
-                 // if (MapEditor.GetBlockId (_a) == 0) return;
-                  MapEditor.SetBlock (_a, 0); 
-                  p.Team.Timers.Get('ret_' + _a.Name).Restart (4);          
-            }); 
+            	  empty = prop.Get ('is_' + a.Name).Value;
+                  area = AreaService.Get ('_' + a.Name);
+                  if (empty) return;       
+                  empty = true;                          
+                  MapEditor.SetBlock (area, 0); 
+                  p.Timers.Get('ret_' + area.Name).Restart (4);          
+            });
             
             round.Value = 1;
             _Game ();
