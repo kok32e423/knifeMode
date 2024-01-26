@@ -185,8 +185,8 @@ try {
                       break;
                       case 'ret_' + id.slice(4) :
                           empty = prop.Get ('is_' + id.slice(4)).Value;
-                          MapEditor.SetBlock (AreaService.Get(id.slice(4)), 3);
-                          empty = false;
+                          if (empty) MapEditor.SetBlock (AreaService.Get(id.slice(4)), 3), empty = false;
+                              else MapEditor.SetBlock (id.slice(4)), 0), empty = true;                  
                       break;
                 }
             });
@@ -272,10 +272,8 @@ try {
             platform_trigger = _Trigger ('platform_t', ['platform'], true, function (p, a) {
                   a2 = AreaService.Get ('_' + a.Name);
                   empty = prop.Get ('is_' + a2.Name).Value;
-                  if (empty) return;       
-                  empty = true;                          
-                  MapEditor.SetBlock (a2, 0); 
-                  p.Timers.Get('ret_' + a2.Name).Restart (4);          
+                  if (empty) return;
+                  p.Timers.Get('ret_' + a2.Name).Restart (1);          
             });
             
             round.Value = 1;
