@@ -186,7 +186,7 @@ try {
                       case 'ret_' + id.slice(4) :
                           empty = prop.Get ('is_' + id.slice(4)).Value;
                           if (empty) MapEditor.SetBlock (AreaService.Get(id.slice(4)), 3), empty = false;
-                              else MapEditor.SetBlock (id.slice(4)), 0), empty = true;                  
+                               else MapEditor.SetBlock (id.slice(4)), 0), empty = true;                  
                       break;
                 }
             });
@@ -212,7 +212,7 @@ try {
             Damage.OnKill.Add (function (p, vic) {
                   if (vic.Team == p.Team)
                       return;
-                  let pos = p.PositionIndex.ToVector () - vic.PositionIndex.ToVector;  // 
+                  let pos = p.Position.ToVector () - vic.Position.ToVector ();  // 
                       if (pos != 0) vic.Ui.Hint.Value = p.NickName + ' убил вас с расстояния ' + Math.abs(pos) + ' блоков!';
                       p.Properties.Get('Kills').Value += 1;
                       prop.Get(p.Id + 'experience').Value += _Rand (2, 6);
