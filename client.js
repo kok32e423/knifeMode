@@ -78,16 +78,16 @@ try {
             }
             
             round.Value = 360;
-                      
+                       
             const _Game = function () { s.Value = 'game', _Spawn (), main.Restart (115); }   
             
             const _End = function (t) { 
                    s.Value = 'end';
-                   round.Value -= 1;
                    if (t) {
                    	for (e = Players.GetEnumerator (); e.MoveNext();) if (e.Current.Team == t) e.Current.Properties.Get('Scores').Value += 1;
                            t.Properties.Get('wins').Value += 1, _Another (t).Properties.Get('looses').Value += 1;
-                   }              
+                   } 
+                   round.Value --;             
                    main.Restart (10);                        
             } 
             
@@ -168,13 +168,8 @@ try {
             });
             
             Properties.OnTeamProperty.Add (function (context) {
-                  team = context.Team;
+                  let team = context.Team;
                   team.Properties.Get('info2').Value = '  <color=#FFFFFF> Счёт команды:  ' + n + n + '  wins: ' + team.Properties.Get('wins').Value + ', looses: ' + team.Properties.Get('looses').Value + '  </color>'; 
-            });   
-            
-            Properties.OnRoomProperty.Add (function (context) {
-                  room = context.Room;
-                  if (room.Properties.Get('round').Value <= 0) Game.RestartGame ();
             });   
             
             BreackGraph.OnOptions.Add (function () {
@@ -219,7 +214,7 @@ try {
             Damage.OnKill.Add (function (p, vic) {
                   if (vic.Team == p.Team)
                       return;
-                  pos = p.PositionIndex.x - vic.PositionIndex.x - p.PositionIndex.y - vic.PositionIndex.y - p.PositionIndex.z - vic.PositionIndex.z; // 
+                  pos = p.Position.x - vic.Position.x + p.Position.y - vic.Position.y + p.Position.z - vic.Position.z; // 
                   if (pos != 0) vic.Ui.Hint.Value = p.NickName + ' убил вас с расстояния ' + String(Math.abs(pos)) + ' блоков!';
                   p.Properties.Get('Kills').Value += 1;
                   prop.Get(p.Id + 'experience').Value += _Rand (2, 6);
