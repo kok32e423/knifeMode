@@ -82,7 +82,7 @@ try {
             const _Game = function () { 
                    s.Value = 'game', _Spawn (), main.Restart (115);
                    areas = AreaService.GetByTag ('tag');
-                   areas. forEach (function (a) { MapEditor.SetBlock (a, a.Name.split('|')[1]), prop.Get ('is_' + a.Name).Value = false; });
+                   areas. forEach (function (a, a2) { MapEditor.SetBlock (a, AreaService.GetByTag('platform')[a2].Name.split('|')[1]), prop.Get ('is_' + a.Name).Value = false; });
             }   
             
             const _End = function (t) { 
@@ -277,7 +277,7 @@ try {
             */
     
             platform_trigger = _Trigger ('platform_t', ['platform'], true, function (p, a) {
-                  a2 = AreaService.Get ('_' + a.Name);
+                  a2 = AreaService.Get ('_' + a.Name.split('|')[0]);
                   empty = prop.Get ('is_' + a2.Name).Value;
                   if (empty) return;
                   p.Team.Timers.Get ('ret_' + a2.Name).Restart (1);         
