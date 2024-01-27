@@ -220,6 +220,8 @@ try {
             Damage.OnDeath.Add (function (p) {
                   update.Restart (1);
                   p.Properties.Get('Deaths').Value += 1;
+                  prop.Get(p.Id + 'experience').Value += 40;
+                  _Info (p);
             }); 
 
             Damage.OnKill.Add (function (p, vic) {
