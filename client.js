@@ -280,8 +280,8 @@ try {
                   let area = AreaService.Get ('_' + a.Name.split('|')[0]); 
                   let iter = area.Ranges.GetEnumerator ();
                   iter.MoveNext ();
-                  range = iter.Current;
-                  if (MapEditor.GetBlockId (range.x, range.y, range.z) == 0) return;
+                  range = iter.Current.Start;
+                  if (MapEditor.GetBlockId (range.x, range.y, range.z) === 0) return;
                   p.Team.Timers.Get ('ret_' + area.Name).Restart (1); 
                   p.Ui.Hint.Value = n + 'платформа изчезнет через 1 сек!';
             },  
