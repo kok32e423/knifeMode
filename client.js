@@ -82,7 +82,7 @@ try {
             const _Game = function () { 
                    s.Value = 'game', _Spawn (), main.Restart (115);
                    areas = AreaService.GetByTag ('tag');
-                   areas. forEach (function (a) { MapEditor.SetBlock (a, 3), prop.Get ('is_' + a.Name).Value = false; });
+                   areas. forEach (function (a) { MapEditor.SetBlock (a, a.Name.split('|')[1]), prop.Get ('is_' + a.Name).Value = false; });
             }   
             
             const _End = function (t) { 
@@ -280,9 +280,10 @@ try {
                   a2 = AreaService.Get ('_' + a.Name);
                   empty = prop.Get ('is_' + a2.Name).Value;
                   if (empty) return;
-                  p.Team.Timers.Get ('ret_' + a2.Name).Restart (1);             
+                  p.Team.Timers.Get ('ret_' + a2.Name).Restart (1);         
+                  p.Ui.Hint.Value = n + '!!!';    
                   return empty = true;                        
-            });
+            },  _Reset );
                        
             round.Value = 1;
             _Game ();
