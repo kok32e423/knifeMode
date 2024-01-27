@@ -120,7 +120,7 @@ try {
             main.OnTimer.Add (_States);
 
             const _Check = function (p) { 
-                  if (prop.Get(p.Id + 'experience').Value >= prop.Get(p.Id + 'next').Value) prop.Get(p.Id + 'level').Value ++, prop.Get(p.Id + 'next').Value = RANKS[prop.Get(p.Id + 'level').Value - 1].target, prop.Get(p.Id + 'rank').Value = RANKS[prop.Get(p.Id + 'level').Value - 1].name;
+                  if (prop.Get(p.Id + 'experience').Value >= prop.Get(p.Id + 'next').Value && prop.Get(p.Id + 'next').Value != RANKS[RANKS.length - 1].target) prop.Get(p.Id + 'level').Value ++, prop.Get(p.Id + 'next').Value = RANKS[prop.Get(p.Id + 'level').Value - 1].target, prop.Get(p.Id + 'rank').Value = RANKS[prop.Get(p.Id + 'level').Value - 1].name;
             }
 
             const _Info = function (p) {
@@ -180,7 +180,7 @@ try {
             });   
 
             BreackGraph.OnOptions.Add (function () {
-                      if (BreackGraph.Damage) BreackGraph.Damage = false;
+                  if (BreackGraph.Damage) BreackGraph.Damage = false;
             });
 
             Timers.OnPlayerTimer.Add (function (t) { 
@@ -221,6 +221,7 @@ try {
                   p.Properties.Get('Deaths').Value += 1;
                   prop.Get(p.Id + 'experience').Value += 40;
                   _Info (p);
+                  _Check (p);
             }); 
 
             Damage.OnKill.Add (function (p, vic) {
