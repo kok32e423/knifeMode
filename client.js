@@ -192,6 +192,7 @@ try {
                   switch (id) {
                       case 'ret_' + id.slice (4) :
                           empty = prop.Get ('is_' + id.slice (4)).Value;
+                          if (empty) return MapEditor.SetBlock (AreaService.Get(id.slice (4)), 3), empty = false;                  
                           MapEditor.SetBlock (AreaService.Get(id.slice (4)), 0);
                           empty = true;                  
                       break;
@@ -277,10 +278,11 @@ try {
             platform_trigger = _Trigger ('platform_t', ['platform'], true, function (p, a) {
                   area = AreaService.Get ('_' + a.Name);
                   empty = prop.Get ('is_' + area.Name).Value;
-                  if (empty) return;
+                  if (empty) return p.Team.Timers.Get ('ret_' + area.Name).Restart (3);          
                   p.Team.Timers.Get ('ret_' + area.Name).Restart (1);          
+                  empty = true;                  
             });
-              
+                       
             round.Value = 1;
             _Game ();
             con_prop.MaxHp.Value = 35; 
