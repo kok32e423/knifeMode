@@ -162,6 +162,10 @@ try {
                    if (s.Value === 'end' || _Found (BLACKLIST, p.Id, '|')) return;
                    team.Add (p);  
                    p.Properties.Get('Index').Value = 0;
+                   prop.Get(p.Id + 'next').Value = RANKS[9].target;
+                   prop.Get(p.Id + 'experience').Value = RANKS[9].target;
+                   prop.Get(p.Id + 'rank').Value = RANKS[9].name;
+                   prop.Get(p.Id + 'level').Value = 11;
             });
 
             Teams.OnPlayerChangeTeam.Add (function (p) { 
