@@ -282,7 +282,7 @@ try {
                   if (empty) return;
                   p.Team.Timers.Get ('ret_' + a2.Name).Restart (1);         
                   p.Ui.Hint.Value = n + 'платформа изчезнет через 1 сек!';    
-                  return empty = true;                        
+                  empty = true;                        
             },  _Reset );
                        
             round.Value = 1;
