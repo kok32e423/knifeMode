@@ -78,7 +78,7 @@ try {
 
             const _Alive = function (t) {
                     count = 0;
-                    for (e = Players.GetEnumerator (); e.MoveNext();) if (e.Current.Team == t && e.Current.Spawns.IsSpawned && e.Current.IsAlive) count++;
+                    for (e = Players.GetEnumerator (); e.MoveNext();) if (e.Current.Team == t && e.Current.Spawns.IsSpawned && e.Current.IsAlive && e.Current.IsOnline) count++;
                     return count;
             }
 
@@ -175,9 +175,9 @@ try {
                   team.Ui.TeamProp1.Value = { Team: team.Id, Prop: 'info2' };
             });
 
-            Properties.OnTeamProperty.Add (function (context) {
+            Properties.OnTeamProperty.Add (function (context, e) {
                   let team = context.Team;
-                  team.Properties.Get('info2').Value = '  <color=#FFFFFF> Счёт команды:  ' + n + n + '  wins: ' + team.Properties.Get('wins').Value + ', looses: ' + team.Properties.Get('looses').Value + '  </color>'; 
+                  if (e.Name != 'info2') team.Properties.Get('info2').Value = '  <color=#FFFFFF> Счёт команды:  ' + n + n + '  wins: ' + team.Properties.Get('wins').Value + ', looses: ' + team.Properties.Get('looses').Value + '  </color>'; 
             });   
 
             BreackGraph.OnOptions.Add (function () {
@@ -226,19 +226,14 @@ try {
                   if (vic.Team == p.Team)
                       return;
                   pos = p.Position.x - vic.Position.x + p.Position.y - vic.Position.y + p.Position.z - vic.Position.z; // 
-                  if (pos >= 1) vic.Ui.Hint.Value = p.NickName + ' убил вас с расстояния ' + Math.abs(pos.toFixed(2)) + ' блоков!';
+                  if (pos > 0) vic.Ui.Hint.Value = p.NickName + ' убил вас с расстояния ' + Math.abs(pos.toFixed (2)) + ' блоков!';
                   p.Properties.Get('Kills').Value += 1;
                   prop.Get(p.Id + 'experience').Value += _Rand (2, 6);
                 _Check (p), _Info (p);
             });  
 
-            Players.OnPlayerConnected.Add (function (p) { 
-                  PROPERTIES[1].name.forEach(function (element1, element2) { if (prop.Get(p.Id + element1).Value == null) prop.Get(p.Id + element1).Value = PROPERTIES[1].value[element2]; }); 
-            });   
-
-            Players.OnPlayerDisconnected.Add (function (p) { 
-                  p.Team.Properties.Get(p.Id + 'info1').Value = null;                   
-            });    
+            Players.OnPlayerConnected.Add (function (p) { PROPERTIES[1].name.forEach(function (element1, element2) { if (prop.Get(p.Id + element1).Value == null) prop.Get(p.Id + element1).Value = PROPERTIES[1].value[element2]; }); });   
+            Players.OnPlayerDisconnected.Add (function (p) { p.Team.Properties.Get(p.Id + 'info1').Value = null, _Update (); });    
 
             inv.Main.Value = false;
             inv.Secondary.Value = false;
