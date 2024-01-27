@@ -82,7 +82,7 @@ try {
             const _Game = function () { 
                    s.Value = 'game', _Spawn (), main.Restart (115);
                    areas = AreaService.GetByTag ('tag');
-                   areas. forEach (function (a, a2) { MapEditor.SetBlock (a, AreaService.GetByTag('platform')[a2].Name.split('|')[1]); });
+                   areas.forEach (function (a, a2) { MapEditor.SetBlock (a, AreaService.GetByTag('platform')[a2].Name.split('|')[1]); });
             }   
 
             const _End = function (t) { 
