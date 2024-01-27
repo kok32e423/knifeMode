@@ -85,12 +85,13 @@ try {
 
             const _Game = function () { 
                    s.Value = 'game', _Spawn (), main.Restart (115);
-                   arr = AreaService.GetByTag ('tag');
-                   arr.forEach (function (a, a2) { MapEditor.SetBlock (a, AreaService.GetByTag('platform')[a2].Name.split('|')[1]); });
+                   arr = AreaService.GetByTag ('tag'); 
+                   arr. forEach (function (a, a2) { MapEditor.SetBlock (a, AreaService.GetByTag('platform')[a2].Name.split('|')[1]); });
             }   
 
             const _End = function (t) { 
-                   s.Value = 'end'; round.Value --;             
+                   s.Value = 'end'; 
+                   round.Value --;             
                    if (t) {
                        for (e = Players.GetEnumerator (); e.MoveNext();) if (e.Current.Team == t) e.Current.Properties.Get('Scores').Value += 1;
                            t.Properties.Get('wins').Value += 1, _Another (t).Properties.Get('looses').Value += 1;
@@ -119,8 +120,8 @@ try {
             main.OnTimer.Add (_States);
 
             const _Check = function (p) { 
-                  if (prop.Get(p.Id + 'experience').Value >= prop.Get(p.Id + 'next').Value) 
-                  prop.Get(p.Id + 'level').Value ++, prop.Get(p.Id + 'next').Value = RANKS[prop.Get(p.Id + 'level').Value - 1].target, prop.Get(p.Id + 'rank').Value = RANKS[prop.Get(p.Id + 'level').Value - 1].name || return;          
+                  if (prop.Get(p.Id + 'experience').Value >= prop.Get(p.Id + 'next').Value && prop.Get(p.Id + 'next').Value != RANKS[RANKS.length - 1].target) 
+                  prop.Get(p.Id + 'level').Value ++, prop.Get(p.Id + 'next').Value = RANKS[prop.Get(p.Id + 'level').Value - 1].target, prop.Get(p.Id + 'rank').Value = RANKS[prop.Get(p.Id + 'level').Value - 1].name;
             }
 
             const _Info = function (p) {
