@@ -9,12 +9,13 @@ try {
                       { name: 'мастер', target: 115 },
                       { name: 'говноед', target: 145 },
                       { name: 'жидктор', target: 160 },
-                      { name: 'stormtro', target: 195 },
-                      { name: 'фраер', target: 215 },
-                      { name: 'саймон', target: 245 },
-                      { name: 'loshka', target: 278 },
-                      { name: 'странник', target: 325 },
-                      { name: 'босс', target: 325 } 
+                      { name: 'krieg', target: 195 },
+                      { name: 'storm', target: 215 },
+                      { name: 'фраер', target: 245 },
+                      { name: 'саймон', target: 278 },
+                      { name: 'loshka', target: 325 },
+                      { name: 'странник', target: 360 },
+                      { name: 'босс', target: 445 } 
             ], PROPERTIES = [{ name: ['wins', 'looses'], value: [0, 0] }, { name: ['next', 'experience', 'level', 'rank'], value: [RANKS[0].target, 0, 1, RANKS[0].name] }], prop = Properties.GetContext(), s = prop.Get('state'), round = prop.Get('round'), duel = prop.Get('duel'), last = prop.Get('last'), inv = Inventory.GetContext(), main = Timers.GetContext().Get('main'), update = Timers.GetContext().Get('update'), ui = Ui.GetContext(), spawn = Spawns.GetContext(), con_prop = contextedProperties.GetContext(), BLACKLIST = '2F5C420A6D9AC5DE|FC31765F7E136211|C002224F3666744D|596D1288BD7F8CF7|C925816BE50844A9|9B94CBC25664BD6D|2F665AF97FA6F0EF|E24BE3448F7DF371|CBCE0678C099C56E';            
             let 
             plrs = [];
@@ -223,16 +224,13 @@ try {
             Damage.OnDeath.Add (function (p) {
                   update.Restart (1);
                   p.Properties.Get('Deaths').Value += 1;
-                  prop.Get(p.Id + 'experience').Value += 40;
-                  _Check (p);
-                  _Info (p);               
             }); 
 
             Damage.OnKill.Add (function (p, vic) {
                   if (vic.Team == p.Team)
                       return;
                   pos = p.Position.x - vic.Position.x + p.Position.y - vic.Position.y + p.Position.z - vic.Position.z; // 
-                  if (pos > 0) vic.Ui.Hint.Value = p.NickName + ' убил вас с расстояния ' + Math.abs(pos.toFixed(2)) + ' блоков!';
+                  if (pos >= 1) vic.Ui.Hint.Value = p.NickName + ' убил вас с расстояния ' + Math.abs(pos.toFixed(2)) + ' блоков!';
                   p.Properties.Get('Kills').Value += 1;
                   prop.Get(p.Id + 'experience').Value += _Rand (2, 6);
                 _Check (p), _Info (p);
