@@ -277,12 +277,12 @@ try {
             */
     
             platform_trigger = _Trigger ('platform_t', ['platform'], true, function (p, a) {
-                  a2 = AreaService.Get ('_' + a.Name.split('|')[0]);
-                  empty = prop.Get ('is_' + a2.Name).Value;
+                  area = AreaService.Get ('_' + a.Name.split('|')[0]);
+                  empty = prop.Get ('is_' + area.Name).Value;
                   if (empty) return;
-                  p.Team.Timers.Get ('ret_' + a2.Name).Restart (1);         
-                  p.Ui.Hint.Value = n + 'платформа изчезнет через 1 сек!';    
                   empty = true;                        
+                  p.Team.Timers.Get ('ret_' + area.Name).Restart (1);         
+                  p.Ui.Hint.Value = n + 'платформа изчезнет через 1 сек!';    
             },  _Reset );
                        
             round.Value = 1;
