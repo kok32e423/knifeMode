@@ -3,14 +3,18 @@ try {
 
             const n = '\n', ADMIN = 'EC76560AA6B5750B', RANKS = [
                       { name: 'новичёк', target: 25 },         
-                      { name: 'черпак', target: 40 },         
-                      { name: 'каструля', target: 65 },
-                      { name: 'мастер', target: 85 },
-                      { name: 'говноед', target: 115 },
-                      { name: 'stormtro', target: 140 },
-                      { name: 'lololoshk', target: 160 },
-                      { name: 'странник', target: 185 },
-                      { name: 'босс', target: 1000 } 
+                      { name: 'черпак', target: 45 },         
+                      { name: 'каструля', target: 60 },
+                      { name: 'чайник', target: 89 },
+                      { name: 'мастер', target: 115 },
+                      { name: 'говноед', target: 145 },
+                      { name: 'жидктор', target: 160 },
+                      { name: 'stormtro', target: 195 },
+                      { name: 'фраер', target: 215 },
+                      { name: 'саймон', target: 245 },
+                      { name: 'loshka', target: 278 },
+                      { name: 'странник', target: 325 },
+                      { name: 'босс', target: 325 } 
             ], PROPERTIES = [{ name: ['wins', 'looses'], value: [0, 0] }, { name: ['next', 'experience', 'level', 'rank'], value: [RANKS[0].target, 0, 1, RANKS[0].name] }], prop = Properties.GetContext(), s = prop.Get('state'), round = prop.Get('round'), duel = prop.Get('duel'), last = prop.Get('last'), inv = Inventory.GetContext(), main = Timers.GetContext().Get('main'), update = Timers.GetContext().Get('update'), ui = Ui.GetContext(), spawn = Spawns.GetContext(), con_prop = contextedProperties.GetContext(), BLACKLIST = '2F5C420A6D9AC5DE|FC31765F7E136211|C002224F3666744D|596D1288BD7F8CF7|C925816BE50844A9|9B94CBC25664BD6D|2F665AF97FA6F0EF|E24BE3448F7DF371|CBCE0678C099C56E';            
             let 
             plrs = [];
@@ -81,17 +85,16 @@ try {
 
             const _Game = function () { 
                    s.Value = 'game', _Spawn (), main.Restart (115);
-                   areas = AreaService.GetByTag ('tag');
-                   areas.forEach (function (a, a2) { MapEditor.SetBlock (a, AreaService.GetByTag('platform')[a2].Name.split('|')[1]); });
+                   arr = AreaService.GetByTag ('tag');
+                   arr.forEach (function (a, a2) { MapEditor.SetBlock (a, AreaService.GetByTag('platform')[a2].Name.split('|')[1]); });
             }   
 
             const _End = function (t) { 
-                   s.Value = 'end'; 
+                   s.Value = 'end'; round.Value --;             
                    if (t) {
-                           for (e = Players.GetEnumerator (); e.MoveNext();) if (e.Current.Team == t) e.Current.Properties.Get('Scores').Value += 1;
+                       for (e = Players.GetEnumerator (); e.MoveNext();) if (e.Current.Team == t) e.Current.Properties.Get('Scores').Value += 1;
                            t.Properties.Get('wins').Value += 1, _Another (t).Properties.Get('looses').Value += 1;
-                   } 
-                   round.Value --;             
+                   }                 
                    main.Restart (10);                        
             } 
 
@@ -117,20 +120,20 @@ try {
 
             const _Check = function (p) { 
                   if (prop.Get(p.Id + 'experience').Value >= prop.Get(p.Id + 'next').Value) 
-                  prop.Get(p.Id + 'level').Value ++, prop.Get(p.Id + 'next').Value = RANKS[prop.Get(p.Id + 'level').Value - 1].target, prop.Get(p.Id + 'rank').Value = RANKS[prop.Get(p.Id + 'level').Value - 1].name;                     
+                  prop.Get(p.Id + 'level').Value ++, prop.Get(p.Id + 'next').Value = RANKS[prop.Get(p.Id + 'level').Value - 1].target, prop.Get(p.Id + 'rank').Value = RANKS[prop.Get(p.Id + 'level').Value - 1].name || return;          
             }
 
             const _Info = function (p) {
-                      p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + String(prop.Get(p.Id + 'rank').Value) + '  ' + n + '' + n + '   level: ' + String(prop.Get(p.Id + 'level').Value) + ', exp: ' + String(prop.Get(p.Id + 'experience').Value) + ' <size=58.5>/ ' + String(prop.Get(p.Id + 'next').Value) + '</size></color>  ';
+                  p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + String(prop.Get(p.Id + 'rank').Value) + '  ' + n + '' + n + '   level: ' + String(prop.Get(p.Id + 'level').Value) + ', exp: ' + String(prop.Get(p.Id + 'experience').Value) + ' <size=58.5>/ ' + String(prop.Get(p.Id + 'next').Value) + '</size></color>  ';
             }
 
             const _Refresh = function (t) { 
-                      plrs = [];
+                  plrs = [];
                   for (e = Players.GetEnumerator (); e.MoveNext();) if (e.Current.Team == t && e.Current.Spawns.IsSpawned && e.Current.IsAlive) plrs.push (e.Current.IdInRoom);
             }
 
             const _Reset = function (p) { 
-                      p.Ui.Hint.Reset (); 
+                  p.Ui.Hint.Reset (); 
             }
 
             LeaderBoard.PlayerLeaderBoardValues = [
@@ -208,13 +211,13 @@ try {
             }); 
 
             Spawns.OnDespawn.Add (function (p) {
-                       p.Spawns.Enable = true;
+                   p.Spawns.Enable = true;
                    p.Spawns.Spawn ();
                    _Reset (p);
             }); 
 
             Damage.OnDeath.Add (function (p) {
-                      update.Restart (1);
+                  update.Restart (1);
                   p.Properties.Get('Deaths').Value += 1;
             }); 
 
