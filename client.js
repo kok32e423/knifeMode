@@ -175,9 +175,9 @@ try {
                   team.Ui.TeamProp1.Value = { Team: team.Id, Prop: 'info2' };
             });
 
-            Properties.OnTeamProperty.Add (function (context, e) {
+            Properties.OnTeamProperty.Add (function (context) {
                   let team = context.Team;
-                  if (e.Name != 'info2') team.Properties.Get('info2').Value = '  <color=#FFFFFF> Счёт команды:  ' + n + n + '  wins: ' + team.Properties.Get('wins').Value + ', looses: ' + team.Properties.Get('looses').Value + '  </color>'; 
+                  team.Properties.Get('info2').Value = '  <color=#FFFFFF> Счёт команды:  ' + n + n + '  wins: ' + team.Properties.Get('wins').Value + ', looses: ' + team.Properties.Get('looses').Value + '  </color>'; 
             });   
 
             BreackGraph.OnOptions.Add (function () {
@@ -199,6 +199,7 @@ try {
                   id = t.Id;   
                   switch (id) {
                       case 'ret_' + id.slice (4) :
+                          if (s.Value === 'end') return;
                           MapEditor.SetBlock (AreaService.Get(id.slice (4)), 0);
                       break;
                 }
@@ -280,7 +281,7 @@ try {
                   let iter = area.Ranges.GetEnumerator ();
                   iter.MoveNext ();
                   range = iter.Current.Start;
-                  if (MapEditor.GetBlockId (range.x, range.y, range.z) === 0) return;
+                  if (MapEditor.GetBlockId (range.x, range.y, range.z) === 0 || s.Value === 'end') return;
                   p.Team.Timers.Get ('ret_' + area.Name).Restart (1); 
                   p.Ui.Hint.Value = n + 'платформа изчезнет через 1 сек!';
             },  
