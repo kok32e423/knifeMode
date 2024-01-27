@@ -281,7 +281,7 @@ try {
                   empty = prop.Get ('is_' + a2.Name).Value;
                   if (empty) return;
                   p.Team.Timers.Get ('ret_' + a2.Name).Restart (1);         
-                  p.Ui.Hint.Value = n + '!!!';    
+                  p.Ui.Hint.Value = n + 'платформа изчезнет через 1 сек!';    
                   return empty = true;                        
             },  _Reset );
                        
