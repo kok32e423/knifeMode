@@ -82,7 +82,7 @@ try {
             const _Game = function () { 
                    s.Value = 'game', _Spawn (), main.Restart (115);
                    areas = AreaService.GetByTag ('tag');
-                   areas. forEach (function (a, a2) { MapEditor.SetBlock (a, AreaService.GetByTag('platform')[a2].Name.split('|')[1]), prop.Get ('is_' + AreaService.GetByTag('platform')[a2].Name.split('|')[0]).Value = false; });
+                   areas. forEach (function (a, a2) { MapEditor.SetBlock (a, AreaService.GetByTag('platform')[a2].Name.split('|')[1]); });
             }   
             
             const _End = function (t) { 
@@ -277,12 +277,8 @@ try {
             */
     
             platform_trigger = _Trigger ('platform_t', ['platform'], true, function (p, a) {
-                  area = AreaService.Get ('_' + a.Name.split('|')[0]);
-                  empty = prop.Get ('is_' + a.Name.split('|')[0]).Value;
-                  if (empty) return;
-                  empty = true;                        
-                  p.Team.Timers.Get ('ret_' + area.Name).Restart (1);         
-                  p.Ui.Hint.Value = n + 'платформа изчезнет через 1 сек!';    
+                  area = AreaService.Get ('_' + a.Name.split('|')[0]); 
+                  p.Team.Timers.Get ('ret_' + area.Name).Restart (1); 
             },  _Reset );
                        
             round.Value = 1;
