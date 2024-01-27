@@ -86,8 +86,6 @@ try {
 
             const _Game = function () { 
                    s.Value = 'game', _Spawn (), main.Restart (115);
-                   arr = AreaService.GetByTag ('tag'); 
-                   arr. forEach (function (a, a2) { MapEditor.SetBlock (a, AreaService.GetByTag('platform')[a2].Name.split('|')[1]); });
             }   
 
             const _End = function (t) { 
@@ -194,17 +192,6 @@ try {
                 }
             });
 
-            Timers.OnTeamTimer.Add (function (t) { 
-                  let team = t.Team,
-                  id = t.Id;   
-                  switch (id) {
-                      case 'ret_' + id.slice (4) :
-                          if (s.Value === 'end') return;
-                          MapEditor.SetBlock (AreaService.Get(id.slice (4)), 0);
-                      break;
-                }
-            });
-
             Spawns.OnSpawn.Add (function (p) {
                    p.Properties.Get('Immortality').Value = true;
                    p.Timers.Get('Immo').Restart (3);  
@@ -241,52 +228,7 @@ try {
             inv.Explosive.Value = false;
             inv.Build.Value = false;
 
-            /*
-            duel.OnValue.Add (function (prop) {
-                    if (prop.Value) {
-                      let p1 = Players.GetByRoomId (last.Value);
-                      let p2 = Players.GetByRoomId (plrs[indx]);
-                      p1.SetPositionAndRotation ({ x: 122, y: 14, z: 40 }, { x: 0, y: - 90 }), p2.SetPositionAndRotation ({ x: 116, y: 14, z: 82 }, { x: 0, y: 90 });
-                      p1.Inventory.Secondary.Value = true, p2.Inventory.Secondary.Value = true;
-                      p1.Ui.Hint.Value = n + 'дуэль началась!!', p2.Ui.Hint.Value = n + 'дуэль началась!!';
-                 } 
-            });
             
-            const invite_view = _View ('invite_v', ['invite'], '#FFD2E7', true),
-            invite_trigger = _Trigger ('invite_t', ['invite'], true, function (p, a) {
-                      if (duel.Value || last.Value) return;
-                  indx = p.Properties.Get('Index').Value;
-                  if (indx < plrs.length - 1) indx ++;
-                  else indx = 0;
-                  current = Players.GetByRoomId (plrs[indx]), current.Timers.Get('Invite').Restart (5);
-                  last.Value = p.IdInRoom;
-                  p.Ui.Hint.Value = 'хотите сыграть дуэль с игроком ' + current.NickName + ' ?';
-            },
-            
-            function (p) { 
-                  if (last.Value == p.IdInRoom) last.Value = null;
-                  else return;
-                _Reset (p);
-                  current.Timers.Get('Invite').Stop ();
-            }),
-            
-            refresh_view = _View ('ref_v', ['refresh'], '#ABFBFE', true),
-            refresh_trigger = _Trigger ('ref_t', ['refresh'], true, function (p, a) { _Refresh (p), p.Ui.Hint.Value = n + 'список игроков обновлен!'; }, _Reset ),            
-            accept_view = _View ('accept_v', ['accept'], '#8BF984', true), 
-            accept_trigger = _Trigger ('accept_t', ['accept'], true, function (p, a) { duel.Value = true, p.Timers.Get('Spawn').Stop (); });
-            */
-
-            platform_trigger = _Trigger ('platform_t', ['platform'], true, function (p, a) {
-                  let area = AreaService.Get ('_' + a.Name.split('|')[0]); 
-                  let iter = area.Ranges.GetEnumerator ();
-                  iter.MoveNext ();
-                  range = iter.Current.Start;
-                  if (MapEditor.GetBlockId (range.x, range.y, range.z) === 0 || s.Value === 'end') return;
-                  p.Team.Timers.Get ('ret_' + area.Name).Restart (1); 
-                  p.Ui.Hint.Value = n + 'платформа изчезнет через 1 сек!';
-            },  
-            _Reset );
-
             round.Value = 1;
             _Game ();
             con_prop.MaxHp.Value = 35; 
