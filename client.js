@@ -149,7 +149,7 @@ try {
             red = _Add ('red', { up: 'террористы ᵏⁿⁱᶠᵉᵉ', down: '' }, '#FE5757', 2);
             
             // init
-            _Initialization (0), _Initialization (1);
+           _Initialization (0), _Initialization (1);
            
             Teams.OnRequestJoinTeam.Add (function (p, team) {
                    if (s.Value === 'end' || _Found (BLACKLIST, p.Id, '|')) return;
@@ -183,13 +183,18 @@ try {
                       case 'Immo':
                           p.Properties.Immortality.Value = false; 
                       break;
-                      /*
-                      case 'ret_' + id.slice(4) :
-                          empty = prop.Get ('is_' + id.slice(4)).Value;
-                          if (empty) MapEditor.SetBlock (AreaService.Get(id.slice(4)), 3), empty = false;
-                               else MapEditor.SetBlock (id.slice(4)), 0), empty = true;                  
+                }
+            });
+            
+            Timers.OnTeamTimer.Add (function (t) { 
+                  let team = t.Team,
+                  id = t.Id;   
+                  switch (id) {
+                      case 'ret_' + id.slice (4) :
+                          empty = prop.Get ('is_' + id.slice (4)).Value;
+                          MapEditor.SetBlock (AreaService.Get(id.slice (4)), 0);
+                          empty = true;                  
                       break;
-                      */
                 }
             });
                                                                                        
@@ -215,7 +220,7 @@ try {
                   if (vic.Team == p.Team)
                       return;
                   pos = p.Position.x - vic.Position.x + p.Position.y - vic.Position.y + p.Position.z - vic.Position.z; // 
-                  if (pos != 0) vic.Ui.Hint.Value = p.NickName + ' убил вас с расстояния ' + Math.abs(pos.toFixed(1)) + ' блоков!';
+                  if (pos > 0) vic.Ui.Hint.Value = p.NickName + ' убил вас с расстояния ' + Math.abs(pos.toFixed(1)) + ' блоков!';
                   p.Properties.Get('Kills').Value += 1;
                   prop.Get(p.Id + 'experience').Value += _Rand (2, 6);
                 _Check (p), _Info (p);
@@ -268,15 +273,14 @@ try {
             accept_view = _View ('accept_v', ['accept'], '#8BF984', true), 
             accept_trigger = _Trigger ('accept_t', ['accept'], true, function (p, a) { duel.Value = true, p.Timers.Get('Spawn').Stop (); });
             */
-            /* 
+    
             platform_trigger = _Trigger ('platform_t', ['platform'], true, function (p, a) {
-                  a2 = AreaService.Get ('_' + a.Name);
-                  empty = prop.Get ('is_' + a2.Name).Value;
+                  area = AreaService.Get ('_' + a.Name);
+                  empty = prop.Get ('is_' + area.Name).Value;
                   if (empty) return;
-                  p.Timers.Get('ret_' + a2.Name).Restart (1);          
+                  p.Team.Timers.Get ('ret_' + area.Name).Restart (1);          
             });
-            */
-            
+              
             round.Value = 1;
             _Game ();
             con_prop.MaxHp.Value = 35; 
