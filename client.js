@@ -120,8 +120,7 @@ try {
             main.OnTimer.Add (_States);
 
             const _Check = function (p) { 
-                  if (prop.Get(p.Id + 'experience').Value >= prop.Get(p.Id + 'next').Value && prop.Get(p.Id + 'next').Value != RANKS[RANKS.length - 1].target) 
-                  prop.Get(p.Id + 'level').Value ++, prop.Get(p.Id + 'next').Value = RANKS[prop.Get(p.Id + 'level').Value - 1].target, prop.Get(p.Id + 'rank').Value = RANKS[prop.Get(p.Id + 'level').Value - 1].name;
+                  if (prop.Get(p.Id + 'experience').Value >= prop.Get(p.Id + 'next').Value) prop.Get(p.Id + 'level').Value ++, prop.Get(p.Id + 'next').Value = RANKS[prop.Get(p.Id + 'level').Value - 1].target, prop.Get(p.Id + 'rank').Value = RANKS[prop.Get(p.Id + 'level').Value - 1].name;
             }
 
             const _Info = function (p) {
