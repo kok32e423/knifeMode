@@ -79,10 +79,14 @@ try {
             
             round.Value = 360;
                        
-            const _Game = function () { s.Value = 'game', _Spawn (), main.Restart (115); }   
+            const _Game = function () { 
+                   s.Value = 'game', _Spawn (), main.Restart (115);
+                   areas = AreaService.GetByTag ('tag');
+                   areas. forEach (function (a) { MapEditor.SetBlock (a, 3), prop.Get ('is_' + a.Name).Value = false; });
+            }   
             
             const _End = function (t) { 
-                   s.Value = 'end';
+                   s.Value = 'end'; 
                    if (t) {
                    	for (e = Players.GetEnumerator (); e.MoveNext();) if (e.Current.Team == t) e.Current.Properties.Get('Scores').Value += 1;
                            t.Properties.Get('wins').Value += 1, _Another (t).Properties.Get('looses').Value += 1;
@@ -191,10 +195,7 @@ try {
                   id = t.Id;   
                   switch (id) {
                       case 'ret_' + id.slice (4) :
-                          empty = prop.Get ('is_' + id.slice (4)).Value;
-                          if (empty) return MapEditor.SetBlock (AreaService.Get(id.slice (4)), 3), empty = false;                  
                           MapEditor.SetBlock (AreaService.Get(id.slice (4)), 0);
-                          empty = true;                  
                       break;
                 }
             });
@@ -276,11 +277,11 @@ try {
             */
     
             platform_trigger = _Trigger ('platform_t', ['platform'], true, function (p, a) {
-                  area = AreaService.Get ('_' + a.Name);
-                  empty = prop.Get ('is_' + area.Name).Value;
-                  if (empty) return p.Team.Timers.Get ('ret_' + area.Name).Restart (3);          
-                  p.Team.Timers.Get ('ret_' + area.Name).Restart (1);          
-                  empty = true;                  
+                  a2 = AreaService.Get ('_' + a.Name);
+                  empty = prop.Get ('is_' + a2.Name).Value;
+                  if (empty) return;
+                  p.Team.Timers.Get ('ret_' + a2.Name).Restart (1);             
+                  return empty = true;                        
             });
                        
             round.Value = 1;
