@@ -78,7 +78,7 @@ try {
 
             const _Alive = function (t) {
                     count = 0;
-                    for (e = Players.GetEnumerator (); e.MoveNext();) if (e.Current.Team == t && e.Current.Spawns.IsSpawned && e.Current.IsAlive && e.Current.IsOnline) count++;
+                    for (e = Players.GetEnumerator (); e.MoveNext();) if (e.Current.Team == t && e.Current.Spawns.IsSpawned && e.Current.IsAlive) count++;
                     return count;
             }
 
