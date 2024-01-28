@@ -221,7 +221,7 @@ try {
             });  
 
             Players.OnPlayerConnected.Add (function (p) { PROPERTIES[1].name.forEach(function (element1, element2) { if (prop.Get(p.Id + element1).Value == null) prop.Get(p.Id + element1).Value = PROPERTIES[1].value[element2]; }); });   
-            Players.OnPlayerDisconnected.Add (function (p) { p.Team.Properties.Get(p.Id + 'info1').Value = null, _Update (); });    
+            Players.OnPlayerDisconnected.Add (function (p) { p.Team.Properties.Get(p.Id + 'info1').Value = null, update.Restart (1); });    
 
             inv.Main.Value = false;
             inv.Secondary.Value = false;
