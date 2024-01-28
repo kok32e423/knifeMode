@@ -21,7 +21,7 @@ try {
             plrs = [];
 
             const _Initialization = function (index) {
-                          PROPERTIES[index].name.forEach (function (element1, element2) { for (let e = index == 0 ? Teams.GetEnumerator () : Players.GetEnumerator (); e.MoveNext();) index == 0 ? e.Current.Properties.Get(element1).Value = PROPERTIES[index].value[element2] : prop.Get(e.Current.Id + element1).Value = PROPERTIES[index].value[element2]; }); 
+                     PROPERTIES[index].name.forEach (function (element1, element2) { for (let e = index == 0 ? Teams.GetEnumerator () : Players.GetEnumerator (); e.MoveNext();) index == 0 ? e.Current.Properties.Get(element1).Value = PROPERTIES[index].value[element2] : prop.Get(e.Current.Id + element1).Value = PROPERTIES[index].value[element2]; }); 
             }
 
             const _Add = function (tag, name, color, spawn) {            
@@ -214,7 +214,7 @@ try {
                   if (vic.Team == p.Team)
                       return;
                   pos = p.Position.x - vic.Position.x + p.Position.y - vic.Position.y + p.Position.z - vic.Position.z; // 
-                  if (pos > 0) vic.Ui.Hint.Value = p.NickName + ' убил вас с расстояния ' + Math.abs(pos.toFixed (2)) + ' блоков!';
+                  if (pos != 0) vic.Ui.Hint.Value = p.NickName + ' убил вас с расстояния ' + Math.abs(pos.toFixed (2)) + ' блоков!';
                   p.Properties.Get('Kills').Value += 1;
                   prop.Get(p.Id + 'experience').Value += _Rand (2, 6);
                 _Check (p), _Info (p);
