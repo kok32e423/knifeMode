@@ -79,7 +79,7 @@ try {
 
             round.Value = 360;
 
-            const _Game = function () { s.Value = 'game', /*_Spawn (), */main.Restart (115), spawn.RespawnEnable = true; }   
+            const _Game = function () { s.Value = 'game', _Spawn (), main.Restart (115); }   
 
             const _End = function (t) { 
                    s.Value = 'end'; 
@@ -88,7 +88,6 @@ try {
                        for (e = Players.GetEnumerator (); e.MoveNext();) if (e.Current.Team == t) e.Current.Properties.Get('Scores').Value += 1;
                            t.Properties.Get('wins').Value += 1, _Another (t).Properties.Get('looses').Value += 1;
                    }                 
-                   spawn.RespawnEnable = false;
                    main.Restart (10);                        
             } 
 
