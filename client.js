@@ -9,7 +9,7 @@ try {
                       { name: 'мастер', target: 115 },
                       { name: 'говноед', target: 145 },
                       { name: 'жидктор', target: 160 },
-                      { name: 'krieg', target: 195 },
+                      { name: 'mr.krieg', target: 195 },
                       { name: 'storm', target: 215 },
                       { name: 'фраер', target: 245 },
                       { name: 'саймон', target: 278 },
@@ -21,7 +21,7 @@ try {
             plrs = [];
 
             const _Initialization = function (index) {
-                     PROPERTIES[index].name.forEach (function (element1, element2) { for (let e = index == 0 ? Teams.GetEnumerator () : Players.GetEnumerator (); e.MoveNext();) index == 0 ? e.Current.Properties.Get(element1).Value = PROPERTIES[index].value[element2] : prop.Get(e.Current.Id + element1).Value = PROPERTIES[index].value[element2]; }); 
+                      PROPERTIES[index].name.forEach (function (element1, element2) { for (let e = index == 0 ? Teams.GetEnumerator () : Players.GetEnumerator (); e.MoveNext();) index == 0 ? e.Current.Properties.Get(element1).Value = PROPERTIES[index].value[element2] : prop.Get(e.Current.Id + element1).Value = PROPERTIES[index].value[element2]; }); 
             }
 
             const _Add = function (tag, name, color, spawn) {            
@@ -49,7 +49,8 @@ try {
                  }  
             }
 
-            const _Update = function () {
+            const _Update = function ()
+            {
                     if (s.Value === 'game') {
                         if (_Alive (red) > 0 && _Alive (blue) <= 0) return _End (red);
                             else if (_Alive (blue) > 0 && _Alive (red) <= 0) return _End (blue);
@@ -59,17 +60,11 @@ try {
 
             update.OnTimer.Add (_Update);
 
-            const _Spawn = function () { 
-                    for (e = Teams.GetEnumerator (); e.MoveNext();) e.Current.Spawns.Spawn(); 
-            }  
+            const _Spawn = function () { for (e = Teams.GetEnumerator (); e.MoveNext();) e.Current.Spawns.Spawn(); }  
 
-            const _Text = function (text) { 
-                    for (e = Teams.GetEnumerator (); e.MoveNext();) if (e.Current != null) text == 'reset' ? e.Current.Ui.Hint.Reset () : e.Current.Ui.Hint.Value = text;
-            } 
+            const _Text = function (text) { for (e = Teams.GetEnumerator (); e.MoveNext();) if (e.Current != null) text == 'reset' ? e.Current.Ui.Hint.Reset () : e.Current.Ui.Hint.Value = text; } 
 
-            const _Rand = function (min, max) { 
-                    return Math.floor(Math.random() * (max - min + 1)) + min; 
-            }
+            const _Rand = function (min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
 
             const _Another = function (t) {
                     if (t == blue) return red;
@@ -84,9 +79,7 @@ try {
 
             round.Value = 360;
 
-            const _Game = function () { 
-                   s.Value = 'game', _Spawn (), main.Restart (115);
-            }   
+            const _Game = function () { s.Value = 'game', _Spawn (), main.Restart (115); }   
 
             const _End = function (t) { 
                    s.Value = 'end'; 
@@ -118,11 +111,8 @@ try {
             const _States = function () { s.Value == 'game' ? _End () : _Game (); } 
             main.OnTimer.Add (_States);
 
-            const _Check = function (p) { 
+            const _Show = function (p) { 
                   if (prop.Get(p.Id + 'experience').Value >= prop.Get(p.Id + 'next').Value && prop.Get(p.Id + 'rank').Value != RANKS[RANKS.length - 1].name) prop.Get(p.Id + 'level').Value ++, prop.Get(p.Id + 'next').Value = RANKS[prop.Get(p.Id + 'level').Value - 1].target, prop.Get(p.Id + 'rank').Value = RANKS[prop.Get(p.Id + 'level').Value - 1].name;
-            }
-
-            const _Info = function (p) {
                   p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + String(prop.Get(p.Id + 'rank').Value) + '  ' + n + '' + n + '   level: ' + String(prop.Get(p.Id + 'level').Value) + ', exp: ' + String(prop.Get(p.Id + 'experience').Value) + ' <size=58.5>/ ' + String(prop.Get(p.Id + 'next').Value) + '</size></color>  ';
             }
 
@@ -131,21 +121,19 @@ try {
                   for (e = Players.GetEnumerator (); e.MoveNext();) if (e.Current.Team == t && e.Current.Spawns.IsSpawned && e.Current.IsAlive) plrs.push (e.Current.IdInRoom);
             }
 
-            const _Reset = function (p) { 
-                  p.Ui.Hint.Reset (); 
-            }
+            const _Reset = function (p) { p.Ui.Hint.Reset (); }
 
             LeaderBoard.PlayerLeaderBoardValues = [
-                   { Value: 'Kills', ShortDisplayName: '<size=11.9><b>ᴋ</b></size>' },
-                   { Value: 'Deaths', ShortDisplayName: '<size=11.9><b>ᴅ</b></size>' }
+                  { Value: 'Kills', ShortDisplayName: '<size=11.9><b>ᴋ</b></size>' },
+                  { Value: 'Deaths', ShortDisplayName: '<size=11.9><b>ᴅ</b></size>' }
             ];
 
             LeaderBoard.TeamWeightGetter.Set (function (team) {
-                   return team.Properties.Get('looses').Value;
+                  return team.Properties.Get('looses').Value;
             });
 
             LeaderBoard.PlayersWeightGetter.Set (function (p) {
-                   return p.Properties.Get('Kills').Value;
+                  return p.Properties.Get('Kills').Value;
             });
 
             spawn.RespawnEnable = false, BreackGraph.Damage = false, ui.MainTimerId.Value = main.Id;  
@@ -166,7 +154,7 @@ try {
             Teams.OnPlayerChangeTeam.Add (function (p) { 
                   if (!p.Spawns.IsSpawned || p.IsAlive) p.Spawns.Spawn (); 
                   p.Ui.TeamProp2.Value = { Team: p.Team.Id, Prop: p.Id + 'info1' };
-                _Info (p);
+                _Show (p);
             }); 
 
             Teams.OnAddTeam.Add (function (team) {
@@ -202,7 +190,7 @@ try {
             Spawns.OnDespawn.Add (function (p) {
                    p.Spawns.Enable = true;
                    p.Spawns.Spawn ();
-                   _Reset (p);
+                 _Reset (p);
             }); 
 
             Damage.OnDeath.Add (function (p) {
@@ -217,7 +205,7 @@ try {
                   if (pos != 0) vic.Ui.Hint.Value = p.NickName + ' убил вас с расстояния ' + Math.abs(pos.toFixed (2)) + ' блоков!';
                   p.Properties.Get('Kills').Value += 1;
                   prop.Get(p.Id + 'experience').Value += _Rand (2, 6);
-                _Check (p), _Info (p);
+                _Show (p);
             });  
 
             Players.OnPlayerConnected.Add (function (p) { PROPERTIES[1].name.forEach(function (element1, element2) { if (prop.Get(p.Id + element1).Value == null) prop.Get(p.Id + element1).Value = PROPERTIES[1].value[element2]; }); });   
@@ -227,7 +215,6 @@ try {
             inv.Secondary.Value = false;
             inv.Explosive.Value = false;
             inv.Build.Value = false;
-
             
             round.Value = 1;
             _Game ();
