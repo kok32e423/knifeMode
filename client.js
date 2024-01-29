@@ -79,7 +79,7 @@ try {
 
             round.Value = 360;
 
-            const _Game = function () { s.Value = 'game', _Spawn (), main.Restart (115), spawn.RespawnEnable = true; }   
+            const _Game = function () { s.Value = 'game', /*_Spawn (), */main.Restart (115), spawn.RespawnEnable = true; }   
 
             const _End = function (t) { 
                    s.Value = 'end'; 
