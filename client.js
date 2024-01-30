@@ -112,7 +112,7 @@ try {
             main.OnTimer.Add (_States);
 
             const _Show = function (p) { 
-                  if (prop.Get(p.Id + 'experience').Value >= prop.Get(p.Id + 'next').Value && prop.Get(p.Id + 'rank').Value != RANKS[RANKS.length - 1].name) prop.Get(p.Id + 'level').Value ++, prop.Get(p.Id + 'next').Value = RANKS[prop.Get(p.Id + 'level').Value - 1].target, prop.Get(p.Id + 'rank').Value = RANKS[prop.Get(p.Id + 'level').Value - 1].name, prop.Get(p.Id + 'hp').Value += p.contextedProperties.MaxHp.Value + 2;
+                  if (prop.Get(p.Id + 'experience').Value >= prop.Get(p.Id + 'next').Value && prop.Get(p.Id + 'rank').Value != RANKS[RANKS.length - 1].name) prop.Get(p.Id + 'level').Value ++, prop.Get(p.Id + 'next').Value = RANKS[prop.Get(p.Id + 'level').Value - 1].target, prop.Get(p.Id + 'rank').Value = RANKS[prop.Get(p.Id + 'level').Value - 1].name, p.contextedProperties.MaxHp.Value += 2;
                   p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + String(prop.Get(p.Id + 'rank').Value) + '  ' + n + '' + n + '   level: ' + String(prop.Get(p.Id + 'level').Value) + ', exp: ' + String(prop.Get(p.Id + 'experience').Value) + ' <size=58.5>/ ' + String(prop.Get(p.Id + 'next').Value) + '</size></color>  ';
             }
 
@@ -184,7 +184,6 @@ try {
                    p.Properties.Get('Immortality').Value = true;
                    p.Timers.Get('Immo').Restart (3);  
                    _Reset (p);
-                   p.contextedProperties.MaxHp.Value = prop.Get(p.Id + 'hp').Value;
                    if (p.Inventory.Secondary.Value) p.Inventory.Secondary.Value = false;
             }); 
 
@@ -209,8 +208,16 @@ try {
                 _Show (p);
             });  
 
-            Players.OnPlayerConnected.Add (function (p) { PROPERTIES[1].name.forEach(function (element1, element2) { if (prop.Get(p.Id + element1).Value == null) prop.Get(p.Id + element1).Value = PROPERTIES[1].value[element2]; }); });   
-            Players.OnPlayerDisconnected.Add (function (p) { p.Team.Properties.Get(p.Id + 'info1').Value = null, update.Restart (1); });    
+            Players.OnPlayerConnected.Add (function (p) { 
+                 PROPERTIES[1].name.forEach(function (element1, element2) { if (prop.Get(p.Id + element1).Value == null) prop.Get(p.Id + element1).Value = PROPERTIES[1].value[element2]; }); 
+                 p.contextedProperties.MaxHp.Value = prop.Get(p.Id + 'hp').Value;
+            });   
+            
+            Players.OnPlayerDisconnected.Add (function (p) { 
+                 p.Team.Properties.Get(p.Id + 'info1').Value = null;
+                 prop.Get(p.Id + 'hp').Value = p.contextedProperties.MaxHp.Value;
+                 update.Restart (1);
+            });    
 
             inv.Main.Value = false;
             inv.Secondary.Value = false;
