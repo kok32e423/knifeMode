@@ -210,7 +210,7 @@ try {
 
             Players.OnPlayerConnected.Add (function (p) { 
                  PROPERTIES[1].name.forEach(function (element1, element2) { if (prop.Get(p.Id + element1).Value == null) prop.Get(p.Id + element1).Value = PROPERTIES[1].value[element2]; }); 
-                 p.contextedProperties.MaxHp.Value = prop.Get(p.Id + 'hp').Value;
+                 p.contextedProperties.MaxHp.Value = prop.Get(p.Id + 'hp').Value || 35;
             });   
             
             Players.OnPlayerDisconnected.Add (function (p) { 
