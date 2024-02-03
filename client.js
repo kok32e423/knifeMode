@@ -61,7 +61,7 @@ try {
             },
             {
                 name: 'босс',
-                target: 445
+                target: '∞'
             }
         ],
         PROPERTIES = [{
