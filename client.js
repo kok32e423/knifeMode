@@ -72,14 +72,11 @@ try {
             value: [RANKS[0].target, 0, 1, RANKS[0].name]
         }],
         prop = Properties.GetContext(),
-        s = prop.Get('state'),
+        state = prop.Get('state'),
         round = prop.Get('round'),
-        duel = prop.Get('duel'),
-        last = prop.Get('last'),
         inv = Inventory.GetContext(),
         main = Timers.GetContext().Get('main'),
         update = Timers.GetContext().Get('update'),
-        ui = Ui.GetContext(),
         spawn = Spawns.GetContext(),
         con_prop = contextedProperties.GetContext(),
         BLACKLIST = '2F5C420A6D9AC5DE|FC31765F7E136211|C002224F3666744D|596D1288BD7F8CF7|C925816BE50844A9|9B94CBC25664BD6D|2F665AF97FA6F0EF|E24BE3448F7DF371|CBCE0678C099C56E';
@@ -99,8 +96,8 @@ try {
         return team;
     }
 
-    const _Color = function(h) {
-        let hex = h.replace('#', ''),
+    const _Color = function(string) {
+        let hex = string.replace('#', ''),
             max = 3;
 
         hex.length == max ? hex = hex.replace(/(.)/g, '$1$1') : null;
@@ -135,9 +132,9 @@ try {
         for (e = Teams.GetEnumerator(); e.MoveNext();) e.Current.Spawns.Spawn();
     }
 
-    const _Text = function(txt) {
+    const _Text = function(text) {
         for (e = Teams.GetEnumerator(); e.MoveNext();)
-            if (e.Current != null) txt == 'reset' ? e.Current.Ui.Hint.Reset() : e.Current.Ui.Hint.Value = txt;
+            if (e.Current != null) text == 'reset' ? e.Current.Ui.Hint.Reset() : e.Current.Ui.Hint.Value = text;
     }
 
     const _Rand = function(min, max) {
@@ -159,11 +156,11 @@ try {
     round.Value = 360;
 
     const _Game = function() {
-        s.Value = 'game', _Spawn(), main.Restart(115);
+        state.Value = 'game', _Spawn(), main.Restart(115);
     }
 
     const _End = function(t) {
-        s.Value = 'end';
+        state.Value = 'end';
         round.Value--;
         if (t) {
             for (e = Players.GetEnumerator(); e.MoveNext();)
@@ -191,8 +188,9 @@ try {
     }
 
     const _States = function() {
-        s.Value == 'game' ? _End() : _Game();
+        state.Value == 'game' ? _End() : _Game();
     }
+
     main.OnTimer.Add(_States);
 
     const _Show = function(p) {
@@ -228,7 +226,7 @@ try {
         return p.Properties.Get('Kills').Value;
     });
 
-    spawn.RespawnEnable = false, BreackGraph.Damage = false, ui.MainTimerId.Value = main.Id;
+    spawn.RespawnEnable = false, BreackGraph.Damage = false, Ui.GetContext().MainTimerId.Value = main.Id;
     TeamsBalancer.IsAutoBalance = true;
 
     const blue = _Add('blue', {
@@ -244,7 +242,7 @@ try {
     _Initialization(0), _Initialization(1);
 
     Teams.OnRequestJoinTeam.Add(function(p, team) {
-        if (s.Value === 'end' || _Found(BLACKLIST, p.Id, '|')) return;
+        if (state.Value === 'end' || _Found(BLACKLIST, p.Id, '|')) return;
         team.Add(p);
         p.Properties.Get('Index').Value = 0;
     });
@@ -330,10 +328,8 @@ try {
     inv.Explosive.Value = false;
     inv.Build.Value = false;
 
-    
     _Game();
     con_prop.MaxHp.Value = 35;
-
 
 } catch (err) {
     msg.Show(err.name + ' ' + err.message);
