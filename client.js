@@ -330,7 +330,7 @@ try {
     inv.Explosive.Value = false;
     inv.Build.Value = false;
 
-    round.Value = 1;
+    
     _Game();
     con_prop.MaxHp.Value = 35;
 
