@@ -276,9 +276,9 @@ try {
         };
     });
 
-    Properties.OnPlayerProperty.Add(function(context, value) {
-        p = context.Player;
-        if (value.Name !== 'Deaths') p.Team.Properties.Get('info2').Value = '  <color=#FFFFFF> Счёт команды:  ' + n + n + '  wins: ' + p.Team.Properties.Get('wins').Value + ', looses: ' + p.Team.Properties.Get('looses').Value + '  </color>';
+    Properties.OnTeamProperty.Add(function(context, value) {
+        team = context.Team;
+        if (value.Name === 'wins' || value.Name === 'looses') team.Properties.Get('info2').Value = '  <color=#FFFFFF> Счёт команды:  ' + n + n + '  wins: ' + team.Properties.Get('wins').Value + ', looses: ' + team.Properties.Get('looses').Value + '  </color>';
     });
 
     BreackGraph.OnOptions.Add(function() {
