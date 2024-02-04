@@ -163,19 +163,21 @@ try {
     const _Game = function() {
         state.Value = 'game';
         _Spawn();
-        main.Restart(115), modes.Restart(3);
+        main.Restart(115), modes.Restart(1);
     }
     
     modes.OnTimer.Add(function() {
     	rand1 = _Rand(1, 1);
    	 if (Players.Count > 1 && rand1 == 1) {
  	       _Text(n + 'режим схватка!');
-            for (p1 = red.GetEnumerator(); p1.MoveNext();) for (p2 = blue.GetEnumerator(); p2.MoveNext();) {
-            	   rand2 = _Rand(1, 2);
-                   if (rand2 == 2) p1.Current.PositionIndex = p2.Current.PositionIndex;
-                 else p2.Current.PositionIndex = p1.Current.PositionIndex;
-            } 
-        }
+            for (p1 = red.GetEnumerator(); p1.MoveNext();) {
+                   for (p2 = blue.GetEnumerator(); p2.MoveNext();) {
+                   	   rand2 = _Rand(1, 2);
+                          if (rand2 == 2) p1.Current.PositionIndex = p2.Current.PositionIndex;
+                          else p2.Current.PositionIndex = p1.Current.PositionIndex;
+                 }
+             } 
+         }
     });
    
     const _End = function(t) {
