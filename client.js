@@ -38,7 +38,7 @@ try {
             {
                 name: 'mr.krieg',
                 target: 195
-            },        
+            },
             {
                 name: 'танкито',
                 target: 215
@@ -80,7 +80,7 @@ try {
         round = prop.Get('round'),
         inv = Inventory.GetContext(),
         main = Timers.GetContext().Get('main'),
-        modes = Timers.GetContext().Get('modes'),
+        mode = Timers.GetContext().Get('mode'),
         update = Timers.GetContext().Get('update'),
         spawn = Spawns.GetContext(),
         con_prop = contextedProperties.GetContext(),
@@ -163,25 +163,25 @@ try {
     const _Game = function() {
         state.Value = 'game';
         _Spawn();
-        main.Restart(115), modes.Restart(1);
+        main.Restart(115), mode.Restart(2);
     }
-    
-    modes.OnTimer.Add(function() {
-    	rand1 = _Rand(1, 1);
-   	 if (Players.Count > 1 && rand1 == 1) {
- 	       _Text(n + 'режим схватка!');
-            for (p1 = red.GetEnumerator(); p1.MoveNext();) {
-                   for (p2 = blue.GetEnumerator(); p2.MoveNext();) {
-                   	   rand2 = _Rand(1, 2);
-                          if (rand2 == 2) p1.Current.PositionIndex = p2.Current.PositionIndex;
-                          else p2.Current.PositionIndex = p1.Current.PositionIndex;
-                 }
-             } 
-         }
+
+    mode.OnTimer.Add(function() {
+        random1 = _Rand(1, 4);
+        if (Players.Count <= 5 && random1 != 4) return
+        _Text(n + 'схватка!');
+        for (p1 = red.GetEnumerator(); p1.MoveNext();) {
+            for (p2 = blue.GetEnumerator(); p2.MoveNext();) {
+                random2 = _Rand(1, 2);
+                if (random2 == 2) return p1.Current.PositionIndex = p2.Current.PositionIndex;
+                else return p2.Current.PositionIndex = p1.Current.PositionIndex;
+            }
+        }
     });
-   
+
     const _End = function(t) {
-        state.Value = 'end', _Text('reset');
+        state.Value = 'end';
+        _Text('reset');
         round.Value--;
         if (t) {
             for (e = Players.GetEnumerator(); e.MoveNext();)
@@ -211,7 +211,7 @@ try {
     const _States = function() {
         state.Value == 'game' ? _End() : _Game();
     }
-    
+
     main.OnTimer.Add(_States);
 
     const _Show = function(p) {
@@ -228,11 +228,11 @@ try {
     const _Reset = function(p) {
         p.Ui.Hint.Reset();
     }
-    
+
     const _Skin = function(p) {
-    	if (p.Team != red) return p.contextedProperties.SkinType.Value = 0;
-        rand = _Rand(1, 3);
-        if (rand != 3) return p.contextedProperties.SkinType.Value = 0;
+        if (p.Team != red) return p.contextedProperties.SkinType.Value = 0;
+        random = _Rand(1, 3);
+        if (random != 3) return p.contextedProperties.SkinType.Value = 0;
         p.contextedProperties.SkinType.Value = 2;
     }
 
@@ -267,7 +267,7 @@ try {
         }, '#FF2C7B', 2);
 
     // init
-      _Initialization(1);
+    _Initialization(1);
 
     Teams.OnRequestJoinTeam.Add(function(p, team) {
         if (state.Value === 'end' || _Found(BLACKLIST, p.Id, '|')) return;
@@ -285,8 +285,8 @@ try {
     });
 
     Teams.OnAddTeam.Add(function(team) {
-    	_Initialization(0);
-    	team.Properties.Get('info2').Value = '  <color=#FFFFFF> Счёт команды:  ' + n + n + '  wins: ' + team.Properties.Get('wins').Value + ', looses: ' + team.Properties.Get('looses').Value + '  </color>';
+        _Initialization(0);
+        team.Properties.Get('info2').Value = '  <color=#FFFFFF> Счёт команды:  ' + n + n + '  wins: ' + team.Properties.Get('wins').Value + ', looses: ' + team.Properties.Get('looses').Value + '  </color>';
         team.Ui.TeamProp1.Value = {
             Team: team.Id,
             Prop: 'info2'
@@ -310,7 +310,7 @@ try {
                 p.Properties.Immortality.Value = false;
                 break;
         }
-    }); 
+    });
 
     Spawns.OnSpawn.Add(function(p) {
         p.Properties.Get('Immortality').Value = true;
