@@ -1,13 +1,13 @@
 try {
 
-    /*  𝖐𝖓𝖎𝖋𝖊 | резня - 2 0 2 4.
-	        ----------------------------------
+       /*  𝖐𝖓𝖎𝖋𝖊 | резня - 2 0 2 4 | ver 1.0f.
+	        -----------------------------------
 	        mode for Pixel Combats 2.
 	        by me   */
 
-    const n = '\n',
-        ADMIN = 'EC76560AA6B5750B',
-        RANKS = [{
+    const n = '\n', ADMIN = 'EC76560AA6B5750B',
+        RANKS = [
+            {
                 name: 'новичёк',
                 target: 25
             },
@@ -24,11 +24,11 @@ try {
                 target: 89
             },
             {
-                name: 'мастер',
+                name: 'говноед',
                 target: 115
             },
             {
-                name: 'говноед',
+                name: 'мастер',
                 target: 145
             },
             {
@@ -38,26 +38,30 @@ try {
             {
                 name: 'mr.krieg',
                 target: 195
-            },
+            },        
             {
-                name: 'storm',
+                name: 'танкито',
                 target: 215
             },
             {
-                name: 'фраер',
+                name: 'storm',
                 target: 245
             },
             {
-                name: 'саймон',
+                name: 'фраер',
                 target: 278
             },
             {
-                name: 'loshka',
+                name: 'саймон',
                 target: 325
             },
             {
-                name: 'странник',
+                name: 'loshka',
                 target: 360
+            },
+            {
+                name: 'странник',
+                target: 395
             },
             {
                 name: 'босс',
@@ -89,9 +93,9 @@ try {
         });
     }
 
-    const _Add = function(tag, name, color, spawn) {
-        let team = Teams.Get(tag);
-        Teams.Add(tag, '<b><size=22>' + name.up.substring(0, 1) + '</size><size=17>' + name.up.substring(1) + '</size></b>' + n + '<size=17>' + name.down.substring(0, 1) + '</size>' + name.down.substring(1), _Color(color));
+    const _Add = function(identifier, name, color, spawn) {
+        let team = Teams.Get(identifier);
+        Teams.Add(identifier, '<b><size=22>' + name.up.substring(0, 1) + '</size><size=17>' + name.up.substring(1) + '</size></b>' + n + '<size=17>' + name.down.substring(0, 1) + '</size>' + name.down.substring(1), _Color(color));
         team.Spawns.SpawnPointsGroups.Add(spawn);
         return team;
     }
@@ -314,13 +318,12 @@ try {
         PROPERTIES[1].name.forEach(function(element1, element2) {
             if (prop.Get(p.Id + element1).Value == null) prop.Get(p.Id + element1).Value = PROPERTIES[1].value[element2];
         });
-        p.contextedProperties.MaxHp.Value = prop.Get(p.Id + 'hp').Value == null ? 35 : prop.Get(p.Id + 'hp').Value;
+        prop.Get(p.Id + 'hp').Value == null ? p.contextedProperties.MaxHp.Value = 35 : p.contextedProperties.MaxHp.Value = prop.Get(p.Id + 'hp').Value; 
     });
 
     Players.OnPlayerDisconnected.Add(function(p) {
         p.Team.Properties.Get(p.Id + 'info1').Value = null;
         prop.Get(p.Id + 'hp').Value = p.contextedProperties.MaxHp.Value;
-        update.Restart(1);
     });
 
     inv.Main.Value = false;
