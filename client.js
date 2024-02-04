@@ -160,7 +160,9 @@ try {
     round.Value = 360;
 
     const _Game = function() {
-        state.Value = 'game', _Spawn(), main.Restart(115);
+        state.Value = 'game';
+        _Spawn();
+        main.Restart(115);
     }
 
     const _End = function(t) {
