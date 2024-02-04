@@ -95,7 +95,7 @@ try {
 
     const _Add = function(identifier, name, color, spawn) {
         let team = Teams.Get(identifier);
-        Teams.Add(identifier, '<b>' + name.up + '</b>' + n + name.down, _Color(color));
+        Teams.Add(identifier, '<b><size=22>' + name.up.substring(0, 1) + '</size><size=17>' + name.up.substring(1) + '</size></b>' + n + '<size=17>' + name.down.substring(0, 1) + '</size>' + name.down.substring(1), _Color(color));
         team.Spawns.SpawnPointsGroups.Add(spawn);
         return team;
     }
@@ -236,11 +236,11 @@ try {
     TeamsBalancer.IsAutoBalance = true;
 
     const blue = _Add('blue', {
-            up: 'с и н и е ᵏⁿⁱᶠᵉᵉ',
+            up: 'спецназовцы ᵏⁿⁱᶠᵉᵉ',
             down: ''
         }, '#476AEC', 1),
         red = _Add('red', {
-            up: 'к р а с н ы е ᵏⁿⁱᶠᵉᵉ',
+            up: 'террористы ᵏⁿⁱᶠᵉᵉ',
             down: ''
         }, '#FE5757', 2);
 
@@ -259,7 +259,7 @@ try {
             Team: p.Team.Id,
             Prop: p.Id + 'info1'
         };
-      _Show(p);
+        _Show(p);
     });
 
     Teams.OnAddTeam.Add(function(team) {
@@ -291,7 +291,7 @@ try {
     Spawns.OnSpawn.Add(function(p) {
         p.Properties.Get('Immortality').Value = true;
         p.Timers.Get('Immo').Restart(3);
-      _Reset(p);
+        _Reset(p);
         if (p.Inventory.Secondary.Value) p.Inventory.Secondary.Value = false;
     });
 
@@ -313,7 +313,7 @@ try {
         if (pos != 0 && pos <= 13) vic.Ui.Hint.Value = p.NickName + ' убил вас с расстояния ' + Math.abs(pos.toFixed(2)) + ' блоков!';
         p.Properties.Get('Kills').Value += 1;
         prop.Get(p.Id + 'experience').Value += _Rand(2, 6);
-      _Show(p);
+        _Show(p);
     });
 
     Players.OnPlayerConnected.Add(function(p) {
