@@ -172,6 +172,7 @@ try {
             }
             for (var index = 0; index < one.length; index++) {
                 Players.GetByRoomId(one[one.length - 1]).Position = Players.GetByRoomId(two[two.length - 1]).Position;
+            }
         }
         main.Restart(115);
     }
