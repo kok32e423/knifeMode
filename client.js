@@ -124,11 +124,10 @@ try {
     }
 
     const _Update = function() {
-        if (state.Value === 'game') {
+        if (state.Value !== 'game') return;
             if (_Alive(red) > 0 && _Alive(blue) <= 0) return _End(red);
             else if (_Alive(blue) > 0 && _Alive(red) <= 0) return _End(blue);
             else if (_Alive(blue) <= 0 && _Alive(red) <= 0) return _End();
-        }
     }
 
     update.OnTimer.Add(_Update);
@@ -163,12 +162,8 @@ try {
     const _Game = function() {
         state.Value = 'game';
         _Spawn();
-        main.Restart(115), mode.Restart(2);
-    }
-
-    mode.OnTimer.Add(function() {
-        random1 = _Rand(1, 6);
-        if (Players.Count > 5 && random1 == 6) {
+        random1 = _Rand(1, 3);
+        if (Players.Count >= 4 && random1 == 3) {
             _Text(n + 'схватка!');
             for (p1 = red.GetEnumerator(); p1.MoveNext();) {
                 for (p2 = blue.GetEnumerator(); p2.MoveNext();) {
@@ -178,7 +173,8 @@ try {
                 }
             }
         }
-    });
+        main.Restart(115);
+    }
 
     const _End = function(t) {
         state.Value = 'end';
