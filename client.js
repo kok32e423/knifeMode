@@ -274,6 +274,7 @@ try {
             Team: team.Id,
             Prop: 'info2'
         };
+        team.Properties.Get('info2').Value = '  <color=#FFFFFF> Счёт команды:  ' + n + n + '  wins: ' + team.Properties.Get('wins').Value + ', looses: ' + team.Properties.Get('looses').Value + '  </color>';
     });
 
     Properties.OnTeamProperty.Add(function(context, value) {
