@@ -173,7 +173,7 @@ try {
                 if (e.Current.Team == t) e.Current.Properties.Get('Scores').Value += 1;
             t.Properties.Get('wins').Value += 1, _Another(t).Properties.Get('looses').Value += 1;
         }
-        main.Restart(10);
+        main.Restart(5);
     }
 
     const _View = function(name, tag, color, bool) {
@@ -212,6 +212,13 @@ try {
 
     const _Reset = function(p) {
         p.Ui.Hint.Reset();
+    }
+    
+    const _Skin = function(p) {
+    	if (p.Team != red) return p.contextedProperties.SkinType.Value = 0;
+        rand = _Rand(1, 3);
+        if (rand != 3) return p.contextedProperties.SkinType.Value = 0;
+        p.contextedProperties.SkinType.Value = 2;
     }
 
     LeaderBoard.PlayerLeaderBoardValues = [{
@@ -260,6 +267,7 @@ try {
             Prop: p.Id + 'info1'
         };
         _Show(p);
+        _Skin(p);
     });
 
     Teams.OnAddTeam.Add(function(team) {
