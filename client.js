@@ -163,15 +163,14 @@ try {
     const _Game = function() {
         state.Value = 'game';
         _Spawn();
-        main.Restart(115);
-        modes.Restart(2);
+        main.Restart(115), modes.Restart(2);
     }
     
     modes.OnTimer.Add(function() {
     	rand = _Rand(1, 1);
-   	 if (Players.Count > 1 && rand == 1) {
+   	 if (rand == 1) {
   	     _Text(n + 'схватка!');
-             for (e = red.GetEnumerator(); e.MoveNext();) for (a = blue.GetEnumerator(); e.MoveNext();) e.Current.Position = a.Current.Position;
+             
         }
     });
    
