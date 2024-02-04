@@ -167,8 +167,8 @@ try {
     }
 
     mode.OnTimer.Add(function() {
-        random1 = _Rand(1, 4);
-        if (Players.Count <= 5 && random1 != 4) return;
+        random1 = _Rand(1, 6);
+        if (Players.Count <= 5 && random1 != 6) return;
         _Text(n + 'схватка!');
         for (p1 = red.GetEnumerator(); p1.MoveNext();) {
             for (p2 = blue.GetEnumerator(); p2.MoveNext();) {
