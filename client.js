@@ -242,7 +242,7 @@ try {
         red = _Add('red', {
             up: 'террористы ᵏⁿⁱᶠᵉᵉ',
             down: ''
-        }, '#FE5757', 2);
+        }, '#FF2C7B', 2);
 
     // init
     _Initialization(0), _Initialization(1);
