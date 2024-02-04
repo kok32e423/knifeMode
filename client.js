@@ -252,7 +252,7 @@ try {
         }, '#FF2C7B', 2);
 
     // init
-    _Initialization(0), _Initialization(1);
+      _Initialization(1);
 
     Teams.OnRequestJoinTeam.Add(function(p, team) {
         if (state.Value === 'end' || _Found(BLACKLIST, p.Id, '|')) return;
@@ -270,11 +270,12 @@ try {
     });
 
     Teams.OnAddTeam.Add(function(team) {
+   	_Initialization(0);
+    	team.Properties.Get('info2').Value = '  <color=#FFFFFF> Счёт команды:  ' + n + n + '  wins: ' + team.Properties.Get('wins').Value + ', looses: ' + team.Properties.Get('looses').Value + '  </color>';
         team.Ui.TeamProp1.Value = {
             Team: team.Id,
             Prop: 'info2'
         };
-        team.Properties.Get('info2').Value = '  <color=#FFFFFF> Счёт команды:  ' + n + n + '  wins: ' + team.Properties.Get('wins').Value + ', looses: ' + team.Properties.Get('looses').Value + '  </color>';
     });
 
     Properties.OnTeamProperty.Add(function(context, value) {
