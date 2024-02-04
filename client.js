@@ -95,7 +95,7 @@ try {
 
     const _Add = function(identifier, name, color, spawn) {
         let team = Teams.Get(identifier);
-        Teams.Add(identifier, '<b><size=22>' + name.up.substring(0, 1) + '</size><size=17>' + name.up.substring(1) + '</size></b>' + n + '<size=17>' + name.down.substring(0, 1) + '</size>' + name.down.substring(1), _Color(color));
+        Teams.Add(identifier, '<b>' + name.up + '</size></b>' + n + '<size=17>' + name.down, _Color(color));
         team.Spawns.SpawnPointsGroups.Add(spawn);
         return team;
     }
