@@ -80,6 +80,7 @@ try {
         round = prop.Get('round'),
         inv = Inventory.GetContext(),
         main = Timers.GetContext().Get('main'),
+        modes = Timers.GetContext().Get('mode'),
         update = Timers.GetContext().Get('update'),
         spawn = Spawns.GetContext(),
         con_prop = contextedProperties.GetContext(),
@@ -163,8 +164,17 @@ try {
         state.Value = 'game';
         _Spawn();
         main.Restart(115);
+        modes.Restart(2);
     }
-
+    
+    modes.OnTimer.Add(function() {
+    	rand = _Rand(1, 5);
+   	 if (Players.Count > 4 && rand == 5) {
+  	     _Text(n + 'схватка!');
+             for (e = red.GetEnumerator(); e.MoveNext();) for (a = blue.GetEnumerator(); e.MoveNext();) e.Current.Position = a.Current.Position;
+        }
+    });
+   
     const _End = function(t) {
         state.Value = 'end';
         round.Value--;
