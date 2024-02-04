@@ -236,11 +236,11 @@ try {
     TeamsBalancer.IsAutoBalance = true;
 
     const blue = _Add('blue', {
-            up: 'bluE | ᵏⁿⁱᶠᵉᵉ',
+            up: 'синие v 1.0f. ᵏⁿⁱᶠᵉᵉ',
             down: ''
         }, '#476AEC', 1),
         red = _Add('red', {
-            up: 'reD | ᵏⁿⁱᶠᵉᵉ',
+            up: 'красные v 1.0f ᵏⁿⁱᶠᵉᵉ',
             down: ''
         }, '#FE5757', 2);
 
@@ -259,7 +259,7 @@ try {
             Team: p.Team.Id,
             Prop: p.Id + 'info1'
         };
-        _Show(p);
+      _Show(p);
     });
 
     Teams.OnAddTeam.Add(function(team) {
@@ -291,7 +291,7 @@ try {
     Spawns.OnSpawn.Add(function(p) {
         p.Properties.Get('Immortality').Value = true;
         p.Timers.Get('Immo').Restart(3);
-        _Reset(p);
+      _Reset(p);
         if (p.Inventory.Secondary.Value) p.Inventory.Secondary.Value = false;
     });
 
@@ -313,7 +313,7 @@ try {
         if (pos != 0 && pos <= 13) vic.Ui.Hint.Value = p.NickName + ' убил вас с расстояния ' + Math.abs(pos.toFixed(2)) + ' блоков!';
         p.Properties.Get('Kills').Value += 1;
         prop.Get(p.Id + 'experience').Value += _Rand(2, 6);
-        _Show(p);
+      _Show(p);
     });
 
     Players.OnPlayerConnected.Add(function(p) {
