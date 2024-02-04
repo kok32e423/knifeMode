@@ -168,13 +168,14 @@ try {
 
     mode.OnTimer.Add(function() {
         random1 = _Rand(1, 6);
-        if (Players.Count <= 5 && random1 != 6) return;
-        _Text(n + 'схватка!');
-        for (p1 = red.GetEnumerator(); p1.MoveNext();) {
-            for (p2 = blue.GetEnumerator(); p2.MoveNext();) {
-                random2 = _Rand(1, 2);
-                if (random2 == 2) return p1.Current.PositionIndex = p2.Current.PositionIndex;
-                else return p2.Current.PositionIndex = p1.Current.PositionIndex;
+        if (Players.Count > 5 && random1 == 6) {
+            _Text(n + 'схватка!');
+            for (p1 = red.GetEnumerator(); p1.MoveNext();) {
+                for (p2 = blue.GetEnumerator(); p2.MoveNext();) {
+                    random2 = _Rand(1, 2);
+                    if (random2 == 2) return p1.Current.PositionIndex = p2.Current.PositionIndex;
+                    else return p2.Current.PositionIndex = p1.Current.PositionIndex;
+                }
             }
         }
     });
