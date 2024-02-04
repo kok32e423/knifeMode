@@ -215,9 +215,9 @@ try {
     }
     
     const _Skin = function(p) {
-    	if (p.Team != red) return;
-        rand = _Rand(1, 2);
-        if (rand != 2) return p.contextedProperties.SkinType.Value = 0;
+    	if (p.Team != red) return p.contextedProperties.SkinType.Value = 0;
+        rand = _Rand(1, 3);
+        if (rand != 3) return p.contextedProperties.SkinType.Value = 0;
         p.contextedProperties.SkinType.Value = 2;
     }
 
@@ -270,8 +270,8 @@ try {
     });
 
     Teams.OnAddTeam.Add(function(team) {
-   	_Initialization(0);
-    	team.Properties.Get('info2').Value = '  <color=#FFFFFF> Счёт команды:  ' + n + n + '  wins: ' + team.Properties.Get('wins').Value + ', looses: ' + team.Properties.Get('looses').Value + '  </color>';
+    	_Initialization(0);
+    	team.Properties.Get('info2').Value = '  <color=#FFFFFF> Счёт команды:  ' + n + n + '  wins: ( ' + team.Properties.Get('wins').Value + ' ), looses: ' + team.Properties.Get('looses').Value + '  </color>';
         team.Ui.TeamProp1.Value = {
             Team: team.Id,
             Prop: 'info2'
@@ -280,7 +280,7 @@ try {
 
     Properties.OnTeamProperty.Add(function(context, value) {
         team = context.Team;
-        if (value.Name === 'wins' || value.Name === 'looses') team.Properties.Get('info2').Value = '  <color=#FFFFFF> Счёт команды:  ' + n + n + '  wins: ' + team.Properties.Get('wins').Value + ', looses: ' + team.Properties.Get('looses').Value + '  </color>';
+        if (value.Name === 'wins' || value.Name === 'looses') team.Properties.Get('info2').Value = '  <color=#FFFFFF> Счёт команды:  ' + n + n + '  wins: ( ' + team.Properties.Get('wins').Value + ' ), looses: ' + team.Properties.Get('looses').Value + '  </color>';
     });
 
     BreackGraph.OnOptions.Add(function() {
@@ -295,7 +295,7 @@ try {
                 p.Properties.Immortality.Value = false;
                 break;
         }
-    });
+    }); 
 
     Spawns.OnSpawn.Add(function(p) {
         p.Properties.Get('Immortality').Value = true;
