@@ -215,9 +215,9 @@ try {
     }
     
     const _Skin = function(p) {
-    	if (p.Team != red) return p.contextedProperties.SkinType.Value = 0;
-        rand = _Rand(1, 3);
-        if (rand != 3) return p.contextedProperties.SkinType.Value = 0;
+    	if (p.Team != red) return;
+        rand = _Rand(1, 2);
+        if (rand != 2) return p.contextedProperties.SkinType.Value = 0;
         p.contextedProperties.SkinType.Value = 2;
     }
 
@@ -257,7 +257,6 @@ try {
     Teams.OnRequestJoinTeam.Add(function(p, team) {
         if (state.Value === 'end' || _Found(BLACKLIST, p.Id, '|')) return;
         team.Add(p);
-        p.Properties.Get('Index').Value = 0;
     });
 
     Teams.OnPlayerChangeTeam.Add(function(p) {
@@ -277,9 +276,9 @@ try {
         };
     });
 
-    Properties.OnTeamProperty.Add(function(context) {
-        let team = context.Team;
-        team.Properties.Get('info2').Value = '  <color=#FFFFFF> Счёт команды:  ' + n + n + '  wins: ' + team.Properties.Get('wins').Value + ', looses: ' + team.Properties.Get('looses').Value + '  </color>';
+    Properties.OnPlayerProperty.Add(function(context, value) {
+        p = context.Player;
+        if (value.Name === 'Deaths') p.Team.Properties.Get('info2').Value = '  <color=#FFFFFF> Счёт команды:  ' + n + n + '  wins: ' + p.Team.Properties.Get('wins').Value + ', looses: ' + p.Team.Properties.Get('looses').Value + '  </color>';
     });
 
     BreackGraph.OnOptions.Add(function() {
@@ -315,8 +314,7 @@ try {
     });
 
     Damage.OnKill.Add(function(p, vic) {
-        if (vic.Team == p.Team)
-            return;
+        if (vic.Team == p.Team) return;
         pos = p.Position.x - vic.Position.x + p.Position.y - vic.Position.y + p.Position.z - vic.Position.z; // 
         if (pos != 0 && pos <= 13) vic.Ui.Hint.Value = p.NickName + ' убил вас с расстояния ' + Math.abs(pos.toFixed(2)) + ' блоков!';
         p.Properties.Get('Kills').Value += 1;
@@ -328,13 +326,10 @@ try {
         PROPERTIES[1].name.forEach(function(element1, element2) {
             if (prop.Get(p.Id + element1).Value == null) prop.Get(p.Id + element1).Value = PROPERTIES[1].value[element2];
         });
-        if (prop.Get(p.Id + 'hp').Value == null) return p.contextedProperties.MaxHp.Value = 35;
-        p.contextedProperties.MaxHp.Value = prop.Get(p.Id + 'hp').Value; 
     });
 
     Players.OnPlayerDisconnected.Add(function(p) {
         p.Team.Properties.Get(p.Id + 'info1').Value = null;
-        prop.Get(p.Id + 'hp').Value = p.contextedProperties.MaxHp.Value;
     });
 
     inv.Main.Value = false;
