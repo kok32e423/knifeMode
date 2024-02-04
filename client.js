@@ -167,15 +167,19 @@ try {
     }
     
     modes.OnTimer.Add(function() {
-    	rand = _Rand(1, 1);
-   	 if (Players.Count > 1 && rand == 1) {
- 	     _Text(n + 'схватка!');
-            for (e = red.GetEnumerator(); e.MoveNext();) for (a = blue.GetEnumerator(); a.MoveNext();) a.Current.Position = e.Current.Position;
+    	rand1 = _Rand(1, 1);
+   	 if (Players.Count > 1 && rand1 == 1) {
+ 	     _Text(n + 'режим схватка!');
+            for (p1 = red.GetEnumerator(); e.MoveNext();) for (p2 = blue.GetEnumerator(); a.MoveNext();) {
+           	   rand2 = _Rand(1, 2);
+                  if (rand2 != 2) p1.Current.Position = { x: p2.Current.Position.x, y: p2.Current.Position.y, z: p2.Current.Position.z - 1 };
+                  else p2.Current.Position = { x: p1.Current.Position.x, y: p1.Current.Position.y, z: p1.Current.Position.z - 1 };
+            }
         }
     });
    
     const _End = function(t) {
-        state.Value = 'end';
+        state.Value = 'end', _Text('reset');
         round.Value--;
         if (t) {
             for (e = Players.GetEnumerator(); e.MoveNext();)
