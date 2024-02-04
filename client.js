@@ -163,17 +163,14 @@ try {
         state.Value = 'game';
         _Spawn();
         random1 = _Rand(1, 1);
-        one = [], two = [];
         if (random1 == 1) {
           _Text(n + 'схватка!');
-            for (e = Players.GetEnumerator(); e.MoveNext();) {
-         	   if (e.Current.Team == red) two.push(e.Current.IdInRoom);
-                if (e.Current.Team == blue) one.push(e.Current.IdInRoom);
-            }
-            for (var index = 0; index < one.length; index++) {
-                Players.GetByRoomId(one[one.length - 1]).Position = Players.GetByRoomId(two[two.length - 1]).Position;
-            }
-        }
+            for (p1 = red.GetEnumerator(); p1.MoveNext();) {
+         	     for (p2= blue.GetEnumerator(); p2.MoveNext();) {    
+         	           p1.Current.Position = { x: p2.Current.Position.x, y: p2.Current.Position.y, z: p2.Current.Position.z - 1 };
+         	}
+         }
+    }
         main.Restart(115);
     }
 
