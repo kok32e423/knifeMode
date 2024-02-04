@@ -162,16 +162,16 @@ try {
     const _Game = function() {
         state.Value = 'game';
         _Spawn();
-        random1 = _Rand(1, 3);
-        if (Players.Count >= 4 && random1 == 3) {
-            _Text(n + 'схватка!');
-            for (p1 = red.GetEnumerator(); p1.MoveNext();) {
-                for (p2 = blue.GetEnumerator(); p2.MoveNext();) {
-                    random2 = _Rand(1, 2);
-                    if (random2 == 2) return p1.Current.PositionIndex = p2.Current.PositionIndex;
-                    else return p2.Current.PositionIndex = p1.Current.PositionIndex;
-                }
+        random1 = _Rand(1, 1);
+        one = [], two = [];
+        if (random1 == 1) {
+          _Text(n + 'схватка!');
+            for (e = Players.GetEnumerator(); e.MoveNext();) {
+         	   if (e.Current.Team == red) two.push(e.Current.IdInRoom);
+                if (e.Current.Team == blue) one.push(e.Current.IdInRoom);
             }
+            for (var index = 0; index < one.length; index++) {
+                Players.GetByRoomId(one[one.length - 1]).Position = Players.GetByRoomId(two[two.length - 1]).Position;
         }
         main.Restart(115);
     }
@@ -330,7 +330,7 @@ try {
     Damage.OnKill.Add(function(p, vic) {
         if (vic.Team == p.Team) return;
         pos = p.Position.x - vic.Position.x + p.Position.y - vic.Position.y + p.Position.z - vic.Position.z; // 
-        if (pos > 0 && pos <= 13) vic.Ui.Hint.Value = p.NickName + ' убил вас с расстояния ' + Math.abs(pos.toFixed(2)) + ' блоков!';
+        if (pos != 0 && pos <= 13) vic.Ui.Hint.Value = p.NickName + ' убил вас с расстояния ' + Math.abs(pos.toFixed(2)) + ' блоков!';
         p.Properties.Get('Kills').Value += 1;
         prop.Get(p.Id + 'experience').Value += _Rand(2, 6);
         _Show(p);
