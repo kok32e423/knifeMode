@@ -28,11 +28,11 @@ try {
                 target: 115
             },
             {
-                name: 'мастер',
+                name: 'жидктор',
                 target: 145
             },
             {
-                name: 'жидктор',
+                name: 'мастер',
                 target: 160
             },
             {
@@ -310,7 +310,7 @@ try {
         if (vic.Team == p.Team)
             return;
         pos = p.Position.x - vic.Position.x + p.Position.y - vic.Position.y + p.Position.z - vic.Position.z; // 
-        if (pos != 0) vic.Ui.Hint.Value = p.NickName + ' убил вас с расстояния ' + Math.abs(pos.toFixed(2)) + ' блоков!';
+        if (pos != 0 && pos <= 13) vic.Ui.Hint.Value = p.NickName + ' убил вас с расстояния ' + Math.abs(pos.toFixed(2)) + ' блоков!';
         p.Properties.Get('Kills').Value += 1;
         prop.Get(p.Id + 'experience').Value += _Rand(2, 6);
         _Show(p);
@@ -320,7 +320,8 @@ try {
         PROPERTIES[1].name.forEach(function(element1, element2) {
             if (prop.Get(p.Id + element1).Value == null) prop.Get(p.Id + element1).Value = PROPERTIES[1].value[element2];
         });
-        prop.Get(p.Id + 'hp').Value == null ? p.contextedProperties.MaxHp.Value = 35 : p.contextedProperties.MaxHp.Value = prop.Get(p.Id + 'hp').Value; 
+        if (prop.Get(p.Id + 'hp').Value == null) return p.contextedProperties.MaxHp.Value = 35;
+        p.contextedProperties.MaxHp.Value = prop.Get(p.Id + 'hp').Value; 
     });
 
     Players.OnPlayerDisconnected.Add(function(p) {
