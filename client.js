@@ -236,11 +236,11 @@ try {
     TeamsBalancer.IsAutoBalance = true;
 
     const blue = _Add('blue', {
-            up: 'b l u e ᵏⁿⁱᶠᵉᵉ',
+            up: 'b l u E ᵏⁿⁱᶠᵉᵉ',
             down: ''
         }, '#476AEC', 1),
         red = _Add('red', {
-            up: 'r e d ᵏⁿⁱᶠᵉᵉ',
+            up: 'r e D ᵏⁿⁱᶠᵉᵉ',
             down: ''
         }, '#FE5757', 2);
 
