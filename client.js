@@ -271,7 +271,7 @@ try {
 
     Teams.OnAddTeam.Add(function(team) {
     	_Initialization(0);
-    	team.Properties.Get('info2').Value = '  <color=#FFFFFF> Счёт команды:  ' + n + n + '  wins: ( ' + team.Properties.Get('wins').Value + ' ), looses: ' + team.Properties.Get('looses').Value + '  </color>';
+    	team.Properties.Get('info2').Value = '<color=#FFFFFF>Счёт команды:' + n + n + 'wins: ( ' + team.Properties.Get('wins').Value + ' ), looses: ( ' + team.Properties.Get('looses').Value + ' )</color>';
         team.Ui.TeamProp1.Value = {
             Team: team.Id,
             Prop: 'info2'
@@ -280,7 +280,7 @@ try {
 
     Properties.OnTeamProperty.Add(function(context, value) {
         team = context.Team;
-        if (value.Name === 'wins' || value.Name === 'looses') team.Properties.Get('info2').Value = '  <color=#FFFFFF> Счёт команды:  ' + n + n + '  wins: ( ' + team.Properties.Get('wins').Value + ' ), looses: ' + team.Properties.Get('looses').Value + '  </color>';
+        if (value.Name === 'wins' || value.Name === 'looses') team.Properties.Get('info2').Value = '  <color=#FFFFFF> Счёт команды:  ' + n + n + '  wins: ( ' + team.Properties.Get('wins').Value + ' ), looses: ( ' + team.Properties.Get('looses').Value + ' )  </color>';
     });
 
     BreackGraph.OnOptions.Add(function() {
