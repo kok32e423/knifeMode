@@ -95,7 +95,7 @@ try {
 
     const _Add = function(identifier, name, color, spawn) {
         let team = Teams.Get(identifier);
-        Teams.Add(identifier, '<b><size=22>' + name.up.substring(0, 1) + '</size><size=17>' + name.up.substring(1) + '</size></b>' + n + '<size=17>' + name.down.substring(0, 1) + '</size>' + name.down.substring(1), _Color(color));
+        Teams.Add(identifier, '<b><size=20>' + name.up.substring(0, 1) + '</size><size=17>' + name.up.substring(1) + '</size></b>' + n + '<size=17>' + name.down.substring(0, 1) + '</size>' + name.down.substring(1), _Color(color));
         team.Spawns.SpawnPointsGroups.Add(spawn);
         return team;
     }
@@ -271,7 +271,7 @@ try {
 
     Teams.OnAddTeam.Add(function(team) {
     	_Initialization(0);
-    	team.Properties.Get('info2').Value = '<color=#FFFFFF>Счёт команды:' + n + n + 'wins: ( ' + team.Properties.Get('wins').Value + ' ), looses: ( ' + team.Properties.Get('looses').Value + ' )</color>';
+    	team.Properties.Get('info2').Value = '  <color=#FFFFFF> Счёт команды:  ' + n + n + '  wins: ' + team.Properties.Get('wins').Value + ', looses: ' + team.Properties.Get('looses').Value + '  </color>';
         team.Ui.TeamProp1.Value = {
             Team: team.Id,
             Prop: 'info2'
@@ -280,7 +280,7 @@ try {
 
     Properties.OnTeamProperty.Add(function(context, value) {
         team = context.Team;
-        if (value.Name === 'wins' || value.Name === 'looses') team.Properties.Get('info2').Value = '  <color=#FFFFFF> Счёт команды:  ' + n + n + '  wins: ( ' + team.Properties.Get('wins').Value + ' ), looses: ( ' + team.Properties.Get('looses').Value + ' )  </color>';
+        if (value.Name === 'wins' || value.Name === 'looses') team.Properties.Get('info2').Value = '  <color=#FFFFFF> Счёт команды:  ' + n + n + '  wins: ' + team.Properties.Get('wins').Value + ', looses: ' + team.Properties.Get('looses').Value + '  </color>';
     });
 
     BreackGraph.OnOptions.Add(function() {
