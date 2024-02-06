@@ -201,12 +201,12 @@ p.Properties.Scores.Value+=20000;
 var tpArea=AreaPlayerTriggerService.Get("tp");
 tpArea.Tags=["tp"];
 tpArea.Enable=1;
-tpArea.OnExit.Add(function(p,a){
+tpArea.OnEnter.Add(function(p,a){
 if(a.name=="toSpawn"){
 p.Spawns.SpawnPointsGroups.Clear();
 p.Spawns.SpawnPointsGroups.Add(1);
 p.Ui.Hint.Reset();
-p.SetPositionAndRotation({x:84,y:12,z:84},{x:0,y:0});
+p.SetPositionAndRotation({x:84,y:14,z:84},{x:0,y:0});
 p.inventory.Melee.Value=1;
 }
 else if(a.name=="toLobby"){
