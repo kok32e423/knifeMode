@@ -208,7 +208,7 @@ p.Spawns.SpawnPointsGroups.Clear();
 p.Spawns.SpawnPointsGroups.Add(1);
 p.Ui.Hint.Reset();
 p.Damage.DamageIn.Value=0;
-p.Timers.Get("tp_immo").Restart(1);
+p.Timers.Get("tp_immo").Restart(3);
 p.SetPositionAndRotation({x:84,y:14,z:84},{x:0,y:0});
 p.inventory.Melee.Value=1;
 }
