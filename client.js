@@ -1,6 +1,6 @@
 var gameTimer=Timers.GetContext().Get("Game");
-var clear=Timers.GetContext().Get("Clr");
 gameTime=3000;
+var clrTimer=Timers.GetContext().Get("Clr");
 
 Build.GetContext().Pipette.Value=1;
 
@@ -61,7 +61,7 @@ p.Timers.Get("imm").Restart(5);
 Timers.OnPlayerTimer.Add(function(t){
 if(t.Id=="imm")t.Player.Properties.Immortality.Value=0;
 if(t.Id=="late_spawn"&&t.Player.Team==null)mainTeam.Add(t.Player);
-if(t.Id=="tp_immo")t.Player.Damage.DamageIn.Value=1, t.Player.Damage.DamageOut.Value=1;
+if(t.Id=="tp_immo")t.Player.Damage.DamageIn.Value=1;
 });
 
 Damage.OnDeath.Add(function(p){
@@ -208,7 +208,6 @@ p.Spawns.SpawnPointsGroups.Clear();
 p.Spawns.SpawnPointsGroups.Add(1);
 p.Ui.Hint.Reset();
 p.Damage.DamageIn.Value=0;
-p.Damage.DamageOut.Value=0;
 p.Timers.Get("tp_immo").Restart(1);
 p.SetPositionAndRotation({x:84,y:14,z:84},{x:0,y:0});
 p.inventory.Melee.Value=1;
@@ -269,8 +268,8 @@ p.Properties.Get("Id").Value=p.id.slice(0,8)+"\n"+p.id.slice(8,16);
 p.Timers.Get("late_spawn").Restart(10);
 }
 
-clear.OnTimer.Add(function(){MapEditor.SetBlock(AreaService.Get('clr'), 0);});
-clear.RestartLoop(6);
+clrTimer.OnTimer.Add(function(){MapEditor.SetBlock(AreaService.Get('clr'), 0);});
+clrTimer.RestartLoop(6);
 
 Spawns.GetContext().RespawnTime.Value=5;
 gameTimer.Restart(gameTime);
