@@ -167,7 +167,6 @@ try {
 
     const _End = function(t) {
         state.Value = 'end';
-        _Text('reset');
         round.Value--;
         if (t) {
             for (e = Players.GetEnumerator(); e.MoveNext();)
@@ -258,6 +257,7 @@ try {
     Teams.OnRequestJoinTeam.Add(function(p, team) {
         if (state.Value === 'end' || _Found(BLACKLIST, p.Id, '|')) return;
         team.Add(p);
+        p.Properties.Get('index').Value = 0;
     });
 
     Teams.OnPlayerChangeTeam.Add(function(p) {
@@ -339,6 +339,16 @@ try {
     inv.Secondary.Value = false;
     inv.Explosive.Value = false;
     inv.Build.Value = false;
+    
+    const inv_red_v = _View('inv_red_v', ['inv_red_tr'], '#FFD966', true),
+    inv_red_tr = _Trigger('inv_red_tr', ['inv_red_tr'], true, function (p, a) {
+    	_Refresh(red);
+        index = p.Properties.Get('index');
+        if (index.Value < plrs.length - 1) index.Value++;
+        else index.Value = 0;
+        plr = Players.GetByRoomId(plrs[index.Value]);
+        p.Ui.Hint.Value = 'вы хотите отправить приглашение на дуэль игроку ' + plr.NickName;
+    });
 
     _Game();
     con_prop.MaxHp.Value = 35;
