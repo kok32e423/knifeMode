@@ -331,7 +331,7 @@ try {
         p.Properties.Get('Kills').Value += 1;
         prop.Get(p.Id + 'experience').Value += _Rand(2, 6);
         _Show(p);
-        if (vic.Inventory.Secondary.Value) p.Spawns.Spawn(), vic.Inventory.Secondary.Value = false;
+        if (vic.Inventory.Secondary.Value) p.Spawns.Spawn(), vic.Inventory.Secondary.Value = false, locked = false;
     });
 
     Players.OnPlayerConnected.Add(function(p) {
