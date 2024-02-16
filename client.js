@@ -352,7 +352,7 @@ try {
     const inv_red_v = _View('inv_red_v', ['inv_red_tr'], '#FFD966', true),
     inv_red_tr = _Trigger('inv_red_tr', ['inv_red_tr'], true, function (p, a) {
     	if (locked || state.Value === 'end') return;
-    	_Refresh (red);
+    	_Refresh (blue);
         index = p.Properties.Get('index');
         if (index.Value < plrs.length - 1) index.Value++;
         else index.Value = 0;
