@@ -135,7 +135,7 @@ try {
     update.OnTimer.Add(_Update);
 
     const _Spawn = function() {
-        for (e = Teams.GetEnumerator(); e.MoveNext();) e.Current.Spawns.Spawn();
+        for (e = Players.GetEnumerator(); e.MoveNext();) if (e.Current.Spawns.IsSpawned && !e.Current.Inventory.Secondary.Value) e.Current.Spawns.Spawn();
     }
 
     const _Text = function(text) {
