@@ -297,8 +297,8 @@ try {
                 p.Properties.Immortality.Value = false;
                 break;
             case 'invite':
-                if (p.Properties.Get('inarea').Value) p.Properties.Get('1').Value = true, p.Ui.Hint.Value = 'приглашение на дуэль отправлено!';
-                else p.Properties.Get('2').Value = true, p.SetPositionAndRotation({ x: 91, y: 12, z: 48 }, { x: 0, y: 0 }), p.Ui.Hint.Value = 'вам пришло приглашение на дуэль!';
+                if (p.Properties.Get('inarea').Value) return p.Properties.Get('1').Value = true, p.Ui.Hint.Value = 'приглашение на дуэль отправлено!';
+                p.Properties.Get('2').Value = true, p.SetPositionAndRotation({ x: 91, y: 12, z: 48 }, { x: 0, y: 0 }), p.Ui.Hint.Value = 'вам пришло приглашение на дуэль!';
                 break;
         }
     });
