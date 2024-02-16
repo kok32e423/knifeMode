@@ -331,7 +331,7 @@ try {
         p.Properties.Get('Kills').Value += 1;
         prop.Get(p.Id + 'experience').Value += _Rand(2, 6);
         _Show(p);
-        if (vic.Inventory.Secondary.Value) p.Spawns.Spawn();
+        if (vic.Inventory.Secondary.Value) p.Spawns.Spawn(), p.Inventory.Secondary.Value = false;
     });
 
     Players.OnPlayerConnected.Add(function(p) {
@@ -351,7 +351,7 @@ try {
     
     const inv_red_v = _View('inv_red_v', ['inv_red_tr'], '#FFD966', true),
     inv_red_tr = _Trigger('inv_red_tr', ['inv_red_tr'], true, function (p, a) {
-    	if (locked || state.Value === 'end') return;
+    	if (locked || state.Value === 'end' || p.Team != red) return;
     	_Refresh (blue);
         index = p.Properties.Get('index');
         if (index.Value < plrs.length - 1) index.Value++;
