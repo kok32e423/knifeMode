@@ -79,7 +79,6 @@ try {
         state = prop.Get('state'),
         round = prop.Get('round'),
         locked = prop.Get('locked').Value,
-        duel = prop.Get('duel').Value,
         inv = Inventory.GetContext(),
         main = Timers.GetContext().Get('main'),
         mode = Timers.GetContext().Get('mode'),
@@ -303,6 +302,8 @@ try {
                 break;
         }
     });
+    
+    locked = false;
 
     Spawns.OnSpawn.Add(function(p) {
         p.Properties.Get('Immortality').Value = true;
@@ -370,14 +371,14 @@ try {
         _Reset(p);
     }),
     accept_v = _View('accept_v', ['accept'], '#ADF4C2', true),
-    accept_tr = _View('accept_tr', ['accept'], true, function (p, a) {
+    accept_tr = _Trigger('accept_tr', ['accept'], true, function (p, a) {
         for (e = Players.GetEnumerator(); e.MoveNext();) {
         	if (e.Current.Properties.Get('1').Value) e.Current.Inventory.Secondary.Value = true, e.Current.SetPositionAndRotation({ x: 122, y: 14, z: 40 }, { x: 0, y: - 90 }), e.Current.Properties.Get('1').Value = false;
             if (e.Current.Properties.Get('2').Value) e.Current.Inventory.Secondary.Value = true, e.Current.SetPositionAndRotation({ x: 116, y: 14, z: 82 }, { x: 0, y: 90 }), e.Current.Properties.Get('2').Value = false;
         }
     }),
     decline_v = _View('decline_v', ['decline'], '#BF3952', true),
-    decline_tr = _View('decline_tr', ['decline'], true, function (p, a) {
+    decline_tr = _Trigger('decline_tr', ['decline'], true, function (p, a) {
         for (e = Players.GetEnumerator(); e.MoveNext();) {
         	if (e.Current.Properties.Get('1').Value) e.Current.Spawns.Spawn(), e.Current.Properties.Get('1').Value = false, e.Current.Ui.Hint.Value = 'приглашение отклонено!';
             if (e.Current.Properties.Get('2').Value) e.Current.Spawns.Spawn(), e.Current.Properties.Get('2').Value = false, e.Current.Ui.Hint.Value = 'приглашение отклонено!';
@@ -389,4 +390,4 @@ try {
 
 } catch (err) {
     msg.Show(err.name + ' ' + err.message);
-}
+} 
