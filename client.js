@@ -376,13 +376,13 @@ try {
             if (e.Current.Properties.Get('2').Value) e.Current.Inventory.Secondary.Value = true, e.Current.SetPositionAndRotation({ x: 116, y: 14, z: 82 }, { x: 0, y: 90 }), e.Current.Properties.Get('2').Value = false;
         }
     }),
-    decline_v = _View('decline_v', ['decline'], '#ADF4C2', true),
+    decline_v = _View('decline_v', ['decline'], '#BF3952', true),
     decline_tr = _View('decline_tr', ['decline'], true, function (p, a) {
         for (e = Players.GetEnumerator(); e.MoveNext();) {
         	if (e.Current.Properties.Get('1').Value) e.Current.Spawns.Spawn(), e.Current.Properties.Get('1').Value = false, e.Current.Ui.Hint.Value = 'приглашение отклонено!';
             if (e.Current.Properties.Get('2').Value) e.Current.Spawns.Spawn(), e.Current.Properties.Get('2').Value = false, e.Current.Ui.Hint.Value = 'приглашение отклонено!';
         }
-    });
+    }); 
 
     _Game();
     con_prop.MaxHp.Value = 35;
