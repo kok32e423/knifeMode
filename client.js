@@ -373,15 +373,17 @@ try {
     accept_v = _View('accept_v', ['accept'], '#ADF4C2', true),
     accept_tr = _Trigger('accept_tr', ['accept'], true, function (p, a) {
         for (e = Players.GetEnumerator(); e.MoveNext();) {
-        	if (e.Current.Properties.Get('1').Value) e.Current.Inventory.Secondary.Value = true, e.Current.SetPositionAndRotation({ x: 122, y: 14, z: 40 }, { x: 0, y: - 90 }), e.Current.Properties.Get('1').Value = false;
+        	if (e.Current.Properties.Get('1').Value) e.Current.Inventory.Secondary.Value = true, e.Current.SetPositionAndRotation({ x: 122, y: 14, z: 40 }, { x: 0, y: - 90 }), e.Current.Properties.Get('1').Value = false, e.Current.Properties.Get('inarea').Value = false;
             if (e.Current.Properties.Get('2').Value) e.Current.Inventory.Secondary.Value = true, e.Current.SetPositionAndRotation({ x: 116, y: 14, z: 82 }, { x: 0, y: 90 }), e.Current.Properties.Get('2').Value = false;
+            locked = true;
         }
     }),
     decline_v = _View('decline_v', ['decline'], '#BF3952', true),
     decline_tr = _Trigger('decline_tr', ['decline'], true, function (p, a) {
         for (e = Players.GetEnumerator(); e.MoveNext();) {
-        	if (e.Current.Properties.Get('1').Value) e.Current.Spawns.Spawn(), e.Current.Properties.Get('1').Value = false, e.Current.Ui.Hint.Value = 'приглашение отклонено!';
+        	if (e.Current.Properties.Get('1').Value) e.Current.Spawns.Spawn(), e.Current.Properties.Get('1').Value = false, e.Current.Ui.Hint.Value = 'приглашение отклонено!', e.Current.Properties.Get('inarea').Value = false;
             if (e.Current.Properties.Get('2').Value) e.Current.Spawns.Spawn(), e.Current.Properties.Get('2').Value = false, e.Current.Ui.Hint.Value = 'приглашение отклонено!';
+            locked = false;
         }
     }); 
 
