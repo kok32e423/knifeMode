@@ -79,6 +79,8 @@ try {
         state = prop.Get('state'),
         round = prop.Get('round'),
         last_rid = prop.Get('last_rid').Value,
+        choice_state = prop.Get('choice_state').Value,
+        duel_state = prop.Get('duel_state').Value,
         inv = Inventory.GetContext(),
         main = Timers.GetContext().Get('main'),
         mode = Timers.GetContext().Get('mode'),
@@ -297,8 +299,9 @@ try {
                 p.Properties.Immortality.Value = false;
                 break;
             case 'invite':
+                choice_state = true;  
                 if (last_rid == p.IdInRoom) return p.Ui.Hint.Value = 'приглашение на дуэль отправлено!';
-                p.SetPositionAndRotation({ x: 91, y: 12, z: 48 }, { x: 0, y: 0 }), p.Ui.Hint.Value = 'вам пришло приглашение на дуэль!';
+                p.Position = { x: 92, y: 12, z: 45 }, p.Ui.Hint.Value = 'вам пришло приглашение на дуэль!';
                 break;
         }
     });
@@ -349,47 +352,53 @@ try {
     
     const inv_red_v = _View('inv_red_v', ['inv_red_tr'], '#FFD966', true),
     inv_red_tr = _Trigger('inv_red_tr', ['inv_red_tr'], true, function (p, a) {
-    	if (last_rid || state.Value === 'end' || p.Team != red) return;
+    	if (last_rid || state.Value === 'end' || p.Team != red || duel_state) return;
     	_Refresh (red);
         index = p.Properties.Get('index').Value;
         if (index < plrs.length - 1) index += 1;
         else index = 0;
         current = Players.GetByRoomId(plrs[index]);
-        current.Timers.Get('invite').Restart(6);
-        p.Timers.Get('invite').Restart(6);
-        p.Ui.Hint.Value = 'ждите 6 сек чтобы отправить приглашение на дуэль игроку: ' + current.NickName;
+        current.Timers.Get('invite').Restart(3);
+        p.Timers.Get('invite').Restart(3);
+        p.Ui.Hint.Value = 'ждите 3 сек чтобы отправить приглашение на дуэль игроку: ' + current.NickName;
         last_rid = p.IdInRoom;
     }, function (p, a) {
-   	if (last_rid == p.IdInRoom) {
+   	if (last_rid == p.IdInRoom && choice_state != true) {
            p.Timers.Get('invite').Stop();
            current.Timers.Get('invite').Stop();
            last_rid = null;
         }
         _Reset(p);
-    });
-    /*
+    }),
     accept_v = _View('accept_v', ['accept'], '#ADF4C2', true),
     accept_tr = _Trigger('accept_tr', ['accept'], true, function (p, a) {
-        	plr = Players.GetByRoomId(id);
+        	current = Players.GetByRoomId(last_rid);
             p.Inventory.Secondary.Value = true;
-            p.SetPositionAndRotation({ x: 122, y: 14, z: 40 }, { x: 0, y: - 90 });
-            plr.Inventory.Secondary.Value = true;
-            plr.SetPositionAndRotation({ x: 116, y: 14, z: 82 }, { x: 0, y: 90 });
+            p.Position = { x: 122, y: 14, z: 40 };
+            p.Ui.Hint.Value = 'дуэль началась!';
+            current.Inventory.Secondary.Value = true;
+            current.Position = { x: 116, y: 14, z: 82 };
+            current.Ui.Hint.Value = 'дуэль началась!';
+            choice_state = false;
+            duel_state = true;
+            last_rid = null;
         }
     }),
     decline_v = _View('decline_v', ['decline'], '#BF3952', true),
     decline_tr = _Trigger('decline_tr', ['decline'], true, function (p, a) {
-            plr = Players.GetByRoomId(id); 
+            current = Players.GetByRoomId(last_rid);
             p.Spawns.Spawn();
             p.Ui.Hint.Value = 'приглашение отклонено!';
-            plr.Spawns.Spawn();
-            plr.Ui.Hint.Value = 'приглашение отклонено!';
+            current.Spawns.Spawn();
+            current.Ui.Hint.Value = 'приглашение отклонено!';
+            choice_state = false;
+            duel_state = false;
+            last_rid = null;
         }
     }); 
-    */
+  
     _Game();
     con_prop.MaxHp.Value = 35;
-    last_rid = null;
 
 } catch (err) {
     msg.Show(err.name + ' ' + err.message);
