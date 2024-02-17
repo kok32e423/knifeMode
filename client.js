@@ -78,7 +78,7 @@ try {
         prop = Properties.GetContext(),
         state = prop.Get('state'),
         round = prop.Get('round'),
-        rid = prop.Get('locked').Value,
+        id = prop.Get('locked').Value,
         inv = Inventory.GetContext(),
         main = Timers.GetContext().Get('main'),
         mode = Timers.GetContext().Get('mode'),
@@ -330,7 +330,7 @@ try {
         p.Properties.Get('Kills').Value += 1;
         prop.Get(p.Id + 'experience').Value += _Rand(2, 6);
         _Show(p);
-        if (vic.Inventory.Secondary.Value) p.Spawns.Spawn(), vic.Inventory.Secondary.Value = false, rid = null;
+        if (vic.Inventory.Secondary.Value) p.Spawns.Spawn(), vic.Inventory.Secondary.Value = false, id = null;
     });
 
     Players.OnPlayerConnected.Add(function(p) {
@@ -350,7 +350,7 @@ try {
     
     const inv_red_v = _View('inv_red_v', ['inv_red_tr'], '#FFD966', true),
     inv_red_tr = _Trigger('inv_red_tr', ['inv_red_tr'], true, function (p, a) {
-    	if (rid || state.Value === 'end' || p.Team != red) return;
+    	if (id || state.Value === 'end' || p.Team != red) return;
     	_Refresh (blue);
         index = p.Properties.Get('index');
         if (index.Value < plrs.length - 1) index.Value++;
@@ -359,10 +359,10 @@ try {
         p.Timers.Get('invite').Restart(5), p2.Timers.Get('invite').Restart(5);
         p.Ui.Hint.Value = 'ждите 5 сек чтобы отправить приглашение на дуэль игроку: ' + p2.NickName;
         p.Properties.Get('inarea').Value = true;
-        rid = p.IdInRoom;
+        id = p.IdInRoom;
     }, function (p, a) {
     	if (p.Properties.Get('inarea').Value) {
-            rid = null;
+            id = null;
             p.Timers.Get('invite').Stop();
             p2.Timers.Get('invite').Stop();
             p.Properties.Get('inarea').Value = false;
@@ -371,7 +371,7 @@ try {
     }),
     accept_v = _View('accept_v', ['accept'], '#ADF4C2', true),
     accept_tr = _Trigger('accept_tr', ['accept'], true, function (p, a) {
-        	plr = Players.GetByRoomId(rid);
+        	plr = Players.GetByRoomId(id);
             p.Inventory.Secondary.Value = true;
             p.SetPositionAndRotation({ x: 122, y: 14, z: 40 }, { x: 0, y: - 90 });
             plr.Inventory.Secondary.Value = true;
@@ -380,7 +380,7 @@ try {
     }),
     decline_v = _View('decline_v', ['decline'], '#BF3952', true),
     decline_tr = _Trigger('decline_tr', ['decline'], true, function (p, a) {
-            plr = Players.GetByRoomId(rid); 
+            plr = Players.GetByRoomId(id); 
             p.Spawns.Spawn();
             p.Ui.Hint.Value = 'приглашение отклонено!';
             plr.Spawns.Spawn();
