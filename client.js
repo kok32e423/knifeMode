@@ -371,16 +371,20 @@ try {
     }),
     accept_v = _View('accept_v', ['accept'], '#ADF4C2', true),
     accept_tr = _Trigger('accept_tr', ['accept'], true, function (p, a) {
-        	p1 = Players.GetByRoomId(rid), p2 = Players.GetByRoomId(plrs[index.Value]);
-            p1.Inventory.Secondary.Value = true, p1.SetPositionAndRotation({ x: 122, y: 14, z: 40 }, { x: 0, y: - 90 });
-            p2.Inventory.Secondary.Value = true, p2.SetPositionAndRotation({ x: 116, y: 14, z: 82 }, { x: 0, y: 90 });
+        	plr = Players.GetByRoomId(rid);
+            p.Inventory.Secondary.Value = true;
+            p.SetPositionAndRotation({ x: 122, y: 14, z: 40 }, { x: 0, y: - 90 });
+            plr.Inventory.Secondary.Value = true;
+            plr.SetPositionAndRotation({ x: 116, y: 14, z: 82 }, { x: 0, y: 90 });
         }
     }),
     decline_v = _View('decline_v', ['decline'], '#BF3952', true),
     decline_tr = _Trigger('decline_tr', ['decline'], true, function (p, a) {
-            p1 = Players.GetByRoomId(rid), p2 = Players.GetByRoomId(plrs[index.Value]);
-            p1.Spawns.Spawn(), p1.Ui.Hint.Value = 'приглашение отклонено!';
-            p2.Spawns.Spawn(), p2.Ui.Hint.Value = 'приглашение отклонено!';
+            plr = Players.GetByRoomId(rid); 
+            p.Spawns.Spawn();
+            p.Ui.Hint.Value = 'приглашение отклонено!';
+            plr.Spawns.Spawn();
+            plr.Ui.Hint.Value = 'приглашение отклонено!';
         }
     }); 
 
