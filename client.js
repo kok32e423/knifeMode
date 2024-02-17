@@ -350,7 +350,7 @@ try {
     const inv_red_v = _View('inv_red_v', ['inv_red_tr'], '#FFD966', true),
     inv_red_tr = _Trigger('inv_red_tr', ['inv_red_tr'], true, function (p, a) {
     	if (last_rid || state.Value === 'end' || p.Team != red) return;
-    	_Refresh (blue);
+    	_Refresh (red);
         index = p.Properties.Get('index').Value;
         if (index < plrs.length - 1) index += 1;
         else index = 0;
