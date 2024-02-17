@@ -78,7 +78,7 @@ try {
         prop = Properties.GetContext(),
         state = prop.Get('state'),
         round = prop.Get('round'),
-        id = prop.Get('locked').Value,
+        last_rid = prop.Get('last_rid').Value,
         inv = Inventory.GetContext(),
         main = Timers.GetContext().Get('main'),
         mode = Timers.GetContext().Get('mode'),
@@ -297,8 +297,8 @@ try {
                 p.Properties.Immortality.Value = false;
                 break;
             case 'invite':
-                if (p.Properties.Get('inarea').Value) p.Ui.Hint.Value = 'приглашение на дуэль отправлено!';
-                else p.SetPositionAndRotation({ x: 91, y: 12, z: 48 }, { x: 0, y: 0 }), p.Ui.Hint.Value = 'вам пришло приглашение на дуэль!';
+                if (last_rid == p.IdInRoom) return p.Ui.Hint.Value = 'приглашение на дуэль отправлено!';
+                p.SetPositionAndRotation({ x: 91, y: 12, z: 48 }, { x: 0, y: 0 }), p.Ui.Hint.Value = 'вам пришло приглашение на дуэль!';
                 break;
         }
     });
@@ -330,7 +330,6 @@ try {
         p.Properties.Get('Kills').Value += 1;
         prop.Get(p.Id + 'experience').Value += _Rand(2, 6);
         _Show(p);
-        if (vic.Inventory.Secondary.Value) p.Spawns.Spawn(), vic.Inventory.Secondary.Value = false, id = null;
     });
 
     Players.OnPlayerConnected.Add(function(p) {
@@ -350,25 +349,25 @@ try {
     
     const inv_red_v = _View('inv_red_v', ['inv_red_tr'], '#FFD966', true),
     inv_red_tr = _Trigger('inv_red_tr', ['inv_red_tr'], true, function (p, a) {
-    	if (id || state.Value === 'end' || p.Team != red) return;
+    	if (last_rid || state.Value === 'end' || p.Team != red) return;
     	_Refresh (blue);
-        index = p.Properties.Get('index');
-        if (index.Value < plrs.length - 1) index.Value++;
-        else index.Value = 0;
-        p2 = Players.GetByRoomId(plrs[index.Value]);
-        p.Timers.Get('invite').Restart(5), p2.Timers.Get('invite').Restart(5);
-        p.Ui.Hint.Value = 'ждите 5 сек чтобы отправить приглашение на дуэль игроку: ' + p2.NickName;
-        p.Properties.Get('inarea').Value = true;
-        id = p.IdInRoom;
+        index = p.Properties.Get('index').Value;
+        if (index < plrs.length - 1) index += 1;
+        else index = 0;
+        current = Players.GetByRoomId(plrs[index]);
+        current.Timers.Get('invite').Restart(6);
+        p.Timers.Get('invite').Restart(6);
+        p.Ui.Hint.Value = 'ждите 6 сек чтобы отправить приглашение на дуэль игроку: ' + current.NickName;
+        last_rid = p.IdInRoom;
     }, function (p, a) {
-    	if (p.Properties.Get('inarea').Value) {
-            id = null;
-            p.Timers.Get('invite').Stop();
-            p2.Timers.Get('invite').Stop();
-            p.Properties.Get('inarea').Value = false;
+   	if (last_rid == p.IdInRoom) {
+           p.Timers.Get('invite').Stop();
+           current.Timers.Get('invite').Stop();
+           last_rid = null;
         }
         _Reset(p);
     }),
+    /*
     accept_v = _View('accept_v', ['accept'], '#ADF4C2', true),
     accept_tr = _Trigger('accept_tr', ['accept'], true, function (p, a) {
         	plr = Players.GetByRoomId(id);
@@ -387,9 +386,10 @@ try {
             plr.Ui.Hint.Value = 'приглашение отклонено!';
         }
     }); 
-
+    */
     _Game();
     con_prop.MaxHp.Value = 35;
+    last_rid = null;
 
 } catch (err) {
     msg.Show(err.name + ' ' + err.message);
