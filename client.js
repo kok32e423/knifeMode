@@ -78,7 +78,7 @@ try {
         prop = Properties.GetContext(),
         state = prop.Get('state'),
         round = prop.Get('round'),
-        locked = prop.Get('locked').Value,
+        rid = prop.Get('locked').Value,
         inv = Inventory.GetContext(),
         main = Timers.GetContext().Get('main'),
         mode = Timers.GetContext().Get('mode'),
@@ -297,13 +297,12 @@ try {
                 p.Properties.Immortality.Value = false;
                 break;
             case 'invite':
-                if (p.Properties.Get('inarea').Value) return p.Properties.Get('1').Value = true, p.Ui.Hint.Value = 'приглашение на дуэль отправлено!';
-                p.Properties.Get('2').Value = true, p.SetPositionAndRotation({ x: 91, y: 12, z: 48 }, { x: 0, y: 0 }), p.Ui.Hint.Value = 'вам пришло приглашение на дуэль!';
+                if (p.Properties.Get('inarea').Value) p.Ui.Hint.Value = 'приглашение на дуэль отправлено!';
+                else p.SetPositionAndRotation({ x: 91, y: 12, z: 48 }, { x: 0, y: 0 }), p.Ui.Hint.Value = 'вам пришло приглашение на дуэль!';
                 break;
         }
     });
     
-    locked = false;
 
     Spawns.OnSpawn.Add(function(p) {
         p.Properties.Get('Immortality').Value = true;
@@ -331,7 +330,7 @@ try {
         p.Properties.Get('Kills').Value += 1;
         prop.Get(p.Id + 'experience').Value += _Rand(2, 6);
         _Show(p);
-        if (vic.Inventory.Secondary.Value) p.Spawns.Spawn(), vic.Inventory.Secondary.Value = false, locked = false;
+        if (vic.Inventory.Secondary.Value) p.Spawns.Spawn(), vic.Inventory.Secondary.Value = false, rid = null;
     });
 
     Players.OnPlayerConnected.Add(function(p) {
@@ -351,7 +350,7 @@ try {
     
     const inv_red_v = _View('inv_red_v', ['inv_red_tr'], '#FFD966', true),
     inv_red_tr = _Trigger('inv_red_tr', ['inv_red_tr'], true, function (p, a) {
-    	if (locked || state.Value === 'end' || p.Team != red) return;
+    	if (rid || state.Value === 'end' || p.Team != red) return;
     	_Refresh (blue);
         index = p.Properties.Get('index');
         if (index.Value < plrs.length - 1) index.Value++;
@@ -360,10 +359,10 @@ try {
         p.Timers.Get('invite').Restart(5), p2.Timers.Get('invite').Restart(5);
         p.Ui.Hint.Value = 'ждите 5 сек чтобы отправить приглашение на дуэль игроку: ' + p2.NickName;
         p.Properties.Get('inarea').Value = true;
-        locked = true;
+        rid = p.IdInRoom;
     }, function (p, a) {
     	if (p.Properties.Get('inarea').Value) {
-            locked = false;
+            rid = null;
             p.Timers.Get('invite').Stop();
             p2.Timers.Get('invite').Stop();
             p.Properties.Get('inarea').Value = false;
@@ -372,18 +371,16 @@ try {
     }),
     accept_v = _View('accept_v', ['accept'], '#ADF4C2', true),
     accept_tr = _Trigger('accept_tr', ['accept'], true, function (p, a) {
-        for (e = Players.GetEnumerator(); e.MoveNext();) {
-        	if (e.Current.Properties.Get('1').Value) e.Current.Inventory.Secondary.Value = true, e.Current.SetPositionAndRotation({ x: 122, y: 14, z: 40 }, { x: 0, y: - 90 }), e.Current.Properties.Get('1').Value = false, e.Current.Properties.Get('inarea').Value = false;
-            if (e.Current.Properties.Get('2').Value) e.Current.Inventory.Secondary.Value = true, e.Current.SetPositionAndRotation({ x: 116, y: 14, z: 82 }, { x: 0, y: 90 }), e.Current.Properties.Get('2').Value = false;
-            locked = true;
+        	p1 = Players.GetByRoomId(rid), p2 = Players.GetByRoomId(plrs[index.Value]);
+            p1.Inventory.Secondary.Value = true, p1.SetPositionAndRotation({ x: 122, y: 14, z: 40 }, { x: 0, y: - 90 });
+            p2.Inventory.Secondary.Value = true, p2.SetPositionAndRotation({ x: 116, y: 14, z: 82 }, { x: 0, y: 90 });
         }
     }),
     decline_v = _View('decline_v', ['decline'], '#BF3952', true),
     decline_tr = _Trigger('decline_tr', ['decline'], true, function (p, a) {
-        for (e = Players.GetEnumerator(); e.MoveNext();) {
-        	if (e.Current.Properties.Get('1').Value) e.Current.Spawns.Spawn(), e.Current.Properties.Get('1').Value = false, e.Current.Ui.Hint.Value = 'приглашение отклонено!', e.Current.Properties.Get('inarea').Value = false;
-            if (e.Current.Properties.Get('2').Value) e.Current.Spawns.Spawn(), e.Current.Properties.Get('2').Value = false, e.Current.Ui.Hint.Value = 'приглашение отклонено!';
-            locked = false;
+            p1 = Players.GetByRoomId(rid), p2 = Players.GetByRoomId(plrs[index.Value]);
+            p1.Spawns.Spawn(), p1.Ui.Hint.Value = 'приглашение отклонено!';
+            p2.Spawns.Spawn(), p2.Ui.Hint.Value = 'приглашение отклонено!';
         }
     }); 
 
