@@ -208,7 +208,7 @@ try {
     const _Refresh = function(t) {
         plrs = [];
         for (e = Players.GetEnumerator(); e.MoveNext();)
-            if (e.Current.Team == t && e.Current.Spawns.IsSpawned && e.Current.IsAlive && !e.Current.Properties.Get('inarea').Value && !e.Current.Inventory.Secondary.Value) plrs.push(e.Current.IdInRoom);
+            if (e.Current.Team == t && e.Current.Spawns.IsSpawned && e.Current.IsAlive) plrs.push(e.Current.IdInRoom);
     }
 
     const _Reset = function(p) {
@@ -366,7 +366,7 @@ try {
            last_rid = null;
         }
         _Reset(p);
-    }),
+    });
     /*
     accept_v = _View('accept_v', ['accept'], '#ADF4C2', true),
     accept_tr = _Trigger('accept_tr', ['accept'], true, function (p, a) {
