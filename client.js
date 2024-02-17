@@ -383,7 +383,8 @@ try {
             duel_state = true;
             last_rid = null;
         }
-    }),
+    });
+    /*
     decline_v = _View('decline_v', ['decline'], '#BF3952', true),
     decline_tr = _Trigger('decline_tr', ['decline'], true, function (p, a) {
             current = Players.GetByRoomId(last_rid);
@@ -396,7 +397,7 @@ try {
             last_rid = null;
         }
     }); 
-  
+  */
     _Game();
     con_prop.MaxHp.Value = 35;
 
