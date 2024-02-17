@@ -381,7 +381,6 @@ try {
             current.Ui.Hint.Value = 'дуэль началась!';
             choice_state = false;
             duel_state = true;
-            last_rid = null;
         }
     });
     /*
