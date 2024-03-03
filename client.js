@@ -1,318 +1,336 @@
-var gameTimer=Timers.GetContext().Get("Game");
-gameTime=3000;
-var clTimer=Timers.GetContext().Get("Clr");
+try {
 
-Build.GetContext().Pipette.Value=1;
+      /*  𝖐𝖓𝖎𝖋𝖊 | резня - 2 0 2 4.
+	        ----------------------------------
+	        mode for Pixel Combats 2.
+	        by me  */
 
-BreackGraph.PlayerBlockBoost=1;
-Damage.GetContext().FriendlyFire.Value=1;
-Properties.GetContext().GameModeName.Value="GameModes/Team Dead Match";
-Ui.GetContext().MainTimerId.Value=gameTimer.Id;
-Build.GetContext().BlocksSet.Value=BuildBlocksSet.AllClear;
+    const n = '\n', ADMIN = 'EC76560AA6B5750B',
+        RANKS = [
+            {
+                name: 'новичёк',
+                target: 25
+            },
+            {
+                name: 'черпак',
+                target: 45
+            },
+            {
+                name: 'каструля',
+                target: 60
+            },
+            {
+                name: 'чайник',
+                target: 89
+            },
+            {
+                name: 'мастер',
+                target: 115
+            },
+            {
+                name: 'говноед',
+                target: 145
+            },
+            {
+                name: 'жидктор',
+                target: 160
+            },
+            {
+                name: 'mr.krieg',
+                target: 195
+            },
+            {
+                name: 'storm',
+                target: 215
+            },
+            {
+                name: 'фраер',
+                target: 245
+            },
+            {
+                name: 'саймон',
+                target: 278
+            },
+            {
+                name: 'loshka',
+                target: 325
+            },
+            {
+                name: 'странник',
+                target: 360
+            },
+            {
+                name: 'босс',
+                target: '∞'
+            }
+        ],
+        PROPERTIES = [{
+            name: ['wins', 'looses'],
+            value: [0, 0]
+        }, {
+            name: ['next', 'experience', 'level', 'rank'],
+            value: [RANKS[0].target, 0, 1, RANKS[0].name]
+        }],
+        state = Properties.GetContext().Get('state'),
+        inv = Inventory.GetContext(),
+        main = Timers.GetContext().Get('main'),
+        update = Timers.GetContext().Get('update'),
+        ui = Ui.GetContext(),
+        spawn = Spawns.GetContext(),
+        con_prop = contextedProperties.GetContext(),
+        BLACKLIST = '2F5C420A6D9AC5DE|FC31765F7E136211|C002224F3666744D|596D1288BD7F8CF7|C925816BE50844A9|9B94CBC25664BD6D|2F665AF97FA6F0EF|E24BE3448F7DF371|CBCE0678C099C56E';
+    let
+        plrs = [];
 
-var admins="2D2E2F256820C92/";
-var vips="2F665AF97FA6F0EF/";
-var banned="2F5C420A6D9AC5DE|FC31765F7E136211|C002224F3666744D|596D1288BD7F8CF7|C925816BE50844A9|9B94CBC25664BD6D|2F665AF97FA6F0EF|E24BE3448F7DF371|CBCE0678C099C56E|3F24586B534D937D|5FFD0194E3071DDB|3BC2893133C5CB43|2F1955AAE64508B9";
+    const _Initialization = function(index) {
+        PROPERTIES[index].name.forEach(function(element1, element2) {
+            for (let e = index == 0 ? Teams.GetEnumerator() : Players.GetEnumerator(); e.MoveNext();) index == 0 ? e.Current.Properties.Get(element1).Value = PROPERTIES[index].value[element2] : prop.Get(e.Current.Id + element1).Value = PROPERTIES[index].value[element2];
+        });
+    }
 
-var adminStatus="<b><color=red>ᴀᴅᴍɪɴ</color></b>";
-var vipStatus="<b><color=yellow>ᴠɪᴘ</color></b>";
-var testerStatus="<b><color=lime>ᴛᴇsᴛᴇʀ</color></b>";
-var playerStatus="<b><color=white>ᴘʟᴀʏᴇʀ</color></b>";
-var bannedStatus="<color=gray>ʙᴀɴɴᴇᴅ</color>";
-var qqpeStatus="<color=#cbccff>ǫ</color><color=#d8cafd>ᴜ</color><color=#e5c8fb>ᴘ</color><color=#f2c6f9>ᴇ</color>";
+    const _Add = function(tag, name, color, spawn) {
+        let team = Teams.Get(tag);
+        Teams.Add(tag, '<b><size=22>' + name.up.substring(0, 1) + '</size><size=17>' + name.up.substring(1) + '</size></b>' + n + '<size=17>' + name.down.substring(0, 1) + '</size>' + name.down.substring(1), _Color(color));
+        team.Spawns.SpawnPointsGroups.Add(spawn);
+        return team;
+    }
 
-Teams.Add("Players","<i><B>Ɓыжившие⚔</B></i>",{r:78,g:46,b:1});
-var mainTeam=Teams.Get("Players");
+    const _Color = function(h) {
+        let hex = h.replace('#', ''),
+            max = 3;
 
-Spawns.GetContext().SpawnPointsGroups.Add(2);
-LeaderBoard.PlayerLeaderBoardValues=[{
-Value:"Status",
-DisplayName: "<b><color=white>status</color></b>"
-},{
-Value:"Scores" ,
-DisplayName: "<b><color=yellow>$</color></b>"
-},{
-Value:"Deaths" ,
-DisplayName: "<b><color=red>☠</color></b>"
-}];
+        hex.length == max ? hex = hex.replace(/(.)/g, '$1$1') : null;
+        return {
+            r: parseInt(hex.substring(0, 2), 16) / 255,
+            g: parseInt(hex.substring(2, 4), 16) / 255,
+            b: parseInt(hex.substring(4, 6), 16) / 255
+        }
+    }
 
-LeaderBoard.PlayersWeightGetter.Set(function(p){
-return p.Properties.Get("Scores").Value;
-});
+    const _Found = function(string, identifier, separator) {
+        array = string.split(separator);
+        for (var index = 0; index < array.length; index++) {
+            if (identifier === array[index]) {
+                return true;
+                break;
+            }
+        }
+    }
 
-Teams.OnRequestJoinTeam.Add(function(p,t){
-t.Add(p);
-});
+    const _Update = function() {
+        if (s.Value === 'game') {
+            if (_Alive(red) > 0 && _Alive(blue) <= 0) return _End(red);
+            else if (_Alive(blue) > 0 && _Alive(red) <= 0) return _End(blue);
+            else if (_Alive(blue) <= 0 && _Alive(red) <= 0) return _End();
+        }
+    }
 
-Teams.OnPlayerChangeTeam.Add(function(p){
-p.Spawns.Spawn();
-});
+    update.OnTimer.Add(_Update);
 
-Players.OnPlayerConnected.Add(function(p){
-init(p);
-});
+    const _Spawn = function() {
+        for (e = Teams.GetEnumerator(); e.MoveNext();) e.Current.Spawns.Spawn();
+    }
 
-Spawns.GetContext().OnSpawn.Add(function(p){
-p.Properties.Immortality.Value=1;
-p.Timers.Get("imm").Restart(5);
-p.Properties.Get("health").Value=p.ContextedProperties.MaxHp.Value;
-});
-Timers.OnPlayerTimer.Add(function(t){
-if(t.Id=="imm")t.Player.Properties.Immortality.Value=0;
-if(t.Id=="late_spawn"&&t.Player.Team==null)mainTeam.Add(t.Player);
-});
+    const _Text = function(txt) {
+        for (e = Teams.GetEnumerator(); e.MoveNext();)
+            if (e.Current != null) txt == 'reset' ? e.Current.Ui.Hint.Reset() : e.Current.Ui.Hint.Value = txt;
+    }
 
-Damage.OnDeath.Add(function(p){
-if(p.Properties.Get("Status").Value!=adminStatus)clearInv(p,1);
-p.Properties.Deaths.Value++;
-p.Spawns.Despawn();
-p.Ui.Hint.Reset();
-});
+    const _Rand = function(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
 
-Damage.OnDamage.Add(function(p1,p2,dmg){
-if(p1==p2) p2.Properties.Get("health").Value-=Math.round(dmg);
-if(p1!=p2) {
-p2.Properties.Get("health").Value-=Math.round(dmg);
-if(p2.Properties.Get("health").Value<=0)return;
-p1.Ui.Hint.Value="Info: [ player: "+p2.NickName +" | hp: "+(p2.Properties.Get("health").Value>=100?"":p2.Properties.Get("health").Value<= 90&&p2.Properties.Get("health").Value>=10?" ": "  ")+p2.Properties.Get("health").Value+" ]";
+    const _Another = function(t) {
+        if (t == blue) return red;
+        else return blue;
+    }
+
+    const _Alive = function(t) {
+        count = 0;
+        for (e = Players.GetEnumerator(); e.MoveNext();)
+            if (e.Current.Team == t && e.Current.Spawns.IsSpawned && e.Current.IsAlive) count++;
+        return count;
+    }
+
+    round.Value = 360;
+
+    const _Game = function() {
+        s.Value = 'game', _Spawn(), main.Restart(115);
+    }
+
+    const _End = function(t) {
+        s.Value = 'end';
+        round.Value--;
+        if (t) {
+            for (e = Players.GetEnumerator(); e.MoveNext();)
+                if (e.Current.Team == t) e.Current.Properties.Get('Scores').Value += 1;
+            t.Properties.Get('wins').Value += 1, _Another(t).Properties.Get('looses').Value += 1;
+        }
+        main.Restart(10);
+    }
+
+    const _View = function(name, tag, color, bool) {
+        let view = AreaViewService.GetContext().Get(name);
+        view.Tags = tag;
+        view.Color = _Color(color);
+        view.Enable = bool || false;
+        return view;
+    }
+
+    const _Trigger = function(name, tag, bool, enter, exit) {
+        let trigger = AreaPlayerTriggerService.Get(name);
+        trigger.Tags = tag;
+        trigger.Enable = bool || false;
+        trigger.OnExit.Add(exit) || null;
+        trigger.OnEnter.Add(enter) || null;
+        return trigger;
+    }
+
+    const _States = function() {
+        s.Value == 'game' ? _End() : _Game();
+    }
+    main.OnTimer.Add(_States);
+
+    const _Show = function(p) {
+        if (prop.Get(p.Id + 'experience').Value >= prop.Get(p.Id + 'next').Value && prop.Get(p.Id + 'rank').Value != RANKS[RANKS.length - 1].name) prop.Get(p.Id + 'level').Value++, prop.Get(p.Id + 'next').Value = RANKS[prop.Get(p.Id + 'level').Value - 1].target, prop.Get(p.Id + 'rank').Value = RANKS[prop.Get(p.Id + 'level').Value - 1].name, p.contextedProperties.MaxHp.Value += 2;
+        p.Team.Properties.Get(p.Id + 'info1').Value = '<color=#FFFFFF>  Звание: ' + String(prop.Get(p.Id + 'rank').Value) + '  ' + n + '' + n + '   level: ' + String(prop.Get(p.Id + 'level').Value) + ', exp: ' + String(prop.Get(p.Id + 'experience').Value) + ' <size=58.5>/ ' + String(prop.Get(p.Id + 'next').Value) + '</size></color>  ';
+    }
+
+    const _Refresh = function(t) {
+        plrs = [];
+        for (e = Players.GetEnumerator(); e.MoveNext();)
+            if (e.Current.Team == t && e.Current.Spawns.IsSpawned && e.Current.IsAlive) plrs.push(e.Current.IdInRoom);
+    }
+
+    const _Reset = function(p) {
+        p.Ui.Hint.Reset();
+    }
+
+    LeaderBoard.PlayerLeaderBoardValues = [{
+            Value: 'Kills',
+            ShortDisplayName: '<size=11.9><b>ᴋ</b></size>'
+        },
+        {
+            Value: 'Deaths',
+            ShortDisplayName: '<size=11.9><b>ᴅ</b></size>'
+        }
+    ];
+
+    LeaderBoard.TeamWeightGetter.Set(function(team) {
+        return team.Properties.Get('looses').Value;
+    });
+
+    LeaderBoard.PlayersWeightGetter.Set(function(p) {
+        return p.Properties.Get('Kills').Value;
+    });
+
+    spawn.RespawnEnable = false, BreackGraph.Damage = false, ui.MainTimerId.Value = main.Id;
+    TeamsBalancer.IsAutoBalance = true;
+
+    const blue = _Add('blue', {
+            up: 'спецназовцы ᵏⁿⁱᶠᵉᵉ',
+            down: ''
+        }, '#476AEC', 1),
+        red = _Add('red', {
+            up: 'террористы ᵏⁿⁱᶠᵉᵉ',
+            down: ''
+        }, '#FE5757', 2);
+
+    // init
+    _Initialization(0), _Initialization(1);
+
+    Teams.OnRequestJoinTeam.Add(function(p, team) {
+        if (s.Value === 'end' || _Found(BLACKLIST, p.Id, '|')) return;
+        team.Add(p);
+        p.Properties.Get('Index').Value = 0;
+    });
+
+    Teams.OnPlayerChangeTeam.Add(function(p) {
+        if (!p.Spawns.IsSpawned || p.IsAlive) p.Spawns.Spawn();
+        p.Ui.TeamProp2.Value = {
+            Team: p.Team.Id,
+            Prop: p.Id + 'info1'
+        };
+        _Show(p);
+    });
+
+    Teams.OnAddTeam.Add(function(team) {
+        team.Ui.TeamProp1.Value = {
+            Team: team.Id,
+            Prop: 'info2'
+        };
+    });
+
+    Properties.OnTeamProperty.Add(function(context) {
+        let team = context.Team;
+        team.Properties.Get('info2').Value = '  <color=#FFFFFF> Счёт команды:  ' + n + n + '  wins: ' + team.Properties.Get('wins').Value + ', looses: ' + team.Properties.Get('looses').Value + '  </color>';
+    });
+
+    BreackGraph.OnOptions.Add(function() {
+        if (BreackGraph.Damage) BreackGraph.Damage = false;
+    });
+
+    Timers.OnPlayerTimer.Add(function(t) {
+        let p = t.Player,
+            id = t.Id;
+        switch (id) {
+            case 'Immo':
+                p.Properties.Immortality.Value = false;
+                break;
+        }
+    });
+
+    Spawns.OnSpawn.Add(function(p) {
+        p.Properties.Get('Immortality').Value = true;
+        p.Timers.Get('Immo').Restart(3);
+        _Reset(p);
+        if (p.Inventory.Secondary.Value) p.Inventory.Secondary.Value = false;
+    });
+
+    Spawns.OnDespawn.Add(function(p) {
+        p.Spawns.Enable = true;
+        p.Spawns.Spawn();
+        _Reset(p);
+    });
+
+    Damage.OnDeath.Add(function(p) {
+        update.Restart(1);
+        p.Properties.Get('Deaths').Value += 1;
+    });
+
+    Damage.OnKill.Add(function(p, vic) {
+        if (vic.Team == p.Team)
+            return;
+        pos = p.Position.x - vic.Position.x + p.Position.y - vic.Position.y + p.Position.z - vic.Position.z; // 
+        if (pos != 0) vic.Ui.Hint.Value = p.NickName + ' убил вас с расстояния ' + Math.abs(pos.toFixed(2)) + ' блоков!';
+        p.Properties.Get('Kills').Value += 1;
+        prop.Get(p.Id + 'experience').Value += _Rand(2, 6);
+        _Show(p);
+    });
+
+    Players.OnPlayerConnected.Add(function(p) {
+        PROPERTIES[1].name.forEach(function(element1, element2) {
+            if (prop.Get(p.Id + element1).Value == null) prop.Get(p.Id + element1).Value = PROPERTIES[1].value[element2];
+        });
+        p.contextedProperties.MaxHp.Value = prop.Get(p.Id + 'hp').Value || 35;
+    });
+
+    Players.OnPlayerDisconnected.Add(function(p) {
+        p.Team.Properties.Get(p.Id + 'info1').Value = null;
+        prop.Get(p.Id + 'hp').Value = p.contextedProperties.MaxHp.Value;
+        update.Restart(1);
+    });
+
+    inv.Main.Value = false;
+    inv.Secondary.Value = false;
+    inv.Explosive.Value = false;
+    inv.Build.Value = false;
+
+    round.Value = 1;
+    _Game();
+    con_prop.MaxHp.Value = 35;
+
+
+} catch (err) {
+    msg.Show(err.name + ' ' + err.message);
 }
-});
-  
-Damage.OnKill.Add(function(p,k){
-if(p!=k){
-p.Properties.Kills.Value++;
-p.Properties.Scores.Value+=100;
-if (p.Properties.Get("can_kick").Value){
-k.Properties.Get("kick_index").Value=0;
-for(let index=0;index<Infinity;index++)k.Properties.Get("kick_index").Value+=index;
-}
-}
-});
-
-gameTimer.OnTimer.Add(function(){
-Game.RestartGame();
-});
-
-function giveAdm(p){
-p.inventory.Main.Value=1;
-p.inventory.Secondary.Value=1;
-p.inventory.Melee.Value=1;
-p.inventory.Explosive.Value=1;
-p.inventory.ExplosiveInfinity.Value=1;
-p.inventory.Build.Value=1;
-p.Build.FlyEnable.Value=1;
-p.Build.RemoveQuad.Value=1;
-p.Build.FillQuad.Value=1;
-p.Build.FloodFill.Value=1;
-p.Build.Pipette.Value=1;
-p.Build.BuildRangeEnable.Value=1;
-p.Build.CollapseChangeEnable.Value=1;
-p.Build.BuildModeEnable.Value=1;
-p.ContextedProperties.MaxHp.Value=100000;
-p.ContextedProperties.SkinType.Value=2;
-p.Properties.Get("Status").Value=adminStatus;
-//p.Damage.DamageIn.Value=0;
-}
-
-function giveVip(p){
-p.inventory.ExplosiveInfinity.Value=1;
-p.Build.FlyEnable.Value=1;
-p.ContextedProperties.MaxHp.Value=100;
-p.ContextedProperties.SkinType.Value=0;
-p.Properties.Get("Status").Value=vipStatus;
-}
-
-function clearInv(p,melee){
-p.inventory.Main.Value=0;
-p.inventory.Secondary.Value=0;
-if(!melee){
-p.inventory.Melee.Value=0;
-}
-p.inventory.Explosive.Value=0;
-p.inventory.Build.Value=0;
-}
-
-function item_fly(p){
-if(p.Build.FlyEnable.Value)return 0;
-p.Build.FlyEnable.Value=1;
-return 1;
-}
-
-function item_shield200(p){
-if(p.ContextedProperties.MaxHp.Value>=200)return 0;
-p.ContextedProperties.MaxHp.Value=200;
-return 1;
-}
-
-function item_shield500(p){
-if(p.ContextedProperties.MaxHp.Value>=500)return 0;
-p.ContextedProperties.MaxHp.Value=500;
-return 1;
-}
-
-function item_zmskin(p){
-if(p.ContextedProperties.SkinType.Value==1)return 0;
-p.ContextedProperties.SkinType.Value=1;
-return 1;
-}
-
-function item_buildspeedx2(p){
-if(p.ContextedProperties.BuildSpeed.Value==2)return 0;
-p.ContextedProperties.BuildSpeed.Value=2;
-return 1;
-}
-
-function item_buildspeedx3(p){
-if(p.ContextedProperties.BuildSpeed.Value==3)return 0;
-p.ContextedProperties.BuildSpeed.Value=3;
-return 1;
-}
-
-shop_items=[
-["Полёт",10000,item_fly],
-["Щит (200)",2000,item_shield200],
-["Щит (500)",5000,item_shield500],
-["Скин зомби",4000,item_zmskin],
-["Скорость строительства (х2)",1000,item_buildspeedx2],
-["Скорость строительства (х3)",1500,item_buildspeedx3]
-];
-var itemsLen=shop_items.length;
-
-var shop_choiceArea=AreaPlayerTriggerService.Get("shop_choice");
-shop_choiceArea.Tags=["shop_choice"];
-shop_choiceArea.Enable=1;
-shop_choiceArea.OnEnter.Add(function(p,a){
-let itemIndex=p.Properties.Get("shop_index");
-if(a.name=="page+"){
-if(itemIndex.Value<itemsLen-1)itemIndex.Value++;
-else itemIndex.Value=0;
-}
-else if(a.name=="page-"){
-if(itemIndex.Value>0)itemIndex.Value--;
-else itemIndex.Value=itemsLen-1;
-}
-else return;
-let item=shop_items[itemIndex.Value];
-p.Ui.Hint.Value=(itemIndex.Value+1)+": "+item[0]+", цена: "+item[1];
-});
-
-var shop_buyArea=AreaPlayerTriggerService.Get("shop_buy");
-shop_buyArea.Tags=["shop_buy"];
-shop_buyArea.Enable=1;
-shop_buyArea.OnEnter.Add(function(p){
-item=shop_items[p.Properties.Get("shop_index").Value];
-price=item[1];
-if(p.Properties.Scores.Value<price||!item[2](p))p.Ui.Hint.Value="Не удалось купить товар, недостаточно очков или достигнут лимит";
-else{
-p.Properties.Scores.Value-=price;
-p.Ui.Hint.Value="Вы купили "+item[0];
-}
-});
-
-var wpArea=AreaPlayerTriggerService.Get("weapon");
-wpArea.Tags=["weapon"];
-wpArea.Enable=1;
-wpArea.OnEnter.Add(function(p,a){
-if("Main/Secondary/Explosive/Build".search(a.name)==-1)return;
-if(p.inventory[a.name].Value)return;
-p.inventory[a.name].Value=1;
-p.Ui.Hint.Value="Ты взял "+a.name;
-});
-
-var farmArea=AreaPlayerTriggerService.Get("farm");
-farmArea.Tags=["farm"];
-farmArea.Enable=1;
-farmArea.OnEnter.Add(function(p){
-p.Properties.Scores.Value+=20000;
-});
-
-var tpArea=AreaPlayerTriggerService.Get("tp");
-tpArea.Tags=["tp"];
-tpArea.Enable=1;
-tpArea.OnExit.Add(function(p,a){
-if(a.name=="toSpawn"){
-p.Spawns.SpawnPointsGroups.Clear();
-p.Spawns.SpawnPointsGroups.Add(1);
-p.Ui.Hint.Reset();
-p.Spawns.Spawn();
-p.inventory.Melee.Value=1;
-}
-else if(a.name=="toLobby"){
-if(!p.Properties.Get("Status").Value!=adminStatus)clearInv(p,0);
-p.Spawns.SpawnPointsGroups.Clear();
-p.Spawns.SpawnPointsGroups.Add(2);
-p.Damage.DamageIn.Value=1;
-p.Damage.DamageOut.Value=1;
-p.Spawns.Spawn();
-p.Ui.Hint.Value="Вы находитесь в лобби, прыгните в портал что-бы попасть на карту";
-}
-});
-
-var chArea=AreaPlayerTriggerService.Get("choice");
-chArea.Tags=["choice"];
-chArea.Enable=1;
-chArea.OnEnter.Add(function(p,a){
-if(p.Id !== "EC76560AA6B5750B"&&p.Id !== "2F1955AAE64508B9"&&p.Id !=="849DACAB95C5A86F")return p.Ui.Hint.Value="недоступно для вас.";
-p.Ui.Hint.Value="kill kick: "+a.name;
-if(a.name=="true"){
-p.Properties.Get("can_kick").Value = true;
-}
-else if(a.name=="false"){
-p.Properties.Get("can_kick").Value = false;
-}
-});
-
-
-function vis(tag,color){
-v=AreaViewService.GetContext().Get(tag);
-v.Tags=[tag];
-v.Color={r:color[0],g:color[1],b:color[2]}
-v.Enable=1;
-}
-
-//Визуализации зон
-vis("shop_choice",[1,0.7,1]);
-vis("choice",[1,1,1]);
-vis("shop_buy",[0,1,0]);
-vis("tp",[1,0,1]);
-vis("weapon",[1,1,1])
-vis("farm",[1,1,0])
-
-Ui.GetContext().Hint.Value="Находите полезный лут, стройте базы, объединяйтесь!";
-
-var inv=Inventory.GetContext();
-inv.Main.Value=0;
-inv.MainInfinity.Value=1;
-inv.Secondary.Value=0;
-inv.SecondaryInfinity.Value=1;
-inv.Melee.Value=0;
-inv.Explosive.Value=0;
-inv.Build.Value=0;
-inv.BuildInfinity.Value=1;
-
-function init(p){
-//Определить статус
-if(banned.search(p.id)!=-1){
-p.Properties.Get("kick_index").Value=0;
-for(let index=0;index<Infinity;index++)p.Properties.Get("kick_index").Value+=index;
-return;
-}
-if(admins.search(p.id)!=-1)giveAdm(p);
-else if(vips.search(p.id)!=-1)giveVip(p);
-else if(p.Properties.TesterLvl.Value)p.Properties.Get("Status").Value=testerStatus;
-else if(p.Id === "D411BD94CAE31F89")p.Properties.Get("Status").Value=testerStatus;
-else p.Properties.Get("Status").Value=playerStatus;
-//Установка дефолтных property
-p.Properties.Get("shop_index").Value=0;
-p.Ui.Hint.Value="Добро пожаловать на сервер. Вы находитесь в лобби, прыгните в портал что-бы попасть на карту";
-p.Timers.Get("late_spawn").Restart(10);
-} 
-
-clTimer.OnTimer.Add(function(){MapEditor.SetBlock(AreaService.Get("clr"), 0);});
-clTimer.RestartLoop(10);
-
-for(let index=0;index<Infinity;index++)Properties.GetContext().Get("&").Value+=index;
-
-Spawns.GetContext().RespawnTime.Value=5;
-gameTimer.Restart(gameTime);
-for(e=Players.GetEnumerator();e.MoveNext();)init(e.Current);
