@@ -1,0 +1,13 @@
+{ 
+   "Name" : "",
+   "Description" : "",
+   "StartClientVersion": 334, 
+   "MapFilter" : { "IsBlank" : false, "HasParcourEnd" : false }, 
+   "Parameters": { "Bool": [
+       { 
+         "Name": "only", 
+         "DisplayName": "Только ножы"
+       }
+     ] 
+   } 
+ }
